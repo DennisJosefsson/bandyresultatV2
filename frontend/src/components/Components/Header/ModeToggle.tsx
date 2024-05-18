@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 import { Moon, Sun } from 'lucide-react'
 
 const ModeToggle = () => {
