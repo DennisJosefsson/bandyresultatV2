@@ -1,14 +1,14 @@
 import { sortOrder } from './constants'
-import { GameObjectType } from '../../types/games/games'
+import { GameObjectType } from '../types/games/games'
 import {
   TableObjectType,
   CompareCategoryTeamTable,
   CompareAllTeamTables,
   NewCompareObject,
-} from '../../types/tables/tables'
-// import { SerieAttributes } from '../../types/series/series'
-// import { TeamAndSeasonAttributes } from '../../types/teams/teams'
-import { SortedStatsCat } from '../../types/stats/stats'
+} from '../types/tables/tables'
+// import { SerieAttributes } from '../types/series/series'
+// import { TeamAndSeasonAttributes } from '../types/teams/teams'
+import { SortedStatsCat } from '../types/stats/stats'
 
 type SortedGameGroups = {
   [key: string]: GameObjectType[]
@@ -38,7 +38,7 @@ type SortedCompareCategoryTables = {
 
 export const gameSortFunction = (
   gamesArray: GameObjectType[],
-  played = false,
+  played = false
 ) => {
   const sortGroups = gamesArray.reduce((groups, game) => {
     if (!groups[game.group]) {
@@ -111,7 +111,7 @@ export const tableSortFunction = (tableArray: TableObjectType[]) => {
 export type SortedTablesType = ReturnType<typeof tableSortFunction>
 
 export const compareSortFunction = (
-  compareArray: CompareCategoryTeamTable[],
+  compareArray: CompareCategoryTeamTable[]
 ) => {
   const sortCategories = compareArray.reduce((categories, team) => {
     if (!categories[team.category]) {
@@ -140,7 +140,7 @@ export const compareSortFunction = (
 }
 
 export const compareAllTeamData = (allDataArray: CompareAllTeamTables[]) => {
-  let newArray: NewCompareObject[] = []
+  const newArray: NewCompareObject[] = []
 
   allDataArray.forEach((team) => {
     if (!newArray.find((teamItem) => team.team === teamItem.team)) {
@@ -163,7 +163,7 @@ export const compareAllTeamData = (allDataArray: CompareAllTeamTables[]) => {
       })
     }
     const teamIndex = newArray.findIndex(
-      (teamItem) => team.team === teamItem.team,
+      (teamItem) => team.team === teamItem.team
     )
     newArray[teamIndex].totalGames += team.totalGames
     newArray[teamIndex].totalWins += team.totalWins
@@ -178,7 +178,7 @@ export const compareAllTeamData = (allDataArray: CompareAllTeamTables[]) => {
   return newArray.sort((a, b) => {
     if (a.totalPoints < b.totalPoints) {
       return 1
-    } else if (a.totalPoints < b.totalPoints) {
+    } else if (a.totalPoints > b.totalPoints) {
       return -1
     } else {
       return 0
@@ -187,7 +187,7 @@ export const compareAllTeamData = (allDataArray: CompareAllTeamTables[]) => {
 }
 
 export const filterOpposition = (array: CompareAllTeamTables[]) => {
-  let tempArray: string[] = []
+  const tempArray: string[] = []
 
   const callback = (item: CompareAllTeamTables) => {
     if (tempArray.includes(item.lag.casualName + item.opp.casualName)) {
@@ -241,7 +241,7 @@ type TotalBarChartData = {
 }
 
 export const sortTotalBarChartData = (
-  array: TotalBarChartData[] | undefined,
+  array: TotalBarChartData[] | undefined
 ) => {
   if (!array) return
   return array.sort((a, b) => {
