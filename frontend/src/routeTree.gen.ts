@@ -19,6 +19,8 @@ import { Route as LayoutTeamsImport } from './routes/_layout/teams'
 import { Route as LayoutSeasonsImport } from './routes/_layout/seasons'
 import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
+import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
+import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 
 // Create Virtual Routes
 
@@ -68,6 +70,18 @@ const LayoutMaratonRoute = LayoutMaratonImport.update({
   path: '/maraton',
   getParentRoute: () => LayoutRoute,
 } as any)
+
+const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
+  path: '/season/$seasonId',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
+  {
+    path: '/tables',
+    getParentRoute: () => LayoutSeasonSeasonIdRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -129,6 +143,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/season/$seasonId': {
+      id: '/_layout/season/$seasonId'
+      path: '/season/$seasonId'
+      fullPath: '/season/$seasonId'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/season/$seasonId/tables': {
+      id: '/_layout/season/$seasonId/tables'
+      path: '/tables'
+      fullPath: '/season/$seasonId/tables'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdTablesImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
   }
 }
 
@@ -143,6 +171,9 @@ export const routeTree = rootRoute.addChildren({
     LayoutAboutLazyRoute,
     LayoutDashboardLazyRoute,
     LayoutIndexRoute,
+    LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
+      LayoutSeasonSeasonIdTablesRoute,
+    }),
   }),
 })
 

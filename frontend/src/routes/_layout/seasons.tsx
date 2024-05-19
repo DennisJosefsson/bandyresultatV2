@@ -29,7 +29,7 @@ function Seasons() {
   return (
     <div className="mx-auto mb-2 min-h-screen w-full px-1 font-inter text-foreground">
       <Card>
-        <CardContent>
+        <CardContent className="mt-2">
           <FilterComponent
             seasonFilter={seasonFilter}
             setSeasonFilter={setSeasonFilter}
