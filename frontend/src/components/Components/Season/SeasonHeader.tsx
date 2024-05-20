@@ -1,4 +1,9 @@
-import { Link, useLinkProps, useParams } from '@tanstack/react-router'
+import {
+  Link,
+  useLinkProps,
+  useParams,
+  useRouter,
+} from '@tanstack/react-router'
 import {
   Carousel,
   CarouselApi,
@@ -32,6 +37,9 @@ const SeasonHeader = () => {
   const seasonId = useParams({ from: '/_layout/season/$seasonId' }).seasonId
   const linkArray = useLinkProps({ from: '/season/$seasonId' }).href?.split('/')
   const route = linkArray ? linkArray[linkArray?.length - 1] : ''
+
+  const router = useRouter()
+  console.log(router.state.matches)
 
   const seasonArray = seasons
     .filter((season) => season.women === false)
