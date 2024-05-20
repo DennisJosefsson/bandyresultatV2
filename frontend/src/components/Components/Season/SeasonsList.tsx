@@ -20,22 +20,19 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <Link
                   to="/season/$seasonId/tables"
                   params={{ seasonId: seasonYear }}
-                  // search={{ tab: 'tables' }}
                   className="font-medium tabular-nums hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Tabeller
                 </Link>
               </div>
               <div className="rounded-md px-2 py-1 text-center  xl:p-0">
-                {/* <Link
-                  to="/season/$seasonId"
+                <Link
+                  to="/season/$seasonId/games"
                   params={{ seasonId: seasonYear }}
-                  search={{ tab: 'games' }}
                   className="font-medium hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Matcher
-                </Link> */}
-                Matcher
+                </Link>
               </div>
             </div>
           )

@@ -17,7 +17,7 @@ export const getSeasons = async (): Promise<SeasonObjectType[]> => {
 }
 
 export const getSingleSeason = async (
-  seasonId: number
+  seasonId: string
 ): Promise<SeasonObjectType[]> => {
   const response = await seasonsApi.get(`/${seasonId}`)
   return response.data

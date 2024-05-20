@@ -1,15 +1,12 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { getSeasons } from '../../../requests/seasons'
+import { seasonQueries } from '@/lib/queries/season/queries'
 
 const useGetAllSeasons = () => {
   const {
     data: seasons,
     isLoading,
     error,
-  } = useSuspenseQuery({
-    queryKey: ['allSeasons'],
-    queryFn: getSeasons,
-  })
+  } = useSuspenseQuery(seasonQueries['allSeasons']())
 
   return { seasons, isLoading, error }
 }

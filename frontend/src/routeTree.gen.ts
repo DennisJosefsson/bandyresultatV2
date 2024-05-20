@@ -21,6 +21,11 @@ import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
 import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
+import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
+import { Route as LayoutSeasonSeasonIdPlayoffImport } from './routes/_layout/season/$seasonId.playoff'
+import { Route as LayoutSeasonSeasonIdMapImport } from './routes/_layout/season/$seasonId.map'
+import { Route as LayoutSeasonSeasonIdGamesImport } from './routes/_layout/season/$seasonId.games'
+import { Route as LayoutSeasonSeasonIdDevelopmentImport } from './routes/_layout/season/$seasonId.development'
 
 // Create Virtual Routes
 
@@ -82,6 +87,33 @@ const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
     getParentRoute: () => LayoutSeasonSeasonIdRoute,
   } as any,
 )
+
+const LayoutSeasonSeasonIdStatsRoute = LayoutSeasonSeasonIdStatsImport.update({
+  path: '/stats',
+  getParentRoute: () => LayoutSeasonSeasonIdRoute,
+} as any)
+
+const LayoutSeasonSeasonIdPlayoffRoute =
+  LayoutSeasonSeasonIdPlayoffImport.update({
+    path: '/playoff',
+    getParentRoute: () => LayoutSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutSeasonSeasonIdMapRoute = LayoutSeasonSeasonIdMapImport.update({
+  path: '/map',
+  getParentRoute: () => LayoutSeasonSeasonIdRoute,
+} as any)
+
+const LayoutSeasonSeasonIdGamesRoute = LayoutSeasonSeasonIdGamesImport.update({
+  path: '/games',
+  getParentRoute: () => LayoutSeasonSeasonIdRoute,
+} as any)
+
+const LayoutSeasonSeasonIdDevelopmentRoute =
+  LayoutSeasonSeasonIdDevelopmentImport.update({
+    path: '/development',
+    getParentRoute: () => LayoutSeasonSeasonIdRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -150,6 +182,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/season/$seasonId/development': {
+      id: '/_layout/season/$seasonId/development'
+      path: '/development'
+      fullPath: '/season/$seasonId/development'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdDevelopmentImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/games': {
+      id: '/_layout/season/$seasonId/games'
+      path: '/games'
+      fullPath: '/season/$seasonId/games'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdGamesImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/map': {
+      id: '/_layout/season/$seasonId/map'
+      path: '/map'
+      fullPath: '/season/$seasonId/map'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdMapImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/playoff': {
+      id: '/_layout/season/$seasonId/playoff'
+      path: '/playoff'
+      fullPath: '/season/$seasonId/playoff'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdPlayoffImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/stats': {
+      id: '/_layout/season/$seasonId/stats'
+      path: '/stats'
+      fullPath: '/season/$seasonId/stats'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdStatsImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
     '/_layout/season/$seasonId/tables': {
       id: '/_layout/season/$seasonId/tables'
       path: '/tables'
@@ -172,6 +239,11 @@ export const routeTree = rootRoute.addChildren({
     LayoutDashboardLazyRoute,
     LayoutIndexRoute,
     LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
+      LayoutSeasonSeasonIdDevelopmentRoute,
+      LayoutSeasonSeasonIdGamesRoute,
+      LayoutSeasonSeasonIdMapRoute,
+      LayoutSeasonSeasonIdPlayoffRoute,
+      LayoutSeasonSeasonIdStatsRoute,
       LayoutSeasonSeasonIdTablesRoute,
     }),
   }),

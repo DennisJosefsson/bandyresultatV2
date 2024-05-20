@@ -1,13 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
-import { getSingleSeason } from '../../../requests/seasons'
+import { useSuspenseQuery } from '@tanstack/react-query'
+
+import { seasonQueries } from '@/lib/queries/season/queries'
 import useGenderContext from '../../contextHooks/useGenderContext'
 
-export const useGetSingleSeason = (seasonId: number) => {
+export const useGetSingleSeason = (seasonId: string) => {
   const { women } = useGenderContext()
-  const { data, isLoading, error, isSuccess } = useQuery({
-    queryKey: ['singleSeason', seasonId],
-    queryFn: () => getSingleSeason(seasonId),
-  })
+  const { data, isLoading, error, isSuccess } = useSuspenseQuery(
+    seasonQueries['singleSeason'](seasonId)
+  )
 
   const seasonObject = data?.filter((season) => season.women === women)[0]
 

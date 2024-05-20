@@ -76,7 +76,7 @@ export const compareTeams = async (
 }
 
 export const getSingleSeasonTable = async (
-  seasonId: number
+  seasonId: string
 ): Promise<SingleSeasonTableType> => {
   const response = await tablesApi.get(`/${seasonId}`)
   return response.data

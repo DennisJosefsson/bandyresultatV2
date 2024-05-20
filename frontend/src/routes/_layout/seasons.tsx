@@ -3,20 +3,21 @@ import FilterComponent from '@/components/Components/Season/FilterComponent'
 import SeasonsList from '@/components/Components/Season/SeasonsList'
 import { Card, CardContent } from '@/components/ui/card'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { allSeasons } from '@/lib/queries/season/queries'
+import { seasonQueries } from '@/lib/queries/season/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, KeyboardEvent } from 'react'
 
 export const Route = createFileRoute('/_layout/seasons')({
-  loader: ({ context }) => context.queryClient.ensureQueryData(allSeasons),
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(seasonQueries['allSeasons']()),
   component: Seasons,
   pendingComponent: Loading,
 })
 
 function Seasons() {
   const [seasonFilter, setSeasonFilter] = useState('')
-  const { data: seasons } = useSuspenseQuery(allSeasons)
+  const { data: seasons } = useSuspenseQuery(seasonQueries['allSeasons']())
 
   useScrollTo()
 

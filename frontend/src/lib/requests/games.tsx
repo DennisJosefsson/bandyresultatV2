@@ -39,7 +39,7 @@ export const getSearch = async (
 }
 
 export const getSeasonGames = async (
-  seasonId: number
+  seasonId: string
 ): Promise<GameObjectType[]> => {
   const response = await gamesApi.get(`/season/${seasonId}`)
 

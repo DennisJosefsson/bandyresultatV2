@@ -7,6 +7,7 @@ import { queryClient } from './lib/config/queryClientConfig'
 const router = createRouter({
   routeTree,
   context: { user: false, queryClient, women: false },
+  defaultPreload: 'intent',
 })
 
 declare module '@tanstack/react-router' {
