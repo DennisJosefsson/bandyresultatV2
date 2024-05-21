@@ -47,14 +47,14 @@ export const getSeasonGames = async (
 }
 
 export const getSeasonStats = async (
-  seasonId: number
+  seasonId: string
 ): Promise<SeasonStatsObjectType> => {
   const response = await gamesApi.get(`/stats/${seasonId}`)
   return response.data
 }
 
 export const getAnimation = async (
-  seasonId: number
+  seasonId: string
 ): Promise<AnimationObject> => {
   const response = await gamesApi.get(`/animation/${seasonId}`)
 

@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react'
 
 import { z } from 'zod'
 const parseParam = z
-  .enum(['map', 'playoff', 'tables', 'games', 'help', 'roundForRound', 'stats'])
+  .enum(['map', 'playoff', 'tables', 'games', 'help', 'development', 'stats'])
   .catch('tables')
 
 const SeasonHeader = () => {

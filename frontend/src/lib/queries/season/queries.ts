@@ -1,5 +1,4 @@
 import { getSeasons, getSingleSeason } from '@/lib/requests/seasons'
-import { getSingleSeasonTable } from '@/lib/requests/tables'
 import { SeasonObjectType } from '@/lib/types/season/seasons'
 import { queryOptions } from '@tanstack/react-query'
 
@@ -15,23 +14,23 @@ const selectFirstAndLast = (data: SeasonObjectType[]) => {
   return { firstSeason, lastSeason }
 }
 
+export const seasonKeys = {
+  allSeasons: () => ['allSeasons'] as const,
+  singleSeason: (seasonId: string) => ['singleSeason', seasonId] as const,
+}
+
 export const seasonQueries = {
   allSeasons: () =>
-    queryOptions({ queryKey: ['allSeasons'], queryFn: getSeasons }),
+    queryOptions({ queryKey: seasonKeys.allSeasons(), queryFn: getSeasons }),
   singleSeason: (seasonId: string) =>
     queryOptions({
-      queryKey: ['singleSeason', seasonId],
+      queryKey: seasonKeys.singleSeason(seasonId),
       queryFn: () => getSingleSeason(seasonId),
     }),
   firstAndLastSeasons: () =>
     queryOptions({
-      queryKey: ['allSeasons'],
+      queryKey: seasonKeys.allSeasons(),
       queryFn: getSeasons,
       select: selectFirstAndLast,
-    }),
-  singleSeasonTables: (seasonId: string) =>
-    queryOptions({
-      queryKey: ['singleSeasonTable', seasonId],
-      queryFn: () => getSingleSeasonTable(seasonId),
     }),
 }

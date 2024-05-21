@@ -9,6 +9,7 @@ import { useGetSingleSeason } from '@/lib/hooks/dataHooks/season/useGetSingleSea
 import { useGetSingleSeasonTables } from '@/lib/hooks/dataHooks/tables/useGetSingleSeasonTables'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { seasonQueries } from '@/lib/queries/season/queries'
+import { tableQueries } from '@/lib/queries/tables/queries'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -19,7 +20,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables')({
       seasonQueries['singleSeason'](params.seasonId)
     ),
       context.queryClient.ensureQueryData(
-        seasonQueries['singleSeasonTables'](params.seasonId)
+        tableQueries['singleSeasonTables'](params.seasonId)
       )
   },
   pendingComponent: Loading,
@@ -60,32 +61,26 @@ function Tables() {
             />
 
             <div>
-              {tables.tableData.regularTables.length > 0 &&
-                season.seasonData.seriesInfo && (
-                  <TableList
-                    tableArray={tables.tableData.regularTables}
-                    seriesInfo={season.seasonData.seriesInfo}
-                    homeAwayTitle={homeAwayTitle}
-                    selectedTable={selectedTable}
-                  />
-                )}
-              {tables.tableData.qualificationTables.length > 0 &&
-                season.seasonData.seriesInfo && (
-                  <TableList
-                    tableArray={tables.tableData.qualificationTables}
-                    seriesInfo={season.seasonData.seriesInfo}
-                    homeAwayTitle={homeAwayTitle}
-                    selectedTable={selectedTable}
-                  />
-                )}
+              {tables.tableData.regularTables.length > 0 && (
+                <TableList
+                  tableArray={tables.tableData.regularTables}
+                  seriesInfo={season.seasonData.seriesInfo}
+                  homeAwayTitle={homeAwayTitle}
+                  selectedTable={selectedTable}
+                />
+              )}
+              {tables.tableData.qualificationTables.length > 0 && (
+                <TableList
+                  tableArray={tables.tableData.qualificationTables}
+                  seriesInfo={season.seasonData.seriesInfo}
+                  homeAwayTitle={homeAwayTitle}
+                  selectedTable={selectedTable}
+                />
+              )}
             </div>
           </div>
         )}
-      {season.seasonData.tableLength &&
-      season.seasonData.tableLength > 0 &&
-      season.seasonData.seasonTables &&
-      season.seasonData.seriesInfo &&
-      season.seasonData.womensSeason ? (
+      {season.seasonData.tableLength > 0 && season.seasonData.womensSeason ? (
         <div>
           <StaticTables
             tableArray={season.seasonData.seasonTables}

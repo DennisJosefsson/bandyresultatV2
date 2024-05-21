@@ -1,36 +1,32 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { tableSortFunction } from '@/lib/utils/sortFunction'
-import { seasonQueries } from '@/lib/queries/season/queries'
+import { tableQueries } from '@/lib/queries/tables/queries'
 
 export const useGetSingleSeasonTables = (
   seasonId: string,
   selectedTable: string
 ) => {
   const { women } = useGenderContext()
-  const { data, isLoading, error, isSuccess } = useSuspenseQuery(
-    seasonQueries['singleSeasonTables'](seasonId)
+  const { data, isLoading, error } = useSuspenseQuery(
+    tableQueries['singleSeasonTables'](seasonId)
   )
 
-  let regTables = isSuccess
-    ? data.tabell.filter((table) => table.women === women)
-    : []
+  let regTables = data.tabell.filter((table) => table.women === women)
+
   switch (selectedTable) {
     case 'all':
-      if (isSuccess)
-        regTables = data.tabell.filter((table) => table.women === women)
+      regTables = data.tabell.filter((table) => table.women === women)
 
       break
     case 'home':
-      if (isSuccess)
-        regTables = data.hemmaTabell.filter((table) => table.women === women)
+      regTables = data.hemmaTabell.filter((table) => table.women === women)
       break
     case 'away':
-      if (isSuccess)
-        regTables = data.bortaTabell.filter((table) => table.women === women)
+      regTables = data.bortaTabell.filter((table) => table.women === women)
       break
     default:
-      regTables = []
+      regTables = data.tabell.filter((table) => table.women === women)
   }
 
   const unsortedRegularTables = regTables.filter(
