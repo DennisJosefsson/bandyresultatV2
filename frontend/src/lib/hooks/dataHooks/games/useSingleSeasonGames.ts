@@ -13,8 +13,12 @@ export const useSingleSeasonGames = (seasonId: string, teamFilter: string) => {
     .filter((table) => table.women === women)
     .filter(
       (game) =>
-        game.homeTeam?.name.toLowerCase().includes(teamFilter.toLowerCase()) ||
-        game.awayTeam?.name.toLowerCase().includes(teamFilter.toLowerCase())
+        game.homeTeam?.name
+          .toLowerCase()
+          .includes(teamFilter ? teamFilter.toLowerCase() : '') ||
+        game.awayTeam?.name
+          .toLowerCase()
+          .includes(teamFilter ? teamFilter.toLowerCase() : '')
     )
 
   const playedGamesLength = games.filter((game) => game.played === true).length

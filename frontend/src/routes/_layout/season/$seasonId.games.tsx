@@ -12,7 +12,10 @@ import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { gameQueries } from '@/lib/queries/games/queries'
 import { seasonQueries } from '@/lib/queries/season/queries'
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { z } from 'zod'
+
+const teamFilterSearch = z.object({ team: z.string().optional() })
 
 export const Route = createFileRoute('/_layout/season/$seasonId/games')({
   component: Games,
@@ -25,13 +28,14 @@ export const Route = createFileRoute('/_layout/season/$seasonId/games')({
       gameQueries['singleSeasonGames'](params.seasonId)
     )
   },
+  validateSearch: teamFilterSearch,
 })
 
 function Games() {
   const { seasonId } = Route.useParams()
+  const { team } = Route.useSearch()
   const { women } = useGenderContext()
-
-  const [teamFilter, setTeamFilter] = useState<string>('')
+  const [teamFilter, setTeamFilter] = useState<string>(team ?? '')
 
   const [showAddGameModal, setShowAddGameModal] = useState<boolean>(false)
   const { playedGamesLength, unplayedGamesLength } = useSingleSeasonGames(
@@ -44,16 +48,16 @@ function Games() {
 
   useScrollTo()
 
-  useEffect(() => {
-    setTeamFilter('')
-  }, [seasonId])
-
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />
   }
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
-      <FilterComponent setTeamFilter={setTeamFilter} teamFilter={teamFilter} />
+      <FilterComponent
+        setTeamFilter={setTeamFilter}
+        teamFilter={teamFilter}
+        seasonId={seasonId}
+      />
 
       {parseInt(seasonId) <= lastSeason && (
         <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0">
