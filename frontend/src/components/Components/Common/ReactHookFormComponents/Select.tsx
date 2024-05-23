@@ -31,7 +31,7 @@ const SelectComponent = ({
     >
       <FormControl>
         <SelectTrigger className="ml-px">
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder} id={name} />
         </SelectTrigger>
       </FormControl>
       <SelectContent className="w-60">

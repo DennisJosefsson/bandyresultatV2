@@ -60,9 +60,9 @@ FormComponent.Select = Select
 FormComponent.RadioGroup = RadioGroup
 
 function Label({ children, ...otherProps }: { children: ReactNode }) {
-  const { id } = useFormField()
+  const { name } = useFormField()
   return (
-    <FormLabel {...otherProps} htmlFor={id}>
+    <FormLabel {...otherProps} htmlFor={name}>
       {children}
     </FormLabel>
   )

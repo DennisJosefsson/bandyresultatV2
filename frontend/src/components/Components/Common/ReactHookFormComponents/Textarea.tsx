@@ -5,13 +5,13 @@ import { Textarea, TextareaProps } from '@/components/ui/textarea'
 import { useController } from 'react-hook-form'
 
 function TextareaComponent({ ...props }: TextareaProps) {
-  const { name, id } = useFormField()
+  const { name } = useFormField()
 
   const { field } = useController({ name })
 
   return (
     <FormControl>
-      <Textarea {...props} {...field} id={id} />
+      <Textarea {...props} {...field} id={name} />
     </FormControl>
   )
 }

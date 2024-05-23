@@ -20,6 +20,8 @@ import { Route as LayoutSeasonsImport } from './routes/_layout/seasons'
 import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
 import { Route as LayoutTeamsIndexImport } from './routes/_layout/teams/index'
+import { Route as LayoutTeamsSelectionImport } from './routes/_layout/teams/selection'
+import { Route as LayoutTeamsCompareImport } from './routes/_layout/teams/compare'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
 import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
@@ -32,6 +34,7 @@ import { Route as LayoutSeasonSeasonIdDevelopmentImport } from './routes/_layout
 
 const LayoutDashboardLazyImport = createFileRoute('/_layout/dashboard')()
 const LayoutAboutLazyImport = createFileRoute('/_layout/about')()
+const LayoutTeamsMapLazyImport = createFileRoute('/_layout/teams/map')()
 
 // Create/Update Routes
 
@@ -79,6 +82,23 @@ const LayoutMaratonRoute = LayoutMaratonImport.update({
 
 const LayoutTeamsIndexRoute = LayoutTeamsIndexImport.update({
   path: '/',
+  getParentRoute: () => LayoutTeamsRoute,
+} as any)
+
+const LayoutTeamsMapLazyRoute = LayoutTeamsMapLazyImport.update({
+  path: '/map',
+  getParentRoute: () => LayoutTeamsRoute,
+} as any).lazy(() =>
+  import('./routes/_layout/teams/map.lazy').then((d) => d.Route),
+)
+
+const LayoutTeamsSelectionRoute = LayoutTeamsSelectionImport.update({
+  path: '/selection',
+  getParentRoute: () => LayoutTeamsRoute,
+} as any)
+
+const LayoutTeamsCompareRoute = LayoutTeamsCompareImport.update({
+  path: '/compare',
   getParentRoute: () => LayoutTeamsRoute,
 } as any)
 
@@ -188,6 +208,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/teams/compare': {
+      id: '/_layout/teams/compare'
+      path: '/compare'
+      fullPath: '/teams/compare'
+      preLoaderRoute: typeof LayoutTeamsCompareImport
+      parentRoute: typeof LayoutTeamsImport
+    }
+    '/_layout/teams/selection': {
+      id: '/_layout/teams/selection'
+      path: '/selection'
+      fullPath: '/teams/selection'
+      preLoaderRoute: typeof LayoutTeamsSelectionImport
+      parentRoute: typeof LayoutTeamsImport
+    }
+    '/_layout/teams/map': {
+      id: '/_layout/teams/map'
+      path: '/map'
+      fullPath: '/teams/map'
+      preLoaderRoute: typeof LayoutTeamsMapLazyImport
+      parentRoute: typeof LayoutTeamsImport
+    }
     '/_layout/teams/': {
       id: '/_layout/teams/'
       path: '/'
@@ -247,7 +288,12 @@ export const routeTree = rootRoute.addChildren({
     LayoutMaratonRoute,
     LayoutSearchRoute,
     LayoutSeasonsRoute,
-    LayoutTeamsRoute: LayoutTeamsRoute.addChildren({ LayoutTeamsIndexRoute }),
+    LayoutTeamsRoute: LayoutTeamsRoute.addChildren({
+      LayoutTeamsCompareRoute,
+      LayoutTeamsSelectionRoute,
+      LayoutTeamsMapLazyRoute,
+      LayoutTeamsIndexRoute,
+    }),
     LayoutAboutLazyRoute,
     LayoutDashboardLazyRoute,
     LayoutIndexRoute,

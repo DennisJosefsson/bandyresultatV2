@@ -33,6 +33,25 @@ export const compareFormState = z
     path: ['startSeason'],
   })
 
+export const validateSearchParams = z
+  .object({
+    teamArray: z
+      .array(z.number())
+      .max(4, { message: 'Max max 4 lag' })
+      .min(2, { message: 'Välj minst 2 lag' }),
+    categoryArray: z
+      .array(z.string())
+      .min(1, { message: 'Välj minst en matchkategori' }),
+    startSeason: z.string(),
+    endSeason: z.string(),
+    women: z.boolean(),
+    link: z.boolean(),
+  })
+  .refine((arg) => Number(arg.startSeason) <= Number(arg.endSeason), {
+    message: 'Första säsong kan inte komma efter sista säsong.',
+    path: ['startSeason'],
+  })
+
 export const teamAttributes = z.object({
   teamId: z.number(),
   name: z.string(),
@@ -49,7 +68,7 @@ export const teamAttributes = z.object({
       year: z.string(),
       seasonId: z.number(),
       teamseason: z.object({ qualification: z.boolean().nullable() }),
-    }),
+    })
   ),
 })
 

@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useController } from 'react-hook-form'
 
 const SingleCheckboxComponent = () => {
-  const { name, id } = useFormField()
+  const { name } = useFormField()
 
   const { field } = useController({ name })
   return (
@@ -12,7 +12,7 @@ const SingleCheckboxComponent = () => {
       <Checkbox
         checked={field.value}
         onCheckedChange={field.onChange}
-        id={id}
+        id={name}
       />
     </FormControl>
   )

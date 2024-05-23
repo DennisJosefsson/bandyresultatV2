@@ -1,10 +1,17 @@
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { CompareFormState, compareFormState } from '@/lib/types/teams/teams'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormContext } from 'react-hook-form'
 import { compareTeams } from '@/lib/requests/tables'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import useGetAllSeasons from '../season/useGetAllSeasons'
+import { teamQueries } from '@/lib/queries/teams/queries'
+import { useLocation } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+
+const baseUrl = import.meta.env.PROD
+  ? 'https://bandyresultat.se'
+  : 'http://localhost:5173'
 
 const initValues = (women: boolean): CompareFormState => {
   return {
@@ -46,19 +53,23 @@ export const useCompare = () => {
   return { methods, mutation, compareLink }
 }
 
-export const useCompareResults = (data: CompareFormState) => {
-  const mutation = useMutation({
-    mutationFn: () => {
-      return compareTeams(data)
-    },
-  })
+export const useCompareResults = (compareObject: CompareFormState) => {
+  const [linkLoaded, setLinkLoaded] = useState(false)
+  const methods = useFormContext()
+  const { data } = useSuspenseQuery(teamQueries['compare'](compareObject))
 
-  const baseUrl = import.meta.env.PROD
-    ? 'https://bandyresultat.se'
-    : 'http://localhost:5173'
-  const compareLink = `${baseUrl}/teams?link=${mutation.data?.link[0].linkName}`
+  const href = useLocation().href
 
-  return { mutation, compareLink }
+  const compareLink = `${baseUrl}${href}`
+
+  useEffect(() => {
+    if (!linkLoaded) {
+      methods.reset(compareObject)
+      setLinkLoaded(true)
+    }
+  }, [compareObject, linkLoaded, methods])
+
+  return { data, compareLink }
 }
 
 export const useCompareSeasons = () => {

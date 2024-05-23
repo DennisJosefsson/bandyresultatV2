@@ -3,6 +3,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import TeamsTabBar from '@/components/Components/Teams/TeamsTabBar'
 import { useCompare } from '@/lib/hooks/dataHooks/teams/useCompare'
 import { Form } from '@/components/ui/form'
+import { SubmitHandler } from 'react-hook-form'
+import { CompareFormState } from '@/lib/types/teams/teams'
 
 export const Route = createFileRoute('/_layout/teams')({
   component: TeamsHeader,
@@ -10,22 +12,28 @@ export const Route = createFileRoute('/_layout/teams')({
 
 function TeamsHeader() {
   const { methods } = useCompare()
+  console.log('formStateDirty', methods.formState.isDirty)
+
+  const onSubmit: SubmitHandler<CompareFormState> = (data) => console.log(data)
+
+  const formValues = methods.watch()
+
   return (
     <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground">
-      <Card>
-        <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
-          <TeamsTabBar />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <Form {...methods}>
-            <form>
+      <Form {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Card>
+            <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
+              <TeamsTabBar formValues={formValues} />
+            </CardContent>
+          </Card>
+          <Card className="mt-2">
+            <CardContent>
               <Outlet />
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
     </div>
   )
 }

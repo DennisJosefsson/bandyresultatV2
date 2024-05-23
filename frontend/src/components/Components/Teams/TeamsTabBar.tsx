@@ -12,10 +12,14 @@ import {
   SelectionIcon,
 } from '@/components/Components/Common/Icons/icons'
 import { useMediaQuery } from 'usehooks-ts'
+import { useNavigate, useLocation } from '@tanstack/react-router'
+import { CompareFormState } from '@/lib/types/teams/teams'
 
-const TeamsTabBar = () => {
+const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
   const matches = useMediaQuery('(min-width: 430px)')
   const { dispatch, women } = useGenderContext()
+  const navigate = useNavigate({ from: '/teams' })
+  const pathName = useLocation().pathname
 
   const teamsTabBarObject = {
     gender: (
@@ -39,14 +43,21 @@ const TeamsTabBar = () => {
       </Button>
     ),
     help: (
-      <Button size={matches ? 'default' : 'icon'}>
+      <Button
+        size={matches ? 'default' : 'icon'}
+        variant={pathName.endsWith('help') ? 'default' : 'outline'}
+      >
         {matches ? 'Hjälp' : <QuestionIcon />}
       </Button>
     ),
     tabBarArray: [
       {
         tab: (
-          <Button size={matches ? 'default' : 'icon'}>
+          <Button
+            variant={pathName.endsWith('teams') ? 'default' : 'outline'}
+            size={matches ? 'default' : 'icon'}
+            onClick={() => navigate({ to: '/teams' })}
+          >
             {matches ? 'Laglista' : <ListIcon />}
           </Button>
         ),
@@ -54,7 +65,11 @@ const TeamsTabBar = () => {
       },
       {
         tab: (
-          <Button size={matches ? 'default' : 'icon'}>
+          <Button
+            variant={pathName.endsWith('map') ? 'default' : 'outline'}
+            size={matches ? 'default' : 'icon'}
+            onClick={() => navigate({ to: '/teams/map' })}
+          >
             {matches ? 'Karta' : <MapIcon />}
           </Button>
         ),
@@ -62,7 +77,11 @@ const TeamsTabBar = () => {
       },
       {
         tab: (
-          <Button size={matches ? 'default' : 'icon'}>
+          <Button
+            size={matches ? 'default' : 'icon'}
+            onClick={() => navigate({ to: '/teams/selection' })}
+            variant={pathName.endsWith('selection') ? 'default' : 'outline'}
+          >
             {matches ? 'Sökval' : <SelectionIcon />}
           </Button>
         ),
@@ -71,7 +90,13 @@ const TeamsTabBar = () => {
       },
       {
         tab: (
-          <Button size={matches ? 'default' : 'icon'}>
+          <Button
+            size={matches ? 'default' : 'icon'}
+            variant={pathName.endsWith('compare') ? 'default' : 'outline'}
+            onClick={() =>
+              navigate({ to: '/teams/compare', search: formValues })
+            }
+          >
             {matches ? 'Jämför' : <SearchIcon />}
           </Button>
         ),

@@ -5,13 +5,13 @@ import { Input, InputProps } from '@/components/ui/input'
 import { useController } from 'react-hook-form'
 
 function InputComponent({ ...props }: InputProps) {
-  const { name, id } = useFormField()
+  const { name } = useFormField()
 
   const { field } = useController({ name })
 
   return (
     <FormControl>
-      <Input {...props} {...field} id={id} />
+      <Input {...props} {...field} id={name} />
     </FormControl>
   )
 }

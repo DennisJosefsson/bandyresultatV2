@@ -14,7 +14,7 @@ const RadioGroupComponent = ({
   radioGroupArray,
   ...otherProps
 }: RadioGroupComponentProps) => {
-  const { name, id } = useFormField()
+  const { name } = useFormField()
 
   const { field } = useController({ name })
   return (
@@ -28,9 +28,11 @@ const RadioGroupComponent = ({
                 className="flex items-center space-x-3 space-y-0"
               >
                 <FormControl>
-                  <RadioGroupItem value={item.value} id={id} />
+                  <RadioGroupItem value={item.value} id={name} />
                 </FormControl>
-                <FormLabel className="font-normal">{item.label}</FormLabel>
+                <FormLabel className="font-normal" htmlFor={name}>
+                  {item.label}
+                </FormLabel>
               </FormItem>
             )
           })}
