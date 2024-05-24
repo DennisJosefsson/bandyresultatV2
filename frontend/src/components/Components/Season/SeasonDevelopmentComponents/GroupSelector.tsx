@@ -11,6 +11,7 @@ type GroupSelectorProps = {
   groupName: string | undefined
   setRound: Dispatch<SetStateAction<number>>
   setGroup: Dispatch<SetStateAction<string | null>>
+  group: string | null
   groupArray: GroupArrayObject[]
   api: CarouselApi | undefined
   dateApi: CarouselApi | undefined
@@ -20,6 +21,7 @@ const GroupSelector = ({
   groupArray,
   setRound,
   setGroup,
+  group,
   groupName,
   api,
   dateApi,
@@ -39,20 +41,21 @@ const GroupSelector = ({
               return 0
             }
           })
-          .map((group) => {
+          .map((groupItem) => {
             return (
               <Button
-                key={group.group}
+                key={groupItem.group}
                 onClick={() => {
-                  setGroup(group.group)
+                  setGroup(groupItem.group)
                   setRound(0)
                   api && api.scrollTo(0)
                   dateApi && dateApi.scrollTo(0)
                 }}
                 className="truncate"
                 size="sm"
+                variant={group === groupItem.group ? 'default' : 'outline'}
               >
-                {group.serieName}
+                {groupItem.serieName}
               </Button>
             )
           })}

@@ -73,6 +73,7 @@ function Development() {
             groupName={groupName}
             api={api}
             dateApi={dateApi}
+            group={group}
           />
         )}
 

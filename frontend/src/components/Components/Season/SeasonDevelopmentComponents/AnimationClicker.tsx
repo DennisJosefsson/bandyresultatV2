@@ -54,7 +54,7 @@ const AnimationClicker = ({
         )}
       </div>
       <div className="mb-2 flex flex-row items-center justify-center">
-        {justDatesArray.length > 0 ? (
+        {justDatesArray.length > 5 ? (
           <Carousel
             className="w-[50%] max-w-[240px] self-center xxs:max-w-xs xs:w-[60%] sm:max-w-sm md:max-w-2xl"
             setApi={setDateApi}
