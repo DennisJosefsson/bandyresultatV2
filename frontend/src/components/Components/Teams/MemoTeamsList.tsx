@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 
 import { useState, memo } from 'react'
 import { Path, FieldValues, UseFormReturn } from 'react-hook-form'
+import { Link } from '@tanstack/react-router'
 
 interface MemoTeamsListProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -65,11 +66,16 @@ const MemoTeamsList = memo(
                               <span
                                 className={
                                   favTeams.includes(team.teamId)
-                                    ? 'w-32 cursor-pointer font-bold md:text-base'
-                                    : 'w-32 cursor-pointer md:text-base'
+                                    ? 'w-32 font-bold md:text-base'
+                                    : 'w-32 md:text-base'
                                 }
                               >
-                                {team.casualName}
+                                <Link
+                                  to="/team/$teamId"
+                                  params={{ teamId: team.teamId.toString() }}
+                                >
+                                  {team.casualName}
+                                </Link>
                               </span>
                               <FormControl>
                                 <Checkbox

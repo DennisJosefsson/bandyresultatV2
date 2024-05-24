@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/')({
   component: Home,
+  notFoundComponent: NotFound,
 })
 
 function Home() {
@@ -19,6 +20,14 @@ function Home() {
           </h2>
         </div>
       </div>
+    </div>
+  )
+}
+
+function NotFound() {
+  return (
+    <div className="mx-auto mb-2 flex h-[25rem] max-w-7xl flex-row justify-between font-inter">
+      Länken finns inte.
     </div>
   )
 }

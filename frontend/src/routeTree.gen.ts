@@ -17,11 +17,13 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTeamsImport } from './routes/_layout/teams'
 import { Route as LayoutSeasonsImport } from './routes/_layout/seasons'
+import { Route as LayoutSeasonImport } from './routes/_layout/season'
 import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
 import { Route as LayoutTeamsIndexImport } from './routes/_layout/teams/index'
 import { Route as LayoutTeamsSelectionImport } from './routes/_layout/teams/selection'
 import { Route as LayoutTeamsCompareImport } from './routes/_layout/teams/compare'
+import { Route as LayoutTeamTeamIdImport } from './routes/_layout/team/$teamId'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
 import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
@@ -70,6 +72,11 @@ const LayoutSeasonsRoute = LayoutSeasonsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutSeasonRoute = LayoutSeasonImport.update({
+  path: '/season',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutSearchRoute = LayoutSearchImport.update({
   path: '/search',
   getParentRoute: () => LayoutRoute,
@@ -102,9 +109,14 @@ const LayoutTeamsCompareRoute = LayoutTeamsCompareImport.update({
   getParentRoute: () => LayoutTeamsRoute,
 } as any)
 
-const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
-  path: '/season/$seasonId',
+const LayoutTeamTeamIdRoute = LayoutTeamTeamIdImport.update({
+  path: '/team/$teamId',
   getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
+  path: '/$seasonId',
+  getParentRoute: () => LayoutSeasonRoute,
 } as any)
 
 const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
@@ -166,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSearchImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/season': {
+      id: '/_layout/season'
+      path: '/season'
+      fullPath: '/season'
+      preLoaderRoute: typeof LayoutSeasonImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/seasons': {
       id: '/_layout/seasons'
       path: '/seasons'
@@ -203,9 +222,16 @@ declare module '@tanstack/react-router' {
     }
     '/_layout/season/$seasonId': {
       id: '/_layout/season/$seasonId'
-      path: '/season/$seasonId'
+      path: '/$seasonId'
       fullPath: '/season/$seasonId'
       preLoaderRoute: typeof LayoutSeasonSeasonIdImport
+      parentRoute: typeof LayoutSeasonImport
+    }
+    '/_layout/team/$teamId': {
+      id: '/_layout/team/$teamId'
+      path: '/team/$teamId'
+      fullPath: '/team/$teamId'
+      preLoaderRoute: typeof LayoutTeamTeamIdImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/teams/compare': {
@@ -287,6 +313,16 @@ export const routeTree = rootRoute.addChildren({
   LayoutRoute: LayoutRoute.addChildren({
     LayoutMaratonRoute,
     LayoutSearchRoute,
+    LayoutSeasonRoute: LayoutSeasonRoute.addChildren({
+      LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
+        LayoutSeasonSeasonIdDevelopmentRoute,
+        LayoutSeasonSeasonIdGamesRoute,
+        LayoutSeasonSeasonIdMapRoute,
+        LayoutSeasonSeasonIdPlayoffRoute,
+        LayoutSeasonSeasonIdStatsRoute,
+        LayoutSeasonSeasonIdTablesRoute,
+      }),
+    }),
     LayoutSeasonsRoute,
     LayoutTeamsRoute: LayoutTeamsRoute.addChildren({
       LayoutTeamsCompareRoute,
@@ -297,14 +333,7 @@ export const routeTree = rootRoute.addChildren({
     LayoutAboutLazyRoute,
     LayoutDashboardLazyRoute,
     LayoutIndexRoute,
-    LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
-      LayoutSeasonSeasonIdDevelopmentRoute,
-      LayoutSeasonSeasonIdGamesRoute,
-      LayoutSeasonSeasonIdMapRoute,
-      LayoutSeasonSeasonIdPlayoffRoute,
-      LayoutSeasonSeasonIdStatsRoute,
-      LayoutSeasonSeasonIdTablesRoute,
-    }),
+    LayoutTeamTeamIdRoute,
   }),
 })
 

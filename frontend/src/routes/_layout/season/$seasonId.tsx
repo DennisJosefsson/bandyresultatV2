@@ -2,12 +2,19 @@ import Loading from '@/components/Components/Common/Loading'
 import SeasonHeader from '@/components/Components/Season/SeasonHeader'
 import SeasonTabBar from '@/components/Components/Season/SeasonTabBar'
 import { Card, CardContent } from '@/components/ui/card'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute, notFound } from '@tanstack/react-router'
+import { z } from 'zod'
+
+const seasonIdParser = z.string().length(4)
 
 export const Route = createFileRoute('/_layout/season/$seasonId')({
   component: Season,
   notFoundComponent: NotFound,
   pendingComponent: Loading,
+  loader: ({ params }) => {
+    const parseSeasonId = seasonIdParser.safeParse(params.seasonId)
+    if (!parseSeasonId.success) throw notFound()
+  },
 })
 
 function Season() {
@@ -29,5 +36,17 @@ function Season() {
 }
 
 function NotFound() {
-  return <div>Sidan hittades inte, säker på att du fått rätt länk?</div>
+  const seasonId = Route.useParams().seasonId
+  const parseSeasonId = seasonIdParser.safeParse(seasonId)
+  if (!parseSeasonId.success) {
+    return (
+      <div className="flex flex-row justify-center">
+        Felaktigt säsongsId, kolla om länken är korrekt.
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-row justify-center">Den länken finns inte.</div>
+  )
 }

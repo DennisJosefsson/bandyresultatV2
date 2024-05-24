@@ -14,7 +14,7 @@ export const getTeams = async (): Promise<TeamAttributes[]> => {
   return response.data
 }
 
-export const getSingleTeam = async (teamId: number): Promise<SingleTeam> => {
+export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   const response = await teamsApi.get(`/${teamId}`)
   return response.data
 }

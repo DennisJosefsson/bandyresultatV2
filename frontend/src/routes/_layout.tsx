@@ -4,6 +4,7 @@ import { Outlet, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout')({
   component: LayoutComponent,
+  notFoundComponent: () => <div>Länken finns inte.</div>,
 })
 
 function LayoutComponent() {

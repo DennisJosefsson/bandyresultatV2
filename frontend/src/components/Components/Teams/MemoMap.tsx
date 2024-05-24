@@ -6,11 +6,11 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 
-import { Button } from '@/components/ui/button'
 import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 
 import { memo } from 'react'
+import { Link } from '@tanstack/react-router'
 
 interface MemoMapProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -67,9 +67,14 @@ const MemoMap = memo(
                                 <Marker key={team.teamId} position={position}>
                                   <Popup>
                                     <div className="flex flex-row items-center justify-evenly gap-2 p-2">
-                                      <Button variant="link">
+                                      <Link
+                                        to="/team/$teamId"
+                                        params={{
+                                          teamId: team.teamId.toString(),
+                                        }}
+                                      >
                                         {team.casualName}
-                                      </Button>
+                                      </Link>
                                       <FormControl>
                                         <Checkbox
                                           checked={field.value?.includes(
