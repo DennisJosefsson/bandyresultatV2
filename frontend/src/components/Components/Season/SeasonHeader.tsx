@@ -32,10 +32,9 @@ const SeasonHeader = () => {
     .map((season, index) => {
       return {
         year: season.year,
-        season:
-          parseInt(season.year) < 1964
-            ? season.year
-            : season.year.split('/')[1],
+        season: season.year.includes('/')
+          ? season.year.split('/')[1]
+          : season.year,
         index: index,
       }
     })
