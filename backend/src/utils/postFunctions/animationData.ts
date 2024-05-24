@@ -362,7 +362,7 @@ export const animationData = (
 
   const gameDateAnimationArray = gameArray.map((group) => {
     const teamsTables = initTeamArray(teamArray, group.group)
-    // console.log(teamsTables)
+
     let serieName
     const serieObject = seriesArray.find(
       (serie) => serie.serieGroupCode == group.group
@@ -386,9 +386,11 @@ export const animationData = (
             const homeTeamIndex = teamsTables.findIndex(
               (team) => team.teamId === game.homeTeamId
             )
+
             const awayTeamIndex = teamsTables.findIndex(
               (team) => team.teamId === game.awayTeamId
             )
+
             teamsTables[homeTeamIndex].table.games += 1
             teamsTables[homeTeamIndex].table.scoredGoals += game.homeGoal
             teamsTables[homeTeamIndex].table.concededGoals += game.awayGoal

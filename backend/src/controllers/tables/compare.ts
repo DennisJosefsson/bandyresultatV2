@@ -204,7 +204,7 @@ group by casual_name,team;
   select count(distinct season_id) as playoffs, team, casual_name
 from teamgames
 join teams on teamgames.team = teams.team_id
-where team = any($team_array) and category = any(array['quarter','semi','final']) and season_id >= 25
+where team = any($team_array) and ("category" = any(array['quarter', 'semi', 'final']) or "group" = any(array['SlutspelA', 'SlutspelB'])) and season_id >= 25
 group by casual_name, team;
   `,
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
@@ -226,7 +226,7 @@ group by casual_name, team;
   select count(distinct season_id) as playoffs, team, casual_name
 from teamgames
 join teams on teamgames.team = teams.team_id
-where team = any($team_array) and category = any(array['quarter','semi','final'])
+where team = any($team_array) and ("category" = any(array['quarter', 'semi', 'final']) or "group" = any(array['SlutspelA', 'SlutspelB']))
 group by casual_name, team;
   `,
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
