@@ -12,7 +12,6 @@ export const Route = createFileRoute('/_layout/teams')({
 
 function TeamsHeader() {
   const { methods } = useCompare()
-  console.log('formStateDirty', methods.formState.isDirty)
 
   const onSubmit: SubmitHandler<CompareFormState> = (data) => console.log(data)
 

@@ -6,10 +6,12 @@ import ModeToggle from './ModeToggle'
 // import LoginComponent from './LoginForm/LoginComponent'
 import { useState } from 'react'
 import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
+import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 
 const Header = () => {
   const [open, setOpen] = useState<boolean>(false)
   const { user } = useUserContext()
+  const { women } = useGenderContext()
 
   return (
     <header className="sticky top-0 z-[1] mb-4 flex h-16 flex-row items-center justify-between gap-4 border-b bg-background px-2 font-poppins text-foreground dark:bg-slate-950 dark:text-slate-50 md:px-6">
@@ -38,7 +40,7 @@ const Header = () => {
           </Link>
           <Link
             to="/maraton"
-            search={{ tab: 'maraton', table: 'all' }}
+            search={{ tab: 'maraton', table: 'all', women: women }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Maratontabeller
@@ -104,7 +106,7 @@ const Header = () => {
               </Link>
               <Link
                 to="/maraton"
-                search={{ tab: 'maraton', table: 'all' }}
+                search={{ tab: 'maraton', table: 'all', women: women }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
