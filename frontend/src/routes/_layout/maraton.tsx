@@ -15,6 +15,10 @@ const maratonTabs = z.object({
 })
 
 export const Route = createFileRoute('/_layout/maraton')({
+  beforeLoad: ({ context, search }) => {
+    if (context.genderContext.women !== search.women)
+      context.genderContext.dispatch({ type: 'SET', payload: search.women })
+  },
   component: Maraton,
   pendingComponent: Loading,
   validateSearch: maratonTabs,

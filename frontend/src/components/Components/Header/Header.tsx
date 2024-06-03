@@ -28,6 +28,7 @@ const Header = () => {
           </Link>
           <Link
             to="/teams"
+            search={{ women: women }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Lag
@@ -92,6 +93,7 @@ const Header = () => {
               </Link>
               <Link
                 to="/teams"
+                search={{ women: women }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >

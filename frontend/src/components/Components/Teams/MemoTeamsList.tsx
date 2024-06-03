@@ -1,6 +1,5 @@
 import FilterComponent from '@/components/Components/Teams/FilterComponent'
 import { FormField, FormItem, FormControl } from '@/components/ui/form'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
 
@@ -8,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 
 import { useState, memo } from 'react'
 import { Path, FieldValues, UseFormReturn } from 'react-hook-form'
-import { Link } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 
 interface MemoTeamsListProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -27,7 +26,7 @@ const MemoTeamsList = memo(
     name,
   }: MemoTeamsListProps<TFieldValues, TName>) => {
     const [teamFilter, setTeamFilter] = useState<string>('')
-    const { women } = useGenderContext()
+    const { women } = useSearch({ from: '/_layout/teams/' })
     const { data } = useGetTeams()
     const { favTeams } = useTeampreferenceContext()
 

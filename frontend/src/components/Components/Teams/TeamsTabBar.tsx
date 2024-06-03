@@ -17,7 +17,7 @@ import { CompareFormState } from '@/lib/types/teams/teams'
 
 const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
   const matches = useMediaQuery('(min-width: 430px)')
-  const { dispatch, women } = useGenderContext()
+  const { women } = useGenderContext()
   const navigate = useNavigate({ from: '/teams' })
   const pathName = useLocation().pathname
 
@@ -25,7 +25,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
     gender: (
       <Button
         onClick={() => {
-          dispatch({ type: 'TOGGLE' })
+          navigate({ search: { women: !women } })
         }}
         size={matches ? 'default' : 'icon'}
       >
@@ -56,7 +56,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
           <Button
             variant={pathName.endsWith('teams') ? 'default' : 'outline'}
             size={matches ? 'default' : 'icon'}
-            onClick={() => navigate({ to: '/teams' })}
+            onClick={() => navigate({ to: '/teams', search: { women: women } })}
           >
             {matches ? 'Laglista' : <ListIcon />}
           </Button>

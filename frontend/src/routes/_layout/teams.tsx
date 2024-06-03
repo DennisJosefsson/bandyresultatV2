@@ -20,7 +20,7 @@ function TeamsHeader() {
   return (
     <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground">
       <Form {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} id="compare">
           <Card>
             <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
               <TeamsTabBar formValues={formValues} />
