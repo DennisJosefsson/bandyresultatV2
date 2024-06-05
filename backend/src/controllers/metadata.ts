@@ -10,11 +10,12 @@ import Season from '../models/Season.js'
 import { Op } from 'sequelize'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
-import newMetadataEntry, {
-  updateMetadataEntry,
-} from '../utils/postFunctions/newMetaDataEntry.js'
+
 import IDCheck from '../utils/postFunctions/IDCheck.js'
 import authControl from '../utils/middleware/authControl.js'
+import newMetadataEntry, {
+  updateMetadataEntry,
+} from '../utils/postFunctions/newMetadataEntry.js'
 const metadataRouter = Router()
 
 metadataRouter.get('/:seasonId', (async (
