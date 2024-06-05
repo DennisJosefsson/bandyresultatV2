@@ -11,7 +11,7 @@ import { useController } from 'react-hook-form'
 
 type SelectComponentProps = {
   selectionArray: {
-    value: number
+    value: number | string
     label: string
   }[]
   placeholder: string
