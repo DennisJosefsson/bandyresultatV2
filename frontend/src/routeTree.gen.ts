@@ -21,10 +21,12 @@ import { Route as LayoutSeasonImport } from './routes/_layout/season'
 import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
 import { Route as LayoutTeamsIndexImport } from './routes/_layout/teams/index'
+import { Route as LayoutSearchIndexImport } from './routes/_layout/search/index'
 import { Route as LayoutTeamsSelectionImport } from './routes/_layout/teams/selection'
 import { Route as LayoutTeamsCompareImport } from './routes/_layout/teams/compare'
 import { Route as LayoutTeamTeamIdImport } from './routes/_layout/team/$teamId'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
+import { Route as LayoutSearchHelpImport } from './routes/_layout/search/help'
 import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
 import { Route as LayoutSeasonSeasonIdPlayoffImport } from './routes/_layout/season/$seasonId.playoff'
@@ -92,6 +94,11 @@ const LayoutTeamsIndexRoute = LayoutTeamsIndexImport.update({
   getParentRoute: () => LayoutTeamsRoute,
 } as any)
 
+const LayoutSearchIndexRoute = LayoutSearchIndexImport.update({
+  path: '/',
+  getParentRoute: () => LayoutSearchRoute,
+} as any)
+
 const LayoutTeamsMapLazyRoute = LayoutTeamsMapLazyImport.update({
   path: '/map',
   getParentRoute: () => LayoutTeamsRoute,
@@ -117,6 +124,11 @@ const LayoutTeamTeamIdRoute = LayoutTeamTeamIdImport.update({
 const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
   path: '/$seasonId',
   getParentRoute: () => LayoutSeasonRoute,
+} as any)
+
+const LayoutSearchHelpRoute = LayoutSearchHelpImport.update({
+  path: '/help',
+  getParentRoute: () => LayoutSearchRoute,
 } as any)
 
 const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
@@ -220,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/search/help': {
+      id: '/_layout/search/help'
+      path: '/help'
+      fullPath: '/search/help'
+      preLoaderRoute: typeof LayoutSearchHelpImport
+      parentRoute: typeof LayoutSearchImport
+    }
     '/_layout/season/$seasonId': {
       id: '/_layout/season/$seasonId'
       path: '/$seasonId'
@@ -254,6 +273,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teams/map'
       preLoaderRoute: typeof LayoutTeamsMapLazyImport
       parentRoute: typeof LayoutTeamsImport
+    }
+    '/_layout/search/': {
+      id: '/_layout/search/'
+      path: '/'
+      fullPath: '/search/'
+      preLoaderRoute: typeof LayoutSearchIndexImport
+      parentRoute: typeof LayoutSearchImport
     }
     '/_layout/teams/': {
       id: '/_layout/teams/'
@@ -312,7 +338,10 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   LayoutRoute: LayoutRoute.addChildren({
     LayoutMaratonRoute,
-    LayoutSearchRoute,
+    LayoutSearchRoute: LayoutSearchRoute.addChildren({
+      LayoutSearchHelpRoute,
+      LayoutSearchIndexRoute,
+    }),
     LayoutSeasonRoute: LayoutSeasonRoute.addChildren({
       LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
         LayoutSeasonSeasonIdDevelopmentRoute,

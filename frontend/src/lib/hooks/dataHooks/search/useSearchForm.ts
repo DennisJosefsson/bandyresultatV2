@@ -50,7 +50,7 @@ export const useSearchForm = () => {
     resolver: zodResolver(searchParamsObject),
   })
 
-  return methods
+  return { methods }
 }
 
 export const useGetSearchTeams = () => {

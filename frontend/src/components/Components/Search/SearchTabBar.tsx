@@ -1,28 +1,33 @@
 import { Button } from '@/components/ui/button'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { initValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
-import { SearchParamsObject } from '@/lib/types/games/search'
-import { Dispatch, SetStateAction } from 'react'
-import { UseFormReturn } from 'react-hook-form'
+//import { initValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
+
 import { useMediaQuery } from 'usehooks-ts'
-import { ManIcon, WomanIcon, SearchIcon } from '../Common/Icons/icons'
+import {
+  ManIcon,
+  WomanIcon,
+  SearchIcon,
+  QuestionIcon,
+} from '../Common/Icons/icons'
 import { TabBarDivided } from '../Common/TabBar'
+import { useNavigate, useLocation } from '@tanstack/react-router'
 
-type SearchTabBarProps = {
-  tab: string
-  setTab: Dispatch<SetStateAction<string>>
-  methods: UseFormReturn<SearchParamsObject>
-}
+// type SearchTabBarProps = {
+//   tab: string
+//   setTab: Dispatch<SetStateAction<string>>
+//   methods: UseFormReturn<SearchParamsObject>
+// }
 
-const SearchTabBar = ({ tab, setTab, methods }: SearchTabBarProps) => {
+const SearchTabBar = () => {
   const { women, dispatch } = useGenderContext()
   const matches = useMediaQuery('(min-width: 430px)')
+  const navigate = useNavigate({ from: '/search' })
+  const pathName = useLocation().pathname
   const searchTabBarObject = {
     gender: (
       <Button
         onClick={() => {
           dispatch({ type: 'TOGGLE' })
-          methods.reset(initValues)
         }}
       >
         {women ? (
@@ -38,15 +43,22 @@ const SearchTabBar = ({ tab, setTab, methods }: SearchTabBarProps) => {
         )}
       </Button>
     ),
-
+    help: (
+      <Button
+        size={matches ? 'default' : 'icon'}
+        variant={pathName.endsWith('help') ? 'default' : 'outline'}
+        onClick={() => navigate({ to: '/search/help' })}
+      >
+        {matches ? 'Hjälp' : <QuestionIcon />}
+      </Button>
+    ),
     tabBarArray: [
       {
         tab: (
           <Button
-            variant={tab === 'search' ? 'default' : 'outline'}
-            onClick={() => {
-              setTab('search')
-            }}
+            size={matches ? 'default' : 'icon'}
+            variant={pathName.endsWith('search') ? 'default' : 'outline'}
+            onClick={() => navigate({ to: '/search' })}
           >
             {matches ? 'Sök' : <SearchIcon />}
           </Button>
