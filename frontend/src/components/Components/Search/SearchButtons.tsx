@@ -1,7 +1,7 @@
 //import { useCopyToClipboard } from 'usehooks-ts'
 import { Button } from '@/components/ui/button'
 import { useFormContext } from 'react-hook-form'
-import { initValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
+import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
 
 // type SearchButtonsProps = {
 //   collapse: () => void
@@ -21,7 +21,7 @@ const SearchButtons = () => {
           Sök
         </Button>
       </div>
-      <Button onClick={() => methods.reset(initValues)}>Nollställ</Button>
+      <Button onClick={() => methods.reset(defaultValues)}>Nollställ</Button>
       {/* {isSearchResultSuccess && (
         <Button onClick={() => copy(searchLink)}>
           {copiedText ? 'Kopierad!' : `Länk: ${searchLink}`}

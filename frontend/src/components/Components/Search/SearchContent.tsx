@@ -6,12 +6,13 @@ import ResultComponent from './ResultComponent'
 import { Button } from '@/components/ui/button'
 import {
   useGetSearchTeams,
-  initValues,
+  defaultValues,
   useSearchResults,
 } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import { SearchParamsObject } from '@/lib/types/games/search'
-import { ErrorState } from '@/routes/_layout/search'
+import { ErrorState } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
+import { useNavigate } from '@tanstack/react-router'
 type SearchContentProps = {
   methods: UseFormReturn<SearchParamsObject>
   searchParams: SearchParamsObject | null
@@ -27,6 +28,7 @@ const SearchContent = ({
   searchParams,
   setSearchParams,
 }: SearchContentProps) => {
+  const navigate = useNavigate({ from: '/search' })
   const [openAccordion, setOpenAccordion] = useState<string>('')
   const [copiedText, copy] = useCopyToClipboard()
   const { teamSelection, opponentSelection } = useGetSearchTeams()
@@ -37,6 +39,15 @@ const SearchContent = ({
   const submitAndCollapse = () => {
     methods.handleSubmit(onSubmit)
     setOpenAccordion('')
+  }
+
+  const formValues = methods.watch()
+
+  const handleOnBlur = () => {
+    if (methods.formState.isValid) {
+      navigate({ search: formValues })
+      setSearchParams(formValues)
+    }
   }
 
   return (
@@ -52,7 +63,9 @@ const SearchContent = ({
               Skicka
             </Button>
           </div>
-          <Button onClick={() => methods.reset(initValues)}>Nollställ</Button>
+          <Button onClick={() => methods.reset(defaultValues)}>
+            Nollställ
+          </Button>
           {isSearchResultSuccess && (
             <Button onClick={() => copy(searchLink)}>
               {copiedText ? 'Kopierad!' : `Söklänk`}
@@ -62,7 +75,11 @@ const SearchContent = ({
         <div className="ml-2 w-[70%] max-w-[800px] lg:ml-0 lg:w-full">
           <div>
             <Form {...methods}>
-              <form onSubmit={methods.handleSubmit(onSubmit)} id="search-form">
+              <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                onBlur={handleOnBlur}
+                id="search-form"
+              >
                 <div className="mb-2 grid grid-cols-1 gap-2 lg:grid-cols-2 lg:justify-between">
                   <div className="flex max-w-[24rem] flex-col lg:w-full">
                     <div>

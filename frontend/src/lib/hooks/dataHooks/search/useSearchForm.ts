@@ -12,8 +12,9 @@ import { AxiosError } from 'axios'
 import { getSearch } from '@/lib/requests/games'
 
 import useGenderContext from '../../contextHooks/useGenderContext'
+import { useSearch } from '@tanstack/react-router'
 
-export const initValues: SearchParamsObject = {
+export const defaultValues: SearchParamsObject = {
   categoryArray: [
     'final',
     'semi',
@@ -43,6 +44,7 @@ export const initValues: SearchParamsObject = {
 }
 
 export const useSearchForm = () => {
+  const initValues = useSearch({ from: '/_layout/search' })
   const methods = useForm<SearchParamsObject>({
     defaultValues: initValues,
     criteriaMode: 'all',
@@ -79,7 +81,7 @@ export const useGetSearchTeams = () => {
   return { teamSelection, opponentSelection, isLoading, error }
 }
 
-type ErrorState =
+export type ErrorState =
   | {
       error: true
       message: string

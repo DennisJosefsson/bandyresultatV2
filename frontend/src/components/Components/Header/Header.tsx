@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
+import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import ModeToggle from './ModeToggle'
 // import LoginComponent from './LoginForm/LoginComponent'
 import { useState } from 'react'
@@ -35,6 +36,7 @@ const Header = () => {
           </Link>
           <Link
             to="/search"
+            search={defaultValues}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Sök
@@ -101,6 +103,7 @@ const Header = () => {
               </Link>
               <Link
                 to="/search"
+                search={defaultValues}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
