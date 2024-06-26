@@ -18,15 +18,18 @@ import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTeamsImport } from './routes/_layout/teams'
 import { Route as LayoutSeasonsImport } from './routes/_layout/seasons'
 import { Route as LayoutSeasonImport } from './routes/_layout/season'
-import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
+import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutTeamsIndexImport } from './routes/_layout/teams/index'
-import { Route as LayoutSearchIndexImport } from './routes/_layout/search/index'
+import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/index'
 import { Route as LayoutTeamsSelectionImport } from './routes/_layout/teams/selection'
 import { Route as LayoutTeamsCompareImport } from './routes/_layout/teams/compare'
 import { Route as LayoutTeamTeamIdImport } from './routes/_layout/team/$teamId'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
-import { Route as LayoutSearchHelpImport } from './routes/_layout/search/help'
+import { Route as LayoutDashboardSeasonsImport } from './routes/_layout/dashboard/seasons'
+import { Route as LayoutDashboardNewSeasonImport } from './routes/_layout/dashboard/newSeason'
+import { Route as LayoutDashboardErrorsImport } from './routes/_layout/dashboard/errors'
+import { Route as LayoutDashboardAddTeamsImport } from './routes/_layout/dashboard/addTeams'
 import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
 import { Route as LayoutSeasonSeasonIdPlayoffImport } from './routes/_layout/season/$seasonId.playoff'
@@ -36,7 +39,7 @@ import { Route as LayoutSeasonSeasonIdDevelopmentImport } from './routes/_layout
 
 // Create Virtual Routes
 
-const LayoutDashboardLazyImport = createFileRoute('/_layout/dashboard')()
+const LayoutUnauthorizedLazyImport = createFileRoute('/_layout/unauthorized')()
 const LayoutAboutLazyImport = createFileRoute('/_layout/about')()
 const LayoutTeamsMapLazyImport = createFileRoute('/_layout/teams/map')()
 
@@ -52,11 +55,11 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutDashboardLazyRoute = LayoutDashboardLazyImport.update({
-  path: '/dashboard',
+const LayoutUnauthorizedLazyRoute = LayoutUnauthorizedLazyImport.update({
+  path: '/unauthorized',
   getParentRoute: () => LayoutRoute,
 } as any).lazy(() =>
-  import('./routes/_layout/dashboard.lazy').then((d) => d.Route),
+  import('./routes/_layout/unauthorized.lazy').then((d) => d.Route),
 )
 
 const LayoutAboutLazyRoute = LayoutAboutLazyImport.update({
@@ -79,13 +82,13 @@ const LayoutSeasonRoute = LayoutSeasonImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutSearchRoute = LayoutSearchImport.update({
-  path: '/search',
+const LayoutMaratonRoute = LayoutMaratonImport.update({
+  path: '/maraton',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutMaratonRoute = LayoutMaratonImport.update({
-  path: '/maraton',
+const LayoutDashboardRoute = LayoutDashboardImport.update({
+  path: '/dashboard',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -94,9 +97,9 @@ const LayoutTeamsIndexRoute = LayoutTeamsIndexImport.update({
   getParentRoute: () => LayoutTeamsRoute,
 } as any)
 
-const LayoutSearchIndexRoute = LayoutSearchIndexImport.update({
+const LayoutDashboardIndexRoute = LayoutDashboardIndexImport.update({
   path: '/',
-  getParentRoute: () => LayoutSearchRoute,
+  getParentRoute: () => LayoutDashboardRoute,
 } as any)
 
 const LayoutTeamsMapLazyRoute = LayoutTeamsMapLazyImport.update({
@@ -126,9 +129,24 @@ const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
   getParentRoute: () => LayoutSeasonRoute,
 } as any)
 
-const LayoutSearchHelpRoute = LayoutSearchHelpImport.update({
-  path: '/help',
-  getParentRoute: () => LayoutSearchRoute,
+const LayoutDashboardSeasonsRoute = LayoutDashboardSeasonsImport.update({
+  path: '/seasons',
+  getParentRoute: () => LayoutDashboardRoute,
+} as any)
+
+const LayoutDashboardNewSeasonRoute = LayoutDashboardNewSeasonImport.update({
+  path: '/newSeason',
+  getParentRoute: () => LayoutDashboardRoute,
+} as any)
+
+const LayoutDashboardErrorsRoute = LayoutDashboardErrorsImport.update({
+  path: '/errors',
+  getParentRoute: () => LayoutDashboardRoute,
+} as any)
+
+const LayoutDashboardAddTeamsRoute = LayoutDashboardAddTeamsImport.update({
+  path: '/addTeams',
+  getParentRoute: () => LayoutDashboardRoute,
 } as any)
 
 const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
@@ -176,18 +194,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/dashboard': {
+      id: '/_layout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof LayoutDashboardImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/maraton': {
       id: '/_layout/maraton'
       path: '/maraton'
       fullPath: '/maraton'
       preLoaderRoute: typeof LayoutMaratonImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/search': {
-      id: '/_layout/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof LayoutSearchImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/season': {
@@ -218,11 +236,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAboutLazyImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/dashboard': {
-      id: '/_layout/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof LayoutDashboardLazyImport
+    '/_layout/unauthorized': {
+      id: '/_layout/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof LayoutUnauthorizedLazyImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
@@ -232,12 +250,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/search/help': {
-      id: '/_layout/search/help'
-      path: '/help'
-      fullPath: '/search/help'
-      preLoaderRoute: typeof LayoutSearchHelpImport
-      parentRoute: typeof LayoutSearchImport
+    '/_layout/dashboard/addTeams': {
+      id: '/_layout/dashboard/addTeams'
+      path: '/addTeams'
+      fullPath: '/dashboard/addTeams'
+      preLoaderRoute: typeof LayoutDashboardAddTeamsImport
+      parentRoute: typeof LayoutDashboardImport
+    }
+    '/_layout/dashboard/errors': {
+      id: '/_layout/dashboard/errors'
+      path: '/errors'
+      fullPath: '/dashboard/errors'
+      preLoaderRoute: typeof LayoutDashboardErrorsImport
+      parentRoute: typeof LayoutDashboardImport
+    }
+    '/_layout/dashboard/newSeason': {
+      id: '/_layout/dashboard/newSeason'
+      path: '/newSeason'
+      fullPath: '/dashboard/newSeason'
+      preLoaderRoute: typeof LayoutDashboardNewSeasonImport
+      parentRoute: typeof LayoutDashboardImport
+    }
+    '/_layout/dashboard/seasons': {
+      id: '/_layout/dashboard/seasons'
+      path: '/seasons'
+      fullPath: '/dashboard/seasons'
+      preLoaderRoute: typeof LayoutDashboardSeasonsImport
+      parentRoute: typeof LayoutDashboardImport
     }
     '/_layout/season/$seasonId': {
       id: '/_layout/season/$seasonId'
@@ -274,12 +313,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutTeamsMapLazyImport
       parentRoute: typeof LayoutTeamsImport
     }
-    '/_layout/search/': {
-      id: '/_layout/search/'
+    '/_layout/dashboard/': {
+      id: '/_layout/dashboard/'
       path: '/'
-      fullPath: '/search/'
-      preLoaderRoute: typeof LayoutSearchIndexImport
-      parentRoute: typeof LayoutSearchImport
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof LayoutDashboardIndexImport
+      parentRoute: typeof LayoutDashboardImport
     }
     '/_layout/teams/': {
       id: '/_layout/teams/'
@@ -337,11 +376,14 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   LayoutRoute: LayoutRoute.addChildren({
-    LayoutMaratonRoute,
-    LayoutSearchRoute: LayoutSearchRoute.addChildren({
-      LayoutSearchHelpRoute,
-      LayoutSearchIndexRoute,
+    LayoutDashboardRoute: LayoutDashboardRoute.addChildren({
+      LayoutDashboardAddTeamsRoute,
+      LayoutDashboardErrorsRoute,
+      LayoutDashboardNewSeasonRoute,
+      LayoutDashboardSeasonsRoute,
+      LayoutDashboardIndexRoute,
     }),
+    LayoutMaratonRoute,
     LayoutSeasonRoute: LayoutSeasonRoute.addChildren({
       LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
         LayoutSeasonSeasonIdDevelopmentRoute,
@@ -360,7 +402,7 @@ export const routeTree = rootRoute.addChildren({
       LayoutTeamsIndexRoute,
     }),
     LayoutAboutLazyRoute,
-    LayoutDashboardLazyRoute,
+    LayoutUnauthorizedLazyRoute,
     LayoutIndexRoute,
     LayoutTeamTeamIdRoute,
   }),

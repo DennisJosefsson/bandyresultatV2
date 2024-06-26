@@ -5,18 +5,16 @@ import {
   SetStateAction,
   useState,
 } from 'react'
-import { Textarea } from '@/src/@/components/ui/textarea'
-import { Label } from '@/src/@/components/ui/label'
-
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
 import { z } from 'zod'
 import GameTable from './GameTable'
-import { TeamAndSeasonAttributes } from '../../../types/teams/teams'
-
-import { Button } from '@/src/@/components/ui/button'
-import { SerieAttributes } from '@/src/components/types/series/series'
-import { RadioGroup, RadioGroupItem } from '@/src/@/components/ui/radio-group'
-import { sortOrder } from '@/src/components/utilitycomponents/functions/constants'
+import { Button } from '@/components/ui/button'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { FormContent } from '../SeasonsList'
+import { SerieAttributes } from '@/lib/types/series/series'
+import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
+import { sortOrder } from '@/lib/utils/constants'
 
 interface FormElements extends HTMLFormControlsCollection {
   pasteArea: HTMLInputElement

@@ -1,22 +1,17 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form } from '@/src/@/components/ui/form'
+import { Form } from '@/components/ui/form'
 
-import { Button } from '@/src/@/components/ui/button'
-import { postSeason } from '@/src/requests/seasons'
+import { Button } from '@/components/ui/button'
+import { postSeason } from '@/lib/requests/seasons'
 
 import { useMutation } from '@tanstack/react-query'
 
 import { AxiosError } from 'axios'
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/src/@/components/ui/card'
-import { FormComponent } from '../utilitycomponents/Components/ReactHookFormComponents/FormComponent'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
 
 const formSchema = z.object({
   yearString: z

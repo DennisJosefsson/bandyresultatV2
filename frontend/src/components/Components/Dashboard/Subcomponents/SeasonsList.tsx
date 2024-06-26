@@ -1,22 +1,18 @@
-import { Sheet, SheetContent } from '@/src/@/components/ui/sheet'
-import { SeasonObjectType } from '../../types/season/seasons'
-import { useState } from 'react'
-import TeamSeasonForm from '../../Season/Subcomponents/TeamSeasonForm'
-import SingleSeason from '../SingleSeason'
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '@/src/@/components/ui/tabs'
-import SeriesModal from '../SeriesModal'
-import { SerieAttributes } from '../../types/series/series'
+import { SheetContent } from '@/components/ui/sheet'
+import { SeasonObjectType } from '@/lib/types/season/seasons'
+import { SerieAttributes } from '@/lib/types/series/series'
 import {
   TeamAndSeasonAttributes,
   TeamSeasonAttributes,
-} from '../../types/teams/teams'
-import MetadataForm from '../../Metadata/MetadataForm'
+} from '@/lib/types/teams/teams'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Sheet } from '@/components/ui/sheet'
+import { useState } from 'react'
+import SeriesModal from '../SeriesModal'
+import SingleSeason from '../SingleSeason'
 import BulkAddGame from './BulkAddGame/BulkAddGame'
+import TeamSeasonForm from './TeamSeasonForm'
+import MetadataForm from './MetadataForm'
 
 export type FormContent =
   | 'teamseason'

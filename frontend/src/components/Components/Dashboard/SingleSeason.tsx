@@ -1,21 +1,12 @@
-import { useGetSingleSeason } from '@/src/hooks/dataHooks/seasonHooks/useGetSingleSeason'
-import {
-  DataError,
-  Loading,
-} from '../utilitycomponents/Components/LoadingAndError/LoadingOrError'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/src/@/components/ui/card'
-import { Dispatch, SetStateAction } from 'react'
-import { SerieAttributes } from '../types/series/series'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import useGetMetaData from '@/lib/hooks/dataHooks/season/useGetMetadata'
+import { useGetSingleSeason } from '@/lib/hooks/dataHooks/season/useGetSingleSeason'
+import { SerieAttributes } from '@/lib/types/series/series'
 import {
   TeamAndSeasonAttributes,
   TeamSeasonAttributes,
-} from '../types/teams/teams'
-import useGetMetaData from '@/src/hooks/dataHooks/seasonHooks/metadataHooks/useGetMetadata'
+} from '@/lib/types/teams/teams'
+import { Dispatch, SetStateAction } from 'react'
 import { FormContent } from './Subcomponents/SeasonsList'
 
 type SingleSeasonProps = {
@@ -39,16 +30,13 @@ const SingleSeason = ({
   setSeries,
   setTeamSeasonData,
 }: SingleSeasonProps) => {
-  const seasonId = parseInt(year.slice(-4))
-  const { data, isLoading, error } = useGetSingleSeason(seasonId)
+  const seasonId = year.slice(-4)
+  const { data } = useGetSingleSeason(seasonId)
   const { data: metadata } = useGetMetaData(year)
-  if (error) return <DataError error={error} />
-
-  if (isLoading) return <Loading />
 
   const season = data?.find((season) => season.women === women)
   const metadataObject = metadata?.find(
-    (item) => item.seasonId === season?.seasonId,
+    (item) => item.seasonId === season?.seasonId
   )
 
   const teamSeasonData = season?.teams?.map((team) => team.teamseason)

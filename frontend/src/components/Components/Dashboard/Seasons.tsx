@@ -2,22 +2,14 @@ import { useState, KeyboardEvent } from 'react'
 
 import SeasonsList from './Subcomponents/SeasonsList'
 import FilterComponent from './Subcomponents/FilterComponent'
-import {
-  Loading,
-  DataError,
-} from '../utilitycomponents/Components/LoadingAndError/LoadingOrError'
-import useScrollTo from '../../hooks/domHooks/useScrollTo'
-import useGetAllSeasons from '../../hooks/dataHooks/seasonHooks/useGetAllSeasons'
+import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 
 const Seasons = () => {
   const [seasonFilter, setSeasonFilter] = useState('')
-  const { seasons, isLoading, error } = useGetAllSeasons()
+  const { seasons } = useGetAllSeasons()
 
   useScrollTo()
-
-  if (error) return <DataError error={error} />
-
-  if (isLoading) return <Loading />
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -36,7 +28,7 @@ const Seasons = () => {
       <div className="self-center">
         <SeasonsList
           seasons={seasons.filter((season) =>
-            season.year.includes(seasonFilter),
+            season.year.includes(seasonFilter)
           )}
         />
       </div>

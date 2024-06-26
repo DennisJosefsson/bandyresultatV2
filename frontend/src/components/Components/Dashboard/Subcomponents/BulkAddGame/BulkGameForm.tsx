@@ -5,17 +5,17 @@ import {
   FormItem,
   FormControl,
   FormMessage,
-} from '@/src/@/components/ui/form'
-import { Input } from '@/src/@/components/ui/input'
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { Button } from '@/src/@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { FormContent } from '../SeasonsList'
-import { useAddGamesMutation } from '@/src/hooks/dataHooks/seasonHooks/gameHooks/useAddGamesMutation'
+import { useAddGamesMutation } from '@/lib/hooks/dataHooks/games/useAddGamesMutation'
 import {
   useAddGamesForm,
   Game,
   initialData,
-} from '@/src/hooks/dataHooks/seasonHooks/gameHooks/useBulkGameForm'
+} from '@/lib/hooks/dataHooks/games/useBulkGameForm'
 
 type BulkGameFormProps = {
   gameArray: Game[]
@@ -37,7 +37,7 @@ const BulkGameForm = ({
   useEffect(() => {
     setGames(gameArray)
     replace(gameArray)
-  }, [gameArray])
+  }, [gameArray, replace])
 
   const onSubmit = ({ games }: { games: Game[] }) => {
     mutation.mutate(games)

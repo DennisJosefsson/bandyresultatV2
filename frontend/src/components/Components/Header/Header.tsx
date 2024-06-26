@@ -2,9 +2,9 @@ import { Link } from '@tanstack/react-router'
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
-import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
+// import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import ModeToggle from './ModeToggle'
-// import LoginComponent from './LoginForm/LoginComponent'
+import LoginComponent from './LoginComponents/LoginComponent'
 import { useState } from 'react'
 import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
@@ -34,13 +34,13 @@ const Header = () => {
           >
             Lag
           </Link>
-          <Link
+          {/* <Link
             to="/search"
             search={defaultValues}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Sök
-          </Link>
+          </Link> */}
           <Link
             to="/maraton"
             search={{ tab: 'maraton', table: 'all', women: women }}
@@ -101,14 +101,14 @@ const Header = () => {
               >
                 Lag
               </Link>
-              <Link
+              {/* <Link
                 to="/search"
                 search={defaultValues}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
                 Sök
-              </Link>
+              </Link> */}
               <Link
                 to="/maraton"
                 search={{ tab: 'maraton', table: 'all', women: women }}
@@ -137,7 +137,7 @@ const Header = () => {
           </SheetContent>
         </Sheet>
 
-        {/* <LoginComponent /> */}
+        <LoginComponent />
         <ModeToggle />
       </div>
       {/* <hr className="mx-auto my-2 h-px border-0 bg-[#011d29] dark:bg-gray-700 xl:w-[1280px]" /> */}

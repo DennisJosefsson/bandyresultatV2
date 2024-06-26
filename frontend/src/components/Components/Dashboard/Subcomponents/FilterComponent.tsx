@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, KeyboardEvent } from 'react'
-import { Input } from '@/src/@/components/ui/input'
+import { Input } from '@/components/ui/input'
 type FilterComponentProps = {
   seasonFilter: string
   setSeasonFilter: Dispatch<SetStateAction<string>>

@@ -1,19 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
-import { getErrors } from '../../requests/errors'
+import { errorQueries } from '@/lib/queries/errors/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 const Errors = () => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['getErrors'],
-    queryFn: () => getErrors(),
-  })
-
-  if (isLoading) {
-    return <div className="mx-auto max-w-7xl">Loading...</div>
-  }
-
-  if (error) {
-    return <div className="mx-auto max-w-7xl">There was an error</div>
-  }
+  const { data } = useSuspenseQuery(errorQueries.error())
 
   return (
     <>

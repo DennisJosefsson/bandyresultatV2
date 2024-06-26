@@ -99,7 +99,6 @@ export const useSearchResults = (
   } = useQuery({
     queryKey: ['search', searchParams],
     queryFn: () => getSearch(searchParams),
-    enabled: !!searchParams,
   })
 
   useEffect(() => {

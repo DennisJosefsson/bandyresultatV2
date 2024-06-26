@@ -1,23 +1,18 @@
 import { useForm } from 'react-hook-form'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { postSerie } from '../../requests/series'
+import { postSerie } from '@/lib/requests/series'
 import { Dispatch, SetStateAction } from 'react'
-import { SerieAttributes, serieAttributes } from '../types/series/series'
+import { SerieAttributes, serieAttributes } from '@/lib/types/series/series'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form } from '@/src/@/components/ui/form'
+import { Form } from '@/components/ui/form'
 
-import { Button } from '@/src/@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/src/@/components/ui/card'
-import { useToast } from '@/src/@/components/ui/use-toast'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useToast } from '@/components/ui/use-toast'
 import { AxiosError } from 'axios'
-import { FormComponent } from '../utilitycomponents/Components/ReactHookFormComponents/FormComponent'
 import { FormContent } from './Subcomponents/SeasonsList'
+import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
 
 type SeriesModalProps = {
   women: boolean
@@ -96,7 +91,7 @@ const SeriesModal = ({
 
   const serieStructureArray = Array.from(
     { length: 14 },
-    (_, index) => index + 1,
+    (_, index) => index + 1
   ).map((_, index) => {
     return { value: index + 1, label: `${index + 1}` }
   })

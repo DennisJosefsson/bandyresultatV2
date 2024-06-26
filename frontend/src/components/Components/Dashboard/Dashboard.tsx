@@ -1,17 +1,12 @@
 import { useState } from 'react'
-import TeamForm from '../Team/Subcomponents/TeamForm'
 import Errors from './Errors'
 import Seasons from './Seasons'
-import { TabBarDivided } from '../utilitycomponents/Components/TabBar'
-import useGenderContext from '../../hooks/contextHooks/useGenderContext'
-import { Button } from '@/src/@/components/ui/button'
-import {
-  Card,
-  CardTitle,
-  CardContent,
-  CardHeader,
-} from '@/src/@/components/ui/card'
 import NewSeason from './NewSeason'
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import { TabBarDivided } from '../Common/TabBar'
+import TeamForm from './TeamForm'
 
 const Dashboard = () => {
   const [tab, setTab] = useState<string>('error')
