@@ -36,6 +36,9 @@ import { Route as LayoutSeasonSeasonIdPlayoffImport } from './routes/_layout/sea
 import { Route as LayoutSeasonSeasonIdMapImport } from './routes/_layout/season/$seasonId.map'
 import { Route as LayoutSeasonSeasonIdGamesImport } from './routes/_layout/season/$seasonId.games'
 import { Route as LayoutSeasonSeasonIdDevelopmentImport } from './routes/_layout/season/$seasonId.development'
+import { Route as LayoutDashboardSeasonSeasonIdImport } from './routes/_layout/dashboard/season/$seasonId'
+import { Route as LayoutDashboardSeasonSeasonIdIndexImport } from './routes/_layout/dashboard/season/$seasonId.index'
+import { Route as LayoutDashboardSeasonSeasonIdTeamseasonImport } from './routes/_layout/dashboard/season/$seasonId.teamseason_'
 
 // Create Virtual Routes
 
@@ -183,6 +186,24 @@ const LayoutSeasonSeasonIdDevelopmentRoute =
     getParentRoute: () => LayoutSeasonSeasonIdRoute,
   } as any)
 
+const LayoutDashboardSeasonSeasonIdRoute =
+  LayoutDashboardSeasonSeasonIdImport.update({
+    path: '/season/$seasonId',
+    getParentRoute: () => LayoutDashboardRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdIndexRoute =
+  LayoutDashboardSeasonSeasonIdIndexImport.update({
+    path: '/',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdTeamseasonRoute =
+  LayoutDashboardSeasonSeasonIdTeamseasonImport.update({
+    path: '/teamseason',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -327,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutTeamsIndexImport
       parentRoute: typeof LayoutTeamsImport
     }
+    '/_layout/dashboard/season/$seasonId': {
+      id: '/_layout/dashboard/season/$seasonId'
+      path: '/season/$seasonId'
+      fullPath: '/dashboard/season/$seasonId'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdImport
+      parentRoute: typeof LayoutDashboardImport
+    }
     '/_layout/season/$seasonId/development': {
       id: '/_layout/season/$seasonId/development'
       path: '/development'
@@ -369,6 +397,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdTablesImport
       parentRoute: typeof LayoutSeasonSeasonIdImport
     }
+    '/_layout/dashboard/season/$seasonId/teamseason': {
+      id: '/_layout/dashboard/season/$seasonId/teamseason'
+      path: '/teamseason'
+      fullPath: '/dashboard/season/$seasonId/teamseason'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdTeamseasonImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
+    '/_layout/dashboard/season/$seasonId/': {
+      id: '/_layout/dashboard/season/$seasonId/'
+      path: '/'
+      fullPath: '/dashboard/season/$seasonId/'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdIndexImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
   }
 }
 
@@ -382,6 +424,11 @@ export const routeTree = rootRoute.addChildren({
       LayoutDashboardNewSeasonRoute,
       LayoutDashboardSeasonsRoute,
       LayoutDashboardIndexRoute,
+      LayoutDashboardSeasonSeasonIdRoute:
+        LayoutDashboardSeasonSeasonIdRoute.addChildren({
+          LayoutDashboardSeasonSeasonIdTeamseasonRoute,
+          LayoutDashboardSeasonSeasonIdIndexRoute,
+        }),
     }),
     LayoutMaratonRoute,
     LayoutSeasonRoute: LayoutSeasonRoute.addChildren({

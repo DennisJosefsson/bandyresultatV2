@@ -13,7 +13,10 @@ const userReducer = (state: UserType, action: UserActionType) => {
 }
 
 const UserContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, dispatch] = useReducer(userReducer, false)
+  const [user, dispatch] = useReducer(
+    userReducer,
+    import.meta.env.PROD ? false : true
+  )
 
   return (
     <UserContext.Provider value={{ user, dispatch }}>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -12,8 +12,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-
-import { FormContent } from './SeasonsList'
 import { useAddTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonMutation'
 import {
   useAddTeamSeasonForm,
@@ -22,35 +20,27 @@ import {
 } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonForm'
 import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
 import { TeamSeasonAttributes } from '@/lib/types/teams/teams'
+import { useNavigate } from '@tanstack/react-router'
 
 type TeamSeasonFormProps = {
   seasonId: number
   women: boolean
-  teamSeasonData: TeamSeasonAttributes[] | null
-  setTeamSeasonData: Dispatch<SetStateAction<TeamSeasonAttributes[] | null>>
-  setTab: Dispatch<SetStateAction<string>>
-  setFormContent: Dispatch<SetStateAction<FormContent>>
+  teamSeasonData: TeamSeasonAttributes[] | undefined
 }
 
 const TeamSeasonForm = ({
   seasonId,
   women,
   teamSeasonData,
-  setTeamSeasonData,
-  setTab,
-  setFormContent,
 }: TeamSeasonFormProps) => {
+  const navigate = useNavigate()
   const [teamSeasons, setTeamSeasons] = useState<TeamSeason[]>(() =>
     !teamSeasonData || (teamSeasonData && teamSeasonData.length === 0)
       ? initialData
       : teamSeasonData
   )
   const { data } = useGetTeams()
-  const mutation = useAddTeamSeasonMutation(
-    setTab,
-    setFormContent,
-    setTeamSeasonData
-  )
+  const mutation = useAddTeamSeasonMutation()
 
   const { form, handleSubmit, fields, replace, remove, append } =
     useAddTeamSeasonForm(teamSeasons)
@@ -104,6 +94,16 @@ const TeamSeasonForm = ({
       <div className="flex items-start justify-between p-5">
         <h3 className="text-lg font-semibold">Lägg till lag</h3>
         <div className="flex items-center justify-end gap-2 p-6">
+          <Button
+            onClick={() =>
+              navigate({
+                to: '/dashboard/season/$seasonId',
+                params: { seasonId: seasonId.toString() },
+              })
+            }
+          >
+            Tillbaka
+          </Button>
           <Button type="submit" form="teamSeasonForm">
             Spara
           </Button>

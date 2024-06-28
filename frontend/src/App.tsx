@@ -1,8 +1,4 @@
-import {
-  ErrorComponent,
-  RouterProvider,
-  createRouter,
-} from '@tanstack/react-router'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
 import useUserContext from './lib/hooks/contextHooks/useUserContext'
 import { routeTree } from './routeTree.gen'
 import useGenderContext from './lib/hooks/contextHooks/useGenderContext'
@@ -11,10 +7,13 @@ import DefaultNotFound from './components/Components/Common/DefaultNotFound'
 
 const router = createRouter({
   routeTree,
-  context: { user: false, queryClient, genderContext: undefined! },
+  context: {
+    user: import.meta.env.PROD ? false : true,
+    queryClient,
+    genderContext: undefined!,
+  },
   defaultPreload: 'intent',
   defaultNotFoundComponent: DefaultNotFound,
-  defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 
 declare module '@tanstack/react-router' {

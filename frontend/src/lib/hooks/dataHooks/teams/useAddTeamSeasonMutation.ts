@@ -1,15 +1,14 @@
-import { FormContent } from '@/components/Components/Dashboard/Subcomponents/SeasonsList'
 import { useToast } from '@/components/ui/use-toast'
 import { postTeamSeason } from '@/lib/requests/teamSeason'
-import { TeamSeasonAttributes } from '@/lib/types/teams/teams'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Dispatch, SetStateAction } from 'react'
+import { resetDashboardTeamSeason } from '@/lib/zustand/dashboard/teamSeasonStore'
+import { useNavigate, useParams } from '@tanstack/react-router'
 
-export const useAddTeamSeasonMutation = (
-  setTab: Dispatch<SetStateAction<string>>,
-  setFormContent: Dispatch<SetStateAction<FormContent>>,
-  setTeamSeasonData: Dispatch<SetStateAction<TeamSeasonAttributes[] | null>>
-) => {
+export const useAddTeamSeasonMutation = () => {
+  const navigate = useNavigate()
+  const { seasonId } = useParams({
+    from: '/_layout/dashboard/season/$seasonId/teamseason',
+  })
   const { toast } = useToast()
   const mutation = useMutation({
     mutationFn: postTeamSeason,
@@ -25,10 +24,11 @@ export const useAddTeamSeasonMutation = (
       duration: 5000,
       title: 'Lag inlagda/uppdaterade',
     })
-
-    setTeamSeasonData(null)
-    setTab('sections')
-    setFormContent(null)
+    resetDashboardTeamSeason()
+    navigate({
+      to: '/dashboard/season/$seasonId',
+      params: { seasonId: seasonId },
+    })
   }
 
   const onMutationError = () => {

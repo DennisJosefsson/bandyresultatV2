@@ -1,18 +1,20 @@
-import { SheetContent } from '@/components/ui/sheet'
+//import { SheetContent } from '@/components/ui/sheet'
 import { SeasonObjectType } from '@/lib/types/season/seasons'
-import { SerieAttributes } from '@/lib/types/series/series'
-import {
-  TeamAndSeasonAttributes,
-  TeamSeasonAttributes,
-} from '@/lib/types/teams/teams'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { Sheet } from '@/components/ui/sheet'
-import { useState } from 'react'
-import SeriesModal from '../SeriesModal'
-import SingleSeason from '../SingleSeason'
-import BulkAddGame from './BulkAddGame/BulkAddGame'
-import TeamSeasonForm from './TeamSeasonForm'
-import MetadataForm from './MetadataForm'
+// import { SerieAttributes } from '@/lib/types/series/series'
+// import {
+//   TeamAndSeasonAttributes,
+//   TeamSeasonAttributes,
+// } from '@/lib/types/teams/teams'
+// import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+// import { Sheet } from '@/components/ui/sheet'
+// import { useState } from 'react'
+// import SeriesModal from '../SeriesModal'
+// import SingleSeason from '../SingleSeason'
+// import BulkAddGame from './BulkAddGame/BulkAddGame'
+// import TeamSeasonForm from './TeamSeasonForm'
+// import MetadataForm from './MetadataForm'
+import { useNavigate } from '@tanstack/react-router'
+import { setDashboardTeamSeason } from '@/lib/zustand/dashboard/teamSeasonStore'
 
 export type FormContent =
   | 'teamseason'
@@ -22,18 +24,19 @@ export type FormContent =
   | null
 
 const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
-  const [seasonId, setSeasonId] = useState<number>(0)
-  const [year, setYear] = useState<string>('')
-  const [open, setOpen] = useState<boolean>(false)
-  const [teams, setTeams] = useState<TeamAndSeasonAttributes[] | null>(null)
-  const [tab, setTab] = useState<string>('sections')
-  const [formContent, setFormContent] = useState<FormContent>(null)
-  const [women, setWomen] = useState<boolean>(false)
-  const [serieData, setSerieData] = useState<SerieAttributes | null>(null)
-  const [series, setSeries] = useState<SerieAttributes[] | null>(null)
-  const [teamSeasonData, setTeamSeasonData] = useState<
-    TeamSeasonAttributes[] | null
-  >(null)
+  const navigate = useNavigate({ from: '/dashboard/seasons' })
+  // const [seasonId, setSeasonId] = useState<number>(0)
+  // const [year, setYear] = useState<string>('')
+  // const [open, setOpen] = useState<boolean>(false)
+  // const [teams, setTeams] = useState<TeamAndSeasonAttributes[] | null>(null)
+  // const [tab, setTab] = useState<string>('sections')
+  // const [formContent, setFormContent] = useState<FormContent>(null)
+  // const [women, setWomen] = useState<boolean>(false)
+  // const [serieData, setSerieData] = useState<SerieAttributes | null>(null)
+  // const [series, setSeries] = useState<SerieAttributes[] | null>(null)
+  // const [teamSeasonData, setTeamSeasonData] = useState<
+  //   TeamSeasonAttributes[] | null
+  // >(null)
 
   return (
     <>
@@ -57,11 +60,15 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <div
                   className="cursor-pointer font-semibold"
                   onClick={() => {
-                    setTab('sections')
-                    setYear(season.year)
-                    setWomen(season.women)
-                    setOpen(true)
-                    setSeasonId(season.seasonId)
+                    setDashboardTeamSeason({
+                      year: season.year,
+                      women: season.women,
+                      teamSeasonData: undefined,
+                    })
+                    navigate({
+                      to: '/dashboard/season/$seasonId',
+                      params: { seasonId: season.seasonId.toString() },
+                    })
                   }}
                 >
                   {season.year} {season.women ? 'Dam' : 'Herr'}
@@ -69,7 +76,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
               </div>
             )
           })}
-        <Sheet open={open} onOpenChange={setOpen}>
+        {/* <Sheet open={open} onOpenChange={setOpen}>
           <SheetContent side="bottom" className="h-[90%] overflow-auto">
             <Tabs value={tab} onValueChange={setTab}>
               <TabsList>
@@ -132,7 +139,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
               </TabsContent>
             </Tabs>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
       </div>
     </>
   )

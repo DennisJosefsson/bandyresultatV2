@@ -18,7 +18,7 @@ const Seasons = () => {
   }
 
   return (
-    <div className="mx-auto mb-2 min-h-screen max-w-7xl font-inter text-foreground">
+    <div className="mx-auto my-2 min-h-screen font-inter text-foreground">
       <FilterComponent
         seasonFilter={seasonFilter}
         setSeasonFilter={setSeasonFilter}
