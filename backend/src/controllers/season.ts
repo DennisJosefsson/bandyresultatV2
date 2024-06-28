@@ -8,6 +8,7 @@ import {
 import Season from '../models/Season.js'
 import newSeasonEntry, {
   fullNewSeason,
+  newMetadataSeasons,
   updateSeasonEntry,
 } from '../utils/postFunctions/newSeasonEntry.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
@@ -72,7 +73,7 @@ seasonRouter.post('/', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { newSeasonArray } = newSeasonEntry(req.body)
+  const { newSeasonArray, seasonYear } = newSeasonEntry(req.body)
   const [[womenSeason, womenCreated], [menSeason, menCreated]] =
     await Promise.all(newSeasonArray)
   if (!womenCreated && !menCreated) {
@@ -90,7 +91,16 @@ seasonRouter.post('/', (async (
 
     const newSeries = await Promise.all(fullSeasonArray)
 
-    return res.status(201).json({ womenSeason, menSeason, newSeries })
+    const metadataArray = newMetadataSeasons({
+      womenSeasonId,
+      menSeasonId,
+      seasonYear,
+    })
+    const newMetadata = await Promise.all(metadataArray)
+
+    return res
+      .status(201)
+      .json({ womenSeason, menSeason, newSeries, newMetadata })
   }
 }) as RequestHandler)
 

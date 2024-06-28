@@ -20,6 +20,59 @@ const yearString = z
 const numberParse = z.number()
 
 import BadRequestError from '../middleware/errors/BadRequestError.js'
+import Metadata from '../../models/Metadata.js'
+
+export const newMetadataSeasons = (object: unknown) => {
+  if (
+    !object ||
+    typeof object !== 'object' ||
+    !('womenSeasonId' in object) ||
+    !('menSeasonId' in object) ||
+    !('seasonYear' in object) ||
+    typeof object.womenSeasonId !== 'number' ||
+    typeof object.menSeasonId !== 'number' ||
+    typeof object.seasonYear !== 'string'
+  ) {
+    throw new BadRequestError({
+      code: 400,
+      message: 'Incorrect or missing data',
+      logging: true,
+      context: { origin: 'NewMetaDataSeasons' },
+    })
+  }
+
+  const womenId = numberParse.parse(object.womenSeasonId)
+  const menId = numberParse.parse(object.menSeasonId)
+
+  return [
+    {
+      seasonId: menId,
+      name: '',
+      year: object.seasonYear,
+      hostCity: '',
+      finalDate: '',
+      northSouth: false,
+      multipleGroupStages: false,
+      eight: true,
+      quarter: true,
+      semi: true,
+      final: true,
+    },
+    {
+      seasonId: womenId,
+      name: '',
+      year: object.seasonYear,
+      hostCity: '',
+      finalDate: '',
+      northSouth: false,
+      multipleGroupStages: false,
+      eight: false,
+      quarter: true,
+      semi: true,
+      final: true,
+    },
+  ].map((metadata) => Metadata.create(metadata))
+}
 
 export const fullNewSeason = (object: unknown) => {
   if (
@@ -34,7 +87,7 @@ export const fullNewSeason = (object: unknown) => {
       code: 400,
       message: 'Incorrect or missing data',
       logging: true,
-      context: { origin: 'NewSeriesArray' },
+      context: { origin: 'FullNewSeasons' },
     })
   }
 
