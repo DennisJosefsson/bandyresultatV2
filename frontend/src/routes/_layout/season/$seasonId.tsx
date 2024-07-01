@@ -2,6 +2,7 @@ import Loading from '@/components/Components/Common/Loading'
 import SeasonHeader from '@/components/Components/Season/SeasonHeader'
 import SeasonTabBar from '@/components/Components/Season/SeasonTabBar'
 import { Card, CardContent } from '@/components/ui/card'
+
 import { Outlet, createFileRoute, notFound } from '@tanstack/react-router'
 import { z } from 'zod'
 

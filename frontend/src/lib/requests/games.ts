@@ -16,6 +16,7 @@ const gamesApi = axios.create({
 
 export const getGames = async () => {
   const response = await gamesApi.get('/')
+
   if (response instanceof AxiosError) {
     return response
   }
@@ -50,6 +51,7 @@ export const getSeasonStats = async (
   seasonId: string
 ): Promise<SeasonStatsObjectType> => {
   const response = await gamesApi.get(`/stats/${seasonId}`)
+  console.log(response)
   return response.data
 }
 

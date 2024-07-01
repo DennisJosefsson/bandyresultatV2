@@ -21,9 +21,17 @@ function Stats() {
 
   const { women } = useGenderContext()
 
+  const gameCount =
+    data.gamesCountTotal.find((item) => item.women === women)?.count ?? 0
+
+  console.log({ gameCount })
+
   useScrollTo()
 
-  if (women && (parseInt(seasonId) === 1973 || parseInt(seasonId) === 1974)) {
+  if (
+    gameCount === 0 ||
+    (women && (parseInt(seasonId) === 1973 || parseInt(seasonId) === 1974))
+  ) {
     return (
       <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-sm font-bold text-foreground md:text-base">
         <p className="mx-10 text-center">Statistik saknas för denna säsong.</p>

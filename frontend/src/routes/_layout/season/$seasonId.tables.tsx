@@ -40,7 +40,11 @@ function Tables() {
     return <NoWomenSeason />
   }
 
-  if (parseInt(seasonId) < 1930) {
+  if (
+    parseInt(seasonId) < 1930 ||
+    (season.seasonData.tableLength === 0 &&
+      tables.tableData.regularTables.length === 0)
+  ) {
     return (
       <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-sm font-bold text-foreground md:text-base">
         <p className="mx-10 text-center">

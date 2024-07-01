@@ -11,8 +11,9 @@ import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFir
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { gameQueries } from '@/lib/queries/games/queries'
 import { seasonQueries } from '@/lib/queries/season/queries'
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { createFileRoute, useLocation } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 
 const teamFilterSearch = z.object({ team: z.string().optional() })
@@ -29,6 +30,9 @@ export const Route = createFileRoute('/_layout/season/$seasonId/games')({
     )
   },
   validateSearch: teamFilterSearch,
+  errorComponent: ({ error, reset }) => (
+    <ErrorComponent error={error} reset={reset} />
+  ),
 })
 
 function Games() {
@@ -50,6 +54,14 @@ function Games() {
 
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />
+  }
+
+  if (playedGamesLength + unplayedGamesLength === 0) {
+    return (
+      <div className="flex flex-row justify-center mt-2 font-semibold">
+        Inga matcher än denna säsong.
+      </div>
+    )
   }
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
@@ -86,4 +98,26 @@ function Games() {
       ) : null}
     </div>
   )
+}
+
+function ErrorComponent({
+  error,
+  reset,
+}: {
+  error: unknown
+  reset: () => void
+}) {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const errorLocation = useRef(pathname)
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      console.log('resetting')
+      reset()
+    }
+  }, [pathname, reset])
+  if (error && error instanceof AxiosError && error.response?.status === 404) {
+    return <div>{error.response?.data.errors}</div>
+  }
+
+  return <div>Fel</div>
 }
