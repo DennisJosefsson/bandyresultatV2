@@ -10,7 +10,6 @@ import Season from '../../models/Season.js'
 import Game from '../../models/Game.js'
 import Team from '../../models/Team.js'
 import Serie from '../../models/Serie.js'
-import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 //import TeamSeason from '../../models/TeamSeason.js'
 import {
@@ -80,12 +79,20 @@ animationRouter.get('/animation/:seasonId', (async (
     nest: true,
   })
   if (!games || games.length === 0) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'Ingen data för denna säsong.',
-      logging: false,
-      context: { origin: 'GET Animation Data Router' },
-    })
+    res.status(200).json([
+      {
+        women: false,
+        games: [],
+        length: 0,
+        series: series.filter((serie) => serie.season.women === false),
+      },
+      {
+        women: true,
+        games: [],
+        length: 0,
+        series: series.filter((serie) => serie.season.women === true),
+      },
+    ])
   }
 
   if (seasonYear && ['1933', '1937'].includes(seasonYear)) {

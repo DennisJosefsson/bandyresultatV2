@@ -88,14 +88,15 @@ gameRouter.get('/season/:seasonId', (async (
       ['date', 'ASC'],
     ],
   })
-  if (!games || games.length === 0) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'Inga matcher än för denna säsong.',
-      logging: false,
-      context: { origin: 'GET Games Season Router' },
-    })
-  }
+  // if (!games || games.length === 0) {
+  //   return res.send('Inga matcher än för denna säsong.')
+  //   // throw new NotFoundError({
+  //   //   code: 404,
+  //   //   message: 'Inga matcher än för denna säsong.',
+  //   //   logging: false,
+  //   //   context: { origin: 'GET Games Season Router' },
+  //   // })
+  // }
   res.status(200).json(games)
 }) as RequestHandler)
 

@@ -21,6 +21,47 @@ const numberParse = z.number()
 
 import BadRequestError from '../middleware/errors/BadRequestError.js'
 import Metadata from '../../models/Metadata.js'
+import TeamSeason from '../../models/TeamSeason.js'
+
+type NewTeamSeason = {
+  teamId: number
+  women: boolean
+}
+
+export const newTeamSeasons = (
+  array: NewTeamSeason[],
+  menSeasonId: number,
+  womenSeasonId: number
+) => {
+  const newMenArray = array.filter((item) => item.women === false)
+  const newWomenArray = array.filter((item) => item.women === true)
+
+  const mensTeamSeason = newMenArray
+    .map((item) => {
+      if (!item.teamId) return
+      return {
+        teamId: item.teamId,
+        seasonId: menSeasonId,
+        women: false,
+        qualification: false,
+      }
+    })
+    .map((teamSeason) => TeamSeason.create(teamSeason))
+
+  const womensTeamSeason = newWomenArray
+    .map((item) => {
+      if (!item.teamId) return
+      return {
+        teamId: item.teamId,
+        seasonId: womenSeasonId,
+        women: true,
+        qualification: false,
+      }
+    })
+    .map((teamSeason) => TeamSeason.create(teamSeason))
+
+  return { mensTeamSeason, womensTeamSeason }
+}
 
 export const newMetadataSeasons = (object: unknown) => {
   if (
@@ -244,9 +285,16 @@ const newSeasonEntry = (object: unknown) => {
   }
 
   const newSeason = yearString.parse(object.yearString)
+  const oldSeason = newSeason
+    .split('/')
+    .map((item) => {
+      return `${parseInt(item) - 1}`
+    })
+    .join('/')
 
   return {
     seasonYear: newSeason,
+    oldSeason: oldSeason,
     newSeasonArray: [
       Season.findOrCreate({ where: { women: true, year: newSeason } }),
       Season.findOrCreate({ where: { women: false, year: newSeason } }),

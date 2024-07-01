@@ -9,6 +9,7 @@ import Season from '../models/Season.js'
 import newSeasonEntry, {
   fullNewSeason,
   newMetadataSeasons,
+  newTeamSeasons,
   updateSeasonEntry,
 } from '../utils/postFunctions/newSeasonEntry.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
@@ -21,6 +22,7 @@ import authControl from '../utils/middleware/authControl.js'
 import Metadata from '../models/Metadata.js'
 import TeamTable from '../models/TeamTable.js'
 import BadRequestError from '../utils/middleware/errors/BadRequestError.js'
+import TeamSeason from '../models/TeamSeason.js'
 
 const seasonRouter = Router()
 
@@ -73,7 +75,7 @@ seasonRouter.post('/', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { newSeasonArray, seasonYear } = newSeasonEntry(req.body)
+  const { newSeasonArray, oldSeason, seasonYear } = newSeasonEntry(req.body)
   const [[womenSeason, womenCreated], [menSeason, menCreated]] =
     await Promise.all(newSeasonArray)
   if (!womenCreated && !menCreated) {
@@ -89,18 +91,55 @@ seasonRouter.post('/', (async (
 
     const fullSeasonArray = fullNewSeason({ womenSeasonId, menSeasonId })
 
-    const newSeries = await Promise.all(fullSeasonArray)
-
     const metadataArray = newMetadataSeasons({
       womenSeasonId,
       menSeasonId,
       seasonYear,
     })
-    const newMetadata = await Promise.all(metadataArray)
 
-    return res
-      .status(201)
-      .json({ womenSeason, menSeason, newSeries, newMetadata })
+    const oldSeasons = await Season.findAll({ where: { year: oldSeason } })
+
+    const oldSeasonId = oldSeasons.map((season) => season.seasonId)
+
+    const teamSeasons = await TeamSeason.findAll({
+      where: { seasonId: oldSeasonId },
+      raw: true,
+      nest: true,
+    })
+
+    console.log('TEAMSEASONS', teamSeasons)
+
+    const teamArray = teamSeasons
+      .filter(
+        (team) =>
+          team.relegated === false ||
+          (team.qualification && team.promoted === true)
+      )
+      .map((team) => {
+        return { teamId: team.teamId, women: team.women }
+      })
+
+    console.log('TEAMARRAY', teamArray)
+
+    const { mensTeamSeason, womensTeamSeason } = newTeamSeasons(
+      teamArray,
+      menSeasonId,
+      womenSeasonId
+    )
+
+    const newSeries = await Promise.all(fullSeasonArray)
+    const newMetadata = await Promise.all(metadataArray)
+    const newMensTeamSeason = await Promise.all(mensTeamSeason)
+    const newWomensTeamSeason = await Promise.all(womensTeamSeason)
+
+    return res.status(201).json({
+      womenSeason,
+      menSeason,
+      newSeries,
+      newMetadata,
+      newMensTeamSeason,
+      newWomensTeamSeason,
+    })
   }
 }) as RequestHandler)
 
