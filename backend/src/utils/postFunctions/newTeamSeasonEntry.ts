@@ -1,9 +1,9 @@
 import { teamSeasonAttributes } from '../../models/TeamSeason.js'
 import BadRequestError from '../middleware/errors/BadRequestError.js'
 
-// import { z } from 'zod'
+import { z } from 'zod'
 
-// const teamSeasonPost = z.array(teamSeasonAttributes)
+export const teamSeasonIdParser = z.coerce.number()
 
 const teamSeasonUpsertPromise = (object: unknown) => {
   if (!object || typeof object !== 'object') {

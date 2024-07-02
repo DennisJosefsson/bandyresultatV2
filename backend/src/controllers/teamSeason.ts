@@ -10,7 +10,9 @@ import Season from '../models/Season.js'
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import { Op } from 'sequelize'
-import teamSeasonUpsertPromise from '../utils/postFunctions/newTeamSeasonEntry.js'
+import teamSeasonUpsertPromise, {
+  teamSeasonIdParser,
+} from '../utils/postFunctions/newTeamSeasonEntry.js'
 
 const teamSeasonRouter = Router()
 
@@ -69,6 +71,22 @@ teamSeasonRouter.post('/', (async (
       where: { teamseasonId: parsedData.teamseasonId },
     })
     return res.status(201).json(teamSeasons)
+  }
+}) as RequestHandler)
+
+teamSeasonRouter.delete('/:teamseasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  console.log(req.params.teamseasonId)
+  const teamseasonId = teamSeasonIdParser.parse(req.params.teamseasonId)
+  const teamseason = await TeamSeason.findByPk(teamseasonId)
+  if (!teamseason) {
+    res.status(404).json({ message: 'TeamSeason finns inte.' })
+  } else {
+    await teamseason.destroy()
+    res.status(204).json({ message: 'TeamSeason borttagen.' })
   }
 }) as RequestHandler)
 
