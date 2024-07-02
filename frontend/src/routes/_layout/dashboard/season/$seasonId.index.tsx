@@ -7,6 +7,8 @@ import {
 } from '@/lib/zustand/dashboard/teamSeasonStore'
 import Loading from '@/components/Components/Common/Loading'
 import { Navigate, createFileRoute } from '@tanstack/react-router'
+import { useDeleteTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useDeleteTeamSeasonMutation'
+import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/_layout/dashboard/season/$seasonId/')({
   component: SeasonIndex,
@@ -22,6 +24,7 @@ function SeasonIndex() {
   )
   const { data } = useGetSingleSeason(dashboardData.year.slice(-4))
   const { data: metadata } = useGetMetaData(dashboardData.year)
+  const mutation = useDeleteTeamSeasonMutation()
   const season = data.find((season) => season.women === dashboardData.women)
   const metadataObject = metadata?.find(
     (item) => item.seasonId === season?.seasonId
@@ -65,7 +68,27 @@ function SeasonIndex() {
                   </div>
                   <div>
                     {season.teams.map((team) => {
-                      return <div key={team.teamId}>{team.casualName}</div>
+                      return (
+                        <div
+                          key={team.teamId}
+                          className="flex w-60 flex-row justify-between mb-1"
+                        >
+                          <div>{team.casualName}</div>
+                          <div>
+                            <Button
+                              onClick={() =>
+                                team.teamseason.teamseasonId &&
+                                mutation.mutate({
+                                  teamSeasonId: team.teamseason.teamseasonId,
+                                })
+                              }
+                              size="sm"
+                            >
+                              Ta bort
+                            </Button>
+                          </div>
+                        </div>
+                      )
                     })}
                   </div>
                 </div>

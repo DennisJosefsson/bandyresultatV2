@@ -20,3 +20,17 @@ export const postTeamSeason = async ({
   )
   return promise
 }
+
+type DeleteReturnType = {
+  status: number | undefined
+  message: string
+}
+
+export const deleteTeamSeason = async ({
+  teamSeasonId,
+}: {
+  teamSeasonId: number
+}): Promise<DeleteReturnType> => {
+  const response = await teamseasonsApi.delete(`/${teamSeasonId}`)
+  return response.data
+}

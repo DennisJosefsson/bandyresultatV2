@@ -1,17 +1,17 @@
 import { useToast } from '@/components/ui/use-toast'
-import { postTeamSeason } from '@/lib/requests/teamSeason'
+import { seasonKeys } from '@/lib/queries/season/queries'
+import { deleteTeamSeason } from '@/lib/requests/teamSeason'
+import { useDashboardTeamSeasonStore } from '@/lib/zustand/dashboard/teamSeasonStore'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate, useParams } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 
-export const useAddTeamSeasonMutation = () => {
-  const navigate = useNavigate()
-  const { seasonId } = useParams({
-    from: '/_layout/dashboard/season/$seasonId/teamseason',
-  })
+export const useDeleteTeamSeasonMutation = () => {
   const { toast } = useToast()
+  const dashboardData = useDashboardTeamSeasonStore(
+    (state) => state.dashboardTeamSeason
+  )
   const mutation = useMutation({
-    mutationFn: postTeamSeason,
+    mutationFn: deleteTeamSeason,
     onSuccess: () => onMutationSuccess(),
     onError: (error) => onMutationError(error),
   })
@@ -19,14 +19,12 @@ export const useAddTeamSeasonMutation = () => {
   const queryClient = useQueryClient()
 
   const onMutationSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ['singleSeason'] })
-    toast({
-      duration: 5000,
-      title: 'Lag inlagda/uppdaterade',
+    queryClient.invalidateQueries({
+      queryKey: seasonKeys.singleSeason(dashboardData.year.slice(-4)),
     })
-    navigate({
-      to: '/dashboard/season/$seasonId',
-      params: { seasonId: seasonId },
+    toast({
+      duration: 2500,
+      title: mutation.data ? `${mutation.data.message}` : 'Borttagen',
     })
   }
 
