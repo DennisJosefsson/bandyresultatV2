@@ -1,24 +1,24 @@
 import Loading from '@/components/Components/Common/Loading'
-import TeamSeasonForm from '@/components/Components/Dashboard/Subcomponents/TeamSeasonForm'
+import SeriesModal from '@/components/Components/Dashboard/NewSeries'
 import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/_layout/dashboard/season/$seasonId/teamseason'
+  '/_layout/dashboard/season/$seasonId/newseries'
 )({
-  component: TeamSeasonComponent,
+  component: NewSeries,
   pendingComponent: Loading,
 })
 
-function TeamSeasonComponent() {
+function NewSeries() {
   const { seasonId } = Route.useParams()
   const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
-      <TeamSeasonForm
+      <SeriesModal
         seasonId={parseInt(seasonId)}
         women={dashboardData.women}
-        teamSeasonData={dashboardData.teamSeasonData}
+        serieData={dashboardData.seriesData}
       />
     </div>
   )

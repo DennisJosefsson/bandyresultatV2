@@ -1,38 +1,28 @@
 import { useForm } from 'react-hook-form'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postSerie } from '@/lib/requests/series'
-import { Dispatch, SetStateAction } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
+import { Form } from '@/components/ui/form'
 import { SerieAttributes, serieAttributes } from '@/lib/types/series/series'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form } from '@/components/ui/form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
+import { useNavigate } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { FormContent } from './Subcomponents/SeasonsList'
 import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
 
 type SeriesModalProps = {
   women: boolean
   seasonId: number
-  serieData: SerieAttributes | null
-  setSerieData: Dispatch<SetStateAction<SerieAttributes | null>>
-  setFormContent: Dispatch<SetStateAction<FormContent>>
-  setTab: Dispatch<SetStateAction<string>>
+  serieData: SerieAttributes | undefined
 }
 
-const SeriesModal = ({
-  women,
-  seasonId,
-  serieData,
-  setSerieData,
-  setFormContent,
-  setTab,
-}: SeriesModalProps) => {
+const SeriesModal = ({ women, seasonId, serieData }: SeriesModalProps) => {
   const { toast } = useToast()
-
+  const navigate = useNavigate()
   const mutation = useMutation({
     mutationFn: (formData: SerieAttributes) => postSerie(formData),
     onSuccess: (data) => onSuccessSubmit(data),
@@ -45,7 +35,7 @@ const SeriesModal = ({
       serieGroupCode: serieData ? serieData.serieGroupCode : '',
       serieStructure: serieData ? serieData.serieStructure : [],
       serieName: serieData ? serieData.serieName : '',
-      comment: serieData ? serieData.comment : '',
+      comment: serieData && serieData.comment ? serieData.comment : '',
       seasonId: seasonId,
       women: women,
       serieId: serieData ? serieData.serieId : null,
@@ -84,9 +74,10 @@ const SeriesModal = ({
       description: data.serieName,
     })
 
-    setSerieData(null)
-    setTab('sections')
-    setFormContent(null)
+    navigate({
+      to: '/dashboard/season/$seasonId',
+      params: { seasonId: seasonId.toString() },
+    })
   }
 
   const serieStructureArray = Array.from(
@@ -101,9 +92,21 @@ const SeriesModal = ({
       <CardHeader>
         <div className="flex flex-row justify-between">
           <CardTitle>Serie</CardTitle>
-          <Button type="submit" form="seriedataForm">
-            Skicka
-          </Button>
+          <div className="flex flex-row gap-2">
+            <Button
+              onClick={() =>
+                navigate({
+                  to: '/dashboard/season/$seasonId',
+                  params: { seasonId: seasonId.toString() },
+                })
+              }
+            >
+              Tillbaka
+            </Button>
+            <Button type="submit" form="seriedataForm">
+              Skicka
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

@@ -13,8 +13,8 @@ import { SeasonObjectType } from '@/lib/types/season/seasons'
 // import BulkAddGame from './BulkAddGame/BulkAddGame'
 // import TeamSeasonForm from './TeamSeasonForm'
 // import MetadataForm from './MetadataForm'
+import { setDashboard } from '@/lib/zustand/dashboard/dashboardStore'
 import { useNavigate } from '@tanstack/react-router'
-import { setDashboardTeamSeason } from '@/lib/zustand/dashboard/teamSeasonStore'
 
 export type FormContent =
   | 'teamseason'
@@ -60,10 +60,11 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <div
                   className="cursor-pointer font-semibold"
                   onClick={() => {
-                    setDashboardTeamSeason({
+                    setDashboard({
                       year: season.year,
                       women: season.women,
                       teamSeasonData: undefined,
+                      seriesData: undefined,
                     })
                     navigate({
                       to: '/dashboard/season/$seasonId',

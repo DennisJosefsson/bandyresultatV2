@@ -1,15 +1,13 @@
 import { useToast } from '@/components/ui/use-toast'
 import { seasonKeys } from '@/lib/queries/season/queries'
 import { deleteTeamSeason } from '@/lib/requests/teamSeason'
-import { useDashboardTeamSeasonStore } from '@/lib/zustand/dashboard/teamSeasonStore'
+import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 export const useDeleteTeamSeasonMutation = () => {
   const { toast } = useToast()
-  const dashboardData = useDashboardTeamSeasonStore(
-    (state) => state.dashboardTeamSeason
-  )
+  const dashboardData = useDashboardStore((state) => state.dashboard)
   const mutation = useMutation({
     mutationFn: deleteTeamSeason,
     onSuccess: () => onMutationSuccess(),

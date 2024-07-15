@@ -39,6 +39,7 @@ import { Route as LayoutSeasonSeasonIdDevelopmentImport } from './routes/_layout
 import { Route as LayoutDashboardSeasonSeasonIdImport } from './routes/_layout/dashboard/season/$seasonId'
 import { Route as LayoutDashboardSeasonSeasonIdIndexImport } from './routes/_layout/dashboard/season/$seasonId.index'
 import { Route as LayoutDashboardSeasonSeasonIdTeamseasonImport } from './routes/_layout/dashboard/season/$seasonId.teamseason_'
+import { Route as LayoutDashboardSeasonSeasonIdNewseriesImport } from './routes/_layout/dashboard/season/$seasonId.newseries'
 
 // Create Virtual Routes
 
@@ -201,6 +202,12 @@ const LayoutDashboardSeasonSeasonIdIndexRoute =
 const LayoutDashboardSeasonSeasonIdTeamseasonRoute =
   LayoutDashboardSeasonSeasonIdTeamseasonImport.update({
     path: '/teamseason',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdNewseriesRoute =
+  LayoutDashboardSeasonSeasonIdNewseriesImport.update({
+    path: '/newseries',
     getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
   } as any)
 
@@ -397,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdTablesImport
       parentRoute: typeof LayoutSeasonSeasonIdImport
     }
+    '/_layout/dashboard/season/$seasonId/newseries': {
+      id: '/_layout/dashboard/season/$seasonId/newseries'
+      path: '/newseries'
+      fullPath: '/dashboard/season/$seasonId/newseries'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdNewseriesImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
     '/_layout/dashboard/season/$seasonId/teamseason': {
       id: '/_layout/dashboard/season/$seasonId/teamseason'
       path: '/teamseason'
@@ -426,6 +440,7 @@ export const routeTree = rootRoute.addChildren({
       LayoutDashboardIndexRoute,
       LayoutDashboardSeasonSeasonIdRoute:
         LayoutDashboardSeasonSeasonIdRoute.addChildren({
+          LayoutDashboardSeasonSeasonIdNewseriesRoute,
           LayoutDashboardSeasonSeasonIdTeamseasonRoute,
           LayoutDashboardSeasonSeasonIdIndexRoute,
         }),

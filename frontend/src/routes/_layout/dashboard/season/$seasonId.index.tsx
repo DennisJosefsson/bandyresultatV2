@@ -1,14 +1,15 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import Loading from '@/components/Components/Common/Loading'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import useGetMetaData from '@/lib/hooks/dataHooks/season/useGetMetadata'
 import { useGetSingleSeason } from '@/lib/hooks/dataHooks/season/useGetSingleSeason'
-import {
-  setDashboardTeamSeason,
-  useDashboardTeamSeasonStore,
-} from '@/lib/zustand/dashboard/teamSeasonStore'
-import Loading from '@/components/Components/Common/Loading'
-import { Navigate, createFileRoute } from '@tanstack/react-router'
 import { useDeleteTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useDeleteTeamSeasonMutation'
-import { Button } from '@/components/ui/button'
+import { sortOrder } from '@/lib/utils/constants'
+import {
+  setDashboard,
+  useDashboardStore,
+} from '@/lib/zustand/dashboard/dashboardStore'
+import { Navigate, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/dashboard/season/$seasonId/')({
   component: SeasonIndex,
@@ -19,9 +20,7 @@ export const Route = createFileRoute('/_layout/dashboard/season/$seasonId/')({
 function SeasonIndex() {
   const { seasonId } = Route.useParams()
   const navigate = Route.useNavigate()
-  const dashboardData = useDashboardTeamSeasonStore(
-    (state) => state.dashboardTeamSeason
-  )
+  const dashboardData = useDashboardStore((state) => state.dashboard)
   const { data } = useGetSingleSeason(dashboardData.year.slice(-4))
   const { data: metadata } = useGetMetaData(dashboardData.year)
   const mutation = useDeleteTeamSeasonMutation()
@@ -46,11 +45,10 @@ function SeasonIndex() {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-2 text-sm">
-                  <div>
-                    <p
-                      className="cursor-pointer text-accent-foreground"
+                  <div className="flex flex-row gap-2">
+                    <Button
                       onClick={() => {
-                        setDashboardTeamSeason({
+                        setDashboard({
                           ...dashboardData,
                           teamSeasonData: teamSeasonData,
                         })
@@ -61,10 +59,8 @@ function SeasonIndex() {
                       }}
                     >
                       Lägg till lag
-                    </p>
-                    <p className="cursor-pointer text-accent-foreground">
-                      Lägg till matcher
-                    </p>
+                    </Button>
+                    <Button>Lägg till matcher</Button>
                   </div>
                   <div>
                     {season.teams.map((team) => {
@@ -106,17 +102,49 @@ function SeasonIndex() {
                     </p>
                   </div>
                   <div>
-                    {season.series.map((serie) => {
-                      return (
-                        <div
-                          key={serie.serieId}
-                          className="flex w-60 flex-row justify-between"
-                        >
-                          <div>{serie.serieName}</div>
-                          <div className="cursor-pointer">Ändra</div>
-                        </div>
-                      )
-                    })}
+                    {season.series
+                      .sort((a, b) => {
+                        if (
+                          sortOrder.indexOf(a.serieGroupCode) >
+                          sortOrder.indexOf(b.serieGroupCode)
+                        ) {
+                          return 1
+                        } else if (
+                          sortOrder.indexOf(a.serieGroupCode) <
+                          sortOrder.indexOf(b.serieGroupCode)
+                        ) {
+                          return -1
+                        } else {
+                          return 0
+                        }
+                      })
+                      .map((serie) => {
+                        return (
+                          <div
+                            key={serie.serieId}
+                            className="flex w-60 flex-row justify-between mb-1"
+                          >
+                            <div>{serie.serieName}</div>
+                            <div className="cursor-pointer">
+                              <Button
+                                onClick={() => {
+                                  setDashboard({
+                                    ...dashboardData,
+                                    seriesData: serie,
+                                  })
+                                  navigate({
+                                    to: '/dashboard/season/$seasonId/newseries',
+                                    params: { seasonId: seasonId },
+                                  })
+                                }}
+                                size="sm"
+                              >
+                                Ändra
+                              </Button>
+                            </div>
+                          </div>
+                        )
+                      })}
                   </div>
                 </div>
               </CardContent>
