@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
-dotenv.config()
+import path from 'path'
 import { Sequelize } from 'sequelize-typescript'
+import { fileURLToPath } from 'url'
 import BandyError from '../models/BandyError.js'
 import Game from '../models/Game.js'
 import Link from '../models/Link.js'
@@ -13,20 +14,26 @@ import TeamGame from '../models/TeamGame.js'
 import TeamSeason from '../models/TeamSeason.js'
 import TeamTable from '../models/TeamTable.js'
 import User from '../models/User.js'
+dotenv.config()
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const pemPath = path.join(__dirname, '/pem/ca.pem')
+const caString = `&sslrootcert=${pemPath}`
 
 let dbUrl: string
 let mode: string
 switch (process.env.NODE_ENV) {
   case 'development':
-    dbUrl = process.env.ELEPHANTSQL_URL_DEVELOPMENT as string
+    dbUrl = process.env.DEVELOPMENT_URL as string
     mode = 'development'
     break
   case 'test':
-    dbUrl = process.env.ELEPHANTSQL_URL_TESTING as string
+    dbUrl = process.env.TESTING_URL_TESTING as string
     mode = 'test'
     break
   default:
-    dbUrl = process.env.ELEPHANTSQL_URL as string
+    dbUrl = process.env.PRODUCTION_URL + caString
     mode = 'production'
 }
 

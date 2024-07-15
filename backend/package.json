@@ -4,10 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./backend/index.js",
-    "dev": "cross-env NODE_ENV=development tsc-watch --onSuccess \"nodemon ./backend/index.js\"",
+    "start": "node ./backend/index.js",
+    "dev": "npm run database:dev && npm run backend:dev",
     "tsc": "tsc -w",
-    "test": "cross-env NODE_ENV=test vitest run"
+    "emit": "tsc",
+    "test": "cross-env NODE_ENV=test vitest run",
+    "backend:dev": "cross-env NODE_ENV=development tsc-watch --onSuccess \"nodemon ./backend/index.js\"",
+    "database:dev": "docker compose --profile dev down && docker compose --profile dev up -d",
+    "database:test": "docker compose --profile test down && docker compose --profile test up -d",
+    "database:alldown": "docker compose --profile '*' down",
+    "connectdev": "bash ./scripts/connectdev.sh",
+    "updatedev": "bash ./scripts/updatedev.sh",
+    "compressdev": "bash ./scripts/compressdev.sh",
+    "restartdev": "bash ./scripts/restartdev.sh"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.6",

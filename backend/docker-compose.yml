@@ -1,0 +1,35 @@
+services:
+  devDatabase:
+    container_name: devDatabase
+    image: postgres:alpine
+    volumes:
+      - /home/dennisjosefsson/projekt/database/bandyresultat/devDatabase:/var/lib/postgresql/data
+      - /home/dennisjosefsson/projekt/database/bandyresultat/init/dev.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '5555:5432'
+    env_file:
+      - './devDatabase.env'
+    profiles:
+      - 'dev'
+    networks:
+      - dev
+  testDatabase:
+    container_name: testDatabase
+    image: postgres:alpine
+    volumes:
+      - /home/dennisjosefsson/projekt/database/bandyresultat/init/test.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '6666:5432'
+    env_file:
+      - './testDatabase.env'
+    profiles:
+      - 'test'
+    networks:
+      - test
+    restart: 'unless-stopped'
+
+networks:
+  dev:
+    name: 'development'
+  test:
+    name: 'testing'

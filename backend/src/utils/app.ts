@@ -1,12 +1,14 @@
-import express, { Application, NextFunction, Request, Response } from 'express'
-import dotenv from 'dotenv'
-dotenv.config()
-import cors from 'cors'
-import 'express-async-errors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express, { Application, NextFunction, Request, Response } from 'express'
+import 'express-async-errors'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { connectToDb } from './index.js'
 import { errorHandler } from './middleware/errors/errorhandler.js'
 import { routeArray } from './routes.js'
+dotenv.config()
 
 const app: Application = express()
 
@@ -16,8 +18,13 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   res.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
   next()
 })
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
 app.use(cookieParser())
+const __filename = fileURLToPath(import.meta.url).replace('/utils', '')
+const __dirname = path.dirname(__filename)
+const frontend = path.join(__dirname, 'dist')
+
+app.use('/', express.static(frontend))
 
 app.get('/healthcheck', (_req: Request, res: Response) => {
   console.log('Mode:', process.env.NODE_ENV)
