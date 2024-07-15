@@ -4,7 +4,7 @@ import { GameObjectType } from '@/lib/types/games/games'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 
-import { Link } from '@tanstack/react-router'
+//import { Link } from '@tanstack/react-router'
 import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
@@ -66,18 +66,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
           </>
         )}
         <Button asChild size="icon" variant="ghost">
-          <Link
-            to="/teams"
-            // search={{
-            //   teamArray: [game.homeTeamId, game.awayTeamId],
-            //   categoryArray: categoryArray,
-            //   startSeason: startSeason.toString(),
-            //   endSeason: endSeason.toString(),
-            //   women: women,
-            // }}
-          >
-            H2H
-          </Link>
+          H2H
         </Button>
         {user && <EditGameButton game={game} />}
       </div>
