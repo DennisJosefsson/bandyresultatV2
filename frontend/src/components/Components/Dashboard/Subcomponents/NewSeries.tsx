@@ -7,20 +7,20 @@ import { Form } from '@/components/ui/form'
 import { SerieAttributes, serieAttributes } from '@/lib/types/series/series'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { FormComponent } from '@/components/Components/Common/ReactHookFormComponents/FormComponent'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
 import { useNavigate } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
 
-type SeriesModalProps = {
+type NewSeriesFormProps = {
   women: boolean
   seasonId: number
   serieData: SerieAttributes | undefined
 }
 
-const SeriesModal = ({ women, seasonId, serieData }: SeriesModalProps) => {
+const NewSeriesForm = ({ women, seasonId, serieData }: NewSeriesFormProps) => {
   const { toast } = useToast()
   const navigate = useNavigate()
   const mutation = useMutation({
@@ -150,4 +150,4 @@ const SeriesModal = ({ women, seasonId, serieData }: SeriesModalProps) => {
   )
 }
 
-export default SeriesModal
+export default NewSeriesForm

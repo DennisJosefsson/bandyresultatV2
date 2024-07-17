@@ -1,32 +1,32 @@
 import { useEffect, useState } from 'react'
 
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
 
 import {
-  useAddTeamSeasonForm,
   initialData,
   TeamSeason,
+  useAddTeamSeasonForm,
 } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonForm'
-import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
-import { TeamSeasonAttributes } from '@/lib/types/teams/teams'
-import { useNavigate } from '@tanstack/react-router'
 import { useAddTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonMutation'
+import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
+import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
+import { useNavigate } from '@tanstack/react-router'
 
 type TeamSeasonFormProps = {
   seasonId: number
   women: boolean
-  teamSeasonData: TeamSeasonAttributes[] | undefined
+  teamSeasonData: TeamAndSeasonAttributes[] | undefined
 }
 
 const TeamSeasonForm = ({
@@ -38,7 +38,7 @@ const TeamSeasonForm = ({
   const [teamSeasons, setTeamSeasons] = useState<TeamSeason[]>(() =>
     !teamSeasonData || (teamSeasonData && teamSeasonData.length === 0)
       ? initialData
-      : teamSeasonData
+      : teamSeasonData.map((team) => team.teamseason)
   )
   const { data } = useGetTeams()
   const mutation = useAddTeamSeasonMutation()
@@ -48,8 +48,8 @@ const TeamSeasonForm = ({
 
   useEffect(() => {
     if (teamSeasonData) {
-      setTeamSeasons(teamSeasonData)
-      replace(teamSeasonData)
+      setTeamSeasons(teamSeasonData.map((team) => team.teamseason))
+      replace(teamSeasonData.map((team) => team.teamseason))
     }
   }, [teamSeasonData, replace])
 

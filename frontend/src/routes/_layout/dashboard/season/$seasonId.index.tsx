@@ -29,7 +29,7 @@ function SeasonIndex() {
     (item) => item.seasonId === season?.seasonId
   )
 
-  const teamSeasonData = season?.teams?.map((team) => team.teamseason)
+  const teamSeasonData = season?.teams
 
   return (
     <>
@@ -60,7 +60,21 @@ function SeasonIndex() {
                     >
                       Lägg till lag
                     </Button>
-                    <Button>Lägg till matcher</Button>
+                    <Button
+                      onClick={() => {
+                        setDashboard({
+                          ...dashboardData,
+                          seriesArray: season.series,
+                          teamSeasonData: teamSeasonData,
+                        })
+                        navigate({
+                          to: '/dashboard/season/$seasonId/bulkgames',
+                          params: { seasonId: seasonId },
+                        })
+                      }}
+                    >
+                      Lägg till matcher
+                    </Button>
                   </div>
                   <div>
                     {season.teams.map((team) => {
@@ -97,9 +111,21 @@ function SeasonIndex() {
               <CardContent>
                 <div className="flex flex-col gap-2 text-sm">
                   <div>
-                    <p className="cursor-pointer text-accent-foreground">
+                    <Button
+                      onClick={() => {
+                        setDashboard({
+                          ...dashboardData,
+                          seriesData: undefined,
+                        })
+                        navigate({
+                          to: '/dashboard/season/$seasonId/newseries',
+                          params: { seasonId: seasonId },
+                        })
+                      }}
+                      size="sm"
+                    >
                       Lägg till serie
-                    </p>
+                    </Button>
                   </div>
                   <div>
                     {season.series
@@ -125,7 +151,7 @@ function SeasonIndex() {
                             className="flex w-60 flex-row justify-between mb-1"
                           >
                             <div>{serie.serieName}</div>
-                            <div className="cursor-pointer">
+                            <div>
                               <Button
                                 onClick={() => {
                                   setDashboard({
@@ -156,9 +182,21 @@ function SeasonIndex() {
               <CardContent>
                 <div className="flex flex-col gap-2 text-sm">
                   <div>
-                    <p className="cursor-pointer text-accent-foreground">
+                    <Button
+                      onClick={() => {
+                        setDashboard({
+                          ...dashboardData,
+                          teamSeasonData: teamSeasonData,
+                          metadataData: metadataObject,
+                        })
+                        navigate({
+                          to: '/dashboard/season/$seasonId/metadata',
+                          params: { seasonId: seasonId },
+                        })
+                      }}
+                    >
                       Ändra metadata
-                    </p>
+                    </Button>
                   </div>
                   <div className="flex flex-col">
                     <div className="flex flex-row items-center justify-between">

@@ -1,14 +1,15 @@
 import { useToast } from '@/components/ui/use-toast'
-import { FormContent } from '@/components/Components/Dashboard/Subcomponents/SeasonsList'
+
 import { postBulkGames } from '@/lib/requests/games'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { Dispatch, SetStateAction } from 'react'
 
-export const useAddGamesMutation = (
-  setTab: Dispatch<SetStateAction<string>>,
-  setFormContent: Dispatch<SetStateAction<FormContent>>
-) => {
+export const useAddGamesMutation = () => {
+  const navigate = useNavigate()
+  const { seasonId } = useParams({
+    from: '/_layout/dashboard/season/$seasonId/bulkgames',
+  })
   const { toast } = useToast()
   const mutation = useMutation({
     mutationFn: postBulkGames,
@@ -17,11 +18,13 @@ export const useAddGamesMutation = (
   })
 
   const onMutationSuccess = () => {
-    setTab('sections')
-    setFormContent(null)
     toast({
       duration: 2500,
       title: 'Matcher inlagda',
+    })
+    navigate({
+      to: '/dashboard/season/$seasonId',
+      params: { seasonId: seasonId },
     })
   }
 

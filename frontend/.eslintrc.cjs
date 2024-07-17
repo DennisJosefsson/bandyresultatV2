@@ -15,5 +15,23 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'react-compiler/react-compiler': 'error',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            importNames: ['Form'],
+            message: 'Import Form from ui/form instead.',
+            name: 'react-hook-form',
+          },
+        ],
+        patterns: [
+          {
+            regex: '@radix-ui',
+            message: "Don't import directly from @radix-ui",
+          },
+        ],
+      },
+    ],
   },
 }

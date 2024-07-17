@@ -1,17 +1,11 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from 'react'
-import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Textarea } from '@/components/ui/textarea'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { z } from 'zod'
 import GameTable from './GameTable'
-import { Button } from '@/components/ui/button'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { FormContent } from '../SeasonsList'
+
 import { SerieAttributes } from '@/lib/types/series/series'
 import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
 import { sortOrder } from '@/lib/utils/constants'
@@ -35,13 +29,11 @@ const categoryArray = [
 ]
 
 type BulkAddGameProps = {
-  teams: TeamAndSeasonAttributes[] | null
+  teams: TeamAndSeasonAttributes[] | undefined
   seasonId: number
-  series: SerieAttributes[] | null
+  series: SerieAttributes[] | undefined
   seasonYear: string
   women: boolean
-  setTab: Dispatch<SetStateAction<string>>
-  setFormContent: Dispatch<SetStateAction<FormContent>>
 }
 
 const BulkAddGame = ({
@@ -50,8 +42,6 @@ const BulkAddGame = ({
   series,
   seasonYear,
   women,
-  setTab,
-  setFormContent,
 }: BulkAddGameProps) => {
   const firstYear = seasonYear.split('/')[0]
   const secondYear = seasonYear.split('/')[1]
@@ -160,12 +150,7 @@ const BulkAddGame = ({
         <Button type="submit">Uppdatera lista</Button>
       </form>
 
-      <GameTable
-        games={games}
-        teams={teams}
-        setTab={setTab}
-        setFormContent={setFormContent}
-      />
+      <GameTable games={games} teams={teams} />
     </div>
   )
 }

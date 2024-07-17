@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Dispatch, SetStateAction } from 'react'
-import { Form, SubmitHandler } from 'react-hook-form'
-import { AxiosError } from 'axios'
-import { FormContent } from './SeasonsList'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
+import useMetadataForm from '@/lib/hooks/dataHooks/season/useMetadataForm'
 import { postMetadata } from '@/lib/requests/metadata'
 import { MetadataType } from '@/lib/types/metadata/metadata'
 import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { SubmitHandler } from 'react-hook-form'
 import { FormComponent } from '../../Common/ReactHookFormComponents/FormComponent'
-import useMetadataForm from '@/lib/hooks/dataHooks/season/useMetadataForm'
 
 type TeamSelection = {
   value: number
@@ -19,20 +19,14 @@ type TeamSelection = {
 
 type MetadataFormProps = {
   seasonId: number
-  year: string
-  teams: TeamAndSeasonAttributes[] | null
-  setFormContent: Dispatch<SetStateAction<FormContent>>
-  setTab: Dispatch<SetStateAction<string>>
+  metadataData: MetadataType | undefined
+  teams: TeamAndSeasonAttributes[] | undefined
 }
 
-const MetadataForm = ({
-  seasonId,
-  teams,
-  year,
-  setTab,
-  setFormContent,
-}: MetadataFormProps) => {
-  const form = useMetadataForm({ seasonId: seasonId, year: year })
+const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
+  const navigate = useNavigate()
+  const form = useMetadataForm(seasonId, metadataData)
+
   const mutation = useMutation({
     mutationFn: postMetadata,
     onSuccess: () => onSuccessMutation(),
@@ -40,6 +34,7 @@ const MetadataForm = ({
   })
   const client = useQueryClient()
   const { toast } = useToast()
+
   if (!teams) {
     throw new Error('Missing team data')
   }
@@ -56,11 +51,11 @@ const MetadataForm = ({
     toast({
       duration: 5000,
       title: 'Uppdaterad metadata',
-      description: <pre className="bg-primary p-2 text-white">{year}</pre>,
     })
-
-    setTab('sections')
-    setFormContent(null)
+    navigate({
+      to: '/dashboard/season/$seasonId',
+      params: { seasonId: seasonId.toString() },
+    })
   }
 
   const onErrorMutation = (error: unknown) => {
@@ -88,8 +83,18 @@ const MetadataForm = ({
             <div>
               <CardTitle>Metadata</CardTitle>
             </div>
-            <div>
-              <Button type="submit" size="sm" form="metadataForm">
+            <div className="flex flex-row gap-2">
+              <Button
+                onClick={() =>
+                  navigate({
+                    to: '/dashboard/season/$seasonId',
+                    params: { seasonId: seasonId.toString() },
+                  })
+                }
+              >
+                Tillbaka
+              </Button>
+              <Button type="submit" form="metadataForm">
                 Skicka
               </Button>
             </div>

@@ -1,12 +1,15 @@
+import { MetadataType } from '@/lib/types/metadata/metadata'
 import { SerieAttributes } from '@/lib/types/series/series'
-import { TeamSeasonAttributes } from '@/lib/types/teams/teams'
+import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
 import { create } from 'zustand'
 
 type Dashboard = {
   year: string
   women: boolean
-  teamSeasonData: TeamSeasonAttributes[] | undefined
+  teamSeasonData: TeamAndSeasonAttributes[] | undefined
   seriesData: SerieAttributes | undefined
+  seriesArray: SerieAttributes[] | undefined
+  metadataData: MetadataType | undefined
 }
 
 type DashboardStore = {
@@ -19,6 +22,8 @@ export const useDashboardStore = create<DashboardStore>()(() => ({
     year: '',
     teamSeasonData: undefined,
     seriesData: undefined,
+    seriesArray: undefined,
+    metadataData: undefined,
   },
 }))
 
@@ -31,5 +36,7 @@ export const resetDashboard = () =>
       year: '',
       teamSeasonData: undefined,
       seriesData: undefined,
+      seriesArray: undefined,
+      metadataData: undefined,
     },
   })

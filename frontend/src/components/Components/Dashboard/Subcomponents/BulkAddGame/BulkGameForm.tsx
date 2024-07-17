@@ -1,36 +1,30 @@
+import { Button } from '@/components/ui/button'
 import {
   Form,
-  FormLabel,
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { FormContent } from '../SeasonsList'
+import { useEffect, useState } from 'react'
+
 import { useAddGamesMutation } from '@/lib/hooks/dataHooks/games/useAddGamesMutation'
 import {
-  useAddGamesForm,
   Game,
   initialData,
+  useAddGamesForm,
 } from '@/lib/hooks/dataHooks/games/useBulkGameForm'
 
 type BulkGameFormProps = {
   gameArray: Game[]
-  setTab: Dispatch<SetStateAction<string>>
-  setFormContent: Dispatch<SetStateAction<FormContent>>
 }
 
-const BulkGameForm = ({
-  gameArray,
-  setTab,
-  setFormContent,
-}: BulkGameFormProps) => {
+const BulkGameForm = ({ gameArray }: BulkGameFormProps) => {
   const [games, setGames] = useState<Game[]>(() => initialData)
 
-  const mutation = useAddGamesMutation(setTab, setFormContent)
+  const mutation = useAddGamesMutation()
 
   const { form, handleSubmit, fields, replace } = useAddGamesForm(games)
 

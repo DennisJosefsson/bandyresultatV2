@@ -1,24 +1,24 @@
 import Loading from '@/components/Components/Common/Loading'
-import NewSeriesForm from '@/components/Components/Dashboard/Subcomponents/NewSeries'
+import MetadataForm from '@/components/Components/Dashboard/Subcomponents/MetadataForm'
 import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/_layout/dashboard/season/$seasonId/newseries'
+  '/_layout/dashboard/season/$seasonId/metadata'
 )({
-  component: NewSeries,
+  component: Metadata,
   pendingComponent: Loading,
 })
 
-function NewSeries() {
+function Metadata() {
   const { seasonId } = Route.useParams()
   const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
-      <NewSeriesForm
+      <MetadataForm
         seasonId={parseInt(seasonId)}
-        women={dashboardData.women}
-        serieData={dashboardData.seriesData}
+        metadataData={dashboardData.metadataData}
+        teams={dashboardData.teamSeasonData}
       />
     </div>
   )

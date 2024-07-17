@@ -1,7 +1,5 @@
-import { Dispatch, SetStateAction } from 'react'
-import { FormContent } from '../SeasonsList'
-import BulkGameForm from './BulkGameForm'
 import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
+import BulkGameForm from './BulkGameForm'
 
 type Games = {
   date: string
@@ -16,12 +14,10 @@ type Games = {
 
 type GamesProps = {
   games: Games[]
-  teams: TeamAndSeasonAttributes[] | null
-  setTab: Dispatch<SetStateAction<string>>
-  setFormContent: Dispatch<SetStateAction<FormContent>>
+  teams: TeamAndSeasonAttributes[] | undefined
 }
 
-const GameTable = ({ games, teams, setTab, setFormContent }: GamesProps) => {
+const GameTable = ({ games, teams }: GamesProps) => {
   const teamString = teams?.map((team) => team.name).join(', ')
   const gameTable = games.map((game) => {
     const homeTeamId = teams?.find(
@@ -41,13 +37,7 @@ const GameTable = ({ games, teams, setTab, setFormContent }: GamesProps) => {
     <div>
       <div className="mb-4 text-sm">Lag:{teamString}</div>
 
-      {gameTable ? (
-        <BulkGameForm
-          gameArray={gameTable}
-          setTab={setTab}
-          setFormContent={setFormContent}
-        />
-      ) : null}
+      {gameTable ? <BulkGameForm gameArray={gameTable} /> : null}
     </div>
   )
 }

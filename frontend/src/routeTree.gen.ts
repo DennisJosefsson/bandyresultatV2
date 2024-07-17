@@ -40,6 +40,8 @@ import { Route as LayoutDashboardSeasonSeasonIdImport } from './routes/_layout/d
 import { Route as LayoutDashboardSeasonSeasonIdIndexImport } from './routes/_layout/dashboard/season/$seasonId.index'
 import { Route as LayoutDashboardSeasonSeasonIdTeamseasonImport } from './routes/_layout/dashboard/season/$seasonId.teamseason_'
 import { Route as LayoutDashboardSeasonSeasonIdNewseriesImport } from './routes/_layout/dashboard/season/$seasonId.newseries'
+import { Route as LayoutDashboardSeasonSeasonIdMetadataImport } from './routes/_layout/dashboard/season/$seasonId.metadata'
+import { Route as LayoutDashboardSeasonSeasonIdBulkgamesImport } from './routes/_layout/dashboard/season/$seasonId.bulkgames'
 
 // Create Virtual Routes
 
@@ -208,6 +210,18 @@ const LayoutDashboardSeasonSeasonIdTeamseasonRoute =
 const LayoutDashboardSeasonSeasonIdNewseriesRoute =
   LayoutDashboardSeasonSeasonIdNewseriesImport.update({
     path: '/newseries',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdMetadataRoute =
+  LayoutDashboardSeasonSeasonIdMetadataImport.update({
+    path: '/metadata',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdBulkgamesRoute =
+  LayoutDashboardSeasonSeasonIdBulkgamesImport.update({
+    path: '/bulkgames',
     getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
   } as any)
 
@@ -404,6 +418,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdTablesImport
       parentRoute: typeof LayoutSeasonSeasonIdImport
     }
+    '/_layout/dashboard/season/$seasonId/bulkgames': {
+      id: '/_layout/dashboard/season/$seasonId/bulkgames'
+      path: '/bulkgames'
+      fullPath: '/dashboard/season/$seasonId/bulkgames'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdBulkgamesImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
+    '/_layout/dashboard/season/$seasonId/metadata': {
+      id: '/_layout/dashboard/season/$seasonId/metadata'
+      path: '/metadata'
+      fullPath: '/dashboard/season/$seasonId/metadata'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdMetadataImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
     '/_layout/dashboard/season/$seasonId/newseries': {
       id: '/_layout/dashboard/season/$seasonId/newseries'
       path: '/newseries'
@@ -440,6 +468,8 @@ export const routeTree = rootRoute.addChildren({
       LayoutDashboardIndexRoute,
       LayoutDashboardSeasonSeasonIdRoute:
         LayoutDashboardSeasonSeasonIdRoute.addChildren({
+          LayoutDashboardSeasonSeasonIdBulkgamesRoute,
+          LayoutDashboardSeasonSeasonIdMetadataRoute,
           LayoutDashboardSeasonSeasonIdNewseriesRoute,
           LayoutDashboardSeasonSeasonIdTeamseasonRoute,
           LayoutDashboardSeasonSeasonIdIndexRoute,
