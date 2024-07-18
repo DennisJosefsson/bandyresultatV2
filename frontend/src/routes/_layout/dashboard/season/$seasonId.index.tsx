@@ -41,10 +41,8 @@ function SeasonIndex() {
           <div className="grid grid-cols-3 gap-2">
             <Card>
               <CardHeader>
-                <CardTitle>Lag</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col gap-2 text-sm">
+                <div className="flex flex-row justify-between items-center">
+                  <CardTitle>Lag</CardTitle>
                   <div className="flex flex-row gap-2">
                     <Button
                       onClick={() => {
@@ -57,6 +55,7 @@ function SeasonIndex() {
                           params: { seasonId: seasonId },
                         })
                       }}
+                      size="sm"
                     >
                       Lägg till lag
                     </Button>
@@ -72,10 +71,15 @@ function SeasonIndex() {
                           params: { seasonId: seasonId },
                         })
                       }}
+                      size="sm"
                     >
                       Lägg till matcher
                     </Button>
                   </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-2 text-sm">
                   <div>
                     {season.teams.map((team) => {
                       return (
@@ -106,27 +110,27 @@ function SeasonIndex() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Serier</CardTitle>
+                <div className="flex flex-row justify-between items-center">
+                  <CardTitle>Serier</CardTitle>
+                  <Button
+                    onClick={() => {
+                      setDashboard({
+                        ...dashboardData,
+                        seriesData: undefined,
+                      })
+                      navigate({
+                        to: '/dashboard/season/$seasonId/newseries',
+                        params: { seasonId: seasonId },
+                      })
+                    }}
+                    size="sm"
+                  >
+                    Lägg till serie
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-2 text-sm">
-                  <div>
-                    <Button
-                      onClick={() => {
-                        setDashboard({
-                          ...dashboardData,
-                          seriesData: undefined,
-                        })
-                        navigate({
-                          to: '/dashboard/season/$seasonId/newseries',
-                          params: { seasonId: seasonId },
-                        })
-                      }}
-                      size="sm"
-                    >
-                      Lägg till serie
-                    </Button>
-                  </div>
                   <div>
                     {season.series
                       .sort((a, b) => {
@@ -177,27 +181,29 @@ function SeasonIndex() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Metadata</CardTitle>
+                <div className="flex flex-row justify-between items-center">
+                  <CardTitle>Metadata</CardTitle>
+                  <Button
+                    onClick={() => {
+                      setDashboard({
+                        ...dashboardData,
+                        teamSeasonData: teamSeasonData,
+                        metadataData: metadataObject,
+                      })
+                      navigate({
+                        to: '/dashboard/season/$seasonId/metadata',
+                        params: { seasonId: seasonId },
+                      })
+                    }}
+                    size="sm"
+                  >
+                    Ändra metadata
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-2 text-sm">
-                  <div>
-                    <Button
-                      onClick={() => {
-                        setDashboard({
-                          ...dashboardData,
-                          teamSeasonData: teamSeasonData,
-                          metadataData: metadataObject,
-                        })
-                        navigate({
-                          to: '/dashboard/season/$seasonId/metadata',
-                          params: { seasonId: seasonId },
-                        })
-                      }}
-                    >
-                      Ändra metadata
-                    </Button>
-                  </div>
+                  <div></div>
                   <div className="flex flex-col">
                     <div className="flex flex-row items-center justify-between">
                       <div>Finalstad:</div>{' '}
