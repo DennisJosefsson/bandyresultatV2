@@ -27,8 +27,9 @@ module.exports = {
         ],
         patterns: [
           {
-            regex: '@radix-ui',
-            message: "Don't import directly from @radix-ui",
+            group: ['@radix-ui/*', '!@radix-ui/react-icons'],
+            message:
+              'Do not import components directly from @radix-ui, except @radix-ui/react-icons',
           },
         ],
       },
