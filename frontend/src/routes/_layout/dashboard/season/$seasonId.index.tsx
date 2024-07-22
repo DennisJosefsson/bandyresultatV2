@@ -85,7 +85,7 @@ function SeasonIndex() {
                       return (
                         <div
                           key={team.teamId}
-                          className="flex w-60 flex-row justify-between mb-1"
+                          className="flex flex-row justify-between mb-1"
                         >
                           <div>{team.casualName}</div>
                           <div>
@@ -97,6 +97,7 @@ function SeasonIndex() {
                                 })
                               }
                               size="sm"
+                              variant="destructive"
                             >
                               Ta bort
                             </Button>
@@ -152,7 +153,7 @@ function SeasonIndex() {
                         return (
                           <div
                             key={serie.serieId}
-                            className="flex w-60 flex-row justify-between mb-1"
+                            className="flex flex-row justify-between mb-1"
                           >
                             <div>{serie.serieName}</div>
                             <div>
@@ -168,6 +169,7 @@ function SeasonIndex() {
                                   })
                                 }}
                                 size="sm"
+                                variant="outline"
                               >
                                 Ändra
                               </Button>

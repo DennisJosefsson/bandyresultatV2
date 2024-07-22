@@ -1,23 +1,24 @@
-import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Textarea } from '@/components/ui/textarea'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { z } from 'zod'
-import GameTable from './GameTable'
-
 import { SerieAttributes } from '@/lib/types/series/series'
 import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
 import { sortOrder } from '@/lib/utils/constants'
+import { useState } from 'react'
+import BulkGameForm from './BulkGameForm'
+import FileInput from './FileInput'
 
-interface FormElements extends HTMLFormControlsCollection {
-  pasteArea: HTMLInputElement
+type Games = {
+  date: string
+  homeTeam: string
+  homeTeamId: string
+  awayTeam: string
+  awayTeamId: string
+  seasonId: number
+  category: string
+  group: string
+  women: boolean
+  serieId: number | undefined | null
 }
-interface PasteAreaFormElement extends HTMLFormElement {
-  readonly elements: FormElements
-}
-
-const testDate = z.string().regex(/^[a-öA-Ö]{3}\s\d{1,2}\/\d{1,2}$/)
 
 const categoryArray = [
   { value: 'final', label: 'Final' },
@@ -32,24 +33,20 @@ type BulkAddGameProps = {
   teams: TeamAndSeasonAttributes[] | undefined
   seasonId: number
   series: SerieAttributes[] | undefined
-  seasonYear: string
   women: boolean
 }
 
-const BulkAddGame = ({
-  teams,
-  seasonId,
-  series,
-  seasonYear,
-  women,
-}: BulkAddGameProps) => {
-  const firstYear = seasonYear.split('/')[0]
-  const secondYear = seasonYear.split('/')[1]
-  const [gamesList, setGamesList] = useState<string>('')
-  const [pastedContent, setPastedContent] = useState<string>('')
+type GameArrayType = {
+  date: string
+  home: string
+  away: string
+}
+
+const BulkAddGame = ({ teams, seasonId, series, women }: BulkAddGameProps) => {
+  const [gamesList, setGamesList] = useState<GameArrayType[]>([])
+
   const [category, setCategory] = useState<string>('regular')
   const [group, setGroup] = useState<string>('elitserien')
-  const lines = gamesList ? gamesList.split('\n') : []
 
   const groupArray = series
     ?.map((serie) => {
@@ -65,52 +62,33 @@ const BulkAddGame = ({
       }
     })
 
-  const chunkedLines = lines?.reduce((resultArray, item, index) => {
-    const chunkIndex = Math.floor(index / 5)
-
-    if (!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = []
-    }
-
-    resultArray[chunkIndex].push(item)
-
-    return resultArray
-  }, [] as string[][])
-
-  const parseDate = (dateString: string) => {
-    const match = testDate.safeParse(dateString)
-    if (!match.success) return 'Wrong date'
-    const day = dateString.split(' ')[1].split('/')[0]
-    const month = parseInt(dateString.split(' ')[1].split('/')[1])
-    const date = `${month > 5 ? firstYear : secondYear}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`
-    return date
-  }
-
-  const games = chunkedLines.map((line) => {
-    return {
-      date: parseDate(line[0]),
-      homeTeam: line[2].trimEnd(),
-      awayTeam: line[4].trimEnd(),
-      seasonId: seasonId,
-      category: category,
-      group: group,
-      women: women,
-      serieId: series?.find((serie) => serie.serieGroupCode === group)?.serieId,
-    }
-  })
-
-  const handleSubmit = (event: FormEvent<PasteAreaFormElement>) => {
-    event.preventDefault()
-    setGamesList(pastedContent)
-  }
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setPastedContent(event.target.value)
-  }
+  const games: Games[] =
+    gamesList.length > 0
+      ? gamesList.map((game) => {
+          return {
+            date: game.date,
+            homeTeamId: game.home,
+            homeTeam:
+              teams?.find((team) => team.teamId.toString() === game.home)
+                ?.casualName ?? 'Lag saknas',
+            awayTeamId: game.away,
+            awayTeam:
+              teams?.find((team) => team.teamId.toString() === game.away)
+                ?.casualName ?? 'Lag saknas',
+            seasonId,
+            group,
+            category,
+            women,
+            serieId:
+              series?.find((serie) => serie.serieGroupCode === group)
+                ?.serieId ?? undefined,
+          }
+        })
+      : []
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="mb-4">
+      <form className="mb-4">
         <RadioGroup
           value={category}
           onValueChange={setCategory}
@@ -139,18 +117,10 @@ const BulkAddGame = ({
             )
           })}
         </RadioGroup>
-        <Label htmlFor="pasteArea">Matcher</Label>
-        <Textarea
-          id="pasteArea"
-          value={pastedContent}
-          onChange={handleChange}
-          className="mb-4"
-          rows={6}
-        />
-        <Button type="submit">Uppdatera lista</Button>
+        <FileInput setGamesList={setGamesList} />
       </form>
 
-      <GameTable games={games} teams={teams} />
+      {games.length > 0 ? <BulkGameForm gameArray={games} /> : null}
     </div>
   )
 }

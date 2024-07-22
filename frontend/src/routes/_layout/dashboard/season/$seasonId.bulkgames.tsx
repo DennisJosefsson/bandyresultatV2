@@ -17,7 +17,6 @@ function BulkGames() {
     <div>
       <BulkAddGame
         women={dashboardData.women}
-        seasonYear={dashboardData.year}
         seasonId={parseInt(seasonId)}
         teams={dashboardData.teamSeasonData}
         series={dashboardData.seriesArray}
