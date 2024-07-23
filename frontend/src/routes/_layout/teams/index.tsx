@@ -1,9 +1,9 @@
 import { teamQueries } from '@/lib/queries/teams/queries'
 import { createFileRoute } from '@tanstack/react-router'
 
-import { useFormContext } from 'react-hook-form'
-import MemoTeamsList from '@/components/Components/Teams/MemoTeamsList'
 import Loading from '@/components/Components/Common/Loading'
+import MemoTeamsList from '@/components/Components/Teams/MemoTeamsList'
+import { useFormContext } from 'react-hook-form'
 
 import { z } from 'zod'
 

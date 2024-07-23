@@ -1,10 +1,10 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent } from '@/components/ui/card'
 import TeamsTabBar from '@/components/Components/Teams/TeamsTabBar'
-import { useCompare } from '@/lib/hooks/dataHooks/teams/useCompare'
+import { Card, CardContent } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
-import { SubmitHandler } from 'react-hook-form'
+import { useCompare } from '@/lib/hooks/dataHooks/teams/useCompare'
 import { CompareFormState } from '@/lib/types/teams/teams'
+import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
+import { SubmitHandler } from 'react-hook-form'
 
 export const Route = createFileRoute('/_layout/teams')({
   component: TeamsHeader,
@@ -28,7 +28,14 @@ function TeamsHeader() {
           </Card>
           <Card className="mt-2">
             <CardContent>
-              <Outlet />
+              <CatchBoundary
+                getResetKey={() => 'reset'}
+                onCatch={(error) => {
+                  console.error(error)
+                }}
+              >
+                <Outlet />
+              </CatchBoundary>
             </CardContent>
           </Card>
         </form>

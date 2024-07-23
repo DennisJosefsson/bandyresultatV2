@@ -1,19 +1,19 @@
-import useGenderContext from '@/lib//hooks/contextHooks/useGenderContext'
 import { TabBarInline } from '@/components/Components/Common/TabBar'
+import useGenderContext from '@/lib//hooks/contextHooks/useGenderContext'
 
-import { Button } from '@/components/ui/button'
 import {
-  QuestionIcon,
   ListIcon,
-  SearchIcon,
-  WomanIcon,
   ManIcon,
   MapIcon,
+  QuestionIcon,
+  SearchIcon,
   SelectionIcon,
+  WomanIcon,
 } from '@/components/Components/Common/Icons/icons'
-import { useMediaQuery } from 'usehooks-ts'
-import { useNavigate, useLocation } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 import { CompareFormState } from '@/lib/types/teams/teams'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
+import { useMediaQuery } from 'usehooks-ts'
 
 const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
   const matches = useMediaQuery('(min-width: 430px)')
@@ -53,52 +53,74 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
     tabBarArray: [
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('teams') ? 'default' : 'outline'}
-            size={matches ? 'default' : 'icon'}
-            onClick={() => navigate({ to: '/teams', search: { women: women } })}
-          >
-            {matches ? 'Laglista' : <ListIcon />}
-          </Button>
+          <Link to="/teams" search={formValues}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={
+                    isActive && pathName.endsWith('teams')
+                      ? 'default'
+                      : 'outline'
+                  }
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Laglista' : <ListIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'teams',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('map') ? 'default' : 'outline'}
-            size={matches ? 'default' : 'icon'}
-            onClick={() => navigate({ to: '/teams/map' })}
-          >
-            {matches ? 'Karta' : <MapIcon />}
-          </Button>
+          <Link to="/teams/map" search={formValues}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Karta' : <MapIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'map',
       },
       {
         tab: (
-          <Button
-            size={matches ? 'default' : 'icon'}
-            onClick={() => navigate({ to: '/teams/selection' })}
-            variant={pathName.endsWith('selection') ? 'default' : 'outline'}
-          >
-            {matches ? 'Sökval' : <SelectionIcon />}
-          </Button>
+          <Link to="/teams/selection" search={formValues}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Sökval' : <SelectionIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
         tabName: 'selection',
       },
       {
         tab: (
-          <Button
-            size={matches ? 'default' : 'icon'}
-            variant={pathName.endsWith('compare') ? 'default' : 'outline'}
-            onClick={() =>
-              navigate({ to: '/teams/compare', search: formValues })
-            }
-          >
-            {matches ? 'Jämför' : <SearchIcon />}
-          </Button>
+          <Link to="/teams/compare" search={formValues}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Jämför' : <SearchIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'compare',
       },

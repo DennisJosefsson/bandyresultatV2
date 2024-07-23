@@ -1,7 +1,3 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { TabBarInline } from '@/components/Components/Common/TabBar'
-import { useMediaQuery } from 'usehooks-ts'
-import { Button } from '@/components/ui/button'
 import {
   CalendarIcon,
   DevIcon,
@@ -12,13 +8,17 @@ import {
   TrophyIcon,
   WomanIcon,
 } from '@/components/Components/Common/Icons/icons'
-import { useNavigate, useLocation } from '@tanstack/react-router'
+import { TabBarInline } from '@/components/Components/Common/TabBar'
+import { Button } from '@/components/ui/button'
+import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import { Link, useParams } from '@tanstack/react-router'
+import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTabBar = () => {
   const matches = useMediaQuery('(min-width: 640px)')
   const { dispatch, women } = useGenderContext()
-  const navigate = useNavigate({ from: '/season/$seasonId' })
-  const pathName = useLocation().pathname
+  const { seasonId } = useParams({ from: '/_layout/season/$seasonId' })
+
   const seasonTabBarObject = {
     gender: (
       <Button
@@ -41,78 +41,111 @@ const SeasonTabBar = () => {
     tabBarArray: [
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('games') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/games' })}
-            size={matches ? 'default' : 'icon'}
-          >
-            {matches ? 'Matcher' : <CalendarIcon />}
-          </Button>
+          <Link to="/season/$seasonId/games" params={{ seasonId: seasonId }}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Matcher' : <CalendarIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
         tabName: 'games',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('tables') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/tables' })}
-            size={matches ? 'default' : 'icon'}
-          >
-            {matches ? 'Tabell' : <ListIcon />}
-          </Button>
+          <Link to="/season/$seasonId/tables" params={{ seasonId: seasonId }}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Tabell' : <ListIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
         tabName: 'tables',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('playoff') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/playoff' })}
-            size={matches ? 'default' : 'icon'}
-          >
-            {matches ? 'Slutspel' : <TrophyIcon />}
-          </Button>
+          <Link to="/season/$seasonId/playoff" params={{ seasonId: seasonId }}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Slutspel' : <TrophyIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
         tabName: 'playoff',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('development') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/development' })}
-            size={matches ? 'default' : 'icon'}
+          <Link
+            to="/season/$seasonId/development"
+            params={{ seasonId: seasonId }}
           >
-            {matches ? 'Utveckling' : <DevIcon />}
-          </Button>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Utveckling' : <DevIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
-        tabName: 'roundForRound',
+        tabName: 'development',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('stats') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/stats' })}
-            size={matches ? 'default' : 'icon'}
-          >
-            {matches ? 'Statistik' : <StatsIcon />}
-          </Button>
+          <Link to="/season/$seasonId/stats" params={{ seasonId: seasonId }}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Statistik' : <StatsIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
 
         tabName: 'stats',
       },
       {
         tab: (
-          <Button
-            variant={pathName.endsWith('map') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/season/$seasonId/map' })}
-            size={matches ? 'default' : 'icon'}
-          >
-            {matches ? 'Karta' : <MapIcon />}
-          </Button>
+          <Link to="/season/$seasonId/map" params={{ seasonId: seasonId }}>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'icon'}
+                >
+                  {matches ? 'Karta' : <MapIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'map',
       },

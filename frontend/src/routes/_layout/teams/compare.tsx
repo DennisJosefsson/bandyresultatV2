@@ -1,19 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { compareFormState } from '@/lib/types/teams/teams'
-import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
 import Loading from '@/components/Components/Common/Loading'
 import AllData from '@/components/Components/Teams/Compare/AllData'
 import CompareHeader from '@/components/Components/Teams/Compare/CompareHeader'
 import CompareStats from '@/components/Components/Teams/Compare/CompareStats'
 import DetailedData from '@/components/Components/Teams/Compare/DetailedData'
 import { Card, CardContent } from '@/components/ui/card'
+import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
+import { compareFormState } from '@/lib/types/teams/teams'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export const Route = createFileRoute('/_layout/teams/compare')({
   component: Compare,
   pendingComponent: Loading,
   validateSearch: compareFormState,
+  errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 
 function Compare() {
@@ -68,4 +69,33 @@ function Compare() {
       )}
     </>
   )
+}
+
+function ErrorComponent({ error }: { error: unknown }) {
+  const compareObject = Route.useSearch()
+  if (error && error instanceof Error) {
+    console.log('errorMessage', error.message)
+    const messages = JSON.parse(error.message)
+    if (Array.isArray(messages)) {
+      const errorMess = messages.map((error) => error.message).join(',')
+      return (
+        <div className="flex flex-row justify-center items-center mt-2">
+          <p>
+            {errorMess}. Gå till{' '}
+            <Link to="/teams" search={compareObject}>
+              laglistan
+            </Link>{' '}
+            eller ändra{' '}
+            <Link to="/teams/selection" search={compareObject}>
+              sökval
+            </Link>
+            .
+          </p>
+        </div>
+      )
+    }
+    return <div>Felmeddelande</div>
+  }
+
+  return <div>Fel</div>
 }
