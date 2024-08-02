@@ -1,11 +1,9 @@
 import { Button } from '@/components/ui/button'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetMaratonTables } from '@/lib/hooks/dataHooks/maraton/useGetMaratonTables'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 
 const MaratonTableHeader = () => {
-  const { table } = useSearch({ from: '/_layout/maraton' })
-  const { women } = useGenderContext()
+  const { table, women } = useSearch({ from: '/_layout/maraton' })
   const navigate = useNavigate()
   const { setHomeAwayTitle } = useGetMaratonTables()
   return (

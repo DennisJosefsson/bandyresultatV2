@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 
 const RecordHeader = () => {
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const navigate = useNavigate()
   const { setParams, title, setTitle, record } = useGetRecordData()
   return (

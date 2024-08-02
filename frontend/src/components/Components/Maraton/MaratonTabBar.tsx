@@ -1,31 +1,31 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { TabBarDivided } from '@/components/Components/Common/TabBar'
-import { Button } from '@/components/ui/button'
-import { useMediaQuery } from 'usehooks-ts'
 import {
   ListIcon,
   ManIcon,
+  QuestionIcon,
   StatsIcon,
   WomanIcon,
-  QuestionIcon,
 } from '@/components/Components/Common/Icons/icons'
+import { TabBarDivided } from '@/components/Components/Common/TabBar'
+import { Button } from '@/components/ui/button'
+import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useMediaQuery } from 'usehooks-ts'
 
 const MaratonTabBar = () => {
   const { tab } = useSearch({ from: '/_layout/maraton' })
   const navigate = useNavigate()
-  const { women } = useGenderContext()
+  const { womenContext } = useGenderContext()
   const matches = useMediaQuery('(min-width: 430px)')
   const maratonTabBarObject = {
     gender: (
       <Button
         onClick={() => {
-          navigate({ search: (prev) => ({ ...prev, women: !women }) })
+          navigate({ search: (prev) => ({ ...prev, women: !womenContext }) })
         }}
         variant="default"
         size={matches ? 'default' : 'icon'}
       >
-        {women ? (
+        {womenContext ? (
           matches ? (
             'Herrar'
           ) : (
@@ -40,7 +40,9 @@ const MaratonTabBar = () => {
     ),
     help: (
       <Button
-        onClick={() => navigate({ search: { tab: 'help' } })}
+        onClick={() =>
+          navigate({ search: { tab: 'help', women: womenContext } })
+        }
         variant={tab === 'help' ? 'default' : 'outline'}
         size={matches ? 'default' : 'icon'}
       >
@@ -54,7 +56,7 @@ const MaratonTabBar = () => {
             variant={tab === 'maraton' ? 'default' : 'outline'}
             onClick={() => {
               navigate({
-                search: { tab: 'maraton', table: 'all', women: women },
+                search: { tab: 'maraton', table: 'all', women: womenContext },
               })
             }}
             size={matches ? 'default' : 'icon'}
@@ -73,7 +75,7 @@ const MaratonTabBar = () => {
                 search: {
                   tab: 'records',
                   record: 'generalStats',
-                  women: women,
+                  women: womenContext,
                 },
               })
             }}

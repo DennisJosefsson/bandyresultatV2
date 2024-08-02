@@ -1,16 +1,16 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { gameSortFunction } from '@/lib/utils/sortFunction'
 import { gameQueries } from '@/lib/queries/games/queries'
+import { gameSortFunction } from '@/lib/utils/sortFunction'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const useSingleSeasonGames = (seasonId: string, teamFilter: string) => {
-  const { women } = useGenderContext()
+  const { womenContext } = useGenderContext()
   const { data, isLoading, error } = useSuspenseQuery(
     gameQueries['singleSeasonGames'](seasonId)
   )
 
   const games = data
-    .filter((table) => table.women === women)
+    .filter((table) => table.women === womenContext)
     .filter(
       (game) =>
         game.homeTeam?.name

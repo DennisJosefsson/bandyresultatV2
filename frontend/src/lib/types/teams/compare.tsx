@@ -1,12 +1,11 @@
 import { z } from 'zod'
 import {
-  compareCategoryTeamTable,
   compareAllTeamTables,
   CompareAllTeamTables,
-  ParsedCompareAllTeamTables,
+  compareCategoryTeamTable,
   CompareCategoryTeamTable,
+  ParsedCompareAllTeamTables,
 } from '../tables/tables'
-import { compareLink } from '../link/link'
 
 export const compareResponseObject = z.object({
   tabeller: z.array(compareCategoryTeamTable),
@@ -16,35 +15,35 @@ export const compareResponseObject = z.object({
       guld: z.string(),
       team: z.number(),
       casual_name: z.string(),
-    }),
+    })
   ),
   playoffs: z.array(
     z.object({
       playoffs: z.string(),
       team: z.number(),
       casual_name: z.string(),
-    }),
+    })
   ),
   seasons: z.array(
     z.object({
       seasons: z.string(),
       team: z.number(),
       casual_name: z.string(),
-    }),
+    })
   ),
   allPlayoffs: z.array(
     z.object({
       playoffs: z.string(),
       team: z.number(),
       casual_name: z.string(),
-    }),
+    })
   ),
   allSeasons: z.array(
     z.object({
       seasons: z.string(),
       team: z.number(),
       casual_name: z.string(),
-    }),
+    })
   ),
   firstAndLatestGames: z.array(
     z.object({
@@ -55,10 +54,10 @@ export const compareResponseObject = z.object({
       result: z.string(),
       ranked_first_games: z.string(),
       ranked_last_games: z.string(),
-    }),
+    })
   ),
-  link: compareLink,
   seasonNames: z.array(z.object({ seasonId: z.number(), year: z.string() })),
+  compareHeaderText: z.string(),
 })
 
 type CompareResponseObject = z.infer<typeof compareResponseObject>
@@ -72,7 +71,6 @@ export type CompareResponseObjectType = {
   allData: CompareAllTeamTables[]
   sortedData: ParsedCompareAllTeamTables[]
   compareAllGames: CompareAllTeamTables[]
-  link: CompareResponseObject['link']
   seasonNames: CompareResponseObject['seasonNames']
   firstGames: CompareResponseObject['firstAndLatestGames']
   latestGames: CompareResponseObject['firstAndLatestGames']
@@ -82,4 +80,5 @@ export type CompareResponseObjectType = {
   allPlayoffs: CompareResponseObject['allPlayoffs']
   allSeasons: CompareResponseObject['allSeasons']
   categoryData: CategoryData[]
+  compareHeaderText: CompareResponseObject['compareHeaderText']
 }

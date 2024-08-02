@@ -1,9 +1,8 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { SetStateAction, Dispatch } from 'react'
 import { CarouselApi } from '@/components/ui/carousel'
 import { developmentQueries } from '@/lib/queries/development/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useSearch } from '@tanstack/react-router'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 
 const useAnimationData = (
   seasonId: string,
@@ -13,7 +12,7 @@ const useAnimationData = (
   api: CarouselApi | undefined,
   dateApi: CarouselApi | undefined
 ) => {
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const { data, isLoading, error, isSuccess } = useSuspenseQuery(
     developmentQueries['data'](seasonId)
   )

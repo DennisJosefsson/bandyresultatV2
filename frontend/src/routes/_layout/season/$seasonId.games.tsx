@@ -4,7 +4,6 @@ import FilterComponent from '@/components/Components/Season/SeasonGamesComponent
 import GameForm from '@/components/Components/Season/SeasonGamesComponents/GameForm'
 import PlayedGames from '@/components/Components/Season/SeasonGamesComponents/PlayedGames'
 import UnplayedGames from '@/components/Components/Season/SeasonGamesComponents/UnplayedGames'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
@@ -37,8 +36,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId/games')({
 
 function Games() {
   const { seasonId } = Route.useParams()
-  const { team } = Route.useSearch()
-  const { women } = useGenderContext()
+  const { team, women } = Route.useSearch()
   const [teamFilter, setTeamFilter] = useState<string>(team ?? '')
 
   const [showAddGameModal, setShowAddGameModal] = useState<boolean>(false)

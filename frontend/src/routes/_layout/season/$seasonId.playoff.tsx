@@ -1,7 +1,6 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonPlayoffTables from '@/components/Components/Season/SeasonPlayoffComponents/SeasonPlayoffTables'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetPlayoffData } from '@/lib/hooks/dataHooks/playoff/useGetPlayoffData'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
@@ -17,7 +16,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId/playoff')({
 })
 
 function Playoff() {
-  const { women } = useGenderContext()
+  const { women } = Route.useSearch()
   const { seasonId } = Route.useParams()
   const { lastSeason } = useGetFirstAndLastSeason()
   const { tables, final, playoffGames } = useGetPlayoffData(seasonId)

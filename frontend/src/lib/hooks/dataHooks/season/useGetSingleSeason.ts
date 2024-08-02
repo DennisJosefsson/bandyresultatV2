@@ -4,12 +4,14 @@ import { seasonQueries } from '@/lib/queries/season/queries'
 import useGenderContext from '../../contextHooks/useGenderContext'
 
 export const useGetSingleSeason = (seasonId: string) => {
-  const { women } = useGenderContext()
+  const { womenContext } = useGenderContext()
   const { data, isLoading, error, isSuccess } = useSuspenseQuery(
     seasonQueries['singleSeason'](seasonId)
   )
 
-  const seasonObject = data?.filter((season) => season.women === women)[0]
+  const seasonObject = data?.filter(
+    (season) => season.women === womenContext
+  )[0]
 
   const seriesInfo = seasonObject?.series
 

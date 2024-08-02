@@ -28,7 +28,7 @@
   "exclude": [
     "src/tmp",
     "src/components/Components/Search",
-    "src/lib/hooks/dataHooks/search"
+    "src/tmp/hooks/search"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

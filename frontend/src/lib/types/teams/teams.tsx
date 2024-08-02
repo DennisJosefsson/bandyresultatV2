@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { SingleTeamTable } from '../tables/tables'
 import { TeamGameObject } from '../games/games'
+import { SingleTeamTable } from '../tables/tables'
 
 export const teamIdFromParams = z.coerce.number().int().positive()
 export const compareTeamsSeasonId = z.coerce.number().int().positive()
@@ -20,18 +20,28 @@ export const compareFormState = z
     teamArray: z
       .array(z.number())
       .max(4, { message: 'Max max 4 lag' })
-      .min(2, { message: 'Välj minst 2 lag' }),
+      .min(2, { message: 'Välj minst 2 lag' })
+      .optional(),
     categoryArray: z
       .array(z.string())
-      .min(1, { message: 'Välj minst en matchkategori' }),
-    startSeason: z.string(),
-    endSeason: z.string(),
-    women: z.boolean(),
+      .min(1, { message: 'Välj minst en matchkategori' })
+      .optional(),
+    startSeason: z.string().optional(),
+    endSeason: z.string().optional(),
+    women: z.boolean().optional(),
   })
   .refine((arg) => Number(arg.startSeason) <= Number(arg.endSeason), {
     message: 'Första säsong kan inte komma efter sista säsong.',
     path: ['startSeason'],
   })
+
+export const reducedCompareFormState = z.object({
+  teamArray: z.array(z.number()).optional(),
+  categoryArray: z.array(z.string()),
+  startSeason: z.string(),
+  endSeason: z.string(),
+  women: z.boolean(),
+})
 
 export const validateSearchParams = z
   .object({

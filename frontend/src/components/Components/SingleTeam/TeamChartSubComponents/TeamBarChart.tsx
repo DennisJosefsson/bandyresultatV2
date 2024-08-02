@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TeamChartType } from '@/lib/types/teams/teams'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import { useSearch } from '@tanstack/react-router'
 import {
+  Bar,
   BarChart,
+  LabelList,
+  ResponsiveContainer,
   XAxis,
   YAxis,
-  Bar,
-  ResponsiveContainer,
-  LabelList,
 } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
 
@@ -20,7 +20,7 @@ type PositionType = {
 
 const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   const matches1240 = useMediaQuery('(min-width: 1240px)')
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const baseLinePosition = women ? 10 : 17
   const baseLineSeasonId = women ? 161 : 101
   const positionChart: PositionType[] = chartData

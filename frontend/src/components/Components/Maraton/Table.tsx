@@ -1,11 +1,11 @@
+import { useGetMaratonTables } from '@/lib/hooks/dataHooks/maraton/useGetMaratonTables'
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
+import { useSearch } from '@tanstack/react-router'
 import MaratonTableHeader from './MaratonTableSubComponents/MaratonTableHeader'
 import MaratonTables from './MaratonTableSubComponents/MaratonTables'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { useGetMaratonTables } from '@/lib/hooks/dataHooks/maraton/useGetMaratonTables'
 
 const Table = () => {
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
 
   const { tabell, homeAwayTitle } = useGetMaratonTables()
 

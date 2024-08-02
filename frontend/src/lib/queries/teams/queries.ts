@@ -25,5 +25,6 @@ export const teamQueries = {
     queryOptions({
       queryKey: teamKeys.compare(compareObject),
       queryFn: () => compareTeams(compareObject),
+      staleTime: 100,
     }),
 }

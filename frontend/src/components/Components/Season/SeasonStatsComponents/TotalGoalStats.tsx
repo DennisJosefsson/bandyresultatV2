@@ -1,18 +1,16 @@
-import { useParams } from '@tanstack/react-router'
-import GoalStatsCard from './GoalStatsCard'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetGoalStats } from '@/lib/hooks/dataHooks/stats/useGetGoalStats'
+import { useParams, useSearch } from '@tanstack/react-router'
+import GoalStatsCard from './GoalStatsCard'
 
 const TotalGoalStats = () => {
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const {
     goalsScoredTotal,
     goalsScoredTotalCat,
     goalsScoredHomeTotal,
     goalsScoredHomeTotalCat,
     goalsScoredAwayTotal,
-
     goalsScoredAwayTotalCat,
   } = useGetGoalStats(seasonId, women)
 

@@ -1,12 +1,12 @@
 import { FormControl } from '@/components/ui/form'
-import { useFormField } from '@/components/ui/useFormField'
 import {
   Select,
-  SelectItem,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useFormField } from '@/components/ui/useFormField'
 import { useController } from 'react-hook-form'
 
 type SelectComponentProps = {
@@ -23,6 +23,7 @@ const SelectComponent = ({
 }: SelectComponentProps) => {
   const { name } = useFormField()
   const { field } = useController({ name })
+  console.count('select')
   return (
     <Select
       onValueChange={field.onChange}

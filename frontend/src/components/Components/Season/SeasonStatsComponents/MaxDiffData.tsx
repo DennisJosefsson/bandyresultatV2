@@ -1,11 +1,10 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetStreakStats } from '@/lib/hooks/dataHooks/stats/useGetStreaksStats'
+import { useParams, useSearch } from '@tanstack/react-router'
 import MaxDiffStatsCard from './MaxDiffStatsCard'
-import { useParams } from '@tanstack/react-router'
 
 const MaxDiffData = () => {
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const { maxDiffMen, maxDiffWomen } = useGetStreakStats(seasonId, women)
 
   return (

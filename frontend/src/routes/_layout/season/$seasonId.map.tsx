@@ -1,14 +1,13 @@
+import { qualIcon } from '@/components/Components/Common/Icons/leafletMarker'
+import Loading from '@/components/Components/Common/Loading'
+import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
+import { useMapData } from '@/lib/hooks/dataHooks/map/useMapData'
+import { seasonQueries } from '@/lib/queries/season/queries'
 import { createFileRoute } from '@tanstack/react-router'
-import MarkerClusterGroup from 'react-leaflet-cluster'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { qualIcon } from '@/components/Components/Common/Icons/leafletMarker'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { useMapData } from '@/lib/hooks/dataHooks/map/useMapData'
-import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
-import Loading from '@/components/Components/Common/Loading'
-import { seasonQueries } from '@/lib/queries/season/queries'
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import MarkerClusterGroup from 'react-leaflet-cluster'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/map')({
   component: Map,
@@ -23,7 +22,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId/map')({
 function Map() {
   const { seasonId } = Route.useParams()
   const { teams, qualificationTeams, bounds } = useMapData(seasonId)
-  const { women } = useGenderContext()
+  const { women } = Route.useSearch()
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />
   }

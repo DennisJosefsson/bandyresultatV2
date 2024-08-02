@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { baseUrl, mobileBaseUrl, header } from '../config/requestConfig'
-import { compareSortFunction, compareAllTeamData } from '../utils/sortFunction'
-import { CompareFormState } from '../types/teams/teams'
+import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import { MaratonTableType, SingleSeasonTableType } from '../types/tables/tables'
 import {
   CompareResponseObjectType,
   compareResponseObject,
 } from '../types/teams/compare'
-import { MaratonTableType, SingleSeasonTableType } from '../types/tables/tables'
+import { CompareFormState } from '../types/teams/teams'
+import { compareAllTeamData, compareSortFunction } from '../utils/sortFunction'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -46,7 +46,7 @@ export const compareTeams = async (
   )
 
   const latestGames =
-    compObject.teamArray.length === 2
+    compObject.teamArray && compObject.teamArray.length === 2
       ? parsedResponseObject.data.firstAndLatestGames
           .filter((game) => game.ranked_first_games !== '1')
           .sort(
@@ -59,7 +59,6 @@ export const compareTeams = async (
           ) || []
 
   return {
-    link: parsedResponseObject.data.link,
     seasonNames: parsedResponseObject.data.seasonNames,
     compareAllGames: parsedResponseObject.data.compareAllGames,
     golds: parsedResponseObject.data.golds,
@@ -72,6 +71,7 @@ export const compareTeams = async (
     categoryData,
     firstGames,
     latestGames,
+    compareHeaderText: parsedResponseObject.data.compareHeaderText,
   }
 }
 

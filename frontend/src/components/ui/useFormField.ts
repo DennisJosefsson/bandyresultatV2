@@ -1,12 +1,13 @@
-import { useFormContext } from 'react-hook-form'
-import { FormFieldContext, FormItemContext } from './form'
 import { useContext } from 'react'
+import { useFormContext, useFormState } from 'react-hook-form'
+import { FormFieldContext, FormItemContext } from './form'
 
 export const useFormField = () => {
   const fieldContext = useContext(FormFieldContext)
   const itemContext = useContext(FormItemContext)
-  const { getFieldState, formState, control } = useFormContext()
+  const { getFieldState, control } = useFormContext()
 
+  const formState = useFormState({ name: fieldContext.name })
   const fieldState = getFieldState(fieldContext.name, formState)
 
   if (!fieldContext) {

@@ -1,35 +1,38 @@
-import { Link } from '@tanstack/react-router'
-import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Link } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
 // import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
-import ModeToggle from './ModeToggle'
-import LoginComponent from './LoginComponents/LoginComponent'
-import { useState } from 'react'
-import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
+import { useState } from 'react'
+import LoginComponent from './LoginComponents/LoginComponent'
+import ModeToggle from './ModeToggle'
 
 const Header = () => {
   const [open, setOpen] = useState<boolean>(false)
   const { user } = useUserContext()
-  const { women } = useGenderContext()
+  const { womenContext } = useGenderContext()
 
   return (
     <header className="sticky top-0 z-[1] mb-4 flex h-16 flex-row items-center justify-between gap-4 border-b bg-background px-2 font-poppins text-foreground dark:bg-slate-950 dark:text-slate-50 md:px-6">
       <div className="flex flex-row gap-8">
         <h1 className="text-base font-bold uppercase tracking-[0.2rem] text-primary md:text-2xl lg:text-4xl xl:pl-0">
-          <Link to="/">Bandyresultat</Link>
+          <Link to="/" search={{ women: womenContext }}>
+            Bandyresultat
+          </Link>
         </h1>
         <nav className="hidden flex-col gap-6 text-lg font-medium lg:flex lg:flex-row lg:items-center lg:gap-6 lg:text-sm">
           <Link
             to="/seasons"
+            search={{ women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Säsonger
           </Link>
           <Link
             to="/teams"
-            search={{ women: women }}
+            search={{ women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Lag
@@ -43,7 +46,7 @@ const Header = () => {
           </Link> */}
           <Link
             to="/maraton"
-            search={{ tab: 'maraton', table: 'all', women: women }}
+            search={{ tab: 'maraton', table: 'all', women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Maratontabeller
@@ -51,6 +54,7 @@ const Header = () => {
           {user && (
             <Link
               to="/dashboard"
+              search={{ women: womenContext }}
               className="text-foreground transition-colors hover:text-foreground"
             >
               Dashboard
@@ -58,6 +62,7 @@ const Header = () => {
           )}
           <Link
             to="/about"
+            search={{ women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Om sidan
@@ -80,6 +85,7 @@ const Header = () => {
             <nav className="grid gap-6 text-lg font-medium">
               <Link
                 to="/"
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
@@ -88,6 +94,7 @@ const Header = () => {
 
               <Link
                 to="/seasons"
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
@@ -95,7 +102,7 @@ const Header = () => {
               </Link>
               <Link
                 to="/teams"
-                search={{ women: women }}
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
@@ -111,7 +118,7 @@ const Header = () => {
               </Link> */}
               <Link
                 to="/maraton"
-                search={{ tab: 'maraton', table: 'all', women: women }}
+                search={{ tab: 'maraton', table: 'all', women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
@@ -119,6 +126,7 @@ const Header = () => {
               </Link>
               {user && (
                 <Link
+                  search={{ women: womenContext }}
                   to="/dashboard"
                   className="hover:text-foreground"
                   onClick={() => (open ? setOpen(false) : setOpen(true))}
@@ -128,6 +136,7 @@ const Header = () => {
               )}
               <Link
                 to="/about"
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >

@@ -1,10 +1,9 @@
-import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-
 import { Card } from '@/components/ui/card'
+import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
+import { useSearch } from '@tanstack/react-router'
 
 const GeneralStats = () => {
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const { data } = useGetRecordData()
   return (
     <div className="ml-4 xl:ml-0">

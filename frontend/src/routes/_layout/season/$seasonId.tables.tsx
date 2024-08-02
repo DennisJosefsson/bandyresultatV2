@@ -3,7 +3,6 @@ import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableComponents/SeasonTablesButtonList'
 import StaticTables from '@/components/Components/Season/SeasonTableComponents/StaticTables'
 import TableList from '@/components/Components/Season/SeasonTableComponents/TableList'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import { useGetSingleSeason } from '@/lib/hooks/dataHooks/season/useGetSingleSeason'
 import { useGetSingleSeasonTables } from '@/lib/hooks/dataHooks/tables/useGetSingleSeasonTables'
@@ -29,7 +28,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables')({
 function Tables() {
   const { seasonId } = Route.useParams()
   const { lastSeason } = useGetFirstAndLastSeason()
-  const { women } = useGenderContext()
+  const { women } = Route.useSearch()
   const [selectedTable, setSelectedTable] = useState<string>('all')
   const [homeAwayTitle, setHomeAwayTitle] = useState<string>('')
   const season = useGetSingleSeason(seasonId)

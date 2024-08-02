@@ -30,7 +30,7 @@ type GamesListItemProps = {
 
 const GamesListItem = ({ game }: GamesListItemProps) => {
   const { favTeams } = useTeampreferenceContext()
-  // const { women } = useGenderContext()
+  //  const { women } = useSearch({from:'/_layout'})
   const { user } = useUserContext()
 
   return (

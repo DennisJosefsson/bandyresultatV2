@@ -1,7 +1,9 @@
-import { Link } from '@tanstack/react-router'
+import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { SeasonObjectType } from '@/lib/types/season/seasons'
+import { Link } from '@tanstack/react-router'
 
 const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
+  const { womenContext } = useGenderContext()
   return (
     <div className="grid grid-cols-1 justify-between gap-x-8 gap-y-2 pt-2 sm:grid-cols-2 lg:grid-cols-3">
       {seasons.map((season) => {
@@ -20,6 +22,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <Link
                   to="/season/$seasonId/tables"
                   params={{ seasonId: seasonYear }}
+                  search={{ women: womenContext }}
                   className="font-medium tabular-nums hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Tabeller
@@ -29,6 +32,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <Link
                   to="/season/$seasonId/games"
                   params={{ seasonId: seasonYear }}
+                  search={{ women: womenContext }}
                   className="font-medium hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Matcher

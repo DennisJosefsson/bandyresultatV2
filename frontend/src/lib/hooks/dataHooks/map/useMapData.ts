@@ -1,12 +1,12 @@
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 
+import { latLngBounds, LatLngBounds, LatLngTuple } from 'leaflet'
 import { useGetSingleSeason } from '../season/useGetSingleSeason'
-import { latLngBounds, LatLngTuple, LatLngBounds } from 'leaflet'
 
 export const useMapData = (seasonId: string) => {
-  const { women } = useGenderContext()
+  const { womenContext } = useGenderContext()
   const { data, error, isLoading, isSuccess } = useGetSingleSeason(seasonId)
-  const seasonObject = data?.find((season) => season.women === women)
+  const seasonObject = data?.find((season) => season.women === womenContext)
 
   const teams = seasonObject?.teams.filter(
     (team) => team.teamseason.qualification !== true

@@ -1,4 +1,3 @@
-import { Link, useLinkProps, useParams } from '@tanstack/react-router'
 import {
   Carousel,
   CarouselApi,
@@ -7,10 +6,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import {
+  Link,
+  useLinkProps,
+  useParams,
+  useSearch,
+} from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
 import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { z } from 'zod'
 const parseParam = z
@@ -21,8 +26,12 @@ const SeasonHeader = () => {
   const [api, setApi] = useState<CarouselApi>()
   const [selectedButton, setSelectedButton] = useState(0)
   const { seasons } = useGetAllSeasons()
+  const { women } = useSearch({ from: '/_layout' })
   const seasonId = useParams({ from: '/_layout/season/$seasonId' }).seasonId
-  const linkArray = useLinkProps({ from: '/season/$seasonId' }).href?.split('/')
+  const linkArray = useLinkProps({
+    from: '/season/$seasonId',
+    search: { women },
+  }).href?.split('/')
   const route = linkArray ? linkArray[linkArray?.length - 1] : ''
   const parsedRoute = parseParam.parse(route)
 
@@ -84,6 +93,7 @@ const SeasonHeader = () => {
                     <Link
                       to={`/season/$seasonId/${parsedRoute}`}
                       params={{ seasonId: season.season }}
+                      search={{ women }}
                     >
                       {season.year}
                     </Link>

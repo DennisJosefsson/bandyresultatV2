@@ -32,7 +32,7 @@ export type FavTeamsActionType =
   | { type: 'CLEAR_TEAMS' }
 
 export const GenderContext = createContext<{
-  women: GenderType
+  womenContext: GenderType
   dispatch: Dispatch<GenderActionType>
 } | null>(null)
 

@@ -5,7 +5,6 @@ import AnimationGamesList from '@/components/Components/Season/SeasonDevelopment
 import AnimationTable from '@/components/Components/Season/SeasonDevelopmentComponents/AnimationTable'
 import GroupSelector from '@/components/Components/Season/SeasonDevelopmentComponents/GroupSelector'
 import { CarouselApi } from '@/components/ui/carousel'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import useDevelopmentData from '@/lib/hooks/dataHooks/development/useDevelopmentData'
 import { developmentQueries } from '@/lib/queries/development/queries'
 import { createFileRoute } from '@tanstack/react-router'
@@ -37,7 +36,7 @@ function Development() {
     animationObject,
     justDatesArray,
   } = useDevelopmentData(seasonId, group, setGroup, setRound, api, dateApi)
-  const { women } = useGenderContext()
+  const { women } = Route.useSearch()
 
   useEffect(() => {
     if (!api || !dateApi) return

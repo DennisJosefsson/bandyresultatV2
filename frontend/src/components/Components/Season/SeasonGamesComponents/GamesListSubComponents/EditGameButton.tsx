@@ -1,22 +1,20 @@
 import { Button } from '@/components/ui/button'
-import { GameObjectType } from '@/lib/types/games/games'
-import { DotsVerticalIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
-import { useParams } from '@tanstack/react-router'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { GameObjectType } from '@/lib/types/games/games'
+import { DotsVerticalIcon } from '@radix-ui/react-icons'
+import { useParams, useSearch } from '@tanstack/react-router'
+import { useState } from 'react'
 
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-
-import GameForm from '../GameForm'
-import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { Dialog } from '@/components/ui/dialog'
-import DeleteDialog from './DeleteDialog'
+import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { setGame } from '@/lib/zustand/games/gameStore'
+import GameForm from '../GameForm'
+import DeleteDialog from './DeleteDialog'
 
 type EditGameButtonProps = {
   game: GameObjectType
@@ -24,7 +22,7 @@ type EditGameButtonProps = {
 
 const EditGameButton = ({ game }: EditGameButtonProps) => {
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId/games' })
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [gameId, setGameId] = useState<number | null>(null)

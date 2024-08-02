@@ -11,21 +11,22 @@ import {
 import { TabBarInline } from '@/components/Components/Common/TabBar'
 import { Button } from '@/components/ui/button'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { Link, useParams } from '@tanstack/react-router'
+import { Link, useNavigate, useParams } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTabBar = () => {
   const matches = useMediaQuery('(min-width: 640px)')
-  const { dispatch, women } = useGenderContext()
+  const navigate = useNavigate()
+  const { womenContext } = useGenderContext()
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId' })
 
   const seasonTabBarObject = {
     gender: (
       <Button
-        onClick={() => dispatch({ type: 'TOGGLE' })}
+        onClick={() => navigate({ search: { women: !womenContext } })}
         size={matches ? 'default' : 'icon'}
       >
-        {women ? (
+        {womenContext ? (
           matches ? (
             'Herrar'
           ) : (
@@ -41,7 +42,11 @@ const SeasonTabBar = () => {
     tabBarArray: [
       {
         tab: (
-          <Link to="/season/$seasonId/games" params={{ seasonId: seasonId }}>
+          <Link
+            to="/season/$seasonId/games"
+            params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
+          >
             {({ isActive }) => {
               return (
                 <Button
@@ -59,7 +64,11 @@ const SeasonTabBar = () => {
       },
       {
         tab: (
-          <Link to="/season/$seasonId/tables" params={{ seasonId: seasonId }}>
+          <Link
+            to="/season/$seasonId/tables"
+            params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
+          >
             {({ isActive }) => {
               return (
                 <Button
@@ -77,7 +86,11 @@ const SeasonTabBar = () => {
       },
       {
         tab: (
-          <Link to="/season/$seasonId/playoff" params={{ seasonId: seasonId }}>
+          <Link
+            to="/season/$seasonId/playoff"
+            params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
+          >
             {({ isActive }) => {
               return (
                 <Button
@@ -98,6 +111,7 @@ const SeasonTabBar = () => {
           <Link
             to="/season/$seasonId/development"
             params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
           >
             {({ isActive }) => {
               return (
@@ -116,7 +130,11 @@ const SeasonTabBar = () => {
       },
       {
         tab: (
-          <Link to="/season/$seasonId/stats" params={{ seasonId: seasonId }}>
+          <Link
+            to="/season/$seasonId/stats"
+            params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
+          >
             {({ isActive }) => {
               return (
                 <Button
@@ -134,7 +152,11 @@ const SeasonTabBar = () => {
       },
       {
         tab: (
-          <Link to="/season/$seasonId/map" params={{ seasonId: seasonId }}>
+          <Link
+            to="/season/$seasonId/map"
+            params={{ seasonId: seasonId }}
+            search={{ women: womenContext }}
+          >
             {({ isActive }) => {
               return (
                 <Button

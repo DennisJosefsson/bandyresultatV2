@@ -1,5 +1,4 @@
 import { TabBarInline } from '@/components/Components/Common/TabBar'
-import useGenderContext from '@/lib//hooks/contextHooks/useGenderContext'
 
 import {
   ListIcon,
@@ -11,13 +10,18 @@ import {
   WomanIcon,
 } from '@/components/Components/Common/Icons/icons'
 import { Button } from '@/components/ui/button'
-import { CompareFormState } from '@/lib/types/teams/teams'
-import { Link, useLocation, useNavigate } from '@tanstack/react-router'
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearch,
+} from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
-const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
+const TeamsTabBar = () => {
   const matches = useMediaQuery('(min-width: 430px)')
-  const { women } = useGenderContext()
+  const search = useSearch({ from: '/_layout/teams' })
+
   const navigate = useNavigate({ from: '/teams' })
   const pathName = useLocation().pathname
 
@@ -25,11 +29,11 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
     gender: (
       <Button
         onClick={() => {
-          navigate({ search: { women: !women } })
+          navigate({ search: { women: !search.women } })
         }}
         size={matches ? 'default' : 'icon'}
       >
-        {women ? (
+        {search.women ? (
           matches ? (
             'Herrar'
           ) : (
@@ -53,7 +57,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
     tabBarArray: [
       {
         tab: (
-          <Link to="/teams" search={formValues}>
+          <Link to="/teams" search={search}>
             {({ isActive }) => {
               return (
                 <Button
@@ -74,7 +78,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
       },
       {
         tab: (
-          <Link to="/teams/map" search={formValues}>
+          <Link to="/teams/map" search={search}>
             {({ isActive }) => {
               return (
                 <Button
@@ -91,7 +95,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
       },
       {
         tab: (
-          <Link to="/teams/selection" search={formValues}>
+          <Link to="/teams/selection" search={search}>
             {({ isActive }) => {
               return (
                 <Button
@@ -109,7 +113,7 @@ const TeamsTabBar = ({ formValues }: { formValues: CompareFormState }) => {
       },
       {
         tab: (
-          <Link to="/teams/compare" search={formValues}>
+          <Link to="/teams/compare" search={search}>
             {({ isActive }) => {
               return (
                 <Button

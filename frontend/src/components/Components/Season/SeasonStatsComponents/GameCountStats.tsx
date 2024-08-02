@@ -1,13 +1,12 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetGameResultStats } from '@/lib/hooks/dataHooks/stats/useGetGameResultStats'
-import GameResultStatsCard from './GameResultStatsCard'
-import { sortStatsCat } from '@/lib/utils/sortFunction'
 import { groupConstant } from '@/lib/utils/constants'
-import { useParams } from '@tanstack/react-router'
+import { sortStatsCat } from '@/lib/utils/sortFunction'
+import { useParams, useSearch } from '@tanstack/react-router'
+import GameResultStatsCard from './GameResultStatsCard'
 
 const GameCountStats = () => {
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const { gamesCountTotal, gamesCountTotalCat } = useGetGameResultStats(
     seasonId,
     women

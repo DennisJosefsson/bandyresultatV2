@@ -1,12 +1,11 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { useGetGameResultStats } from '@/lib/hooks/dataHooks/stats/useGetGameResultStats'
 
+import { useParams, useSearch } from '@tanstack/react-router'
 import PieChartCard from './PieChartCard'
-import { useParams } from '@tanstack/react-router'
 
 const ResultCountStats = () => {
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useGenderContext()
+  const { women } = useSearch({ from: '/_layout' })
   const { pieChartData } = useGetGameResultStats(seasonId, women)
 
   return (

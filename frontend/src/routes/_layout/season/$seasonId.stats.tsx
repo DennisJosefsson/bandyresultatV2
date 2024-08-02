@@ -1,11 +1,10 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import StatsComponent from '@/components/Components/Season/SeasonStatsComponents/StatsComponent'
 import { useGetSeasonStats } from '@/lib/hooks/dataHooks/stats/useGetSeasonStats'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { statsQueries } from '@/lib/queries/stats/queries'
 import { createFileRoute } from '@tanstack/react-router'
-import StatsComponent from '@/components/Components/Season/SeasonStatsComponents/StatsComponent'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/stats')({
   component: Stats,
@@ -19,7 +18,7 @@ function Stats() {
   const { seasonId } = Route.useParams()
   const { data } = useGetSeasonStats(seasonId)
 
-  const { women } = useGenderContext()
+  const { women } = Route.useSearch()
 
   const gameCount =
     data.gamesCountTotal.find((item) => item.women === women)?.count ?? 0

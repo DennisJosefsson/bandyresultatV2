@@ -5,15 +5,16 @@ import CompareStats from '@/components/Components/Teams/Compare/CompareStats'
 import DetailedData from '@/components/Components/Teams/Compare/DetailedData'
 import { Card, CardContent } from '@/components/ui/card'
 import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
-import { compareFormState } from '@/lib/types/teams/teams'
+//import { compareFormState } from '@/lib/types/teams/teams'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { AxiosError } from 'axios'
 
 export const Route = createFileRoute('/_layout/teams/compare')({
   component: Compare,
   pendingComponent: Loading,
-  validateSearch: compareFormState,
+
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 
@@ -27,10 +28,9 @@ function Compare() {
         <Card className="mt-2">
           <CompareHeader
             length={compareData.allData.length}
-            seasonNames={compareData.seasonNames}
+            compareHeaderText={compareData.compareHeaderText}
             link={compareLink}
             searchObject={compareObject}
-            compareAllGames={compareData.compareAllGames}
             origin={origin}
           />
           <CardContent>
@@ -73,20 +73,29 @@ function Compare() {
 
 function ErrorComponent({ error }: { error: unknown }) {
   const compareObject = Route.useSearch()
-  if (error && error instanceof Error) {
-    console.log('errorMessage', error.message)
-    const messages = JSON.parse(error.message)
-    if (Array.isArray(messages)) {
-      const errorMess = messages.map((error) => error.message).join(',')
+  console.log('ERROR', error)
+
+  if (error && error instanceof AxiosError) {
+    if (error.response?.status === 400) {
       return (
-        <div className="flex flex-row justify-center items-center mt-2">
-          <p>
-            {errorMess}. Gå till{' '}
-            <Link to="/teams" search={compareObject}>
+        <div className="flex flex-row justify-center items-center mt-2 font-inter">
+          <p className="text-center">
+            {error.response?.data.errors ?? 'Något gick fel.'}
+            <br />
+            Gå till{' '}
+            <Link
+              to="/teams"
+              search={compareObject}
+              className="text-blue-700 underline font-semibold"
+            >
               laglistan
             </Link>{' '}
             eller ändra{' '}
-            <Link to="/teams/selection" search={compareObject}>
+            <Link
+              to="/teams/selection"
+              search={compareObject}
+              className="underline text-blue-700 font-semibold"
+            >
               sökval
             </Link>
             .
@@ -94,8 +103,15 @@ function ErrorComponent({ error }: { error: unknown }) {
         </div>
       )
     }
-    return <div>Felmeddelande</div>
+
+    return (
+      <div className="flex flex-row justify-center items-center mt-2">
+        Något gick tyvärr fel.
+      </div>
+    )
   }
 
-  return <div>Fel</div>
+  return (
+    <div className="flex flex-row justify-center items-center mt-2">Fel</div>
+  )
 }

@@ -1,13 +1,11 @@
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
+import { teamQueries } from '@/lib/queries/teams/queries'
 import { CompareFormState, compareFormState } from '@/lib/types/teams/teams'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, useFormContext } from 'react-hook-form'
-import { compareTeams } from '@/lib/requests/tables'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useLocation, useSearch } from '@tanstack/react-router'
+import { useForm } from 'react-hook-form'
 import useGetAllSeasons from '../season/useGetAllSeasons'
-import { teamQueries } from '@/lib/queries/teams/queries'
-import { useLocation } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 
 const baseUrl = import.meta.env.PROD
   ? 'https://bandyresultat.se'
@@ -31,58 +29,47 @@ const initValues = (women: boolean): CompareFormState => {
 }
 
 export const useCompare = () => {
-  const { women } = useGenderContext()
-  const compareInitvalues = initValues(women)
+  const { womenContext } = useGenderContext()
+  const compareInitvalues = initValues(womenContext)
 
   const methods = useForm<CompareFormState>({
     defaultValues: compareInitvalues,
     criteriaMode: 'all',
-    mode: 'onTouched',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     resolver: zodResolver(compareFormState),
   })
 
-  const mutation = useMutation({
-    mutationFn: compareTeams,
-  })
-
-  const baseUrl = import.meta.env.PROD
-    ? 'https://bandyresultat.se'
-    : 'http://localhost:5173'
-  const compareLink = `${baseUrl}/teams?link=${mutation.data?.link[0].linkName}`
-
-  return { methods, mutation, compareLink }
+  return { methods }
 }
 
 export const useCompareResults = (compareObject: CompareFormState) => {
-  const [linkLoaded, setLinkLoaded] = useState(false)
-  const methods = useFormContext()
-  const { data } = useSuspenseQuery(teamQueries['compare'](compareObject))
-
+  const { data, error } = useSuspenseQuery(
+    teamQueries['compare'](compareObject)
+  )
   const href = useLocation().href
-
   const compareLink = `${baseUrl}${href}`
-
-  useEffect(() => {
-    if (!linkLoaded) {
-      methods.reset(compareObject)
-      setLinkLoaded(true)
-    }
-  }, [compareObject, linkLoaded, methods])
-
-  return { data, compareLink }
+  return { data, error, compareLink }
 }
 
 export const useCompareSeasons = () => {
   const { seasons } = useGetAllSeasons()
+  const { women } = useSearch({
+    from: '/_layout/teams',
+  })
 
   const reversedSeasons = [...seasons].sort((a, b) => a.seasonId - b.seasonId)
-  const startOptions = reversedSeasons.map((season) => {
-    return { label: season.year, value: season.seasonId }
-  })
+  const startOptions = reversedSeasons
+    .filter((item) => item.women === women)
+    .map((season) => {
+      return { label: season.year, value: season.seasonId }
+    })
 
-  const endOptions = seasons.map((season) => {
-    return { label: season.year, value: season.seasonId }
-  })
+  const endOptions = seasons
+    .filter((item) => item.women === women)
+    .map((season) => {
+      return { label: season.year, value: season.seasonId }
+    })
 
   const endOptionsPlaceholder = endOptions[0]?.label
 
