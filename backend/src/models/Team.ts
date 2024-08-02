@@ -1,20 +1,20 @@
 import { z } from 'zod'
 
 import {
-  Model,
-  DataType,
-  Column,
-  Table,
-  PrimaryKey,
-  BelongsToMany,
-  HasMany,
   AllowNull,
+  BelongsToMany,
+  Column,
+  DataType,
   Default,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
 } from 'sequelize-typescript'
-import Season from './Season.js'
-import TeamSeason from './TeamSeason.js'
-import TeamGame from './TeamGame.js'
 import Game from './Game.js'
+import Season from './Season.js'
+import TeamGame from './TeamGame.js'
+import TeamSeason from './TeamSeason.js'
 import TeamTable from './TeamTable.js'
 
 export const teamAttributes = z.object({
@@ -43,7 +43,7 @@ export interface TeamOutput extends Required<TeamAttributes> {}
 class Team extends Model<TeamAttributes, TeamInput> {
   @PrimaryKey
   @Column
-  declare teamId?: number
+  declare teamId: number
 
   @AllowNull(false)
   @Column

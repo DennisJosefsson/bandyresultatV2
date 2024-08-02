@@ -1,22 +1,22 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
 import { Op, QueryTypes } from 'sequelize'
-import { sequelize } from '../../utils/db.js'
 import Season from '../../models/Season.js'
-import TeamGame from '../../models/TeamGame.js'
 import Team from '../../models/Team.js'
-import Link from '../../models/Link.js'
-import { compareObject } from '../../utils/postFunctions/compareRequest.js'
+import TeamGame from '../../models/TeamGame.js'
+import { sequelize } from '../../utils/db.js'
+import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
+import { parseCompareRequest } from '../../utils/postFunctions/compareRequest.js'
+import getCompareHeaderText from '../../utils/postFunctions/getCompareHeaderText.js'
 import {
   compareAllTeamTables,
   compareCategoryTeamTables,
 } from '../../utils/responseTypes/tableTypes.js'
-import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 
 const compareRouter = Router()
 
@@ -26,14 +26,32 @@ compareRouter.post('/compare', (async (
   _next: NextFunction
 ) => {
   res.locals.origin = 'POST Compare router'
+  const menSeason = await Season.findOne({
+    where: { women: false },
+    order: [['seasonId', 'desc']],
+    limit: 1,
+    raw: true,
+    nest: true,
+  })
+  const womenSeason = await Season.findOne({
+    where: { women: true },
+    order: [['seasonId', 'desc']],
+    limit: 1,
+    raw: true,
+    nest: true,
+  })
+
   const { teamArray, categoryArray, startSeason, endSeason } =
-    compareObject.parse(req.body)
-  const searchString = JSON.stringify(req.body)
+    parseCompareRequest(req.body, menSeason, womenSeason)
 
   const seasonNames = await Season.findAll({
     where: { seasonId: { [Op.in]: [startSeason, endSeason] } },
     attributes: ['seasonId', 'year'],
+    raw: true,
+    nest: true,
   })
+
+  const teams = await Team.findAll({ where: { teamId: teamArray } })
 
   const getCatTables = await TeamGame.findAll({
     where: {
@@ -188,6 +206,8 @@ compareRouter.post('/compare', (async (
 
   const compareAllGames = compareAllTeamTables.parse(getCompareAllGames)
 
+  const gameCount = compareAllGames.length
+
   const golds = await sequelize.query(
     `
   select count(distinct season_id) as guld, team, casual_name
@@ -260,8 +280,11 @@ order by "date" asc;
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
   )
 
-  const link = await Link.findOrCreate({
-    where: { searchString: searchString, origin: 'compare' },
+  const compareHeaderText = getCompareHeaderText({
+    seasonNames,
+    teams,
+    gameCount,
+    categoryArray,
   })
 
   res.status(200).json({
@@ -273,8 +296,8 @@ order by "date" asc;
     allPlayoffs,
     allSeasons,
     firstAndLatestGames,
-    link: link,
     seasonNames,
+    compareHeaderText,
   })
 }) as RequestHandler)
 

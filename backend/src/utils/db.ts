@@ -40,6 +40,7 @@ switch (process.env.NODE_ENV) {
 export const sequelize = new Sequelize(dbUrl, {
   omitNull: true,
   attributeBehavior: 'escape',
+  logging: false,
 })
 
 export const connectToDb = async () => {
