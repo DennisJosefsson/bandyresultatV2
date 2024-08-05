@@ -2,20 +2,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import { useCompareSeasons } from '@/lib/hooks/dataHooks/teams/useCompare'
-import { useSearch } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useRef, useState } from 'react'
 import { FixedSizeList } from 'react-window'
+import RenderItem from './RenderItem'
 
 const EndSeason = () => {
+  const listRef = useRef<FixedSizeList>(null)
   const { endSeason } = useSearch({
     from: '/_layout/teams',
   })
-
+  const navigate = useNavigate({ from: '/teams' })
   const { endOptions, endOptionsPlaceholder } = useCompareSeasons()
   const [value, setValue] = useState<string>(
     endSeason
@@ -23,7 +24,23 @@ const EndSeason = () => {
       : endOptions.slice(0, 1)[0].value.toString()
   )
 
-  console.log(value)
+  const onValueChange = (value: string): void => {
+    navigate({ search: (prev) => ({ ...prev, endSeason: parseInt(value) }) })
+    setValue(value)
+  }
+
+  const onOpenChange = (open: boolean): void => {
+    if (open && listRef && listRef.current && listRef.current.scrollToItem) {
+      listRef.current.scrollToItem(
+        endOptions.findIndex((val) => val.value === parseInt(value)),
+        'center'
+      )
+    }
+  }
+
+  const selectedLabel = endOptions.find(
+    (val) => val.value === parseInt(value)
+  )?.label
 
   return (
     <div>
@@ -32,9 +49,15 @@ const EndSeason = () => {
           <CardTitle>Sista säsong</CardTitle>
         </CardHeader>
         <CardContent>
-          <Select value={value} onValueChange={setValue}>
+          <Select
+            value={value}
+            onValueChange={onValueChange}
+            onOpenChange={(open) => onOpenChange(open)}
+          >
             <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder={endOptionsPlaceholder} />
+              <SelectValue placeholder={endOptionsPlaceholder}>
+                {selectedLabel}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <FixedSizeList
@@ -42,18 +65,10 @@ const EndSeason = () => {
                 height={250}
                 itemCount={endOptions.length}
                 itemSize={30}
+                itemData={endOptions}
+                ref={listRef}
               >
-                {({ index, style }) => (
-                  <SelectItem
-                    value={endOptions[index].value.toString()}
-                    key={endOptions[index].value}
-                    style={{
-                      ...style,
-                    }}
-                  >
-                    {endOptions[index].label}
-                  </SelectItem>
-                )}
+                {RenderItem}
               </FixedSizeList>
             </SelectContent>
           </Select>

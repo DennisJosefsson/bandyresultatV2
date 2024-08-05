@@ -26,8 +26,8 @@ export const compareFormState = z
       .array(z.string())
       .min(1, { message: 'Välj minst en matchkategori' })
       .optional(),
-    startSeason: z.string().optional(),
-    endSeason: z.string().optional(),
+    startSeason: z.number().optional(),
+    endSeason: z.number().optional(),
     women: z.boolean().optional(),
   })
   .refine((arg) => Number(arg.startSeason) <= Number(arg.endSeason), {
@@ -38,8 +38,8 @@ export const compareFormState = z
 export const reducedCompareFormState = z.object({
   teamArray: z.array(z.number()).optional(),
   categoryArray: z.array(z.string()),
-  startSeason: z.string(),
-  endSeason: z.string(),
+  startSeason: z.number(),
+  endSeason: z.number(),
   women: z.boolean(),
 })
 
@@ -52,8 +52,8 @@ export const validateSearchParams = z
     categoryArray: z
       .array(z.string())
       .min(1, { message: 'Välj minst en matchkategori' }),
-    startSeason: z.string(),
-    endSeason: z.string(),
+    startSeason: z.number(),
+    endSeason: z.number(),
     women: z.boolean(),
     link: z.boolean(),
   })
