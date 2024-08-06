@@ -18,14 +18,17 @@ import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTeamsImport } from './routes/_layout/teams'
 import { Route as LayoutSeasonsImport } from './routes/_layout/seasons'
 import { Route as LayoutSeasonImport } from './routes/_layout/season'
+import { Route as LayoutSearchImport } from './routes/_layout/search'
 import { Route as LayoutMaratonImport } from './routes/_layout/maraton'
 import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutTeamsIndexImport } from './routes/_layout/teams/index'
+import { Route as LayoutSearchIndexImport } from './routes/_layout/search/index'
 import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/index'
 import { Route as LayoutTeamsSelectionImport } from './routes/_layout/teams/selection'
 import { Route as LayoutTeamsCompareImport } from './routes/_layout/teams/compare'
 import { Route as LayoutTeamTeamIdImport } from './routes/_layout/team/$teamId'
 import { Route as LayoutSeasonSeasonIdImport } from './routes/_layout/season/$seasonId'
+import { Route as LayoutSearchHelpImport } from './routes/_layout/search/help'
 import { Route as LayoutDashboardSeasonsImport } from './routes/_layout/dashboard/seasons'
 import { Route as LayoutDashboardNewSeasonImport } from './routes/_layout/dashboard/newSeason'
 import { Route as LayoutDashboardErrorsImport } from './routes/_layout/dashboard/errors'
@@ -88,6 +91,11 @@ const LayoutSeasonRoute = LayoutSeasonImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutSearchRoute = LayoutSearchImport.update({
+  path: '/search',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutMaratonRoute = LayoutMaratonImport.update({
   path: '/maraton',
   getParentRoute: () => LayoutRoute,
@@ -101,6 +109,11 @@ const LayoutDashboardRoute = LayoutDashboardImport.update({
 const LayoutTeamsIndexRoute = LayoutTeamsIndexImport.update({
   path: '/',
   getParentRoute: () => LayoutTeamsRoute,
+} as any)
+
+const LayoutSearchIndexRoute = LayoutSearchIndexImport.update({
+  path: '/',
+  getParentRoute: () => LayoutSearchRoute,
 } as any)
 
 const LayoutDashboardIndexRoute = LayoutDashboardIndexImport.update({
@@ -133,6 +146,11 @@ const LayoutTeamTeamIdRoute = LayoutTeamTeamIdImport.update({
 const LayoutSeasonSeasonIdRoute = LayoutSeasonSeasonIdImport.update({
   path: '/$seasonId',
   getParentRoute: () => LayoutSeasonRoute,
+} as any)
+
+const LayoutSearchHelpRoute = LayoutSearchHelpImport.update({
+  path: '/help',
+  getParentRoute: () => LayoutSearchRoute,
 } as any)
 
 const LayoutDashboardSeasonsRoute = LayoutDashboardSeasonsImport.update({
@@ -250,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutMaratonImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/search': {
+      id: '/_layout/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof LayoutSearchImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/season': {
       id: '/_layout/season'
       path: '/season'
@@ -320,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardSeasonsImport
       parentRoute: typeof LayoutDashboardImport
     }
+    '/_layout/search/help': {
+      id: '/_layout/search/help'
+      path: '/help'
+      fullPath: '/search/help'
+      preLoaderRoute: typeof LayoutSearchHelpImport
+      parentRoute: typeof LayoutSearchImport
+    }
     '/_layout/season/$seasonId': {
       id: '/_layout/season/$seasonId'
       path: '/$seasonId'
@@ -361,6 +393,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof LayoutDashboardIndexImport
       parentRoute: typeof LayoutDashboardImport
+    }
+    '/_layout/search/': {
+      id: '/_layout/search/'
+      path: '/'
+      fullPath: '/search/'
+      preLoaderRoute: typeof LayoutSearchIndexImport
+      parentRoute: typeof LayoutSearchImport
     }
     '/_layout/teams/': {
       id: '/_layout/teams/'
@@ -476,6 +515,10 @@ export const routeTree = rootRoute.addChildren({
         }),
     }),
     LayoutMaratonRoute,
+    LayoutSearchRoute: LayoutSearchRoute.addChildren({
+      LayoutSearchHelpRoute,
+      LayoutSearchIndexRoute,
+    }),
     LayoutSeasonRoute: LayoutSeasonRoute.addChildren({
       LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
         LayoutSeasonSeasonIdDevelopmentRoute,

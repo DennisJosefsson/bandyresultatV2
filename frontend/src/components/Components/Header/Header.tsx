@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Link } from '@tanstack/react-router'
-import { Menu } from 'lucide-react'
-// import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
+import { Link } from '@tanstack/react-router'
+import { Menu } from 'lucide-react'
 import { useState } from 'react'
 import LoginComponent from './LoginComponents/LoginComponent'
 import ModeToggle from './ModeToggle'
@@ -37,13 +36,13 @@ const Header = () => {
           >
             Lag
           </Link>
-          {/* <Link
+          <Link
             to="/search"
-            search={defaultValues}
+            search={{ women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Sök
-          </Link> */}
+          </Link>
           <Link
             to="/maraton"
             search={{ tab: 'maraton', table: 'all', women: womenContext }}
@@ -108,14 +107,14 @@ const Header = () => {
               >
                 Lag
               </Link>
-              {/* <Link
+              <Link
                 to="/search"
-                search={defaultValues}
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >
                 Sök
-              </Link> */}
+              </Link>
               <Link
                 to="/maraton"
                 search={{ tab: 'maraton', table: 'all', women: womenContext }}

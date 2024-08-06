@@ -25,10 +25,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": [
-    "src/tmp",
-    "src/components/Components/Search",
-    "src/tmp/hooks/search"
-  ],
+  "exclude": ["src/tmp", "src/tmp/hooks/search"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
