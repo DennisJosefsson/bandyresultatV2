@@ -1,22 +1,21 @@
+import dayjs from 'dayjs'
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
-import { sequelize } from '../../utils/db.js'
 import { Op, Order } from 'sequelize'
-import TeamGame from '../../models/TeamGame.js'
-import Team from '../../models/Team.js'
-import Season from '../../models/Season.js'
-import Link from '../../models/Link.js'
 import Game from '../../models/Game.js'
+import Season from '../../models/Season.js'
+import Team from '../../models/Team.js'
+import TeamGame from '../../models/TeamGame.js'
+import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import SearchError from '../../utils/middleware/errors/SearchError.js'
-import { searchRequest } from '../../utils/postFunctions/gameRequest.js'
+import { parseSearchRequest } from '../../utils/postFunctions/gameRequest.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
-import dayjs from 'dayjs'
 
 const searchRouter = Router()
 
@@ -26,9 +25,15 @@ searchRouter.post('/search', (async (
   _next: NextFunction
 ) => {
   res.locals.origin = 'POST Search router'
-  console.log(req.body)
-  const searchString = JSON.stringify(req.body)
-  const searchParams = searchRequest.parse(req.body)
+
+  const maxSeason = await Season.findOne({
+    order: [['seasonId', 'desc']],
+    limit: 1,
+    raw: true,
+    nest: true,
+  })
+
+  const searchParams = parseSearchRequest(req.body, maxSeason)
 
   let goalDifference
   let goalsScored
@@ -282,15 +287,10 @@ searchRouter.post('/search', (async (
       return
     })
     .filter((game) => game !== undefined)
-    .slice(0, searchParams.limit)
-
-  const link = await Link.findOrCreate({
-    where: { searchString: searchString, origin: 'search' },
-  })
+    .slice(0, parseInt(searchParams.limit))
 
   res.status(200).json({
     searchResult,
-    searchLink: link,
   })
 }) as RequestHandler)
 
