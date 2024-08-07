@@ -29,7 +29,10 @@ const catValues = [
 ]
 
 const CategoryArray = () => {
-  const { categoryArray } = useSearch({ from: '/_layout/teams' })
+  const categoryArray = useSearch({
+    from: '/_layout/search',
+    select: (search) => search.categoryArray,
+  })
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryArray ?? initCategories
   )
@@ -82,7 +85,7 @@ const CategoryArray = () => {
           <CardDescription>Välj minst en kategori.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-2 lg:gap-x-12">
             {catValues.map((cat) => {
               return (
                 <MemoCategoryItem

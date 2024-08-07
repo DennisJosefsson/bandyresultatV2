@@ -67,7 +67,7 @@ export const useGetSearchTeams = () => {
   const filteredOpponents = data
     ? data
         .filter((team) => team.teamId !== 176)
-        .filter((team) => team.women === women)
+        .filter((team) => team.women === womenContext)
     : []
 
   const teamSelection = filteredTeams.map((team) => {
@@ -133,10 +133,9 @@ export const useSearchResults = (
         })
     : []
 
-  const baseUrl = import.meta.env.PROD
-    ? 'https://bandyresultat.se'
-    : 'http://localhost:5173'
-  const searchLink = `${baseUrl}/search?link=${searchResult?.searchLink[0].linkName}`
+  // const baseUrl = import.meta.env.PROD
+  //   ? 'https://bandyresultat.se'
+  //   : 'http://localhost:5173'
 
-  return { searchResult, gameArray, searchLink, isSearchResultSuccess }
+  return { searchResult, gameArray, isSearchResultSuccess }
 }

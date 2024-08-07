@@ -28,5 +28,8 @@ export const searchResponseObject = z.object({
   searchResult: z.array(searchResultTeamgameObject),
 })
 
+const searchParamsFields = searchParamsObject.keyof()
+
 export type SearchParamsObject = z.infer<typeof searchParamsObject>
 export type SearchResponseObject = z.infer<typeof searchResponseObject>
+export type SearchParamsFields = z.infer<typeof searchParamsFields>

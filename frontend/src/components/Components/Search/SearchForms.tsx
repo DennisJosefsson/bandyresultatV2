@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction } from 'react'
 
-// import OrderFormComponent from './OrderFormComponent'
-// import PreferenceFormComponent from './PreferenceFormComponent'
-import ResultFormComponent from './ResultFormComponent'
-//import SeasonFormComponent from './SeasonFormComponent'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import OrderFormComponent from './OrderFormComponent'
+import PreferenceFormComponent from './PreferenceFormComponent'
+import ResultFormComponent from './ResultFormComponent'
+import SeasonFormComponent from './SeasonFormComponent'
 
 type SearchFormsProps = {
   openAccordion: string
@@ -36,7 +36,7 @@ const SearchForms = ({ openAccordion, setOpenAccordion }: SearchFormsProps) => {
             <ResultFormComponent />
           </AccordionContent>
         </AccordionItem>
-        {/* <AccordionItem
+        <AccordionItem
           value="orderform"
           className="mb-2 rounded-md bg-background p-2 shadow-md"
         >
@@ -68,7 +68,7 @@ const SearchForms = ({ openAccordion, setOpenAccordion }: SearchFormsProps) => {
           <AccordionContent>
             <PreferenceFormComponent />
           </AccordionContent>
-        </AccordionItem> */}
+        </AccordionItem>
       </Accordion>
     </div>
   )
