@@ -47,8 +47,8 @@ searchRouter.post('/search', (async (
   let lost
   let women
 
-  const startSeasonName = seasonIdCheck.parse(req.body.startSeason)
-  const endSeasonName = seasonIdCheck.parse(req.body.endSeason)
+  const startSeasonName = seasonIdCheck.parse(searchParams.startSeason)
+  const endSeasonName = seasonIdCheck.parse(searchParams.endSeason)
 
   const defaultInclude = [
     {

@@ -67,7 +67,8 @@ export const parseSearchRequest = (
             return Number(val) > -1
           },
           { message: 'Gjorda mål måste vara 0 eller större än 0.' }
-        ),
+        )
+        .optional(),
       goalsScoredOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
       goalsConceded: z
         .string()
@@ -88,7 +89,8 @@ export const parseSearchRequest = (
             return Number(val) > -1
           },
           { message: 'Insläppta mål måste vara 0 eller större än 0.' }
-        ),
+        )
+        .optional(),
       goalsConcededOperator: z.enum(['eq', 'lte', 'gte']).catch('lte'),
       goalDiff: z
         .string()
@@ -109,7 +111,8 @@ export const parseSearchRequest = (
             return Number(val) > -1
           },
           { message: 'Målskillnaden måste vara 0 eller större än 0.' }
-        ),
+        )
+        .optional(),
       goalDiffOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
       startSeason: z
         .string()
@@ -155,8 +158,8 @@ export const parseSearchRequest = (
           }
         )
         .catch(maxYear),
-      team: z.string().or(z.null()),
-      opponent: z.string().or(z.null()),
+      team: z.number().optional(),
+      opponent: z.number().optional(),
       inputDate: z
         .string()
         .regex(/^\d{1,2}\/\d{1,2}/, { message: 'Fel datum, sökning' })
@@ -177,7 +180,7 @@ export const parseSearchRequest = (
         .optional()
         .nullable()
         .or(z.literal('')),
-      homeGame: z.enum(['home', 'away', 'both']).catch('both'),
+      homeGame: z.enum(['home', 'away', 'all']).catch('all'),
 
       selectedGender: z.enum(['men', 'women', 'all']).catch('all'),
       orderVar: z
