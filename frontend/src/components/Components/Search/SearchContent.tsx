@@ -1,40 +1,51 @@
-import { UseFormReturn } from 'react-hook-form'
-import { Dispatch, SetStateAction } from 'react'
-import ResultComponent from './ResultComponent'
+import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+//import ResultComponent from './ResultComponent'
+import { SearchGame } from '@/lib/hooks/dataHooks/search/useSearchForm'
+import Date from '../Common/Date'
 
-import { useSearchResults } from '@/lib/hooks/dataHooks/search/useSearchForm'
-import { SearchParamsObject } from '@/lib/types/games/search'
-import { ErrorState } from '@/lib/hooks/dataHooks/search/useSearchForm'
+const SearchContent = ({ gameArray }: { gameArray: SearchGame[] }) => {
+  const { favTeams } = useTeampreferenceContext()
 
-type SearchContentProps = {
-  methods: UseFormReturn<SearchParamsObject>
-  searchParams: SearchParamsObject | null
-  setSearchParams: Dispatch<SetStateAction<SearchParamsObject | null>>
-  setError: Dispatch<SetStateAction<ErrorState>>
-  error: ErrorState
-}
-
-const SearchContent = ({
-  error,
-  setError,
-  searchParams,
-}: SearchContentProps) => {
-  const { searchResult, gameArray } = useSearchResults(searchParams, setError)
+  console.log('gameArray from SearchContent', gameArray)
 
   return (
     <div className="mx-1 mt-2 xl:mx-0">
       <div className="ml-2 w-[18rem] max-w-[800px] lg:ml-0 lg:w-full">
-        {error.error && (
-          <div className="mb-2 rounded border-red-700 bg-background p-2 text-sm font-semibold text-red-700 md:text-base">
-            {error.message}
-          </div>
-        )}
-        {searchResult && searchResult.searchResult.length === 0 && (
+        {/* {searchResult && searchResult.searchResult.length === 0 && (
           <div className="rounded bg-background p-2">
             <p className="">Din sökning gav inga träffar.</p>
           </div>
-        )}
-        {searchResult && <ResultComponent gameArray={gameArray} />}
+        )} */}
+        {gameArray?.map((game, index) => {
+          return (
+            <div className="recordCard" key={`${game.date}-${index}`}>
+              <div className="pos">{index + 1}</div>
+              <div className="flex flex-col">
+                <div className="record1st">
+                  <div className="name">
+                    {game.homeTeam.casualName}-{game.awayTeam.casualName}
+                  </div>
+                  <div
+                    className={
+                      favTeams.includes(game.homeTeamId) ||
+                      favTeams.includes(game.awayTeamId)
+                        ? 'count font-bold'
+                        : 'count'
+                    }
+                  >
+                    {game.result}
+                  </div>
+                </div>
+                <div className="record2nd">
+                  <div className="dates">
+                    <Date>{game.date}</Date>
+                    {game.qualification && <span className="ml-1">(K)</span>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

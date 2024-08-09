@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios'
-import { baseUrl, mobileBaseUrl, header } from '../config/requestConfig'
-import { InputGameObjectType, GameObjectType } from '../types/games/games'
-import { StreakObjectTypes, StreakParams } from '../types/games/streaks'
+import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import { Game } from '../types/games/addGames'
+import { AnimationObject } from '../types/games/animation'
+import { GameObjectType, InputGameObjectType } from '../types/games/games'
 import { SearchParamsObject, SearchResponseObject } from '../types/games/search'
 import { SeasonStatsObjectType } from '../types/games/stats'
-import { AnimationObject } from '../types/games/animation'
-import { Game } from '../types/games/addGames'
+import { StreakObjectTypes, StreakParams } from '../types/games/streaks'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -35,7 +35,7 @@ export const getSearch = async (
   searchParams: SearchParamsObject | null
 ): Promise<SearchResponseObject> => {
   const response = await gamesApi.post('/search', searchParams)
-
+  console.log('RESPONSE', response)
   return response.data
 }
 

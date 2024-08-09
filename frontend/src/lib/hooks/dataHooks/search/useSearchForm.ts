@@ -1,59 +1,11 @@
-import {
-  SearchParamsObject,
-  searchParamsObject,
-} from '@/lib/types/games/search'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { useGetTeams } from '../teams/useGetTeams'
 
 import { getSearch } from '@/lib/requests/games'
 import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { Dispatch, SetStateAction, useEffect } from 'react'
 
-import { useSearch } from '@tanstack/react-router'
+import { SearchParamsObject } from '@/lib/types/games/search'
+import { useState } from 'react'
 import useGenderContext from '../../contextHooks/useGenderContext'
-
-export const defaultValues: SearchParamsObject = {
-  categoryArray: [
-    'final',
-    'semi',
-    'quarter',
-    'eight',
-    'regular',
-    'qualification',
-  ],
-  order: 'desc',
-  limit: '10',
-  result: '',
-  gameResult: 'all',
-  goalsScored: '',
-  goalsScoredOperator: 'gte',
-  goalsConceded: '',
-  goalsConcededOperator: 'gte',
-  goalDiff: '',
-  goalDiffOperator: 'gte',
-  startSeason: '1907',
-  endSeason: '2024',
-  team: '',
-  opponent: '',
-  inputDate: '',
-  selectedGender: 'all',
-  homeGame: 'both',
-  orderVar: 'date',
-}
-
-export const useSearchForm = () => {
-  const initValues = useSearch({ from: '/_layout/search' })
-  const methods = useForm<SearchParamsObject>({
-    defaultValues: initValues,
-    criteriaMode: 'all',
-    mode: 'onTouched',
-    resolver: zodResolver(searchParamsObject),
-  })
-
-  return { methods }
-}
 
 export const useGetSearchTeams = () => {
   const { womenContext } = useGenderContext()
@@ -88,31 +40,33 @@ export type ErrorState =
     }
   | { error: false }
 
-export const useSearchResults = (
-  searchParams: SearchParamsObject | null,
-  setError: Dispatch<SetStateAction<ErrorState>>
-) => {
-  const {
-    data: searchResult,
-    error: searchResultError,
-    isSuccess: isSearchResultSuccess,
-  } = useQuery({
-    queryKey: ['search', searchParams],
-    queryFn: () => getSearch(searchParams),
-  })
+type Team = {
+  teamId: number
+  name: string
+  casualName: string
+  shortName: string
+}
 
-  useEffect(() => {
-    if (
-      searchResultError &&
-      searchResultError instanceof AxiosError &&
-      searchResultError.response
-    ) {
-      setError({ error: true, message: searchResultError.response.data.errors })
-      setTimeout(() => {
-        setError({ error: false })
-      }, 5000)
-    }
-  }, [searchResultError, setError])
+export type SearchGame = {
+  homeTeam: Team
+  awayTeam: Team
+  homeTeamId: number
+  awayTeamId: number
+  result: string
+  date: string
+  qualification: boolean
+}
+
+export const useSearchResults = () => {
+  const [searchObject, setSearchObject] = useState<SearchParamsObject | null>(
+    null
+  )
+  const { data: searchResult, isSuccess: isSearchResultSuccess } = useQuery({
+    queryKey: ['search', searchObject],
+    queryFn: () => getSearch(searchObject),
+    enabled: !!searchObject,
+    staleTime: 100,
+  })
 
   const gameArray = isSearchResultSuccess
     ? searchResult?.searchResult
@@ -136,6 +90,6 @@ export const useSearchResults = (
   // const baseUrl = import.meta.env.PROD
   //   ? 'https://bandyresultat.se'
   //   : 'http://localhost:5173'
-
-  return { searchResult, gameArray, isSearchResultSuccess }
+  console.log('gameArray', gameArray)
+  return { searchResult, gameArray, isSearchResultSuccess, setSearchObject }
 }

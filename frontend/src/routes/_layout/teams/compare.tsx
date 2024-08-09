@@ -5,7 +5,6 @@ import CompareStats from '@/components/Components/Teams/Compare/CompareStats'
 import DetailedData from '@/components/Components/Teams/Compare/DetailedData'
 import { Card, CardContent } from '@/components/ui/card'
 import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
-//import { compareFormState } from '@/lib/types/teams/teams'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'

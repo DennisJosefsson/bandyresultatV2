@@ -1,42 +1,37 @@
-import SearchButtons from '@/components/Components/Search/SearchButtons'
-import SearchForms from '@/components/Components/Search/SearchForms'
-// import SearchTeamComponent from '@/components/Components/Search/SearchTeamComponent'
-// import { Form } from '@/components/ui/form'
-// import { useSearchForm } from '@/lib/hooks/dataHooks/search/useSearchForm'
-// import { SearchParamsObject } from '@/lib/types/games/search'
+import Loading from '@/components/Components/Common/Loading'
+import Search from '@/components/Components/Search/Search'
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-//import { SubmitHandler } from 'react-hook-form'
+import { AxiosError } from 'axios'
 
 export const Route = createFileRoute('/_layout/search/')({
-  component: SearchComponent,
+  component: Search,
+  pendingComponent: Loading,
+  errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 
-function SearchComponent() {
-  const [openAccordion, setOpenAccordion] = useState('')
-  // const { methods } = useSearchForm()
-  // const onSubmit: SubmitHandler<SearchParamsObject> = (data) =>
-  //   console.log(data)
+function ErrorComponent({ error }: { error: unknown }) {
+  console.log('ERROR', error)
 
-  // const formValues = methods.watch()
-
-  // console.log(formValues)
-  return (
-    <div className="mx-1 mt-2 xl:mx-0">
-      <div className="flex flex-row-reverse justify-between">
-        <SearchButtons />
-        <div className="ml-2 w-full">
-          {/* <Form {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)} id="search"> */}
-          {/* <SearchTeamComponent /> */}
-          <SearchForms
-            openAccordion={openAccordion}
-            setOpenAccordion={setOpenAccordion}
-          />
-          {/* </form>
-          </Form> */}
+  if (error && error instanceof AxiosError) {
+    if (error.response?.status === 400) {
+      return (
+        <div className="flex flex-row justify-center items-center mt-2 font-inter">
+          <p className="text-center">
+            {error.response?.data.errors ?? 'Något gick fel.'}
+            <br />.
+          </p>
         </div>
+      )
+    }
+
+    return (
+      <div className="flex flex-row justify-center items-center mt-2">
+        Något gick tyvärr fel.
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-row justify-center items-center mt-2">Fel</div>
   )
 }

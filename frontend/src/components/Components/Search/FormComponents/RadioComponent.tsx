@@ -5,43 +5,47 @@ import { useState } from 'react'
 
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { SearchParamsFields } from '@/lib/types/games/search'
 
-const resultCategoryArray = [
-  { value: 'all', label: 'Alla' },
-  { value: 'win', label: 'Vinst' },
-  { value: 'lost', label: 'Förlust' },
-  { value: 'draw', label: 'Oavgjort' },
-]
+type RadioComponentProps = {
+  array: { value: string; label: string }[]
+  field: Extract<
+    SearchParamsFields,
+    'homeGame' | 'selectedGender' | 'gameResult'
+  >
+  label: string
+}
 
-const GameResult = () => {
-  const gameResult = useSearch({
+const RadioComponent = ({ array, field, label }: RadioComponentProps) => {
+  const searchField = useSearch({
     from: '/_layout/search',
-    select: (search) => search.gameResult,
+    select: (search) => search[field],
   })
-  const [selectedGameResult, setSelectedGameResult] = useState<string>(
-    gameResult ?? 'all'
+  const [selectedRadio, setSelectedRadio] = useState<string>(
+    searchField ?? 'all'
   )
   const navigate = useNavigate({ from: '/teams' })
 
   const handleOnChange = (value: string) => {
-    navigate({ search: (prev) => ({ ...prev, gameResult: value }) })
-    setSelectedGameResult(value)
+    navigate({ search: (prev) => ({ ...prev, [field]: value }) })
+    setSelectedRadio(value)
   }
 
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Matchresultat</CardTitle>
+          <CardTitle>{label}</CardTitle>
         </CardHeader>
         <CardContent>
           <RadioGroup
-            name="gameResult"
+            name={field}
             onValueChange={handleOnChange}
-            defaultValue={selectedGameResult}
+            defaultValue={selectedRadio}
+            value={selectedRadio}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-2 lg:gap-x-12">
-              {resultCategoryArray.map((cat) => {
+              {array.map((cat) => {
                 return (
                   <div
                     key={cat.value}
@@ -60,4 +64,4 @@ const GameResult = () => {
   )
 }
 
-export default GameResult
+export default RadioComponent

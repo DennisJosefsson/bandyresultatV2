@@ -1,23 +1,14 @@
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import Date from '@/components/Components/Common/Date'
-type Game = {
-  homeTeam: { casualName: string }
-  awayTeam: { casualName: string }
-  homeTeamId: number
-  awayTeamId: number
-  result: string
-  date: string
-  qualification: boolean
-}
+import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { useSearchResults } from '@/lib/hooks/dataHooks/search/useSearchForm'
 
-type ResultComponentProps = {
-  gameArray: Game[]
-}
-
-const ResultComponent = ({ gameArray }: ResultComponentProps) => {
+const ResultComponent = () => {
   const { favTeams } = useTeampreferenceContext()
+  const { gameArray } = useSearchResults()
+
   return (
     <div>
+      SökResultat
       {gameArray?.map((game, index) => {
         return (
           <div className="recordCard" key={`${game.date}-${index}`}>

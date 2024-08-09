@@ -6,38 +6,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { SearchParamsFields } from '@/lib/types/games/search'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useState } from 'react'
 
-const orderVariableSelection = [
-  { value: 'date', label: 'Datum' },
-  { value: 'totalGoals', label: 'Antal mål' },
-  { value: 'goalDifference', label: 'Målskillnad' },
-  { value: 'goalsScored', label: 'Gjorda mål' },
-  { value: 'goalsConceded', label: 'Insläppta mål' },
-]
+type OperatorSelectorProps = {
+  array: {
+    value: string
+    label: string
+  }[]
+  field: Extract<
+    SearchParamsFields,
+    | 'goalDiffOperator'
+    | 'goalsScoredOperator'
+    | 'goalsConcededOperator'
+    | 'order'
+    | 'orderVar'
+  >
+  defaultValue: 'gte' | 'lte' | 'eq' | 'asc' | 'date'
+  label: string
+}
 
-const OrderVariableSelection = () => {
-  const orderVar = useSearch({
+const OperatorSelector = ({
+  array,
+  field,
+  defaultValue,
+  label,
+}: OperatorSelectorProps) => {
+  const searchField = useSearch({
     from: '/_layout/search',
-    select: (search) => search.orderVar,
+    select: (search) => search[field],
   })
-  const [value, setValue] = useState(orderVar ?? 'date')
+  const [value, setValue] = useState(searchField ?? defaultValue)
   const navigate = useNavigate({ from: '/search' })
 
   const onValueChange = (value: string): void => {
-    navigate({ search: (prev) => ({ ...prev, orderVar: value }) })
+    navigate({ search: (prev) => ({ ...prev, [field]: value }) })
     setValue(value)
   }
   return (
     <div>
-      <Label>Sorteringsvariabel</Label>
+      <Label>{label}</Label>
       <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="w-[280px]">
           <SelectValue placeholder="Välj" />
         </SelectTrigger>
         <SelectContent>
-          {orderVariableSelection.map((item) => {
+          {array.map((item) => {
             return (
               <SelectItem value={item.value} key={item.value}>
                 {item.label}
@@ -50,4 +65,4 @@ const OrderVariableSelection = () => {
   )
 }
 
-export default OrderVariableSelection
+export default OperatorSelector

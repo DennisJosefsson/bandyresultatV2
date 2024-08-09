@@ -1,11 +1,11 @@
-// import { useFormContext } from 'react-hook-form'
-// import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
-import LimitSelection from './OrderComponents/LimitSelection'
-import OrderSelection from './OrderComponents/OrderSelection'
-import OrderVariableSelection from './OrderComponents/OrderVariableSelection'
+import {
+  orderSelection,
+  orderVariableSelection,
+} from './FormComponents/arrays/arrays'
+import LimitSelection from './FormComponents/LimitSelection'
+import OperatorSelector from './FormComponents/OperatorSelector'
 
 const OrderFormComponent = () => {
-  //const methods = useFormContext()
   return (
     <div className="mb-2 flex w-[18rem] flex-col rounded bg-background lg:w-full">
       <div className="grid grid-cols-1 lg:grid-cols-3">
@@ -13,10 +13,20 @@ const OrderFormComponent = () => {
           <LimitSelection />
         </div>
         <div className="flex max-w-[16rem] flex-col">
-          <OrderSelection />
+          <OperatorSelector
+            array={orderSelection}
+            defaultValue="asc"
+            label="Stigande/Fallande"
+            field="order"
+          />
         </div>
         <div className="flex max-w-[16rem] flex-col">
-          <OrderVariableSelection />
+          <OperatorSelector
+            array={orderVariableSelection}
+            defaultValue="date"
+            label="Sorteringsvariabel"
+            field="orderVar"
+          />
         </div>
       </div>
     </div>

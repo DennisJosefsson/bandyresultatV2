@@ -1,7 +1,8 @@
 //import { useCopyToClipboard } from 'usehooks-ts'
 import { Button } from '@/components/ui/button'
-import { useFormContext } from 'react-hook-form'
-import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
+import { SearchParamsObject } from '@/lib/types/games/search'
+import { useSearch } from '@tanstack/react-router'
+import { Dispatch, SetStateAction } from 'react'
 
 // type SearchButtonsProps = {
 //   collapse: () => void
@@ -10,18 +11,27 @@ import { defaultValues } from '@/lib/hooks/dataHooks/search/useSearchForm'
 //   methods: UseFormReturn<SearchParamsObject>
 // }
 
-const SearchButtons = () => {
+type SearchButtonsProps = {
+  setSearchObject: Dispatch<SetStateAction<SearchParamsObject | null>>
+}
+
+const SearchButtons = ({ setSearchObject }: SearchButtonsProps) => {
   //const [copiedText, copy] = useCopyToClipboard()
-  const methods = useFormContext()
+  const searchParams = useSearch({ from: '/_layout/search' })
+  console.log(searchParams)
+
+  console.log('logging from searchButton')
+
+  const handleOnClick = () => {
+    setSearchObject(searchParams)
+  }
 
   return (
     <div className="flex max-h-[160px] flex-col gap-4">
       <div>
-        <Button type="submit" form="search">
-          Sök
-        </Button>
+        <Button onClick={handleOnClick}>Sök</Button>
       </div>
-      <Button onClick={() => methods.reset(defaultValues)}>Nollställ</Button>
+      <Button>Nollställ</Button>
       {/* {isSearchResultSuccess && (
         <Button onClick={() => copy(searchLink)}>
           {copiedText ? 'Kopierad!' : `Länk: ${searchLink}`}

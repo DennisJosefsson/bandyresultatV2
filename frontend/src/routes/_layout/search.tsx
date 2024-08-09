@@ -1,7 +1,7 @@
 import SearchTabBar from '@/components/Components/Search/SearchTabBar'
 import { Card, CardContent } from '@/components/ui/card'
 import { searchParamsObject } from '@/lib/types/games/search'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/search')({
   component: SearchHeader,
@@ -18,7 +18,14 @@ function SearchHeader() {
       </Card>
       <Card className="mt-2">
         <CardContent>
-          <Outlet />
+          <CatchBoundary
+            getResetKey={() => 'reset'}
+            onCatch={(error) => {
+              console.error(error)
+            }}
+          >
+            <Outlet />
+          </CatchBoundary>
         </CardContent>
       </Card>
     </div>

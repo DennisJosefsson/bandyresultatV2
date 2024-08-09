@@ -1,26 +1,30 @@
-// import { useFormContext } from 'react-hook-form'
-// import { FormComponent } from '../Common/ReactHookFormComponents/FormComponent'
-// import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
-
-import EndSeasonInput from './SeasonComponents/EndSeasonInput'
-import GameDateInput from './SeasonComponents/GameDateInput'
-import StartSeasonInput from './SeasonComponents/StartSeasonInput'
+import NumberInput from './FormComponents/NumberInput'
+import StringInput from './FormComponents/StringInput'
 
 const SeasonFormComponent = () => {
-  // const methods = useFormContext()
-  // const { lastSeason } = useGetFirstAndLastSeason()
-
   return (
     <div className="mb-2 flex w-[18rem] flex-col rounded bg-background lg:w-full">
       <div className="grid grid-cols-1 lg:grid-cols-3">
         <div className="flex max-w-[16rem] flex-col">
-          <StartSeasonInput />
+          <NumberInput
+            field="startSeason"
+            label="Första säsong"
+            placeholder="T.ex. 1907"
+          />
         </div>
         <div className="flex max-w-[16rem] flex-col">
-          <EndSeasonInput />
+          <NumberInput
+            field="endSeason"
+            label="Sista säsong"
+            placeholder="T.ex. 2019"
+          />
         </div>
         <div className="flex max-w-[16rem] flex-col">
-          <GameDateInput />
+          <StringInput
+            field="inputDate"
+            label="Matchdatum"
+            placeholder="T.ex. 26/12"
+          />
         </div>
       </div>
     </div>
