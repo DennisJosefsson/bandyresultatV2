@@ -1,13 +1,14 @@
 import { useToast } from '@/components/ui/use-toast'
-import { postTeamSeason } from '@/lib/requests/teamSeason'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+
+import { postBulkGames } from '@/lib/requests/games'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 
-export const useAddTeamSeasonMutation = () => {
+export const useAddGamesMutation = () => {
   const navigate = useNavigate()
   const { seasonId } = useParams({
-    from: '/_layout/dashboard/season/$seasonId/teamseason',
+    from: '/_layout/dashboard/season/$seasonId/bulkgames',
   })
   const women = useSearch({
     from: '/_layout/dashboard',
@@ -15,18 +16,15 @@ export const useAddTeamSeasonMutation = () => {
   })
   const { toast } = useToast()
   const mutation = useMutation({
-    mutationFn: postTeamSeason,
+    mutationFn: postBulkGames,
     onSuccess: () => onMutationSuccess(),
     onError: (error) => onMutationError(error),
   })
 
-  const queryClient = useQueryClient()
-
   const onMutationSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ['singleSeason'] })
     toast({
-      duration: 5000,
-      title: 'Lag inlagda/uppdaterade',
+      duration: 2500,
+      title: 'Matcher inlagda',
     })
     navigate({
       to: '/dashboard/season/$seasonId',
