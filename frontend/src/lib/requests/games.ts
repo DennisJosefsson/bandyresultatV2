@@ -35,7 +35,7 @@ export const getSearch = async (
   searchParams: SearchParamsObject | null
 ): Promise<SearchResponseObject> => {
   const response = await gamesApi.post('/search', searchParams)
-  console.log('RESPONSE', response)
+
   return response.data
 }
 

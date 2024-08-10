@@ -7,11 +7,11 @@ import SearchTeamComponent from './SearchTeamComponent'
 
 const Search = () => {
   const [openAccordion, setOpenAccordion] = useState('')
-  const { gameArray, setSearchObject } = useSearchResults()
+  const { gameArray, mutate } = useSearchResults()
   return (
     <div className="mx-1 mt-2 xl:mx-0">
       <div className="flex flex-row-reverse justify-between">
-        <SearchButtons setSearchObject={setSearchObject} />
+        <SearchButtons mutate={mutate} />
         <div className="ml-2 w-full flex flex-col">
           <div>
             <SearchTeamComponent />

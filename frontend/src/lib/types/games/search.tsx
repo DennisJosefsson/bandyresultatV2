@@ -21,7 +21,7 @@ export const searchParamsObject = z.object({
   selectedGender: z.string().optional(),
   homeGame: z.string().optional(),
   orderVar: z.string().optional(),
-  search: z.boolean().optional(),
+  submit: z.boolean().optional(),
 })
 
 export const searchResponseObject = z.object({

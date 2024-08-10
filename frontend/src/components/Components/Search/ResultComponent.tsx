@@ -1,10 +1,11 @@
 import Date from '@/components/Components/Common/Date'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { useSearchResults } from '@/lib/hooks/dataHooks/search/useSearchForm'
+import { SearchGame } from '@/lib/hooks/dataHooks/search/useSearchForm'
 
-const ResultComponent = () => {
+type ResultComponentProps = { gameArray: SearchGame[] | undefined }
+
+const ResultComponent = ({ gameArray }: ResultComponentProps) => {
   const { favTeams } = useTeampreferenceContext()
-  const { gameArray } = useSearchResults()
 
   return (
     <div>

@@ -1,11 +1,9 @@
 import { useGetTeams } from '../teams/useGetTeams'
 
-import { getSearch } from '@/lib/requests/games'
-import { useQuery } from '@tanstack/react-query'
-
-import { SearchParamsObject } from '@/lib/types/games/search'
-import { useState } from 'react'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import useGenderContext from '../../contextHooks/useGenderContext'
+import useSearchMutation from './useSearchMutation'
 
 export const useGetSearchTeams = () => {
   const { womenContext } = useGenderContext()
@@ -58,15 +56,20 @@ export type SearchGame = {
 }
 
 export const useSearchResults = () => {
-  const [searchObject, setSearchObject] = useState<SearchParamsObject | null>(
-    null
-  )
-  const { data: searchResult, isSuccess: isSearchResultSuccess } = useQuery({
-    queryKey: ['search', searchObject],
-    queryFn: () => getSearch(searchObject),
-    enabled: !!searchObject,
-    staleTime: 100,
-  })
+  const searchParams = useSearch({ from: '/_layout/search' })
+  const navigate = useNavigate({ from: '/search' })
+  const {
+    data: searchResult,
+    isSuccess: isSearchResultSuccess,
+    mutate,
+  } = useSearchMutation()
+
+  useEffect(() => {
+    if (searchParams.submit) {
+      mutate(searchParams)
+    }
+    navigate({ search: (prev) => ({ ...prev, submit: undefined }) })
+  }, [searchParams, mutate, navigate])
 
   const gameArray = isSearchResultSuccess
     ? searchResult?.searchResult
@@ -87,9 +90,5 @@ export const useSearchResults = () => {
         })
     : []
 
-  // const baseUrl = import.meta.env.PROD
-  //   ? 'https://bandyresultat.se'
-  //   : 'http://localhost:5173'
-  console.log('gameArray', gameArray)
-  return { searchResult, gameArray, isSearchResultSuccess, setSearchObject }
+  return { searchResult, gameArray, isSearchResultSuccess, mutate }
 }

@@ -1,29 +1,26 @@
-//import { useCopyToClipboard } from 'usehooks-ts'
 import { Button } from '@/components/ui/button'
 import { SearchParamsObject } from '@/lib/types/games/search'
-import { useSearch } from '@tanstack/react-router'
-import { Dispatch, SetStateAction } from 'react'
-
-// type SearchButtonsProps = {
-//   collapse: () => void
-//   isSearchResultSuccess: boolean
-//   searchLink: string
-//   methods: UseFormReturn<SearchParamsObject>
-// }
+import { useLocation, useSearch } from '@tanstack/react-router'
+import { useCopyToClipboard } from 'usehooks-ts'
 
 type SearchButtonsProps = {
-  setSearchObject: Dispatch<SetStateAction<SearchParamsObject | null>>
+  mutate: (searchParams: SearchParamsObject) => void
 }
 
-const SearchButtons = ({ setSearchObject }: SearchButtonsProps) => {
-  //const [copiedText, copy] = useCopyToClipboard()
-  const searchParams = useSearch({ from: '/_layout/search' })
-  console.log(searchParams)
+const baseUrl = import.meta.env.PROD
+  ? 'https://bandyresultat.se'
+  : 'http://localhost:5173'
 
-  console.log('logging from searchButton')
+const SearchButtons = ({ mutate }: SearchButtonsProps) => {
+  const [copiedText, copy] = useCopyToClipboard()
+  const searchParams = useSearch({ from: '/_layout/search' })
+
+  const link = useLocation({
+    select: (location) => location.href,
+  })
 
   const handleOnClick = () => {
-    setSearchObject(searchParams)
+    mutate(searchParams)
   }
 
   return (
@@ -32,11 +29,10 @@ const SearchButtons = ({ setSearchObject }: SearchButtonsProps) => {
         <Button onClick={handleOnClick}>Sök</Button>
       </div>
       <Button>Nollställ</Button>
-      {/* {isSearchResultSuccess && (
-        <Button onClick={() => copy(searchLink)}>
-          {copiedText ? 'Kopierad!' : `Länk: ${searchLink}`}
-        </Button>
-      )} */}
+
+      <Button onClick={() => copy(`${baseUrl + link + '&submit=true'}`)}>
+        {copiedText ? 'Kopierad!' : 'Länk'}
+      </Button>
     </div>
   )
 }
