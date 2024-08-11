@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express'
-import { CustomError } from './CustomError.js'
-import { ZodError } from 'zod'
+import { NextFunction, Request, Response } from 'express'
 import jsonwebtoken from 'jsonwebtoken'
+import { ZodError } from 'zod'
 import BandyError from '../../../models/BandyError.js'
+import { CustomError } from './CustomError.js'
 const { JsonWebTokenError } = jsonwebtoken
 
 export const errorHandler = (
@@ -57,8 +57,9 @@ export const errorHandler = (
       .catch(next)
     const errorStrings = error.issues.map((error) => error.message)
     const errorString = errorStrings.join(', ')
+    const errorPaths = error.issues.map((error) => error.path)
     console.error(JSON.stringify(error.errors, null, 2))
-    return res.status(400).json({ errors: errorString })
+    return res.status(400).json({ errors: errorString, paths: errorPaths })
   } else if (error instanceof JsonWebTokenError) {
     BandyError.create({
       name: error.name,
