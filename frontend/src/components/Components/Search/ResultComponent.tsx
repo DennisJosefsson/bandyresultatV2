@@ -9,7 +9,6 @@ const ResultComponent = ({ gameArray }: ResultComponentProps) => {
 
   return (
     <div>
-      SökResultat
       {gameArray?.map((game, index) => {
         return (
           <div className="recordCard" key={`${game.date}-${index}`}>

@@ -1,38 +1,31 @@
 import { Button } from '@/components/ui/button'
 import { SearchParamsObject } from '@/lib/types/games/search'
-import { useLocation, useSearch } from '@tanstack/react-router'
-import { useCopyToClipboard } from 'usehooks-ts'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Dispatch, SetStateAction } from 'react'
 
 type SearchButtonsProps = {
   mutate: (searchParams: SearchParamsObject) => void
+  setOpenAccordion: Dispatch<SetStateAction<string>>
 }
 
-const baseUrl = import.meta.env.PROD
-  ? 'https://bandyresultat.se'
-  : 'http://localhost:5173'
-
-const SearchButtons = ({ mutate }: SearchButtonsProps) => {
-  const [copiedText, copy] = useCopyToClipboard()
+const SearchButtons = ({ mutate, setOpenAccordion }: SearchButtonsProps) => {
   const searchParams = useSearch({ from: '/_layout/search' })
-
-  const link = useLocation({
-    select: (location) => location.href,
-  })
-
+  const navigate = useNavigate({ from: '/search' })
   const handleOnClick = () => {
     mutate(searchParams)
+    setOpenAccordion('')
+  }
+
+  const reset = () => {
+    navigate({ search: { women: searchParams.women } })
+    setOpenAccordion('')
   }
 
   return (
-    <div className="flex max-h-[160px] flex-col gap-4">
-      <div>
-        <Button onClick={handleOnClick}>Sök</Button>
-      </div>
-      <Button>Nollställ</Button>
+    <div className="flex max-h-[160px] flex-row gap-2">
+      <Button onClick={handleOnClick}>Skicka</Button>
 
-      <Button onClick={() => copy(`${baseUrl + link + '&submit=true'}`)}>
-        {copiedText ? 'Kopierad!' : 'Länk'}
-      </Button>
+      <Button onClick={reset}>Nollställ</Button>
     </div>
   )
 }

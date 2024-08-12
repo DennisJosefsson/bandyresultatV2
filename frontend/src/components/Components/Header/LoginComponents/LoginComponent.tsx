@@ -1,20 +1,20 @@
-import { SyntheticEvent, useState } from 'react'
-import LoginForm from './LoginForm'
-import { AxiosError } from 'axios'
-import { User2Icon } from 'lucide-react'
-import { useMutation } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
-import { useToast } from '@/components/ui/use-toast'
-import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
-import { getLogin, logout } from '@/lib/requests/login'
 import { Dialog } from '@/components/ui/dialog'
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useToast } from '@/components/ui/use-toast'
+import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
+import { getLogin, logout } from '@/lib/requests/login'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { User2Icon } from 'lucide-react'
+import { SyntheticEvent, useState } from 'react'
+import LoginForm from './LoginForm'
 
 const LoginComponent = () => {
   const { toast } = useToast()
@@ -52,7 +52,7 @@ const LoginComponent = () => {
       if (data.success) {
         dispatch({ type: 'LOGOUT' })
         toast({ duration: 1500, title: 'Utloggad.' })
-        navigate({ to: '/' })
+        navigate({ to: '/', search: { women: false } })
       }
     },
     onError: () =>

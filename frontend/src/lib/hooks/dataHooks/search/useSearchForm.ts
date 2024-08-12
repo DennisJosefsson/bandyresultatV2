@@ -62,6 +62,8 @@ export const useSearchResults = () => {
     data: searchResult,
     isSuccess: isSearchResultSuccess,
     mutate,
+    error,
+    isError,
   } = useSearchMutation()
 
   useEffect(() => {
@@ -90,5 +92,12 @@ export const useSearchResults = () => {
         })
     : []
 
-  return { searchResult, gameArray, isSearchResultSuccess, mutate }
+  return {
+    searchResult,
+    gameArray,
+    isSearchResultSuccess,
+    mutate,
+    error,
+    isError,
+  }
 }

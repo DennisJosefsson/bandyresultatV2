@@ -6,6 +6,7 @@ import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/_layout/search')({
   component: SearchHeader,
   validateSearch: searchParamsObject,
+  errorComponent: () => <p>Error</p>,
 })
 
 function SearchHeader() {
@@ -23,6 +24,7 @@ function SearchHeader() {
             onCatch={(error) => {
               console.error(error)
             }}
+            errorComponent={() => <p>Fel</p>}
           >
             <Outlet />
           </CatchBoundary>

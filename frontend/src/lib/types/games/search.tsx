@@ -2,26 +2,35 @@ import { z } from 'zod'
 import { searchResultTeamgameObject } from './games'
 
 export const searchParamsObject = z.object({
-  categoryArray: z.array(z.string()).optional(),
-  order: z.string().optional(),
-  limit: z.number().optional(),
-  result: z.string().optional(),
-  gameResult: z.string().optional(),
-  goalsScored: z.number().optional(),
-  goalsScoredOperator: z.string().optional(),
-  goalsConceded: z.number().optional(),
-  goalsConcededOperator: z.string().optional(),
-  goalDiff: z.number().optional(),
-  goalDiffOperator: z.string().optional(),
-  startSeason: z.number().optional(),
-  endSeason: z.number().optional(),
-  team: z.number().optional(),
-  opponent: z.number().optional(),
-  inputDate: z.string().optional(),
-  selectedGender: z.string().optional(),
-  homeGame: z.string().optional(),
-  orderVar: z.string().optional(),
-  submit: z.boolean().optional(),
+  categoryArray: z.array(z.string()).optional().catch(undefined),
+  order: z.string().optional().catch(undefined),
+  limit: z.number().optional().catch(undefined),
+  result: z.string().optional().catch(undefined),
+  gameResult: z.string().optional().catch(undefined),
+  goalsScored: z
+    .number({ message: 'Antal gjorda mål måste vara en siffra.' })
+    .optional()
+    .catch(undefined),
+  goalsScoredOperator: z.string().optional().catch(undefined),
+  goalsConceded: z.number().optional().catch(undefined),
+  goalsConcededOperator: z.string().optional().catch(undefined),
+  goalDiff: z.number().optional().catch(undefined),
+  goalDiffOperator: z.string().optional().catch(undefined),
+  startSeason: z
+    .number({ message: 'Första säsong måste vara ett årtal.' })
+    .optional()
+    .catch(undefined),
+  endSeason: z
+    .number({ message: 'Sista säsong måste vara ett årtal.' })
+    .optional()
+    .catch(undefined),
+  team: z.number().optional().catch(undefined),
+  opponent: z.number().optional().catch(undefined),
+  inputDate: z.string().optional().catch(undefined),
+  selectedGender: z.string().optional().catch(undefined),
+  homeGame: z.string().optional().catch(undefined),
+  orderVar: z.string().optional().catch(undefined),
+  submit: z.boolean().optional().catch(undefined),
 })
 
 export const searchResponseObject = z.object({

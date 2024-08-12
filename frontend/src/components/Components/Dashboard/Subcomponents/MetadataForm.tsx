@@ -7,7 +7,7 @@ import { postMetadata } from '@/lib/requests/metadata'
 import { MetadataType } from '@/lib/types/metadata/metadata'
 import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
 import { FormComponent } from '../../Common/ReactHookFormComponents/FormComponent'
@@ -26,7 +26,7 @@ type MetadataFormProps = {
 const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
   const navigate = useNavigate()
   const form = useMetadataForm(seasonId, metadataData)
-
+  const { women } = useSearch({ from: '/_layout/dashboard' })
   const mutation = useMutation({
     mutationFn: postMetadata,
     onSuccess: () => onSuccessMutation(),
@@ -55,6 +55,7 @@ const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
     navigate({
       to: '/dashboard/season/$seasonId',
       params: { seasonId: seasonId.toString() },
+      search: { women },
     })
   }
 
@@ -89,6 +90,7 @@ const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
                   navigate({
                     to: '/dashboard/season/$seasonId',
                     params: { seasonId: seasonId.toString() },
+                    search: { women },
                   })
                 }
               >
