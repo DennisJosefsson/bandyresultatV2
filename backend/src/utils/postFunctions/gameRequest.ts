@@ -40,7 +40,7 @@ export const parseSearchRequest = (
           'qualification',
         ]),
       order: z.enum(['asc', 'desc']).catch('desc'),
-      limit: z.enum(['5', '10', '15', '20', '50', '100']).catch('10'),
+      limit: z.coerce.number().max(100).catch(10),
       result: z
         .string()
         .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Felaktigt resultatformat' })

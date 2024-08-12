@@ -287,7 +287,7 @@ searchRouter.post('/search', (async (
       return
     })
     .filter((game) => game !== undefined)
-    .slice(0, parseInt(searchParams.limit))
+    .slice(0, searchParams.limit)
 
   res.status(200).json({
     searchResult,
