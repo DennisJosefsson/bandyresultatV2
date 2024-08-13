@@ -109,7 +109,6 @@ function ErrorComponent({
   const errorLocation = useRef(pathname)
   useEffect(() => {
     if (location.pathname !== errorLocation.current) {
-      console.log('resetting')
       reset()
     }
   }, [pathname, reset])

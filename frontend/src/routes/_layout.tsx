@@ -19,7 +19,6 @@ function LayoutComponent() {
   const { women } = Route.useSearch()
   useEffect(() => {
     if (women !== womenContext) {
-      console.log('Updating context')
       dispatch({ type: 'SET', payload: women })
     }
   }, [women, womenContext, dispatch])

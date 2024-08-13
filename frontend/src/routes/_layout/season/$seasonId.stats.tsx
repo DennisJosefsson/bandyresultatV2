@@ -23,8 +23,6 @@ function Stats() {
   const gameCount =
     data.gamesCountTotal.find((item) => item.women === women)?.count ?? 0
 
-  console.log({ gameCount })
-
   useScrollTo()
 
   if (

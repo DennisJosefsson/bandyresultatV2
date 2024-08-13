@@ -51,7 +51,7 @@ export const getSeasonStats = async (
   seasonId: string
 ): Promise<SeasonStatsObjectType> => {
   const response = await gamesApi.get(`/stats/${seasonId}`)
-  console.log(response)
+
   return response.data
 }
 
@@ -78,7 +78,7 @@ export const postGame = async (newGameData: InputGameObjectType | null) => {
 
 export const postBulkGames = async (games: Game[]) => {
   const promise = Promise.all(games.map((game) => gamesApi.post('/', game)))
-  console.log(promise)
+
   return promise
 }
 

@@ -27,8 +27,6 @@ function MultiCheckboxComponent({
           control={control}
           name={name}
           render={({ field }) => {
-            console.log('Rendering category checkbox', field.name)
-            console.count('checkbox')
             return (
               <FormItem key={item.value} {...otherProps}>
                 <FormLabel className="text-sm font-normal" htmlFor={item.label}>

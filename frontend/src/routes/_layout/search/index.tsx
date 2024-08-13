@@ -10,8 +10,6 @@ export const Route = createFileRoute('/_layout/search/')({
 })
 
 function ErrorComponent({ error }: { error: unknown }) {
-  console.log('ERROR', error)
-
   if (error && error instanceof AxiosError) {
     if (error.response?.status === 400) {
       return (
