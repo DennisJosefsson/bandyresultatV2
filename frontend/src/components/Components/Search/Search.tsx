@@ -1,5 +1,4 @@
 import { useSearchResults } from '@/lib/hooks/dataHooks/search/useSearchForm'
-
 import { useState } from 'react'
 import SearchButtons from './SearchButtons'
 import SearchContent from './SearchContent'
@@ -9,7 +8,7 @@ import SearchTeamComponent from './SearchTeamComponent'
 
 const Search = () => {
   const [openAccordion, setOpenAccordion] = useState('')
-  const { gameArray, mutate, error, isError, isSearchResultSuccess } =
+  const { gameArray, mutate, error, isError, isSearchResultSuccess, reset } =
     useSearchResults()
 
   return (
@@ -19,7 +18,6 @@ const Search = () => {
           <SearchButtons mutate={mutate} setOpenAccordion={setOpenAccordion} />
         </div>
         <div className="ml-2 w-full flex flex-col">
-          {isError ? <SearchError error={error} /> : null}
           <div>
             <SearchTeamComponent />
 
@@ -29,6 +27,7 @@ const Search = () => {
             />
           </div>
           <div>
+            {isError ? <SearchError error={error} reset={reset} /> : null}
             {isSearchResultSuccess ? (
               <SearchContent gameArray={gameArray} />
             ) : null}

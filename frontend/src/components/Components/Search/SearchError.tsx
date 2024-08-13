@@ -1,25 +1,28 @@
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
 import { SearchParamsFields } from '@/lib/types/games/search'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
 type SearchErrorProps = {
   error: Error | null
+  reset: () => void
 }
 
-const SearchError = ({ error }: SearchErrorProps) => {
-  const [isError, setIsError] = useState(true)
+const SearchError = ({ error, reset }: SearchErrorProps) => {
   const navigate = useNavigate({ from: '/search' })
   const searchFields = useSearch({ from: '/_layout/search' })
 
-  useEffect(() => {
-    if (isError && error instanceof AxiosError) {
+  const resetFn = () => {
+    if (error instanceof AxiosError) {
       const fields = error.response?.data.paths as SearchParamsFields[]
+
       if (Array.isArray(fields)) {
         fields.forEach((field) => {
           if (searchFields[field] !== undefined) {
@@ -27,9 +30,10 @@ const SearchError = ({ error }: SearchErrorProps) => {
           }
         })
       }
-      setIsError(false)
     }
-  }, [isError, error, navigate, searchFields])
+    reset()
+  }
+
   if (error instanceof AxiosError) {
     return (
       <Dialog defaultOpen={true}>
@@ -37,7 +41,17 @@ const SearchError = ({ error }: SearchErrorProps) => {
           <DialogHeader>
             <DialogTitle>Oops, något gick fel.</DialogTitle>
           </DialogHeader>
-          {error.response?.data.errors}
+          {error.response?.data.errors ?? 'Okänt fel'}
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button
+                className="bg-white text-black hover:bg-slate-300"
+                onClick={resetFn}
+              >
+                Stäng
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     )

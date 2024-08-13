@@ -10,7 +10,7 @@ import { useGetSearchTeams } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import { SearchParamsFields } from '@/lib/types/games/search'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { CircleXIcon } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FixedSizeList } from 'react-window'
 import RenderItem from './RenderItem'
 
@@ -25,9 +25,17 @@ const TeamSelection = ({ field, label }: TeamSelectionProps) => {
     from: '/_layout/search',
     select: (search) => search[field],
   })
+  const women = useSearch({
+    from: '/_layout/search',
+    select: (search) => search.women,
+  })
   const navigate = useNavigate({ from: '/search' })
   const { teamSelection } = useGetSearchTeams()
   const [value, setValue] = useState<string>(searchField?.toString() ?? '')
+
+  useEffect(() => {
+    setValue('')
+  }, [women])
 
   const onValueChange = (value: string): void => {
     navigate({ search: (prev) => ({ ...prev, [field]: parseInt(value) }) })

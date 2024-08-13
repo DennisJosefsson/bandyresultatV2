@@ -64,6 +64,7 @@ export const useSearchResults = () => {
     mutate,
     error,
     isError,
+    reset,
   } = useSearchMutation()
 
   useEffect(() => {
@@ -99,5 +100,6 @@ export const useSearchResults = () => {
     mutate,
     error,
     isError,
+    reset,
   }
 }
