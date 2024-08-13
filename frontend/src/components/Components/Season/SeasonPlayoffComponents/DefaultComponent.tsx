@@ -1,8 +1,8 @@
-import { GameObjectType } from '@/lib/types/games/games'
-import { groupConstant } from '@/lib/utils/constants'
-import { TableObjectType } from '@/lib/types/tables/tables'
-import PlayoffCard from './PlayoffCard'
 import { Dialog } from '@/components/ui/dialog'
+import { GameObjectType } from '@/lib/types/games/games'
+import { TableObjectType } from '@/lib/types/tables/tables'
+import { groupConstant } from '@/lib/utils/constants'
+import PlayoffCard from './PlayoffCard'
 
 type ColstartsType = {
   [key: string]: string
@@ -37,7 +37,7 @@ const DefaultComponent = ({
 }: DefaultComponentProps) => {
   const styleClass = colStarts
     ? `${colStarts[group.group]} cursor-pointer`
-    : 'cursor-pointer md:col-start-4 md:odd:col-start-2'
+    : 'cursor-pointer lg:col-start-4 lg:odd:col-start-2'
 
   let resultString
   const tableObject = tables.find(

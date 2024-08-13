@@ -13,10 +13,10 @@ export const groupConstant: GroupConstant = {
   Q2: 'Kvartsfinal 2',
   Q3: 'Kvartsfinal 3',
   Q4: 'Kvartsfinal 4',
-  E1: 'Åttondelsfinal 1',
-  E2: 'Åttondelsfinal 2',
-  E3: 'Åttondelsfinal 3',
-  E4: 'Åttondelsfinal 4',
+  E1: 'Åttondel 1',
+  E2: 'Åttondel 2',
+  E3: 'Åttondel 3',
+  E4: 'Åttondel 4',
   elitserien: 'Elitserien',
   ElitA: 'Elit A',
   ElitB: 'Elit B',
@@ -122,29 +122,29 @@ export const sortOrder = [
 ]
 
 export const semiColStarts: ColStarts = {
-  S1: 'md:col-start-2',
-  S2: 'md:col-start-4',
+  S1: 'lg:col-start-2',
+  S2: 'lg:col-start-4',
 }
 export const quarterColStarts: ColStarts = {
-  Q1: 'md:col-start-1',
-  Q2: 'md:col-start-2',
-  Q3: 'md:col-start-3',
-  Q4: 'md:col-start-4',
+  Q1: 'lg:col-start-1',
+  Q2: 'lg:col-start-2',
+  Q3: 'lg:col-start-3',
+  Q4: 'lg:col-start-4',
 }
 
 export const quarterColStartsTwoQuarter = {
-  Q1: 'md:col-start-2',
-  Q2: 'md:col-start-4',
+  Q1: 'lg:col-start-2',
+  Q2: 'lg:col-start-4',
 }
 
 export const eightColStarts = {
-  E1: 'md:col-start-2',
-  E2: 'md:col-start-4',
+  E1: 'lg:col-start-2',
+  E2: 'lg:col-start-4',
 }
 
 export const eightColStartsFourTeams = {
-  E1: 'md:col-start-1',
-  E2: 'md:col-start-2',
-  E3: 'md:col-start-3',
-  E4: 'md:col-start-4',
+  E1: 'lg:col-start-1',
+  E2: 'lg:col-start-2',
+  E3: 'lg:col-start-3',
+  E4: 'lg:col-start-4',
 }

@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselApi,
@@ -6,20 +7,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
 import {
   Link,
   useLinkProps,
   useParams,
   useSearch,
 } from '@tanstack/react-router'
-
-import { Button } from '@/components/ui/button'
-import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
 import { useEffect, useState } from 'react'
-
 import { z } from 'zod'
-const parseParam = z
-  .enum(['map', 'playoff', 'tables', 'games', 'help', 'development', 'stats'])
+
+const parseRoute = z
+  .enum(['games', 'tables', 'development', 'playoff', 'stats', 'map'])
   .catch('tables')
 
 const SeasonHeader = () => {
@@ -32,8 +31,8 @@ const SeasonHeader = () => {
     from: '/season/$seasonId',
     search: { women },
   }).href?.split('/')
-  const route = linkArray ? linkArray[linkArray?.length - 1] : ''
-  const parsedRoute = parseParam.parse(route)
+  const route = linkArray ? linkArray[linkArray?.length - 1].split('?')[0] : ''
+  const parsedRoute = parseRoute.parse(route)
 
   const seasonArray = seasons
     .filter((season) => season.women === false)

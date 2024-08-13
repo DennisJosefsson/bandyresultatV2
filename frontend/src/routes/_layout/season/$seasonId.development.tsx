@@ -63,7 +63,7 @@ function Development() {
 
   if (animationObject && animationObject.length > 0) {
     return (
-      <div className="mx-auto flex flex-col pt-4 font-inter text-foreground">
+      <div className="mx-auto flex flex-col pt-2 font-inter text-foreground">
         {animationObject.games.length > 1 && (
           <GroupSelector
             groupArray={groupArray}
@@ -89,7 +89,7 @@ function Development() {
             />
 
             {dateArray ? (
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
                 <AnimationGamesList dateArray={dateArray} round={round} />
                 <AnimationTable
                   dateArray={dateArray}

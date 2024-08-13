@@ -1,19 +1,19 @@
 import { gameSortFunction, tableSortFunction } from '@/lib/utils/sortFunction'
 
+import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { GameObjectType } from '@/lib/types/games/games'
+import { SingleSeasonTableObjectType } from '@/lib/types/tables/tables'
+import {
+  eightColStarts,
+  eightColStartsFourTeams,
+  quarterColStarts,
+  quarterColStartsTwoQuarter,
+  semiColStarts,
+} from '@/lib/utils/constants'
+import DefaultComponent from './DefaultComponent'
 import FinalCard from './FinalCard'
 import NilComponent from './NilComponent'
 import NilFinalComponent from './NilFinalComponent'
-import DefaultComponent from './DefaultComponent'
-import {
-  semiColStarts,
-  quarterColStarts,
-  quarterColStartsTwoQuarter,
-  eightColStarts,
-  eightColStartsFourTeams,
-} from '@/lib/utils/constants'
-import { SingleSeasonTableObjectType } from '@/lib/types/tables/tables'
-import { GameObjectType } from '@/lib/types/games/games'
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 
 type SeasonPlayoffTablesProps = {
   tables: SingleSeasonTableObjectType[]
@@ -62,7 +62,7 @@ const SeasonPlayoffTables = ({
   const nilEightGroups = ['E1', 'E2']
 
   return (
-    <div className="m-0 mt-4 justify-self-center">
+    <div className="m-0 mt-4 lg:justify-self-center">
       <div className="grid gap-2">
         {final.length === 0 && <NilFinalComponent />}
         {final.length > 0 && (
@@ -75,7 +75,7 @@ const SeasonPlayoffTables = ({
           </>
         )}
 
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
           {semiGames.length === 0 && seasonId === lastSeason && (
             <>
               {nilSemiGroups.map((group, index) => {
@@ -107,7 +107,7 @@ const SeasonPlayoffTables = ({
           )}
         </div>
         {quarterGames.length === 0 && seasonId === lastSeason && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
             {nilQuarterGroups.map((group, index) => {
               return (
                 <NilComponent
@@ -120,7 +120,7 @@ const SeasonPlayoffTables = ({
           </div>
         )}
         {quarterGames.length !== 2 && quarterGames.length !== 0 && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
             {quarterGames.map((group, index) => {
               return (
                 <DefaultComponent
@@ -137,7 +137,7 @@ const SeasonPlayoffTables = ({
         )}
 
         {quarterGames.length === 2 && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
             {quarterGames.map((group, index) => {
               return (
                 <DefaultComponent
@@ -153,7 +153,7 @@ const SeasonPlayoffTables = ({
           </div>
         )}
         {eightGames.length === 0 && seasonId === lastSeason && !women && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
             {nilEightGroups.map((group, index) => {
               return (
                 <NilComponent
@@ -166,7 +166,7 @@ const SeasonPlayoffTables = ({
           </div>
         )}
         {eightGames.length === 2 && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
             {eightGames.map((group, index) => {
               return (
                 <DefaultComponent
@@ -182,7 +182,7 @@ const SeasonPlayoffTables = ({
           </div>
         )}
         {eightGames.length === 4 && (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
             {eightGames.map((group, index) => {
               return (
                 <DefaultComponent

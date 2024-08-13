@@ -63,11 +63,11 @@ const AnimationClicker = ({
             <CarouselContent>
               {justDatesArray.map((date, index) => {
                 return (
-                  <CarouselItem key={date} className="basis-1/5">
+                  <CarouselItem key={date} className="basis-1/3 md:basis-1/5">
                     <div
                       className={
                         dateApi && dateApi.selectedScrollSnap() === index
-                          ? 'font-semibold flex cursor-pointer flex-row items-center justify-center text-[10px] md:text-[12px]'
+                          ? 'font-semibold flex cursor-pointer flex-row items-center justify-center text-[8px] md:text-[10px]'
                           : 'flex cursor-pointer flex-row items-center justify-center text-[8px] md:text-[10px]'
                       }
                       onClick={() => api && api.scrollTo(index)}

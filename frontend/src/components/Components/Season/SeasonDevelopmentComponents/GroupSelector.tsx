@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react'
-import { CarouselApi } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
+import { CarouselApi } from '@/components/ui/carousel'
 import { sortOrder } from '@/lib/utils/constants'
+import { Dispatch, SetStateAction } from 'react'
 type GroupArrayObject = {
   group: string
   serieName: string
@@ -28,7 +28,7 @@ const GroupSelector = ({
 }: GroupSelectorProps) => {
   return (
     <>
-      <div className="flex flex-row justify-center gap-1">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
         {groupArray
           .sort((a, b) => {
             if (sortOrder.indexOf(a.group) > sortOrder.indexOf(b.group)) {

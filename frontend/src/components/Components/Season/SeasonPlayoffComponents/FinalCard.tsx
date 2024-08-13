@@ -1,6 +1,6 @@
+import Date from '@/components/Components/Common/Date'
 import { GameObjectType } from '@/lib/types/games/games'
 import PlayoffCard from './PlayoffCard'
-import Date from '@/components/Components/Common/Date'
 type FinalCardProps = {
   game: GameObjectType
   favTeams: number[]
@@ -8,7 +8,7 @@ type FinalCardProps = {
 
 const FinalCard = ({ game }: FinalCardProps) => {
   return (
-    <div className="grid w-auto min-w-[33%] grid-cols-1 justify-center md:mx-auto">
+    <div className="grid w-auto min-w-[33%] grid-cols-1 justify-center lg:mx-auto">
       <PlayoffCard group="final">
         <PlayoffCard.Title>
           <PlayoffCard.Group>Final</PlayoffCard.Group>
