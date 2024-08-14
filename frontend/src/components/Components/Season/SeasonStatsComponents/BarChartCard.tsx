@@ -1,8 +1,8 @@
-import { BarChart, Bar, XAxis, YAxis } from 'recharts'
-import { sortTotalBarChartData } from '@/lib/utils/sortFunction'
 import { groupConstant } from '@/lib/utils/constants'
-import { useMediaQuery } from 'usehooks-ts'
+import { sortTotalBarChartData } from '@/lib/utils/sortFunction'
 import { Circle } from 'lucide-react'
+import { Bar, BarChart, XAxis, YAxis } from 'recharts'
+import { useMediaQuery } from 'usehooks-ts'
 
 type TotObjectArray = {
   totAll: number | undefined
@@ -67,7 +67,6 @@ const CustomLegend = () => {
 const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
   const barChartData = [...totObjectArray, ...(averageArray as TotObjectArray)]
   const matches1240 = useMediaQuery('(min-width: 1240px)')
-  const matches760 = useMediaQuery('(min-width: 760px)')
 
   const sortedData = sortTotalBarChartData(barChartData)?.map((item) => {
     return {
@@ -81,8 +80,8 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
     }
   })
 
-  const width = matches1240 ? 1280 : matches760 ? 1024 : 760
-  const barWidth = matches1240 ? 90 : matches760 ? 60 : 45
+  const width = matches1240 ? 1280 : 950
+  const barWidth = matches1240 ? 90 : 60
 
   return (
     <div className="flex flex-col gap-2">
@@ -95,8 +94,8 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
             dataKey="label"
             stroke="currentColor"
             className="fill-primary-foreground"
-            fontSize={matches760 ? 12 : 5}
-            angle={matches760 ? 0 : -30}
+            fontSize={matches1240 ? 12 : 8}
+            angle={matches1240 ? 0 : -30}
             tickLine={false}
             axisLine={false}
             tickMargin={5}
@@ -106,7 +105,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
           <Bar
             dataKey="avgAll"
             fill="currentColor"
-            className="fill-primary text-[8px] md:text-sm"
+            className="fill-primary text-[10px] xl:text-sm"
             width={barWidth}
             label={({ x, y, width, height, index }) => {
               return (
@@ -114,7 +113,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
                   x={x + width / 2}
                   y={y + height / 2}
                   fill="currentColor"
-                  className="text-sm text-primary-foreground"
+                  className="text-[10px] xl:text-sm text-primary-foreground"
                   textAnchor="middle"
                   dominantBaseline="central"
                 >
@@ -128,7 +127,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
           <Bar
             dataKey="avgHome"
             fill="currentColor"
-            className="fill-[#f4f1bb] text-[8px] md:text-sm"
+            className="fill-[#f4f1bb] text-[10px] xl:text-sm"
             stackId="a"
             width={90}
             label={({ x, y, width, height, index }) => {
@@ -137,7 +136,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
                   x={x + width / 2}
                   y={y + height / 2}
                   fill="currentColor"
-                  className="text-sm text-primary"
+                  className="text-[10px] xl:text-sm text-primary dark:text-secondary"
                   textAnchor="middle"
                   dominantBaseline="central"
                 >
@@ -151,7 +150,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
           <Bar
             dataKey="avgAway"
             fill="currentColor"
-            className="fill-[#9bc1bc] text-[8px] md:text-sm"
+            className="fill-[#9bc1bc] text-[10px] xl:text-sm"
             stackId="a"
             width={90}
             label={({ x, y, width, height, index }) => {
@@ -160,7 +159,7 @@ const BarChartCard = ({ totObjectArray, averageArray }: BarChartCardProps) => {
                   x={x + width / 2}
                   y={y + height / 2}
                   fill="currentColor"
-                  className="text-sm text-primary"
+                  className="text-[10px] xl:text-sm text-primary dark:text-secondary"
                   textAnchor="middle"
                   dominantBaseline="central"
                 >

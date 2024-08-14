@@ -15,45 +15,28 @@ import {
   useSearch,
 } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { z } from 'zod'
-
-const parseRoute = z
-  .enum(['games', 'tables', 'development', 'playoff', 'stats', 'map'])
-  .catch('tables')
+import { getParsedRoute, getSeasonArray, getSeasonIndex } from './utils/utils'
 
 const SeasonHeader = () => {
   const [api, setApi] = useState<CarouselApi>()
   const [selectedButton, setSelectedButton] = useState(0)
   const { seasons } = useGetAllSeasons()
   const { women } = useSearch({ from: '/_layout' })
-  const seasonId = useParams({ from: '/_layout/season/$seasonId' }).seasonId
+  const seasonId = useParams({
+    from: '/_layout/season/$seasonId',
+    select: (params) => params.seasonId,
+  })
+
   const linkArray = useLinkProps({
     from: '/season/$seasonId',
     search: { women },
   }).href?.split('/')
-  const route = linkArray ? linkArray[linkArray?.length - 1].split('?')[0] : ''
-  const parsedRoute = parseRoute.parse(route)
 
-  const seasonArray = seasons
-    .filter((season) => season.women === false)
-    .sort((a, b) => (a.seasonId > b.seasonId ? 1 : -1))
-    .map((season, index) => {
-      return {
-        year: season.year,
-        season: season.year.includes('/')
-          ? season.year.split('/')[1]
-          : season.year,
-        index: index,
-      }
-    })
+  const parsedRoute = getParsedRoute(linkArray)
 
-  const startIndex = seasonArray.find((season) => {
-    const seasonYear =
-      parseInt(seasonId) < 1964
-        ? seasonId
-        : `${parseInt(seasonId) - 1}/${seasonId}`
-    return season.year === seasonYear
-  })?.index
+  const seasonArray = getSeasonArray(seasons)
+
+  const startIndex = getSeasonIndex(seasonArray, seasonId)
 
   useEffect(() => {
     if (!api) return

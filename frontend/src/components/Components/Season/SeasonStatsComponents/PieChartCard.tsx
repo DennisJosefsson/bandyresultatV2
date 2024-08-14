@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell } from 'recharts'
+import { Cell, Pie, PieChart } from 'recharts'
 
 import { Circle } from 'lucide-react'
 type PieChartData = {
@@ -56,7 +56,7 @@ const PieChartCard = ({ data }: PieChartCardProps) => {
         width={280}
         height={280}
         margin={{
-          right: 50,
+          right: 60,
         }}
       >
         <Pie
