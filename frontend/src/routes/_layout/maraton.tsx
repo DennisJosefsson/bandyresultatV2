@@ -24,14 +24,14 @@ function Maraton() {
   const { tab } = Route.useSearch()
 
   return (
-    <div className="mx-auto mt-2 flex min-h-screen flex-col px-2 font-inter text-foreground">
-      <Card className="mb-2 items-center">
-        <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
+    <div className="mx-auto flex min-h-screen flex-col px-2 font-inter text-foreground">
+      <Card className="mb-2">
+        <CardContent className="p-2">
           <MaratonTabBar />
         </CardContent>
       </Card>
       <Card>
-        <CardContent className="mt-2">
+        <CardContent className="p-2">
           <MaratonComponentSwitch tab={tab} />
         </CardContent>
       </Card>

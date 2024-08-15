@@ -1,164 +1,128 @@
-import { Card } from '@/components/ui/card'
 import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
 import { useSearch } from '@tanstack/react-router'
+import GeneralStatsCard from './GeneralStatsCard'
 
 const GeneralStats = () => {
   const { women } = useSearch({ from: '/_layout' })
   const { data } = useGetRecordData()
   return (
-    <div className="ml-4 xl:ml-0">
+    <div>
       {!women && (
         <>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Säsonger
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Sedan 1931
               </h3>
-              <div className="table">
+              <div>
                 {data?.seasons.map((team, index) => {
                   return (
-                    <Card
+                    <GeneralStatsCard
                       key={`${team.seasons}-${Math.random()}`}
-                      className="recordCard"
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.seasons}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.seasons}
+                    />
                   )
                 })}
               </div>
             </div>
 
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Säsonger totalt
               </h3>
-              <div className="table">
+              <div>
                 {data?.allSeasons?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.seasons}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.seasons}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.seasons}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Slutspel
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Sedan 1931
               </h3>
-              <div className="table">
+              <div>
                 {data?.playoffs.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.playoffs}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.playoffs}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.playoffs}
+                    />
                   )
                 })}
               </div>
             </div>
 
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Slutspel totalt
               </h3>
-              <div className="table">
+              <div>
                 {data?.allPlayoffs?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.playoffs}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.playoffs}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.playoffs}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             SM-Finaler
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Guld
               </h3>
-              <div className="table">
+              <div>
                 {data?.golds.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.guld}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.guld}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.guld}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Spelade
               </h3>
-              <div className="table">
+              <div>
                 {data?.finals.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.finals}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.finals}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.finals}
+                    />
                   )
                 })}
               </div>
@@ -169,100 +133,76 @@ const GeneralStats = () => {
       {women && (
         <>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
                 Säsonger
-              </h3>
-              <div className="table">
+              </h2>
+              <div>
                 {data?.seasons.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.seasons}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.seasons}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.seasons}
+                    />
                   )
                 })}
               </div>
             </div>
 
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
                 Slutspel
-              </h3>
-              <div className="table">
+              </h2>
+              <div>
                 {data?.playoffs.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.playoffs}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.playoffs}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.playoffs}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             SM-Finaler
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Guld
               </h3>
-              <div className="table">
+              <div>
                 {data?.golds.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.guld}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.guld}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.guld}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Spelade
               </h3>
-              <div className="table">
+              <div>
                 {data?.finals.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <GeneralStatsCard
                       key={`${team.finals}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.casual_name}</div>
-                          <div className="count">{team.finals}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.casual_name}
+                      count={team.finals}
+                    />
                   )
                 })}
               </div>

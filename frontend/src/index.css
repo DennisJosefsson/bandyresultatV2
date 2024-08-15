@@ -182,23 +182,23 @@
   }
 
   .recordCard {
-    @apply mb-1 flex flex-row items-center rounded bg-background p-1 pr-4 text-sm md:mb-2 md:p-2;
+    @apply mb-1 p-1 flex flex-row items-center text-[10px] md:text-sm md:mb-2 md:p-2;
   }
 
   .recordCard .record1st {
-    @apply flex flex-row;
+    @apply flex flex-row-reverse justify-center;
   }
 
   .recordCard .pos {
-    @apply mr-4 w-8 text-right text-2xl font-bold tabular-nums;
+    @apply mr-4 w-8 text-right text-base md:text-2xl font-bold tabular-nums;
   }
 
   .recordCard .record1st .name {
-    @apply w-32 truncate font-semibold lg:w-48;
+    @apply truncate font-semibold;
   }
 
   .recordCard .record1st .count {
-    @apply w-24 text-right;
+    @apply text-right;
   }
 
   .recordCard .record2nd {

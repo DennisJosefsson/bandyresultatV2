@@ -1,19 +1,19 @@
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { GameObjectType } from '@/lib/types/games/games'
-import { SerieAttributes } from '@/lib/types/series/series'
 import {
   SmallArrowDownRight,
   SmallArrowUpRight,
 } from '@/components/Components/Common/Icons/icons'
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableCell,
   TableBody,
   TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'
+import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { GameObjectType } from '@/lib/types/games/games'
+import { SerieAttributes } from '@/lib/types/series/series'
 
 type DateArrayObject = {
   date: string
@@ -82,7 +82,7 @@ const AnimationTable = ({
   )
 
   return (
-    <div className="mx-2 mt-4 text-[8px] sm:text-[10px] lg:text-sm xl:mx-0">
+    <div className="mx-2 xl:mt-7 lg:mt-5 text-[8px] sm:text-[10px] lg:text-sm xl:mx-0">
       <Table>
         <TableCaption>{serieObject?.comment}</TableCaption>
         <TableHeader>

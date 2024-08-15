@@ -24,7 +24,7 @@ const SeasonTabBar = () => {
     gender: (
       <Button
         onClick={() => navigate({ search: { women: !womenContext } })}
-        size={matches ? 'default' : 'icon'}
+        size={matches ? 'default' : 'xs'}
       >
         {womenContext ? (
           matches ? (
@@ -51,7 +51,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Matcher' : <CalendarIcon />}
                 </Button>
@@ -73,7 +73,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Tabell' : <ListIcon />}
                 </Button>
@@ -95,7 +95,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Slutspel' : <TrophyIcon />}
                 </Button>
@@ -117,7 +117,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Utveckling' : <DevIcon />}
                 </Button>
@@ -139,7 +139,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Statistik' : <StatsIcon />}
                 </Button>
@@ -161,7 +161,7 @@ const SeasonTabBar = () => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'icon'}
+                  size={matches ? 'default' : 'xs'}
                 >
                   {matches ? 'Karta' : <MapIcon />}
                 </Button>

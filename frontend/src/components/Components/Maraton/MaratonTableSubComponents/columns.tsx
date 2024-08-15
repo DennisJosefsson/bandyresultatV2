@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { MaratonTabell } from '@/lib/types/tables/tables'
 import { Button } from '@/components/ui/button'
+import { MaratonTabell } from '@/lib/types/tables/tables'
+import { ColumnDef } from '@tanstack/react-table'
 
 import {
   ArrowDownIcon,
@@ -39,6 +39,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -65,6 +66,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -91,6 +93,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm ">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -117,6 +120,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -143,6 +147,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -169,6 +174,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -195,6 +201,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -221,6 +228,7 @@ export const columns: ColumnDef<MaratonTabell>[] = [
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
+          className="text-[8px] sm:text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"

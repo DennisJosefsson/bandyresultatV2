@@ -28,7 +28,7 @@ function Map() {
   }
 
   return (
-    <div>
+    <div className="mx-auto">
       {teams && qualificationTeams && (
         <div
           id="map"

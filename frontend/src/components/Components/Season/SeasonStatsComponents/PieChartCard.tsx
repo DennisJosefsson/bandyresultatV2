@@ -28,7 +28,7 @@ const CustomLegend = () => {
         <div className="flex flex-row items-center gap-1">
           <Circle
             fill="currentColor"
-            className="h-3 w-3 fill-[#f4f1bb] sm:h-4 sm:w-4"
+            className="h-3 w-3 fill-[#f4f1bb] dark:fill-secondary sm:h-4 sm:w-4"
           />
           <span className="text-[8px] text-foreground sm:text-sm">Borta</span>
         </div>
@@ -46,7 +46,11 @@ const CustomLegend = () => {
   )
 }
 
-const COLORS = ['fill-primary', 'fill-[#f4f1bb]', 'fill-[#9bc1bc]']
+const COLORS = [
+  'fill-primary',
+  'fill-[#f4f1bb] dark:fill-secondary',
+  'fill-[#9bc1bc]',
+]
 
 const PieChartCard = ({ data }: PieChartCardProps) => {
   return (
@@ -65,7 +69,6 @@ const PieChartCard = ({ data }: PieChartCardProps) => {
           nameKey="win"
           fill="currentColor"
           className="fill-primary"
-          paddingAngle={2}
           labelLine={false}
           label={({
             cx,
@@ -89,7 +92,7 @@ const PieChartCard = ({ data }: PieChartCardProps) => {
                 x={x}
                 y={y}
                 fill="currentColor"
-                className="text-sm text-primary"
+                className="text-[8px] md:text-sm text-primary"
                 textAnchor={x > cx ? 'start' : 'end'}
                 dominantBaseline="central"
               >

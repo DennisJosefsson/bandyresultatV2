@@ -15,9 +15,9 @@ const Table = () => {
     <>
       {tabell && (
         <div>
-          <h2 className="mt-4 text-center text-base font-bold leading-4 sm:text-xl lg:text-2xl">
+          <h1 className="mb-2 text-center text-sm font-bold leading-4 sm:text-base md:mb-4 lg:text-xl">
             Maratontabell {women ? 'Damer' : 'Herrar'} {homeAwayTitle}
-          </h2>
+          </h1>
 
           <div className="mx-auto mt-4 flex min-h-screen max-w-7xl flex-col font-inter text-foreground">
             <MaratonTableHeader />

@@ -8,11 +8,12 @@ const RecordHeader = () => {
   const { setParams, title, setTitle, record } = useGetRecordData()
   return (
     <>
-      <h2 className="mb-4 text-center text-base font-bold leading-4 sm:text-xl md:mb-6 lg:text-2xl">
+      <h1 className="mb-2 text-center text-sm font-bold leading-4 sm:text-base md:mb-4 lg:text-xl">
         {title} {women ? 'Damer' : 'Herrar'}
-      </h2>
-      <div className="mb-2 flex flex-row justify-center gap-1 md:gap-4">
+      </h1>
+      <div className="mb-2 grid grid-cols-3 md:grid-cols-5 gap-1 md:gap-4">
         <Button
+          size="sm"
           variant={record === 'generalStats' ? 'default' : 'outline'}
           onClick={() => {
             setParams((params) => ({ ...params, record: 'generalStats' }))
@@ -25,6 +26,7 @@ const RecordHeader = () => {
           Statistik
         </Button>
         <Button
+          size="sm"
           variant={record === 'points' ? 'default' : 'outline'}
           onClick={() => {
             setParams((params) => ({ ...params, record: 'points' }))
@@ -37,6 +39,7 @@ const RecordHeader = () => {
           Poäng
         </Button>
         <Button
+          size="sm"
           variant={record === 'scored' ? 'default' : 'outline'}
           onClick={() => {
             setParams((params) => ({ ...params, record: 'scored' }))
@@ -49,6 +52,7 @@ const RecordHeader = () => {
           Gjorda mål
         </Button>
         <Button
+          size="sm"
           variant={record === 'conceded' ? 'default' : 'outline'}
           onClick={() => {
             setParams((params) => ({ ...params, record: 'conceded' }))
@@ -61,6 +65,7 @@ const RecordHeader = () => {
           Insl. mål
         </Button>
         <Button
+          size="sm"
           variant={record === 'streaks' ? 'default' : 'outline'}
           onClick={() => {
             setParams((params) => ({ ...params, record: 'streaks' }))

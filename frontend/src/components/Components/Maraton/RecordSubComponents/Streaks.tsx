@@ -1,14 +1,14 @@
-import StreakCard from './StreakCard'
+import Date from '@/components/Components/Common/Date'
 import { Card } from '@/components/ui/card'
 import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
-import Date from '@/components/Components/Common/Date'
+import StreakCard from './StreakCard'
 
 const Streaks = () => {
   const { data } = useGetRecordData()
   return (
     <>
       {data ? (
-        <div className="ml-4 xl:ml-0">
+        <div>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
             <StreakCard
               streak={data?.unbeatenStreak}
@@ -35,26 +35,35 @@ const Streaks = () => {
               <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
                 Inofficiella Svenska Mästare
               </h3>
-              <div className="table">
+              <div>
                 {data?.currInoffChamps.rows.map((team, index) => {
                   return (
                     <Card
-                      className="recordCard"
+                      className="mb-1 p-1 flex flex-row justify-between items-center text-[10px] md:text-sm md:mb-2 md:p-2"
                       key={`${team.lag.name}-${Math.random()}`}
                     >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">
+                      <span className="mr-4 w-8 text-right text-base md:text-2xl font-bold tabular-nums">
+                        {index + 1}
+                      </span>
+                      <div className="flex flex-col flex-grow">
+                        <div className="flex flex-row justify-between">
+                          <span className="truncate font-semibold">
+                            {team.lag.name}
+                          </span>
+                          <span className="text-right">
                             {team.goalsScored}-{team.goalsConceded}
-                          </div>
+                          </span>
                         </div>
-                        <div className="record2nd">
-                          <div className="dates">
-                            <Date>{team.date}</Date>
+                        <div className="flex flex-row items-center justify-between text-[10px] md:text-xs">
+                          <div>
+                            <span className="w-48 sm:w-64">
+                              <Date>{team.date}</Date>
+                            </span>
                           </div>
-                          <div className="text-right">{team.opp.shortName}</div>
+
+                          <span className="text-right">
+                            {team.opp.shortName}
+                          </span>
                         </div>
                       </div>
                     </Card>

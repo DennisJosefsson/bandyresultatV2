@@ -1,6 +1,5 @@
-import { Card } from '@/components/ui/card'
-
 import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
+import PointsGoalsCard from './PointsGoalsCard'
 
 const PointsGoals = () => {
   const { data } = useGetRecordData()
@@ -8,334 +7,238 @@ const PointsGoals = () => {
   return (
     <>
       {data ? (
-        <div className="ml-4 xl:ml-0">
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+        <div>
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Högsta
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMaxAll?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt Hemma
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMaxHome?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt Borta
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMaxAway?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Lägsta
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMinAll?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt Hemma
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMinHome?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Genomsnitt Borta
               </h3>
-              <div className="table">
+              <div>
                 {data.avgMinAway?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Högsta
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMaxAll?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt Hemma
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMaxHome?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt Borta
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMaxAway?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
           </div>
-          <h3 className="mb-2 px-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+          <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Lägsta
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMinAll?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt Hemma
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMinHome?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>
             </div>
-            <div className="p-2">
-              <h3 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+            <div>
+              <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Totalt Borta
               </h3>
-              <div className="table">
+              <div>
                 {data.sumMinAway?.map((team, index) => {
                   return (
-                    <Card
-                      className="recordCard"
+                    <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
-                    >
-                      <div className="pos">{index + 1}</div>
-                      <div className="flex flex-col">
-                        <div className="record1st">
-                          <div className="name">{team.lag.name}</div>
-                          <div className="count">{team.data}</div>
-                        </div>
-                        <div className="record2nd">
-                          <div className="dates">{team.season.year}</div>
-                        </div>
-                      </div>
-                    </Card>
+                      pos={index + 1}
+                      name={team.lag.name}
+                      data={team.data}
+                      year={team.season.year}
+                    />
                   )
                 })}
               </div>

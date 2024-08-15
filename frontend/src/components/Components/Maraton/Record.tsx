@@ -4,7 +4,7 @@ import RecordComponentSwitch from './RecordSubComponents/RecordComponentSwitch'
 
 const Record = () => {
   return (
-    <div className="mx-auto mt-4 min-h-screen max-w-7xl font-inter text-foreground">
+    <div className="mx-auto mt-2 min-h-screen font-inter text-foreground">
       <div className="flex flex-col">
         <RecordHeader />
         <div className="flex flex-col">

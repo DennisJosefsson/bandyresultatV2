@@ -23,7 +23,7 @@ const MaratonTabBar = () => {
           navigate({ search: (prev) => ({ ...prev, women: !womenContext }) })
         }}
         variant="default"
-        size={matches ? 'default' : 'icon'}
+        size={matches ? 'default' : 'xs'}
       >
         {womenContext ? (
           matches ? (
@@ -44,7 +44,7 @@ const MaratonTabBar = () => {
           navigate({ search: { tab: 'help', women: womenContext } })
         }
         variant={tab === 'help' ? 'default' : 'outline'}
-        size={matches ? 'default' : 'icon'}
+        size={matches ? 'default' : 'xs'}
       >
         {matches ? 'Hjälp' : <QuestionIcon />}
       </Button>
@@ -59,7 +59,7 @@ const MaratonTabBar = () => {
                 search: { tab: 'maraton', table: 'all', women: womenContext },
               })
             }}
-            size={matches ? 'default' : 'icon'}
+            size={matches ? 'default' : 'xs'}
           >
             {matches ? 'Maratontabeller' : <ListIcon />}
           </Button>
@@ -79,7 +79,7 @@ const MaratonTabBar = () => {
                 },
               })
             }}
-            size={matches ? 'default' : 'icon'}
+            size={matches ? 'default' : 'xs'}
           >
             {matches ? 'Rekord' : <StatsIcon />}
           </Button>
