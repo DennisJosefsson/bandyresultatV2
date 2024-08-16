@@ -28,7 +28,7 @@ function Season() {
         </CardContent>
       </Card>
       <Card>
-        <CardContent className="mt-2">
+        <CardContent className="mt-2 p-2">
           <Outlet />
         </CardContent>
       </Card>

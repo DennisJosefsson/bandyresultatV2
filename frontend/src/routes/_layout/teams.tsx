@@ -20,12 +20,12 @@ function TeamsHeader() {
   return (
     <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground">
       <Card>
-        <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
+        <CardContent className="p-2 md:p-4">
           <TeamsTabBar />
         </CardContent>
       </Card>
       <Card className="mt-2">
-        <CardContent>
+        <CardContent className="p-2">
           <CatchBoundary
             getResetKey={() => 'reset'}
             onCatch={(error) => {

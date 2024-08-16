@@ -1,5 +1,5 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 
 import Date from '@/components/Components/Common/Date'
 
@@ -10,10 +10,12 @@ type LatestGamesProps = {
 const LatestGames = ({ latestGames }: LatestGamesProps) => {
   return (
     <Card className="mt-2 w-full">
-      <CardHeader>
-        <CardTitle className="text-xs md:text-sm">Senaste matcherna</CardTitle>
+      <CardHeader className="p-2">
+        <CardTitle className="text-[10px] md:text-sm">
+          Senaste matcherna
+        </CardTitle>
       </CardHeader>
-      <CardContent className="compareFirstLast mb-3 w-full text-[8px] sm:text-sm">
+      <CardContent className="compareFirstLast mb-3 w-full text-[8px] sm:text-sm p-2 pt-0">
         <div>
           {latestGames.map((game) => {
             return (

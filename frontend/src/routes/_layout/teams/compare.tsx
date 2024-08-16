@@ -3,7 +3,6 @@ import AllData from '@/components/Components/Teams/Compare/AllData'
 import CompareHeader from '@/components/Components/Teams/Compare/CompareHeader'
 import CompareStats from '@/components/Components/Teams/Compare/CompareStats'
 import DetailedData from '@/components/Components/Teams/Compare/DetailedData'
-import { Card, CardContent } from '@/components/ui/card'
 import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
@@ -24,20 +23,25 @@ function Compare() {
   return (
     <>
       {compareData && (
-        <Card className="mt-2">
+        <div className="mt-2">
           <CompareHeader
             length={compareData.allData.length}
             compareHeaderText={compareData.compareHeaderText}
             link={compareLink}
             searchObject={compareObject}
-            origin={origin}
           />
-          <CardContent>
+          <div>
             <Tabs defaultValue="tables">
               <TabsList>
-                <TabsTrigger value="tables">Tabeller</TabsTrigger>
-                <TabsTrigger value="games">Matcher</TabsTrigger>
-                <TabsTrigger value="stats">Statistik</TabsTrigger>
+                <TabsTrigger value="tables" className="text-[10px] md:text-sm">
+                  Tabeller
+                </TabsTrigger>
+                <TabsTrigger value="games" className="text-[10px] md:text-sm">
+                  Matcher
+                </TabsTrigger>
+                <TabsTrigger value="stats" className="text-[10px] md:text-sm">
+                  Statistik
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="tables">
@@ -63,8 +67,8 @@ function Compare() {
                 allSeasons={compareData.allSeasons}
               />
             </Tabs>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </>
   )

@@ -1,5 +1,6 @@
 import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 
+import Date from '@/components/Components/Common/Date'
 import {
   Card,
   CardContent,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import Date from '@/components/Components/Common/Date'
 import { CompareFormState } from '@/lib/types/teams/teams'
 
 type FirstGamesProps = {
@@ -22,10 +22,12 @@ const FirstGames = ({ firstGames, searchObject }: FirstGamesProps) => {
 
   return (
     <Card className="mt-2 w-full">
-      <CardHeader>
-        <CardTitle className="text-xs md:text-sm">Första matcherna</CardTitle>
+      <CardHeader className="p-2">
+        <CardTitle className="text-[10px] md:text-sm">
+          Första matcherna
+        </CardTitle>
       </CardHeader>
-      <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm">
+      <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm p-1 pt-0">
         <div className="mb-2">
           {firstGames.map((game) => {
             return (

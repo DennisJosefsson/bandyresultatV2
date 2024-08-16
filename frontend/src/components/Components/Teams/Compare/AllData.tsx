@@ -1,7 +1,7 @@
+import { Table, TableBody } from '@/components/ui/table'
 import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 import { CompareFormState } from '@/lib/types/teams/teams'
 import AllDataTableHeader from './AllDataTableHeader'
-import { Table, TableBody } from '@/components/ui/table'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -16,13 +16,13 @@ type AllDataProps = {
 const AllData = ({ allData, sortedData, searchObject }: AllDataProps) => {
   if (!searchObject) return null
 
-  if (searchObject.teamArray.length > 2) {
+  if (searchObject.teamArray && searchObject.teamArray.length > 2) {
     return (
       <Card className="mb-2">
-        <CardHeader>
-          <CardTitle className="text-xs md:text-sm">Sammanlagt</CardTitle>
+        <CardHeader className="p-2">
+          <CardTitle className="text-[10px] md:text-sm">Sammanlagt</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 pt-0">
           <Table className="w-full table-fixed">
             <AllDataTableHeader />
             <TableBody>
@@ -37,10 +37,10 @@ const AllData = ({ allData, sortedData, searchObject }: AllDataProps) => {
   } else
     return (
       <Card className="mb-2">
-        <CardHeader>
-          <CardTitle className="text-xs md:text-sm">Sammanlagt</CardTitle>
+        <CardHeader className="p-2">
+          <CardTitle className="text-[10px] md:text-sm">Sammanlagt</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 pt-0">
           <Table className="w-full table-fixed">
             <AllDataTableHeader />
             <TableBody>

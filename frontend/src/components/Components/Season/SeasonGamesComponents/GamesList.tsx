@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { SortedGamesType } from '@/lib/utils/sortFunction'
 import { SerieAttributes } from '@/lib/types/series/series'
+import { SortedGamesType } from '@/lib/utils/sortFunction'
 
 import Date from '@/components/Components/Common/Date'
 import GamesListItem from './GamesListSubComponents/GamesListItem'
@@ -24,7 +24,7 @@ const GamesList = ({
 }: GameListProps) => {
   return (
     <div className="mb-6 w-full font-inter">
-      <h1 className="scroll-m-20 text-sm font-semibold text-primary md:text-base">
+      <h1 className="text-xs font-semibold text-primary md:text-base">
         {title}
       </h1>
       <div>
@@ -34,12 +34,12 @@ const GamesList = ({
           )
           return (
             <div key={group.group} className="mb-6">
-              <h3 className="scroll-m-20 text-xs font-semibold text-primary md:text-sm">
+              <h3 className="text-[10px] font-semibold text-primary md:text-xs">
                 {gamesArray.length > 1 ? `${seriesObject?.serieName}` : ''}
               </h3>
 
               {seriesObject && seriesObject.comment && (
-                <p className="my-2 max-w-xl bg-background p-1 text-xs font-bold">
+                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold">
                   {seriesObject.comment}
                 </p>
               )}

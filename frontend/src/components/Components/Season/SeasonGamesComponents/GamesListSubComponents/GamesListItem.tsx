@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { GameObjectType } from '@/lib/types/games/games'
-//import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
-
-//import { Link } from '@tanstack/react-router'
+import { GameObjectType } from '@/lib/types/games/games'
+import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { Link, useLocation, useSearch } from '@tanstack/react-router'
+import { useMediaQuery } from 'usehooks-ts'
 import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
@@ -13,29 +13,18 @@ type GamesListItemProps = {
   game: GameObjectType
 }
 
-// const categoryArray = [
-//   'qualification',
-//   'regular',
-//   'eight',
-//   'quarter',
-//   'semi',
-//   'final',
-// ]
-
-// {
-//   game,
-//   startSeason,
-//   endSeason,
-// }
-
 const GamesListItem = ({ game }: GamesListItemProps) => {
   const { favTeams } = useTeampreferenceContext()
-  //  const { women } = useSearch({from:'/_layout'})
+  const { women } = useSearch({ from: '/_layout' })
   const { user } = useUserContext()
+  const pathname = useLocation({
+    select: (location) => location.pathname,
+  })
+  const matches = useMediaQuery('(min-width: 768px)')
 
   return (
     <div key={game.gameId} className="flex w-full flex-row items-center gap-1">
-      <div className="mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-2 py-0.5 text-[10px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50  xxs:gap-2 md:text-sm xl:mb-2 xl:w-[36rem] xl:py-1">
+      <div className="mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] ">
         <span
           className={
             favTeams.includes(game.homeTeamId)
@@ -56,7 +45,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
           {game.awayTeam.casualName}
         </span>
 
-        <span className="w-10 text-right tabular-nums">{game.result}</span>
+        <span className="w-16 text-right tabular-nums">{game.result}</span>
 
         {game.halftimeResult && (
           <>
@@ -65,10 +54,23 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
             </span>
           </>
         )}
-        <Button asChild size="icon" variant="ghost">
-          H2H
+        <Button
+          asChild
+          size={matches ? 'icon' : 'xs'}
+          variant="ghost"
+          onClick={() => setOrigin(pathname)}
+        >
+          <Link
+            to="/teams/compare"
+            search={{
+              teamArray: [game.homeTeamId, game.awayTeamId],
+              women: women,
+            }}
+          >
+            <span className="text-[8px] md:text-xs">H2H</span>
+          </Link>
         </Button>
-        {user && <EditGameButton game={game} />}
+        {user && matches && <EditGameButton game={game} />}
       </div>
     </div>
   )

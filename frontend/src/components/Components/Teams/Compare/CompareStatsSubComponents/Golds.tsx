@@ -1,5 +1,5 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CompareResponseObjectType } from '@/lib/types/teams/compare'
 type GoldsProps = {
   golds: CompareResponseObjectType['golds']
 }
@@ -7,10 +7,10 @@ type GoldsProps = {
 const Golds = ({ golds }: GoldsProps) => {
   return (
     <Card className="mt-2 w-full">
-      <CardHeader>
-        <CardTitle className="text-xs md:text-sm">SM-Guld</CardTitle>
+      <CardHeader className="p-2">
+        <CardTitle className="text-[10px] md:text-sm">SM-Guld</CardTitle>
       </CardHeader>
-      <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm">
+      <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm  p-1 pt-0">
         <div className="mb-2">
           {golds.map((team) => {
             return (

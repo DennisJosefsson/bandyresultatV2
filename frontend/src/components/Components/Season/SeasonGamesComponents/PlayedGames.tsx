@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react'
 import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
+import { Dispatch, SetStateAction } from 'react'
 import GamesList from './GamesList'
 
 import { useGamesSeason } from '@/lib/hooks/dataHooks/games/useGamesSeason'
@@ -27,8 +27,8 @@ const PlayedGames = ({ teamFilter, setShowAddGameModal }: PlayedGamesProps) => {
   const { startSeason, endSeason } = useGamesSeason()
   return (
     <div>
-      <h1 className="text-[1rem] font-bold md:text-[1.25rem]">Spelade</h1>
-      <div className="w-full px-2 xl:px-0">
+      <h1 className="text-sm font-bold md:text-base">Spelade</h1>
+      <div className="w-full xl:px-2">
         {playedFinalGames.length > 0 && (
           <GamesList
             gamesArray={playedFinalGames}

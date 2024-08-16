@@ -13,10 +13,10 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
   return (
     <>
       <Card className="mt-2 w-full">
-        <CardHeader>
-          <CardTitle className="text-xs md:text-sm">Säsonger</CardTitle>
+        <CardHeader className="p-2">
+          <CardTitle className="text-[10px] md:text-sm">Säsonger</CardTitle>
         </CardHeader>
-        <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm">
+        <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
             {allSeasons.map((team) => {
               return (
@@ -34,12 +34,12 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
       {!women && (
         <>
           <Card className="mt-2 w-full">
-            <CardHeader>
-              <CardTitle className="text-xs md:text-sm">
+            <CardHeader className="p-2">
+              <CardTitle className="text-[10px] md:text-sm">
                 Säsonger sedan 1931
               </CardTitle>
             </CardHeader>
-            <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm">
+            <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm  p-1 pt-0">
               <div className="mb-2">
                 {seasons.map((team) => {
                   return (

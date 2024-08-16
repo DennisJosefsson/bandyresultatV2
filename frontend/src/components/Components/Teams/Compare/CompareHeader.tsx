@@ -1,37 +1,39 @@
 import { Button } from '@/components/ui/button'
-import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CompareFormState } from '@/lib/types/teams/teams'
-import { useRouter } from '@tanstack/react-router'
-import { useCopyToClipboard } from 'usehooks-ts'
+import {
+  getOrigin,
+  resetOrigin,
+} from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { Link, useSearch } from '@tanstack/react-router'
+import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
 
 type CompareHeaderProps = {
   length: number
   searchObject: CompareFormState | null
   link: string
-  origin: string
   compareHeaderText: string
 }
 
-const Buttons = ({
-  link,
-  origin,
-  length,
-}: {
-  link: string
-  origin: string | undefined
-  length: number
-}) => {
-  const router = useRouter()
+const Buttons = ({ link, length }: { link: string; length: number }) => {
+  const { women } = useSearch({ from: '/_layout' })
+  const { origin } = getOrigin()
   const [copiedText, copy] = useCopyToClipboard()
+  const matches = useMediaQuery('(min-width: 430px)')
   return (
-    <div className="mb-2 flex flex-col-reverse justify-end gap-2 xl:mb-6 xl:flex-row xl:justify-end">
-      {origin === 'gamesList' && (
-        <Button onClick={() => router.history.back()} size="sm">
-          Tillbaka
+    <div className="mb-2 flex flex-row justify-end gap-2 xl:mb-6">
+      {origin !== null && (
+        <Button
+          onClick={() => resetOrigin()}
+          size={matches ? 'sm' : 'xxs'}
+          asChild
+        >
+          <Link to={origin} search={{ women }}>
+            Tillbaka
+          </Link>
         </Button>
       )}
       {length > 0 && (
-        <Button onClick={() => copy(link)} size="sm">
+        <Button onClick={() => copy(link)} size={matches ? 'sm' : 'xxs'}>
           {copiedText ? 'Kopierad!' : `Länk`}
         </Button>
       )}
@@ -43,7 +45,6 @@ const CompareHeader = ({
   length,
   searchObject,
   link,
-  origin,
   compareHeaderText,
 }: CompareHeaderProps) => {
   if (!searchObject) return null
@@ -51,25 +52,31 @@ const CompareHeader = ({
   return (
     <>
       {length === 0 && (
-        <CardHeader>
-          <div className="flex flex-row justify-between">
-            <CardTitle>{compareHeaderText}</CardTitle>
+        <div className="p-1 md:p-2">
+          <div className="flex flex-row justify-between items-center">
+            <span className="text-xs md:text-base mb-2">
+              {compareHeaderText}
+            </span>
 
-            <Buttons link={link} origin={origin} length={length} />
+            <Buttons link={link} length={length} />
           </div>
-        </CardHeader>
+        </div>
       )}
       {length > 0 && (
-        <CardHeader>
+        <div className="md:p-2">
           <div className="w-full">
-            <div className="flex flex-row justify-between">
-              <CardTitle className="mb-2">Inbördes möten</CardTitle>
-              <Buttons link={link} origin={origin} length={length} />
+            <div className="flex flex-row justify-between items-center">
+              <span className="text-xs md:text-base mb-2 font-semibold">
+                Inbördes möten
+              </span>
+              <Buttons link={link} length={length} />
             </div>
 
-            <CardDescription>{compareHeaderText}</CardDescription>
+            <span className="text-[10px] md:text-sm text-muted-foreground">
+              {compareHeaderText}
+            </span>
           </div>
-        </CardHeader>
+        </div>
       )}
     </>
   )

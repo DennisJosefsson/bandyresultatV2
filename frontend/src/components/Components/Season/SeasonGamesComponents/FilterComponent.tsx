@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, KeyboardEvent } from 'react'
-import { useCopyToClipboard } from 'usehooks-ts'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Dispatch, KeyboardEvent, SetStateAction } from 'react'
+import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
 const FilterComponent = ({
   teamFilter,
   setTeamFilter,
@@ -12,6 +12,7 @@ const FilterComponent = ({
   seasonId: string
 }) => {
   const [copiedText, copy] = useCopyToClipboard()
+  const matches = useMediaQuery('(min-width: 430px)')
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault()
@@ -26,7 +27,7 @@ const FilterComponent = ({
   }
 
   return (
-    <div className="w-full flex flex-row gap-2">
+    <div className="w-full flex flex-row items-center gap-2">
       <form className="flex-1">
         <Input
           className="h-6 w-full border-foreground bg-muted focus:border-foreground dark:bg-muted/50 md:h-9"
@@ -43,7 +44,9 @@ const FilterComponent = ({
         />
       </form>
       {teamFilter && (
-        <Button onClick={handleCopy}>{copiedText ? 'Kopierat' : 'Länk'}</Button>
+        <Button onClick={handleCopy} size={matches ? 'sm' : 'xxs'}>
+          {copiedText ? 'Kopierat' : 'Länk'}
+        </Button>
       )}
     </div>
   )
