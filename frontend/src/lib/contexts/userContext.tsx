@@ -1,5 +1,5 @@
 import { ReactNode, useReducer } from 'react'
-import { UserContext, UserType, UserActionType } from './contexts'
+import { UserActionType, UserContext, UserType } from './contexts'
 
 const userReducer = (state: UserType, action: UserActionType) => {
   switch (action.type) {

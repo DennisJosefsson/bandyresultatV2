@@ -29,7 +29,7 @@ const TeamsListItem = <
 }: TeamsListItemProps<TFieldValues, TName>) => {
   const { favTeams } = useTeampreferenceContext()
   const methods = useFormContext()
-  console.count('memoteamslist')
+
   return (
     <FormField
       key={team.teamId}
@@ -52,6 +52,7 @@ const TeamsListItem = <
               <Link
                 to="/team/$teamId"
                 params={{ teamId: team.teamId.toString() }}
+                search={(prev) => ({ ...prev })}
               >
                 {team.casualName}
               </Link>

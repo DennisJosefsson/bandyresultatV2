@@ -1,12 +1,3 @@
-import { useEffect, useState } from 'react'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table'
 import {
   Table,
   TableBody,
@@ -16,8 +7,17 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { showColumns, hideColumns } from './columns'
+import { hideColumns, showColumns } from './columns'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,7 +35,12 @@ const DataTable = <TData, TValue>({
   serieStructure,
 }: DataTableProps<TData, TValue>) => {
   const matches = useMediaQuery('(min-width: 640px)')
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'totalPoints', desc: true },
+    { id: 'totalGoalDifference', desc: true },
+    { id: 'totalGoalsScored', desc: true },
+    { id: 'lag_casualName', desc: false },
+  ])
   const [columnVisibility, setColumnVisibility] = useState({})
   const table = useReactTable({
     data,

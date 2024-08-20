@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_layout/teams')({
 
 function TeamsHeader() {
   return (
-    <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground">
+    <div className="mb-2 min-h-screen px-1 font-inter text-foreground">
       <Card>
         <CardContent className="p-2 md:p-4">
           <TeamsTabBar />

@@ -544,3 +544,203 @@ export const routeTree = rootRoute.addChildren({
 })
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/_layout"
+      ]
+    },
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/dashboard",
+        "/_layout/maraton",
+        "/_layout/search",
+        "/_layout/season",
+        "/_layout/seasons",
+        "/_layout/teams",
+        "/_layout/about",
+        "/_layout/unauthorized",
+        "/_layout/",
+        "/_layout/team/$teamId"
+      ]
+    },
+    "/_layout/dashboard": {
+      "filePath": "_layout/dashboard.tsx",
+      "parent": "/_layout",
+      "children": [
+        "/_layout/dashboard/addTeams",
+        "/_layout/dashboard/errors",
+        "/_layout/dashboard/newSeason",
+        "/_layout/dashboard/seasons",
+        "/_layout/dashboard/",
+        "/_layout/dashboard/season/$seasonId"
+      ]
+    },
+    "/_layout/maraton": {
+      "filePath": "_layout/maraton.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/search": {
+      "filePath": "_layout/search.tsx",
+      "parent": "/_layout",
+      "children": [
+        "/_layout/search/help",
+        "/_layout/search/"
+      ]
+    },
+    "/_layout/season": {
+      "filePath": "_layout/season.tsx",
+      "parent": "/_layout",
+      "children": [
+        "/_layout/season/$seasonId"
+      ]
+    },
+    "/_layout/seasons": {
+      "filePath": "_layout/seasons.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/teams": {
+      "filePath": "_layout/teams.tsx",
+      "parent": "/_layout",
+      "children": [
+        "/_layout/teams/compare",
+        "/_layout/teams/selection",
+        "/_layout/teams/map",
+        "/_layout/teams/"
+      ]
+    },
+    "/_layout/about": {
+      "filePath": "_layout/about.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/unauthorized": {
+      "filePath": "_layout/unauthorized.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/": {
+      "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/dashboard/addTeams": {
+      "filePath": "_layout/dashboard/addTeams.tsx",
+      "parent": "/_layout/dashboard"
+    },
+    "/_layout/dashboard/errors": {
+      "filePath": "_layout/dashboard/errors.tsx",
+      "parent": "/_layout/dashboard"
+    },
+    "/_layout/dashboard/newSeason": {
+      "filePath": "_layout/dashboard/newSeason.tsx",
+      "parent": "/_layout/dashboard"
+    },
+    "/_layout/dashboard/seasons": {
+      "filePath": "_layout/dashboard/seasons.tsx",
+      "parent": "/_layout/dashboard"
+    },
+    "/_layout/search/help": {
+      "filePath": "_layout/search/help.tsx",
+      "parent": "/_layout/search"
+    },
+    "/_layout/season/$seasonId": {
+      "filePath": "_layout/season/$seasonId.tsx",
+      "parent": "/_layout/season",
+      "children": [
+        "/_layout/season/$seasonId/development",
+        "/_layout/season/$seasonId/games",
+        "/_layout/season/$seasonId/map",
+        "/_layout/season/$seasonId/playoff",
+        "/_layout/season/$seasonId/stats",
+        "/_layout/season/$seasonId/tables"
+      ]
+    },
+    "/_layout/team/$teamId": {
+      "filePath": "_layout/team/$teamId.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/teams/compare": {
+      "filePath": "_layout/teams/compare.tsx",
+      "parent": "/_layout/teams"
+    },
+    "/_layout/teams/selection": {
+      "filePath": "_layout/teams/selection.tsx",
+      "parent": "/_layout/teams"
+    },
+    "/_layout/teams/map": {
+      "filePath": "_layout/teams/map.lazy.tsx",
+      "parent": "/_layout/teams"
+    },
+    "/_layout/dashboard/": {
+      "filePath": "_layout/dashboard/index.tsx",
+      "parent": "/_layout/dashboard"
+    },
+    "/_layout/search/": {
+      "filePath": "_layout/search/index.tsx",
+      "parent": "/_layout/search"
+    },
+    "/_layout/teams/": {
+      "filePath": "_layout/teams/index.tsx",
+      "parent": "/_layout/teams"
+    },
+    "/_layout/dashboard/season/$seasonId": {
+      "filePath": "_layout/dashboard/season/$seasonId.tsx",
+      "parent": "/_layout/dashboard",
+      "children": [
+        "/_layout/dashboard/season/$seasonId/bulkgames",
+        "/_layout/dashboard/season/$seasonId/metadata",
+        "/_layout/dashboard/season/$seasonId/newseries",
+        "/_layout/dashboard/season/$seasonId/teamseason",
+        "/_layout/dashboard/season/$seasonId/"
+      ]
+    },
+    "/_layout/season/$seasonId/development": {
+      "filePath": "_layout/season/$seasonId.development.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/games": {
+      "filePath": "_layout/season/$seasonId.games.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/map": {
+      "filePath": "_layout/season/$seasonId.map.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/playoff": {
+      "filePath": "_layout/season/$seasonId.playoff.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/stats": {
+      "filePath": "_layout/season/$seasonId.stats.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/tables": {
+      "filePath": "_layout/season/$seasonId.tables.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/bulkgames": {
+      "filePath": "_layout/dashboard/season/$seasonId.bulkgames.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/metadata": {
+      "filePath": "_layout/dashboard/season/$seasonId.metadata.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/newseries": {
+      "filePath": "_layout/dashboard/season/$seasonId.newseries.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/teamseason": {
+      "filePath": "_layout/dashboard/season/$seasonId.teamseason_.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/": {
+      "filePath": "_layout/dashboard/season/$seasonId.index.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    }
+  }
+}
+ROUTE_MANIFEST_END */

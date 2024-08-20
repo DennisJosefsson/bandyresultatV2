@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_layout/search')({
 
 function SearchHeader() {
   return (
-    <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground">
+    <div className="mb-2 min-h-screen px-1 font-inter text-foreground">
       <Card>
         <CardContent className="p-2 pt-2 md:p-6 md:pt-6">
           <SearchTabBar />

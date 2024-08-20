@@ -1,5 +1,6 @@
 import Header from '@/components/Components/Header/Header'
 import { ScrollArea } from '@/components/ui/scroll-area'
+
 import { Toaster } from '@/components/ui/toaster'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
@@ -23,7 +24,7 @@ function LayoutComponent() {
     }
   }, [women, womenContext, dispatch])
   return (
-    <div className="flex flex-col bg-background text-foreground">
+    <div className="flex flex-col bg-background text-foreground w-full">
       <Header />
       <Toaster />
       <ScrollArea className="content-container">

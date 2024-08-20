@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_layout/season/$seasonId')({
 
 function Season() {
   return (
-    <div className="mx-auto flex min-h-screen flex-col px-2 font-inter text-foreground">
+    <div className="flex min-h-screen flex-col px-2 font-inter text-foreground">
       <Card className="mb-2">
         <CardContent className="max-w-full">
           <SeasonHeader />

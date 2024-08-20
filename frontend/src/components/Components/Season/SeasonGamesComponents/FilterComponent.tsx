@@ -1,23 +1,25 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Dispatch, KeyboardEvent, SetStateAction } from 'react'
+
+import { useParams } from '@tanstack/react-router'
+import { KeyboardEvent, useState } from 'react'
 import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
-const FilterComponent = ({
-  teamFilter,
-  setTeamFilter,
-  seasonId,
-}: {
-  teamFilter: string | undefined
-  setTeamFilter: Dispatch<SetStateAction<string>>
-  seasonId: string
-}) => {
+const FilterComponent = () => {
+  const [teamFilter, setTeamFilter] = useState('')
   const [copiedText, copy] = useCopyToClipboard()
+  const seasonId = useParams({
+    from: '/_layout/season/$seasonId/games',
+    select: (param) => param.seasonId,
+  })
+
   const matches = useMediaQuery('(min-width: 430px)')
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault()
     }
   }
+
+  console.log(teamFilter)
 
   const handleCopy = () => {
     const baseUrl = import.meta.env.PROD

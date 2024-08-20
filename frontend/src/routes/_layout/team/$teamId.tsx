@@ -1,14 +1,14 @@
 import Loading from '@/components/Components/Common/Loading'
-import { CardContent } from '@/components/ui/card'
-import { useGetSingleTeam } from '@/lib/hooks/dataHooks/teams/useGetSingleTeam'
-import { teamQueries } from '@/lib/queries/teams/queries'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { createFileRoute } from '@tanstack/react-router'
 import TeamChart from '@/components/Components/SingleTeam/TeamChart'
 import TeamCuriosities from '@/components/Components/SingleTeam/TeamCuriosities'
 import TeamFiveSeasonsTables from '@/components/Components/SingleTeam/TeamFiveSeasons'
 import TeamHeader from '@/components/Components/SingleTeam/TeamHeader'
 import TeamTable from '@/components/Components/SingleTeam/TeamTable'
+import { CardContent } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useGetSingleTeam } from '@/lib/hooks/dataHooks/teams/useGetSingleTeam'
+import { teamQueries } from '@/lib/queries/teams/queries'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/team/$teamId')({
   loader: ({ context, params }) => {
@@ -26,7 +26,7 @@ function Team() {
   return (
     <>
       {team && (
-        <div className="mx-auto mt-2 flex min-h-screen flex-col font-inter text-foreground">
+        <div className="mt-2 flex min-h-screen flex-col font-inter text-foreground">
           <TeamHeader team={team} teamId={parseInt(teamId)} />
           <CardContent>
             <Tabs defaultValue="tables">

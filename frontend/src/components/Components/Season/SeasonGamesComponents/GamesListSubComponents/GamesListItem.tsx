@@ -4,12 +4,11 @@ import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 import { GameObjectType } from '@/lib/types/games/games'
 import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { Link, useLocation, useSearch } from '@tanstack/react-router'
+import { useCallback } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
-  startSeason: number
-  endSeason: number
   game: GameObjectType
 }
 
@@ -21,6 +20,10 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
     select: (location) => location.pathname,
   })
   const matches = useMediaQuery('(min-width: 768px)')
+
+  const onClickHandler = useCallback(() => {
+    setOrigin(pathname)
+  }, [pathname])
 
   return (
     <div key={game.gameId} className="flex w-full flex-row items-center gap-1">
@@ -58,7 +61,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
           asChild
           size={matches ? 'icon' : 'xs'}
           variant="ghost"
-          onClick={() => setOrigin(pathname)}
+          onClick={onClickHandler}
         >
           <Link
             to="/teams/compare"

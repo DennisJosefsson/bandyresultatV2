@@ -35,13 +35,13 @@ const TableList = ({
           <div key={group.group} className="mb-6">
             {group.group.includes('Kval') && tableArray.length === 1 ? (
               <>
-                <h2 className="ml-1 text-sm font-bold lg:text-base xl:ml-0 xl:text-xl">
+                <h2 className="text-sm font-bold lg:text-base xl:text-xl">
                   Kvalgrupp {homeAwayTitle}
                 </h2>
               </>
             ) : (
               <>
-                <h2 className="ml-1 text-sm font-bold lg:text-base xl:ml-0 xl:text-xl">
+                <h2 className="text-sm font-bold lg:text-base xl:text-xl">
                   {serieName} {homeAwayTitle}
                 </h2>
               </>

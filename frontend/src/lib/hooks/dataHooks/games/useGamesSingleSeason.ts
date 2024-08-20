@@ -1,9 +1,14 @@
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { seasonQueries } from '@/lib/queries/season/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { useParams } from '@tanstack/react-router'
 
-export const useGamesSingleSeason = (seasonId: string) => {
+export const useGamesSingleSeason = () => {
   const { womenContext } = useGenderContext()
+  const seasonId = useParams({
+    from: '/_layout/season/$seasonId/games',
+    select: (param) => param.seasonId,
+  })
   const { data, isLoading, error } = useSuspenseQuery(
     seasonQueries['singleSeason'](seasonId)
   )

@@ -1,25 +1,25 @@
-import { Dispatch, SetStateAction } from 'react'
-import { useForm, FieldErrors, SubmitHandler } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message'
+import { FormComponent } from '@/components/Components/Common/ReactHookFormComponents/FormComponent'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Form } from '@/components/ui/form'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useToast } from '@/components/ui/use-toast'
 import { postGame } from '@/lib/requests/games'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { sortOrder } from '@/lib/utils/constants'
 import {
+  GameFormObjectType,
+  GameObjectType,
   inputGameObject,
   InputGameObjectType,
-  GameObjectType,
-  GameFormObjectType,
 } from '@/lib/types/games/games'
 import { SeasonObjectType } from '@/lib/types/season/seasons'
+import { sortOrder } from '@/lib/utils/constants'
+import { resetGame, useGameStore } from '@/lib/zustand/games/gameStore'
+import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/components/ui/use-toast'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card'
-import { Form } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { FormComponent } from '@/components/Components/Common/ReactHookFormComponents/FormComponent'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useGameStore, resetGame } from '@/lib/zustand/games/gameStore'
+import { Dispatch, SetStateAction } from 'react'
+import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form'
 
 type GameFormPropTypes = {
   season: SeasonObjectType[]
@@ -77,9 +77,9 @@ const initEdit = (gameData: GameObjectType): InputGameObjectType => {
     seasonId: gameData.seasonId,
     homeTeamId: gameData.homeTeamId,
     awayTeamId: gameData.awayTeamId,
-    result: gameData.result,
-    halftimeResult: gameData.halftimeResult,
-    date: gameData.date,
+    result: gameData.result ?? '',
+    halftimeResult: gameData.halftimeResult ?? '',
+    date: gameData.date ?? '',
     category: gameData.category,
     group: gameData.group,
     playoff: gameData.playoff,

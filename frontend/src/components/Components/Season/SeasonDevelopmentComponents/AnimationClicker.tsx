@@ -41,7 +41,7 @@ const AnimationClicker = ({
               {Array.from({ length: arrayLength }).map((_, index) => {
                 return (
                   <CarouselItem key={index}>
-                    <div className="flex cursor-pointer flex-row items-center justify-center text-[10px] sm:text-xs lg:text-lg">
+                    <div className="flex flex-row items-center justify-center text-[10px] sm:text-xs lg:text-lg">
                       Matchdag {index + 1}
                     </div>
                   </CarouselItem>
@@ -70,7 +70,7 @@ const AnimationClicker = ({
                           ? 'font-semibold flex cursor-pointer flex-row items-center justify-center text-[8px] md:text-[10px]'
                           : 'flex cursor-pointer flex-row items-center justify-center text-[8px] md:text-[10px]'
                       }
-                      onClick={() => api && api.scrollTo(index)}
+                      onClick={() => api && api.scrollTo(index, true)}
                     >
                       {date}
                     </div>

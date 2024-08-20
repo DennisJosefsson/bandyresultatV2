@@ -1,18 +1,8 @@
+import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
-import { Dispatch, SetStateAction } from 'react'
 import GamesList from './GamesList'
 
-import { useGamesSeason } from '@/lib/hooks/dataHooks/games/useGamesSeason'
-import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
-import { useParams } from '@tanstack/react-router'
-
-type PlayedGamesProps = {
-  teamFilter: string
-  setShowAddGameModal: Dispatch<SetStateAction<boolean>>
-}
-
-const PlayedGames = ({ teamFilter, setShowAddGameModal }: PlayedGamesProps) => {
-  const { seasonId } = useParams({ from: '/_layout/season/$seasonId/games' })
+const PlayedGames = () => {
   const {
     playedEightGames,
     playedQualificationGames,
@@ -20,11 +10,10 @@ const PlayedGames = ({ teamFilter, setShowAddGameModal }: PlayedGamesProps) => {
     playedSemiGames,
     playedQuarterGames,
     playedRegularGames,
-  } = useSingleSeasonGames(seasonId, teamFilter)
+  } = useSingleSeasonGames()
 
-  const { seriesInfo } = useGamesSingleSeason(seasonId)
+  const { seriesInfo } = useGamesSingleSeason()
 
-  const { startSeason, endSeason } = useGamesSeason()
   return (
     <div>
       <h1 className="text-sm font-bold md:text-base">Spelade</h1>
@@ -33,50 +22,35 @@ const PlayedGames = ({ teamFilter, setShowAddGameModal }: PlayedGamesProps) => {
           <GamesList
             gamesArray={playedFinalGames}
             title={'Final'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
         {playedSemiGames.length > 0 && (
           <GamesList
             gamesArray={playedSemiGames}
             title={'Semifinaler'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
         {playedQuarterGames.length > 0 && (
           <GamesList
             gamesArray={playedQuarterGames}
             title={'Kvartsfinaler'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
         {playedEightGames.length > 0 && (
           <GamesList
             gamesArray={playedEightGames}
             title={'Åttondelsfinaler'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
         {playedRegularGames.length > 0 && (
           <GamesList
             gamesArray={playedRegularGames}
             title={'Grundseriematcher'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
 
@@ -84,10 +58,7 @@ const PlayedGames = ({ teamFilter, setShowAddGameModal }: PlayedGamesProps) => {
           <GamesList
             gamesArray={playedQualificationGames}
             title={'Kvalmatcher'}
-            setShowModal={setShowAddGameModal}
             seriesInfo={seriesInfo}
-            startSeason={startSeason}
-            endSeason={endSeason}
           />
         )}
       </div>

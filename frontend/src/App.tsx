@@ -12,7 +12,6 @@ const router = createRouter({
     queryClient,
     genderContext: undefined!,
   },
-  defaultPreload: 'intent',
   defaultNotFoundComponent: DefaultNotFound,
 })
 

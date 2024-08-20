@@ -43,7 +43,7 @@ function Development() {
     api.on('select', () => {
       setRound(api.selectedScrollSnap())
 
-      dateApi.scrollTo(api.selectedScrollSnap())
+      dateApi.scrollTo(api.selectedScrollSnap(), true)
     })
   }, [api, dateApi])
 

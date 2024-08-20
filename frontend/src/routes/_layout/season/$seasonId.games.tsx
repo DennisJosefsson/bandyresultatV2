@@ -1,10 +1,7 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
-import FilterComponent from '@/components/Components/Season/SeasonGamesComponents/FilterComponent'
-import GameForm from '@/components/Components/Season/SeasonGamesComponents/GameForm'
 import PlayedGames from '@/components/Components/Season/SeasonGamesComponents/PlayedGames'
 import UnplayedGames from '@/components/Components/Season/SeasonGamesComponents/UnplayedGames'
-import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
@@ -12,10 +9,7 @@ import { gameQueries } from '@/lib/queries/games/queries'
 import { seasonQueries } from '@/lib/queries/season/queries'
 import { createFileRoute, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { useEffect, useRef, useState } from 'react'
-import { z } from 'zod'
-
-const teamFilterSearch = z.object({ team: z.string().optional() })
+import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/games')({
   component: Games,
@@ -28,24 +22,18 @@ export const Route = createFileRoute('/_layout/season/$seasonId/games')({
       gameQueries['singleSeasonGames'](params.seasonId)
     )
   },
-  validateSearch: teamFilterSearch,
+
   errorComponent: ({ error, reset }) => (
     <ErrorComponent error={error} reset={reset} />
   ),
 })
 
 function Games() {
-  const { seasonId } = Route.useParams()
-  const { team, women } = Route.useSearch()
-  const [teamFilter, setTeamFilter] = useState<string>(team ?? '')
-
-  const [showAddGameModal, setShowAddGameModal] = useState<boolean>(false)
-  const { playedGamesLength, unplayedGamesLength } = useSingleSeasonGames(
-    seasonId,
-    teamFilter
-  )
-  const { genderSeason } = useGamesSingleSeason(seasonId)
-
+  const seasonId = Route.useParams({
+    select: (param) => param.seasonId,
+  })
+  const { women } = Route.useSearch()
+  const { playedGamesLength, unplayedGamesLength } = useSingleSeasonGames()
   const { lastSeason } = useGetFirstAndLastSeason()
 
   useScrollTo()
@@ -63,37 +51,12 @@ function Games() {
   }
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
-      <FilterComponent
-        setTeamFilter={setTeamFilter}
-        teamFilter={teamFilter}
-        seasonId={seasonId}
-      />
-
       {parseInt(seasonId) <= lastSeason && (
-        <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0">
-          {playedGamesLength > 0 && (
-            <PlayedGames
-              teamFilter={teamFilter}
-              setShowAddGameModal={setShowAddGameModal}
-            />
-          )}
-          {unplayedGamesLength > 0 && (
-            <UnplayedGames
-              teamFilter={teamFilter}
-              setShowAddGameModal={setShowAddGameModal}
-            />
-          )}
+        <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0 lg:gap-1">
+          {playedGamesLength > 0 && <PlayedGames />}
+          {unplayedGamesLength > 0 && <UnplayedGames />}
         </div>
       )}
-      {showAddGameModal ? (
-        <>
-          <GameForm
-            women={women}
-            season={genderSeason}
-            setShowModal={setShowAddGameModal}
-          />
-        </>
-      ) : null}
     </div>
   )
 }

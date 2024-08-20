@@ -1,27 +1,27 @@
-import { Dispatch, SetStateAction } from 'react'
-
+import Date from '@/components/Components/Common/Date'
+import { GameObjectType } from '@/lib/types/games/games'
 import { SerieAttributes } from '@/lib/types/series/series'
 import { SortedGamesType } from '@/lib/utils/sortFunction'
-
-import Date from '@/components/Components/Common/Date'
+import { memo } from 'react'
 import GamesListItem from './GamesListSubComponents/GamesListItem'
 
 type GameListProps = {
   gamesArray: SortedGamesType
   title: string
-  setShowModal: Dispatch<SetStateAction<boolean>>
   seriesInfo: SerieAttributes[]
-  startSeason: number
-  endSeason: number
 }
 
-const GamesList = ({
-  gamesArray,
-  title,
-  seriesInfo,
-  startSeason,
-  endSeason,
-}: GameListProps) => {
+const List = memo(function List({ games }: { games: GameObjectType[] }) {
+  return (
+    <div className="w-full">
+      {games.map((game) => {
+        return <GamesListItem key={game.gameId} game={game} />
+      })}
+    </div>
+  )
+})
+
+const GamesList = ({ gamesArray, title, seriesInfo }: GameListProps) => {
   return (
     <div className="mb-6 w-full font-inter">
       <h1 className="text-xs font-semibold text-primary md:text-base">
@@ -46,24 +46,13 @@ const GamesList = ({
               <div>
                 {group.dates.map((date) => {
                   return (
-                    <div key={`${date.date}-${Math.random()}`}>
+                    <div key={date.date}>
                       {date.date !== 'null' && (
                         <h3 className="text-[0.75rem] md:text-sm">
                           <Date>{date.date}</Date>
                         </h3>
                       )}
-                      <div className="w-full">
-                        {date.games.map((game) => {
-                          return (
-                            <GamesListItem
-                              key={game.gameId}
-                              game={game}
-                              startSeason={startSeason}
-                              endSeason={endSeason}
-                            />
-                          )
-                        })}
-                      </div>
+                      <List games={date.games} />
                     </div>
                   )
                 })}

@@ -23,7 +23,7 @@ const SelectComponent = ({
 }: SelectComponentProps) => {
   const { name } = useFormField()
   const { field } = useController({ name })
-  console.count('select')
+
   return (
     <Select
       onValueChange={field.onChange}
