@@ -36,8 +36,8 @@ export const getSeasonIndex = (seasonArray: SeasonArray, seasonId: string) => {
   })?.index
 }
 
-export const getParsedRoute = (linkArray: string[] | undefined) => {
-  const route = linkArray ? linkArray[linkArray?.length - 1].split('?')[0] : ''
+export const getParsedRoute = (pathname: string | undefined) => {
+  const route = pathname ? pathname : ''
 
   return parseRoute.parse(route)
 }

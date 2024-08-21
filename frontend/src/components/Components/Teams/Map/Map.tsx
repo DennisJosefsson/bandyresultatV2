@@ -62,7 +62,10 @@ const Map = () => {
       <FilterComponent teamFilter={teamFilter} setTeamFilter={setTeamFilter} />
       <div>
         <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground lg:px-0">
-          <div id="map" className="h-[400px] w-screen max-w-xl p-2">
+          <div
+            id="map"
+            className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl"
+          >
             <MapContainer
               center={[62, 15]}
               zoom={4}

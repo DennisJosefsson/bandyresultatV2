@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_layout/team/$teamId')({
     )
   },
   component: Team,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="singleTeam" />,
 })
 
 function Team() {
@@ -28,15 +28,33 @@ function Team() {
       {team && (
         <div className="mt-2 flex min-h-screen flex-col font-inter text-foreground">
           <TeamHeader team={team} teamId={parseInt(teamId)} />
-          <CardContent>
+          <CardContent className="p-1 md:p-6">
             <Tabs defaultValue="tables">
               <TabsList>
-                <TabsTrigger value="tables">Tabeller</TabsTrigger>
-                <TabsTrigger value="fiveSeasons">
+                <TabsTrigger
+                  className="text-[10px] md:text-sm truncate"
+                  value="tables"
+                >
+                  Tabeller
+                </TabsTrigger>
+                <TabsTrigger
+                  className="text-[10px] md:text-sm truncate"
+                  value="fiveSeasons"
+                >
                   Senaste säsongerna
                 </TabsTrigger>
-                <TabsTrigger value="stats">Statistik</TabsTrigger>
-                <TabsTrigger value="chart">Diagram</TabsTrigger>
+                <TabsTrigger
+                  className="text-[10px] md:text-sm truncate"
+                  value="stats"
+                >
+                  Statistik
+                </TabsTrigger>
+                <TabsTrigger
+                  className="text-[10px] md:text-sm truncate"
+                  value="chart"
+                >
+                  Diagram
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="tables">
                 {team.tabeller.length === 0 && (

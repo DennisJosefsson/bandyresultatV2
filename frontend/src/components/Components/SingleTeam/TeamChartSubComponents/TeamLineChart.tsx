@@ -69,10 +69,12 @@ const TeamLineChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle>Säsonger i högsta serien</CardTitle>
+        <CardHeader className="p-1 md:p-6">
+          <CardTitle className="text-[10px] md:text-sm">
+            Säsonger i högsta serien
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-1 md:p-6">
           <TeamLine renderData={renderData} renderLength={renderLength} />
         </CardContent>
       </Card>

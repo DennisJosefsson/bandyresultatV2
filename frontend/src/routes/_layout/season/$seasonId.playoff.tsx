@@ -9,7 +9,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/playoff')({
   component: Playoff,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonPlayoff" />,
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(playoffQueries['data'](params.seasonId))
   },

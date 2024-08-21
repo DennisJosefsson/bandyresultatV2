@@ -1,7 +1,7 @@
+import Date from '@/components/Components/Common/Date'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { StreakType } from '@/lib/types/teams/teams'
 import { ReactNode } from 'react'
-import Date from '@/components/Components/Common/Date'
 
 const StreakComponent = ({ children }: { children: ReactNode }) => {
   return <Card className="mb-2">{children}</Card>
@@ -9,8 +9,8 @@ const StreakComponent = ({ children }: { children: ReactNode }) => {
 
 function Title({ children }: { children: ReactNode }) {
   return (
-    <CardHeader>
-      <CardTitle>{children}</CardTitle>
+    <CardHeader className="p-1 md:p-6">
+      <CardTitle className="text-[10px] md:text-sm">{children}</CardTitle>
     </CardHeader>
   )
 }
@@ -25,7 +25,7 @@ function Content({ streak, limit }: { streak: StreakType[]; limit: number }) {
   const renderStreak = streak.filter((streak) => streak.game_count > limit)
 
   return (
-    <CardContent className="text-[10px] xxs:text-xs md:p-2 lg:mr-0 lg:text-sm">
+    <CardContent className="text-[10px] xxs:text-xs p-1 md:p-6 lg:mr-0 lg:text-sm">
       <div>
         {renderStreak.map((streak, index) => {
           return (

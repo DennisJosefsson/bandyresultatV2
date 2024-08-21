@@ -7,7 +7,7 @@ import TeamsList from '@/components/Components/Teams/TeamsList/TeamsList'
 
 export const Route = createFileRoute('/_layout/teams/')({
   component: Teams,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="teamsList" />,
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(teamQueries['all']()),
 })

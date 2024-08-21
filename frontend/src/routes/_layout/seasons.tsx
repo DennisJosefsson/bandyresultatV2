@@ -6,13 +6,13 @@ import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { seasonQueries } from '@/lib/queries/season/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { useState, KeyboardEvent } from 'react'
+import { KeyboardEvent, useState } from 'react'
 
 export const Route = createFileRoute('/_layout/seasons')({
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(seasonQueries['allSeasons']()),
   component: Seasons,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonList" />,
 })
 
 function Seasons() {

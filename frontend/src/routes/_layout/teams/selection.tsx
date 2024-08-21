@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/teams/selection')({
   component: Selection,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="searchSelection" />,
 })
 
 function Selection() {

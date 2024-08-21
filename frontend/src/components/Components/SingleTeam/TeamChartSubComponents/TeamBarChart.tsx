@@ -20,6 +20,7 @@ type PositionType = {
 
 const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   const matches1240 = useMediaQuery('(min-width: 1240px)')
+  const matches768 = useMediaQuery('(min-width: 768px)')
   const { women } = useSearch({ from: '/_layout' })
   const baseLinePosition = women ? 10 : 17
   const baseLineSeasonId = women ? 161 : 101
@@ -37,16 +38,19 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle>Slutplacering Elitserien</CardTitle>
+        <CardHeader className="p-1 md:p-6">
+          <CardTitle className="text-[10px] md:text-sm">
+            Slutplacering Elitserien
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-1 md:p-6">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={positionChart}>
               <XAxis
                 dataKey="year"
                 stroke="#888888"
                 fontSize={matches1240 ? 12 : 8}
+                angle={matches768 ? 0 : -30}
                 tickLine={false}
                 axisLine={false}
               />

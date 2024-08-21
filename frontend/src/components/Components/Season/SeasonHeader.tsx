@@ -1,28 +1,22 @@
 import { Button } from '@/components/ui/button'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
-import {
-  Link,
-  useLinkProps,
-  useParams,
-  useSearch,
-} from '@tanstack/react-router'
+import { Link, useLocation, useParams } from '@tanstack/react-router'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { getParsedRoute } from './utils/utils'
 
 const SeasonHeader = () => {
   const { firstSeason, lastSeason } = useGetFirstAndLastSeason()
-  const { women } = useSearch({ from: '/_layout' })
+
   const seasonId = useParams({
     from: '/_layout/season/$seasonId',
     select: (params) => params.seasonId,
   })
 
-  const linkArray = useLinkProps({
-    from: '/season/$seasonId',
-    search: { women },
-  }).href?.split('/')
+  const pathnameArray = useLocation({
+    select: (location) => location.pathname,
+  }).split('/')
 
-  const parsedRoute = getParsedRoute(linkArray)
+  const parsedRoute = getParsedRoute(pathnameArray[pathnameArray.length - 1])
 
   return (
     <div className="pt-2 mb-1 flex gap-10 items-center justify-center sm:mb-2 xl:mb-4">

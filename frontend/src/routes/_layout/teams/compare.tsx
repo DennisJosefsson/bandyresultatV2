@@ -11,8 +11,7 @@ import { AxiosError } from 'axios'
 
 export const Route = createFileRoute('/_layout/teams/compare')({
   component: Compare,
-  pendingComponent: Loading,
-
+  pendingComponent: () => <Loading page="compare" />,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 

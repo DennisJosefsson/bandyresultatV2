@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SingleTeam } from '@/lib/types/teams/teams'
 
 const TeamSeasonCuriosities = ({ team }: { team: SingleTeam }) => {
@@ -21,11 +21,11 @@ const TeamSeasonCuriosities = ({ team }: { team: SingleTeam }) => {
     .filter((table) => table.win === true)
     .reduce((str, winYear) => `${str}, ${winYear.date.slice(0, 4)}`, '')
   return (
-    <Card className="mb-2">
-      <CardHeader>
-        <CardTitle>Kuriosa</CardTitle>
+    <Card className="mb-2 p-1">
+      <CardHeader className="p-1 md:p-6">
+        <CardTitle className="text-[10px] md:text-sm">Kuriosa</CardTitle>
       </CardHeader>
-      <CardContent className="text-[10px] xxs:text-xs md:p-2 lg:mr-0 lg:text-sm">
+      <CardContent className="text-[10px] xxs:text-xs p-1 md:p-6 lg:mr-0 lg:text-sm">
         {seasons.length === 1 && (
           <div className="mb-1">
             {team.team.name} från {team.team.city} har spelat en säsong i högsta

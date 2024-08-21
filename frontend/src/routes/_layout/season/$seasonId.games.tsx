@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/games')({
   component: Games,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonGamesList" />,
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(
       seasonQueries['singleSeason'](params.seasonId)

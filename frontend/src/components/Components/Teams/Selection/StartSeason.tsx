@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Select,
   SelectContent,
@@ -53,9 +47,6 @@ const StartSeason = () => {
       <Card>
         <CardHeader>
           <CardTitle>Första säsong</CardTitle>
-          <CardDescription>
-            Första säsong måste komma före sista säsong.
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <Select

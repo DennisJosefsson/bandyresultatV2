@@ -1,10 +1,10 @@
 import { SingleTeamTable } from '@/lib/types/tables/tables'
 
-import { groupConstant, sortOrder } from '@/lib/utils/constants'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody } from '@/components/ui/table'
+import { groupConstant, sortOrder } from '@/lib/utils/constants'
 import TeamTableHeader from './TableComponents/TableHeader'
 import TeamTableRow from './TableComponents/TeamTableDataRow'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 type TeamTableProps = SingleTeamTable
 
@@ -29,13 +29,16 @@ const TeamTable = ({
     <div className="mb-6">
       {sortedTables.map((category, index) => {
         return (
-          <Card key={category.category} className="mb-2 sm:mb-4 md:mb-6">
-            <CardHeader>
-              <CardTitle className="text-sm md:text-base">
+          <Card
+            key={category.category}
+            className="mb-2 sm:mb-4 md:mb-6 p-1 md:p-6"
+          >
+            <CardHeader className="p-1 md:p-6">
+              <CardTitle className="text-[10px] md:text-sm">
                 {`${groupConstant[category.category]} ${season}`}
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-1 md:p-6">
               <Table className="w-full table-fixed">
                 <TeamTableHeader />
                 <TableBody>

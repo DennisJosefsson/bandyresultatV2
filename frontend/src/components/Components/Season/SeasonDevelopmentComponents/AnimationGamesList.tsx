@@ -1,6 +1,6 @@
-import { GameObjectWithSeasonType } from '@/lib/types/games/games'
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import Date from '@/components/Components/Common/Date'
+import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { GameObjectWithSeasonType } from '@/lib/types/games/games'
 
 type DateArrayItem = {
   date: string
@@ -16,7 +16,7 @@ const AnimationGamesList = ({ dateArray, round }: AnimationGamesListProps) => {
   const { favTeams } = useTeampreferenceContext()
 
   return (
-    <div className="mt-2 marker:mx-2 xl:mx-0">
+    <div className="mt-2">
       <div className="text-[10px] sm:text-sm lg:text-base">
         <Date>{dateArray[round]?.date}</Date>
       </div>

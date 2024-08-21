@@ -11,7 +11,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/map')({
   component: Map,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonMap" />,
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(
       seasonQueries['singleSeason'](params.seasonId)
@@ -23,6 +23,7 @@ function Map() {
   const { seasonId } = Route.useParams()
   const { teams, qualificationTeams, bounds } = useMapData(seasonId)
   const { women } = Route.useSearch()
+
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />
   }
@@ -40,6 +41,7 @@ function Map() {
             zoom={4}
             scrollWheelZoom={true}
             className="h-[400px]"
+            key={seasonId}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

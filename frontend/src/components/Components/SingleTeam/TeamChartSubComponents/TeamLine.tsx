@@ -1,9 +1,9 @@
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import { LineChartType } from './TeamLineChart'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowRightIcon, ArrowLeftIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
+import { useState } from 'react'
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
+import { LineChartType } from './TeamLineChart'
 type TeamLineProps = {
   renderData: LineChartType[][]
   renderLength: number
@@ -85,6 +85,7 @@ const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
           <XAxis
             dataKey="year"
             fontSize={matches768 ? 12 : 6}
+            angle={matches768 ? 0 : -30}
             axisLine={false}
             tickLine={false}
           />

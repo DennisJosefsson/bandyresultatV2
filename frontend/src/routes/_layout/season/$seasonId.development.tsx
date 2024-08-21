@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/development')({
   component: Development,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonDevelopment" />,
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(
       developmentQueries['data'](params.seasonId)

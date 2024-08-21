@@ -21,9 +21,14 @@ import { useMediaQuery } from 'usehooks-ts'
 const TeamsTabBar = () => {
   const matches = useMediaQuery('(min-width: 430px)')
   const search = useSearch({ from: '/_layout/teams' })
-
+  const teamArray = useSearch({
+    from: '/_layout/teams',
+    select: (search) => search.teamArray,
+  })
   const navigate = useNavigate({ from: '/teams' })
   const pathName = useLocation().pathname
+
+  const disabled = teamArray ? Boolean(teamArray.length < 2) : true
 
   const teamsTabBarObject = {
     gender: (
@@ -113,12 +118,13 @@ const TeamsTabBar = () => {
       },
       {
         tab: (
-          <Link to="/teams/compare" search={search}>
+          <Link to="/teams/compare" search={search} disabled={disabled}>
             {({ isActive }) => {
               return (
                 <Button
                   variant={isActive ? 'default' : 'outline'}
                   size={matches ? 'default' : 'icon'}
+                  disabled={disabled}
                 >
                   {matches ? 'Jämför' : <SearchIcon />}
                 </Button>
