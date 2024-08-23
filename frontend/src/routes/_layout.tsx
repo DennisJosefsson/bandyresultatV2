@@ -13,6 +13,7 @@ export const Route = createFileRoute('/_layout')({
   component: LayoutComponent,
   notFoundComponent: () => <div>Länken finns inte.</div>,
   validateSearch: searchWomen,
+  errorComponent: () => <div>Oj, här gick något fel.</div>,
 })
 
 function LayoutComponent() {

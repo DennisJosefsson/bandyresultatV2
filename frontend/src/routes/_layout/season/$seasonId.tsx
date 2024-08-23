@@ -1,9 +1,15 @@
 import Loading from '@/components/Components/Common/Loading'
+import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import SeasonHeader from '@/components/Components/Season/SeasonHeader'
 import SeasonTabBar from '@/components/Components/Season/SeasonTabBar'
 import { Card, CardContent } from '@/components/ui/card'
 
-import { Outlet, createFileRoute, notFound } from '@tanstack/react-router'
+import {
+  CatchBoundary,
+  Outlet,
+  createFileRoute,
+  notFound,
+} from '@tanstack/react-router'
 import { z } from 'zod'
 
 const seasonIdParser = z.string().length(4)
@@ -29,7 +35,21 @@ function Season() {
       </Card>
       <Card>
         <CardContent className="mt-2 p-2">
-          <Outlet />
+          <CatchBoundary
+            getResetKey={() => 'reset'}
+            onCatch={(error) => {
+              console.error(error)
+            }}
+            errorComponent={({ error, reset }) => (
+              <SimpleErrorComponent
+                id="Enskild säsong"
+                error={error}
+                reset={reset}
+              />
+            )}
+          >
+            <Outlet />
+          </CatchBoundary>
         </CardContent>
       </Card>
     </div>

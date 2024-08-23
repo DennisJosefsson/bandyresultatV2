@@ -1,4 +1,6 @@
 import CompareSkeleton from './Skeletons/CompareSkeleton'
+import MaratonSkeleton from './Skeletons/MaratonSkeleton'
+import RecordsSkeleton from './Skeletons/RecordsSkeleton'
 import SearchSelectionSkeleton from './Skeletons/SearchSelectionSkeleton'
 import SeasonDevelopmentSkeleton from './Skeletons/SeasonDevelopmentSkeleton'
 import SeasonGameListSkeleton from './Skeletons/SeasonGameListSkeleton'
@@ -23,6 +25,8 @@ type SkeletonType =
   | 'teamsList'
   | 'compare'
   | 'singleTeam'
+  | 'maraton'
+  | 'records'
 
 type LoadingProps = {
   page?: SkeletonType
@@ -63,6 +67,12 @@ const Loading = ({ page }: LoadingProps) => {
       break
     case 'compare':
       content = <CompareSkeleton />
+      break
+    case 'maraton':
+      content = <MaratonSkeleton />
+      break
+    case 'records':
+      content = <RecordsSkeleton />
       break
     default:
       content = <Spinner />

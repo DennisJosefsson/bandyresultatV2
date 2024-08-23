@@ -1,8 +1,7 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import { maratonQueries } from '@/lib/queries/maraton/queries'
-import useGenderContext from '../../contextHooks/useGenderContext'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useSearch } from '@tanstack/react-router'
+import { useState } from 'react'
 
 type Title = {
   [key: string]: string
@@ -12,23 +11,15 @@ const titles: Title = { all: '', home: 'Hemma', away: 'Borta' }
 const fields = ['all', 'home', 'away']
 
 export const useGetMaratonTables = () => {
-  const navigate = useNavigate()
-  const { table, women } = useSearch({ from: '/_layout/maraton' })
-  const { women: currentWomen, dispatch } = useGenderContext()
+  const { table, women } = useSearch({ from: '/_layout/maraton/' })
+
   const [homeAwayTitle, setHomeAwayTitle] = useState(
     table && fields.includes(table) ? titles[table] : ''
   )
 
-  const { data, isLoading, error } = useSuspenseQuery(
+  const { data, isLoading, error, isPending } = useSuspenseQuery(
     maratonQueries['maraton']()
   )
-
-  useEffect(() => {
-    if (currentWomen !== women) {
-      dispatch({ type: 'SET', payload: women })
-      navigate({ search: (prev) => ({ ...prev, women: women }) })
-    }
-  }, [women, currentWomen, dispatch, navigate])
 
   let tabell
   switch (table) {
@@ -52,5 +43,6 @@ export const useGetMaratonTables = () => {
     setHomeAwayTitle,
     error,
     isLoading,
+    isPending,
   }
 }

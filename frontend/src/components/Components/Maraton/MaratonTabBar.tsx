@@ -8,11 +8,10 @@ import {
 import { TabBarDivided } from '@/components/Components/Common/TabBar'
 import { Button } from '@/components/ui/button'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const MaratonTabBar = () => {
-  const { tab } = useSearch({ from: '/_layout/maraton' })
   const navigate = useNavigate()
   const { womenContext } = useGenderContext()
   const matches = useMediaQuery('(min-width: 430px)')
@@ -39,50 +38,63 @@ const MaratonTabBar = () => {
       </Button>
     ),
     help: (
-      <Button
-        onClick={() =>
-          navigate({ search: { tab: 'help', women: womenContext } })
-        }
-        variant={tab === 'help' ? 'default' : 'outline'}
-        size={matches ? 'default' : 'xs'}
+      <Link
+        to="/maraton/help"
+        search={{ women: womenContext }}
+        activeOptions={{ includeSearch: false }}
       >
-        {matches ? 'Hjälp' : <QuestionIcon />}
-      </Button>
+        {({ isActive }) => {
+          return (
+            <Button
+              variant={isActive ? 'default' : 'outline'}
+              size={matches ? 'default' : 'xs'}
+            >
+              {matches ? 'Hjälp' : <QuestionIcon />}
+            </Button>
+          )
+        }}
+      </Link>
     ),
     tabBarArray: [
       {
         tab: (
-          <Button
-            variant={tab === 'maraton' ? 'default' : 'outline'}
-            onClick={() => {
-              navigate({
-                search: { tab: 'maraton', table: 'all', women: womenContext },
-              })
-            }}
-            size={matches ? 'default' : 'xs'}
+          <Link
+            to="/maraton"
+            search={{ table: 'all', women: womenContext }}
+            activeOptions={{ includeSearch: false, exact: true }}
           >
-            {matches ? 'Maratontabeller' : <ListIcon />}
-          </Button>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'xs'}
+                >
+                  {matches ? 'Maratontabeller' : <ListIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'maraton',
       },
       {
         tab: (
-          <Button
-            variant={tab === 'records' ? 'default' : 'outline'}
-            onClick={() => {
-              navigate({
-                search: {
-                  tab: 'records',
-                  record: 'generalStats',
-                  women: womenContext,
-                },
-              })
-            }}
-            size={matches ? 'default' : 'xs'}
+          <Link
+            to="/maraton/records"
+            search={{ record: 'generalStats', women: womenContext }}
+            activeOptions={{ includeSearch: false }}
           >
-            {matches ? 'Rekord' : <StatsIcon />}
-          </Button>
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'xs'}
+                >
+                  {matches ? 'Rekord' : <StatsIcon />}
+                </Button>
+              )
+            }}
+          </Link>
         ),
         tabName: 'records',
       },
