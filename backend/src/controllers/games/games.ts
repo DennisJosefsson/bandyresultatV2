@@ -1,28 +1,30 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
+import { Op } from 'sequelize'
+import Game from '../../models/Game.js'
 import Season from '../../models/Season.js'
+import Serie from '../../models/Serie.js'
+import Team from '../../models/Team.js'
+import TeamGame from '../../models/TeamGame.js'
+import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import newGameEntry, {
   simpleGameData,
 } from '../../utils/postFunctions/newGameEntry.js'
-import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
-import { Op } from 'sequelize'
-import Team from '../../models/Team.js'
-import TeamGame from '../../models/TeamGame.js'
-import Serie from '../../models/Serie.js'
-import Game from '../../models/Game.js'
 
-import { parseNumber } from '../../utils/postFunctions/parsers.js'
+import { getSeasonGames } from '../../utils/postFunctions/getSeasonGames.js'
+import IDCheck from '../../utils/postFunctions/IDCheck.js'
 import {
   newTeamGameAwayEntry,
   newTeamGameHomeEntry,
 } from '../../utils/postFunctions/newTeamGameEntry.js'
-import IDCheck from '../../utils/postFunctions/IDCheck.js'
+import { parseNumber } from '../../utils/postFunctions/parsers.js'
+
 // import authControl from '../../utils/middleware/authControl.js'
 
 const gameRouter = Router()
@@ -87,17 +89,37 @@ gameRouter.get('/season/:seasonId', (async (
       ['group', 'ASC'],
       ['date', 'ASC'],
     ],
+    raw: true,
+    nest: true,
   })
-  // if (!games || games.length === 0) {
-  //   return res.send('Inga matcher än för denna säsong.')
-  //   // throw new NotFoundError({
-  //   //   code: 404,
-  //   //   message: 'Inga matcher än för denna säsong.',
-  //   //   logging: false,
-  //   //   context: { origin: 'GET Games Season Router' },
-  //   // })
-  // }
-  res.status(200).json(games)
+
+  const season = await Season.findAll({
+    where: { year: seasonYear },
+    raw: true,
+    nest: true,
+  })
+
+  const menSeries = await Serie.findAll({
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear }, women: false },
+      },
+    ],
+  })
+
+  const womenSeries = await Serie.findAll({
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear }, women: true },
+      },
+    ],
+  })
+
+  const returnGames = getSeasonGames(games, season, menSeries, womenSeries)
+
+  res.status(200).json(returnGames)
 }) as RequestHandler)
 
 gameRouter.post('/', (async (
