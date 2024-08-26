@@ -1,12 +1,8 @@
 import { Button } from '@/components/ui/button'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 import { GameObjectType } from '@/lib/types/games/games'
-import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
-import { Link, useLocation, useSearch } from '@tanstack/react-router'
-import { useCallback } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
-import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
   game: GameObjectType
@@ -14,20 +10,23 @@ type GamesListItemProps = {
 
 const GamesListItem = ({ game }: GamesListItemProps) => {
   const { favTeams } = useTeampreferenceContext()
-  const { women } = useSearch({ from: '/_layout' })
-  const { user } = useUserContext()
-  const pathname = useLocation({
-    select: (location) => location.pathname,
-  })
+  const navigate = useNavigate({ from: '/season/$seasonId/games' })
+
   const matches = useMediaQuery('(min-width: 768px)')
 
-  const onClickHandler = useCallback(() => {
-    setOrigin(pathname)
-  }, [pathname])
+  const onClickHandler = () => {
+    navigate({
+      to: '/teams/compare',
+      search: (prev) => ({
+        ...prev,
+        teamArray: [game.homeTeamId, game.awayTeamId],
+      }),
+    })
+  }
 
   return (
     <div key={game.gameId} className="flex w-full flex-row items-center gap-1">
-      <div className="mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] ">
+      <div className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] ">
         <span
           className={
             favTeams.includes(game.homeTeamId)
@@ -57,23 +56,14 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
             </span>
           </>
         )}
+
         <Button
-          asChild
-          size={matches ? 'icon' : 'xs'}
+          size={matches ? 'sm' : 'xs'}
           variant="ghost"
           onClick={onClickHandler}
         >
-          <Link
-            to="/teams/compare"
-            search={{
-              teamArray: [game.homeTeamId, game.awayTeamId],
-              women: women,
-            }}
-          >
-            <span className="text-[8px] md:text-xs">H2H</span>
-          </Link>
+          H2H
         </Button>
-        {user && matches && <EditGameButton game={game} />}
       </div>
     </div>
   )

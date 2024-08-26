@@ -1,10 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { CompareFormState } from '@/lib/types/teams/teams'
-import {
-  getOrigin,
-  resetOrigin,
-} from '@/lib/zustand/linkOrigin/linkOriginStore'
-import { Link, useSearch } from '@tanstack/react-router'
 import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
 
 type CompareHeaderProps = {
@@ -15,23 +10,11 @@ type CompareHeaderProps = {
 }
 
 const Buttons = ({ link, length }: { link: string; length: number }) => {
-  const { women } = useSearch({ from: '/_layout' })
-  const { origin } = getOrigin()
   const [copiedText, copy] = useCopyToClipboard()
   const matches = useMediaQuery('(min-width: 430px)')
+
   return (
     <div className="mb-2 flex flex-row justify-end gap-2 xl:mb-6">
-      {origin !== null && (
-        <Button
-          onClick={() => resetOrigin()}
-          size={matches ? 'sm' : 'xxs'}
-          asChild
-        >
-          <Link to={origin} search={{ women }}>
-            Tillbaka
-          </Link>
-        </Button>
-      )}
       {length > 0 && (
         <Button onClick={() => copy(link)} size={matches ? 'sm' : 'xxs'}>
           {copiedText ? 'Kopierad!' : `Länk`}

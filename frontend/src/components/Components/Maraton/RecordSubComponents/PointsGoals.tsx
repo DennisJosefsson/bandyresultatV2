@@ -1,9 +1,7 @@
-import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
+import { StreakObjectTypes } from '@/lib/types/games/streaks'
 import PointsGoalsCard from './PointsGoalsCard'
 
-const PointsGoals = () => {
-  const { data } = useGetRecordData()
-
+const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
   return (
     <>
       {data ? (

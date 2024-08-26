@@ -19,7 +19,7 @@ const MaratonTabBar = () => {
     gender: (
       <Button
         onClick={() => {
-          navigate({ search: (prev) => ({ ...prev, women: !womenContext }) })
+          navigate({ search: { women: !womenContext } })
         }}
         variant="default"
         size={matches ? 'default' : 'xs'}
@@ -81,7 +81,7 @@ const MaratonTabBar = () => {
         tab: (
           <Link
             to="/maraton/records"
-            search={{ record: 'generalStats', women: womenContext }}
+            search={{ women: womenContext }}
             activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {

@@ -1,62 +1,62 @@
 import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
-import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
 import GamesList from './GamesList'
 
-const UnplayedGames = () => {
-  const {
-    unplayedEightGames,
-    unplayedQualificationGames,
-    unplayedFinalGames,
-    unplayedSemiGames,
-    unplayedQuarterGames,
-    unplayedRegularGames,
-  } = useSingleSeasonGames()
+import { SortedGamesType } from '@/lib/utils/sortFunction'
 
+type GameListObject = {
+  [key: string]: SortedGamesType
+}
+
+type UnplayedGamesProps = {
+  unplayedGames: GameListObject
+}
+
+const UnplayedGames = ({ unplayedGames }: UnplayedGamesProps) => {
   const { seriesInfo } = useGamesSingleSeason()
 
   return (
     <div>
       <h1 className="text-sm font-bold md:text-base">Kommande</h1>
       <div className="w-full xl:px-2">
-        {unplayedFinalGames.length > 0 && (
+        {unplayedGames['unplayedFinalGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedFinalGames}
+            gamesArray={unplayedGames['unplayedFinalGames']}
             title={'Final'}
             seriesInfo={seriesInfo}
           />
         )}
-        {unplayedSemiGames.length > 0 && (
+        {unplayedGames['unplayedSemiGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedSemiGames}
+            gamesArray={unplayedGames['unplayedSemiGames']}
             title={'Semifinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {unplayedQuarterGames.length > 0 && (
+        {unplayedGames['unplayedQuarterGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedQuarterGames}
+            gamesArray={unplayedGames['unplayedQuarterGames']}
             title={'Kvartsfinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {unplayedEightGames.length > 0 && (
+        {unplayedGames['unplayedEightGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedEightGames}
+            gamesArray={unplayedGames['unplayedEightGames']}
             title={'Åttondelsfinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {unplayedRegularGames.length > 0 && (
+        {unplayedGames['unplayedRegularGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedRegularGames}
+            gamesArray={unplayedGames['unplayedRegularGames']}
             title={'Grundseriematcher'}
             seriesInfo={seriesInfo}
           />
         )}
 
-        {unplayedQualificationGames.length > 0 && (
+        {unplayedGames['unplayedQualificationGames'].length > 0 && (
           <GamesList
-            gamesArray={unplayedQualificationGames}
+            gamesArray={unplayedGames['unplayedQualificationGames']}
             title={'Kvalmatcher'}
             seriesInfo={seriesInfo}
           />

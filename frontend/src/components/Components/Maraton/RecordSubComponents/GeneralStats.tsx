@@ -1,10 +1,10 @@
-import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
-import { useSearch } from '@tanstack/react-router'
+import { useLoaderData, useSearch } from '@tanstack/react-router'
 import GeneralStatsCard from './GeneralStatsCard'
 
 const GeneralStats = () => {
   const { women } = useSearch({ from: '/_layout' })
-  const { data } = useGetRecordData()
+  const data = useLoaderData({ from: '/_layout/maraton/records/' })
+
   return (
     <div>
       {!women && (

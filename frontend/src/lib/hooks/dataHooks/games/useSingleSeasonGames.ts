@@ -1,11 +1,10 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { gameQueries } from '@/lib/queries/games/queries'
-import { gameSortFunction } from '@/lib/utils/sortFunction'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { useParams, useSearch } from '@tanstack/react-router'
 
 export const useSingleSeasonGames = () => {
-  const { womenContext } = useGenderContext()
+  console.log('useSingleSeasonGames')
+  const { women } = useSearch({ from: '/_layout/season/$seasonId/games' })
   const seasonId = useParams({
     from: '/_layout/season/$seasonId/games',
     select: (param) => param.seasonId,
@@ -15,79 +14,17 @@ export const useSingleSeasonGames = () => {
     gameQueries['singleSeasonGames'](seasonId)
   )
 
-  const games = data.filter((table) => table.women === womenContext)
+  const games = women ? data['women'] : data['men']
 
-  const playedGamesLength = games.filter((game) => game.played === true).length
-  const unplayedGamesLength = games.filter((game) => !game.played).length
+  const playedGamesLength = games['playedLength']
+  const unplayedGamesLength = games['unplayedLength']
 
-  const unsortedPlayedFinalGames = games
-    .filter((game) => game.category === 'final')
-    .filter((game) => game.played === true)
-  const unsortedPlayedSemiGames = games
-    .filter((game) => game.category === 'semi')
-    .filter((game) => game.played === true)
-  const unsortedPlayedQuarterGames = games
-    .filter((game) => game.category === 'quarter')
-    .filter((game) => game.played === true)
-  const unsortedPlayedEightGames = games
-    .filter((game) => game.category === 'eight')
-    .filter((game) => game.played === true)
-  const unsortedPlayedRegularGames = games
-    .filter((game) => game.category === 'regular')
-    .filter((game) => game.played === true)
-  const unsortedPlayedQualificationGames = games
-    .filter((game) => game.category === 'qualification')
-    .filter((game) => game.played === true)
-  const unsortedUnplayedFinalGames = games
-    .filter((game) => game.category === 'final')
-    .filter((game) => game.played === false)
-  const unsortedUnplayedSemiGames = games
-    .filter((game) => game.category === 'semi')
-    .filter((game) => game.played === false)
-  const unsortedUnplayedQuarterGames = games
-    .filter((game) => game.category === 'quarter')
-    .filter((game) => game.played === false)
-  const unsortedUnplayedEightGames = games
-    .filter((game) => game.category === 'eight')
-    .filter((game) => game.played === false)
-  const unsortedUnplayedRegularGames = games
-    .filter((game) => game.category === 'regular')
-    .filter((game) => game.played === false)
-  const unsortedUnplayedQualificationGames = games
-    .filter((game) => game.category === 'qualification')
-    .filter((game) => game.played === false)
+  const playedGames = games['played']
 
-  const playedFinalGames = gameSortFunction(unsortedPlayedFinalGames, true)
-  const playedSemiGames = gameSortFunction(unsortedPlayedSemiGames, true)
-  const playedQuarterGames = gameSortFunction(unsortedPlayedQuarterGames, true)
-  const playedEightGames = gameSortFunction(unsortedPlayedEightGames, true)
-  const playedRegularGames = gameSortFunction(unsortedPlayedRegularGames, true)
-  const playedQualificationGames = gameSortFunction(
-    unsortedPlayedQualificationGames,
-    true
-  )
-  const unplayedFinalGames = gameSortFunction(unsortedUnplayedFinalGames)
-  const unplayedSemiGames = gameSortFunction(unsortedUnplayedSemiGames)
-  const unplayedQuarterGames = gameSortFunction(unsortedUnplayedQuarterGames)
-  const unplayedEightGames = gameSortFunction(unsortedUnplayedEightGames)
-  const unplayedRegularGames = gameSortFunction(unsortedUnplayedRegularGames)
-  const unplayedQualificationGames = gameSortFunction(
-    unsortedUnplayedQualificationGames
-  )
+  const unplayedGames = games['unplayed']
 
   return {
-    playedFinalGames,
-    playedSemiGames,
-    playedQuarterGames,
-    playedEightGames,
-    playedRegularGames,
-    playedQualificationGames,
-    unplayedFinalGames,
-    unplayedSemiGames,
-    unplayedQuarterGames,
-    unplayedEightGames,
-    unplayedRegularGames,
-    unplayedQualificationGames,
+    games: { playedGames, unplayedGames },
     playedGamesLength,
     unplayedGamesLength,
     isLoading,

@@ -1,79 +1,82 @@
 import { Button } from '@/components/ui/button'
-import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 
 const RecordHeader = () => {
-  const { women } = useSearch({ from: '/_layout' })
-  const navigate = useNavigate()
-  const { title, setTitle, record } = useGetRecordData()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
+
   return (
-    <>
-      <h1 className="mb-2 text-center text-sm font-bold leading-4 sm:text-base md:mb-4 lg:text-xl">
-        {title} {women ? 'Damer' : 'Herrar'}
-      </h1>
+    <div className="flex flex-row justify-center">
       <div className="mb-2 grid grid-cols-3 md:grid-cols-5 gap-1 md:gap-4">
-        <Button
-          size="sm"
-          variant={record === 'generalStats' ? 'default' : 'outline'}
-          onClick={() => {
-            navigate({
-              search: { record: 'generalStats', women: women },
-            })
-            setTitle('Statistik')
-          }}
+        <Link
+          to="/maraton/records"
+          search={{ women: women }}
+          activeOptions={{ includeSearch: false, exact: true }}
         >
-          Statistik
-        </Button>
-        <Button
-          size="sm"
-          variant={record === 'points' ? 'default' : 'outline'}
-          onClick={() => {
-            navigate({
-              search: { record: 'points', women: women },
-            })
-            setTitle('Poäng Elitserien')
+          {({ isActive }) => {
+            return (
+              <Button size="sm" variant={isActive ? 'default' : 'outline'}>
+                Statistik
+              </Button>
+            )
           }}
+        </Link>
+        <Link
+          to="/maraton/records/points"
+          search={{ women: women }}
+          activeOptions={{ includeSearch: false, exact: true }}
         >
-          Poäng
-        </Button>
-        <Button
-          size="sm"
-          variant={record === 'scored' ? 'default' : 'outline'}
-          onClick={() => {
-            navigate({
-              search: { record: 'scored', women: women },
-            })
-            setTitle('Gjorda mål Elitserien')
+          {({ isActive }) => {
+            return (
+              <Button size="sm" variant={isActive ? 'default' : 'outline'}>
+                Poäng
+              </Button>
+            )
           }}
+        </Link>
+        <Link
+          to="/maraton/records/scored"
+          search={{ women: women }}
+          activeOptions={{ includeSearch: false, exact: true }}
         >
-          Gjorda mål
-        </Button>
-        <Button
-          size="sm"
-          variant={record === 'conceded' ? 'default' : 'outline'}
-          onClick={() => {
-            navigate({
-              search: { record: 'conceded', women: women },
-            })
-            setTitle('Insläppta mål Elitserien')
+          {({ isActive }) => {
+            return (
+              <Button size="sm" variant={isActive ? 'default' : 'outline'}>
+                Gjorda mål
+              </Button>
+            )
           }}
+        </Link>
+        <Link
+          to="/maraton/records/conceded"
+          search={{ women: women }}
+          activeOptions={{ includeSearch: false, exact: true }}
         >
-          Insl. mål
-        </Button>
-        <Button
-          size="sm"
-          variant={record === 'streaks' ? 'default' : 'outline'}
-          onClick={() => {
-            navigate({
-              search: { record: 'streaks', women: women },
-            })
-            setTitle('Rekordsviter')
+          {({ isActive }) => {
+            return (
+              <Button size="sm" variant={isActive ? 'default' : 'outline'}>
+                Insl. mål
+              </Button>
+            )
           }}
+        </Link>
+        <Link
+          to="/maraton/records/streaks"
+          search={{ women: women }}
+          activeOptions={{ includeSearch: false, exact: true }}
         >
-          Rekordsviter
-        </Button>
+          {({ isActive }) => {
+            return (
+              <Button size="sm" variant={isActive ? 'default' : 'outline'}>
+                Rekordsviter
+              </Button>
+            )
+          }}
+        </Link>
       </div>
-    </>
+    </div>
   )
 }
 

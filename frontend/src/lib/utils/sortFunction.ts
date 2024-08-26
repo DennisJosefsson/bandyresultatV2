@@ -1,11 +1,11 @@
-import { sortOrder } from './constants'
 import { GameObjectType } from '../types/games/games'
 import {
-  TableObjectType,
-  CompareCategoryTeamTable,
   CompareAllTeamTables,
+  CompareCategoryTeamTable,
   NewCompareObject,
+  TableObjectType,
 } from '../types/tables/tables'
+import { sortOrder } from './constants'
 // import { SerieAttributes } from '../types/series/series'
 // import { TeamAndSeasonAttributes } from '../types/teams/teams'
 import { SortedStatsCat } from '../types/stats/stats'

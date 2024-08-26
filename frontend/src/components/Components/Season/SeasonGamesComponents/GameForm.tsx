@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
+import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { postGame } from '@/lib/requests/games'
 import {
   GameFormObjectType,
@@ -11,20 +12,19 @@ import {
   inputGameObject,
   InputGameObjectType,
 } from '@/lib/types/games/games'
-import { SeasonObjectType } from '@/lib/types/season/seasons'
+
 import { sortOrder } from '@/lib/utils/constants'
 import { resetGame, useGameStore } from '@/lib/zustand/games/gameStore'
 import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSearch } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { Dispatch, SetStateAction } from 'react'
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form'
 
 type GameFormPropTypes = {
-  season: SeasonObjectType[]
   setShowModal: Dispatch<SetStateAction<boolean>>
-  women: boolean
 }
 
 const ErrorComponent = ({ errors }: { errors: FieldErrors }) => {
@@ -98,7 +98,12 @@ const categoryArray = [
   { value: 'qualification', label: 'Kvalmatch' },
 ]
 
-const GameForm = ({ season, setShowModal, women }: GameFormPropTypes) => {
+const GameForm = ({ setShowModal }: GameFormPropTypes) => {
+  const { genderSeason: season } = useGamesSingleSeason()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   const { toast } = useToast()
   const gameData = useGameStore((state) => state.game)
   const client = useQueryClient()

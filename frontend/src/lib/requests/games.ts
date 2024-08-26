@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { Game } from '../types/games/addGames'
 import { AnimationObject } from '../types/games/animation'
-import { GameObjectType, InputGameObjectType } from '../types/games/games'
+import { InputGameObjectType, SeasonGames } from '../types/games/games'
 import { SearchParamsObject, SearchResponseObject } from '../types/games/search'
 import { SeasonStatsObjectType } from '../types/games/stats'
 import { StreakObjectTypes, StreakParams } from '../types/games/streaks'
@@ -41,7 +41,7 @@ export const getSearch = async (
 
 export const getSeasonGames = async (
   seasonId: string
-): Promise<GameObjectType[]> => {
+): Promise<SeasonGames> => {
   const response = await gamesApi.get(`/season/${seasonId}`)
 
   return response.data

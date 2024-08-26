@@ -1,62 +1,62 @@
 import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
-import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
 import GamesList from './GamesList'
 
-const PlayedGames = () => {
-  const {
-    playedEightGames,
-    playedQualificationGames,
-    playedFinalGames,
-    playedSemiGames,
-    playedQuarterGames,
-    playedRegularGames,
-  } = useSingleSeasonGames()
+import { SortedGamesType } from '@/lib/utils/sortFunction'
 
+type GameListObject = {
+  [key: string]: SortedGamesType
+}
+
+type PlayedGamesProps = {
+  playedGames: GameListObject
+}
+
+const PlayedGames = ({ playedGames }: PlayedGamesProps) => {
   const { seriesInfo } = useGamesSingleSeason()
 
   return (
     <div>
-      <h1 className="text-sm font-bold md:text-base">Spelade</h1>
+      <h1 className="text-sm font-bold md:text-base">Kommande</h1>
       <div className="w-full xl:px-2">
-        {playedFinalGames.length > 0 && (
+        {playedGames['playedFinalGames'].length > 0 && (
           <GamesList
-            gamesArray={playedFinalGames}
+            gamesArray={playedGames['playedFinalGames']}
             title={'Final'}
             seriesInfo={seriesInfo}
           />
         )}
-        {playedSemiGames.length > 0 && (
+        {playedGames['playedSemiGames'].length > 0 && (
           <GamesList
-            gamesArray={playedSemiGames}
+            gamesArray={playedGames['playedSemiGames']}
             title={'Semifinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {playedQuarterGames.length > 0 && (
+        {playedGames['playedQuarterGames'].length > 0 && (
           <GamesList
-            gamesArray={playedQuarterGames}
+            gamesArray={playedGames['playedQuarterGames']}
             title={'Kvartsfinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {playedEightGames.length > 0 && (
+        {playedGames['playedEightGames'].length > 0 && (
           <GamesList
-            gamesArray={playedEightGames}
+            gamesArray={playedGames['playedEightGames']}
             title={'Åttondelsfinaler'}
             seriesInfo={seriesInfo}
           />
         )}
-        {playedRegularGames.length > 0 && (
+        {playedGames['playedRegularGames'].length > 0 && (
           <GamesList
-            gamesArray={playedRegularGames}
+            gamesArray={playedGames['playedRegularGames']}
             title={'Grundseriematcher'}
             seriesInfo={seriesInfo}
           />
         )}
 
-        {playedQualificationGames.length > 0 && (
+        {playedGames['playedQualificationGames'].length > 0 && (
           <GamesList
-            gamesArray={playedQualificationGames}
+            gamesArray={playedGames['playedQualificationGames']}
             title={'Kvalmatcher'}
             seriesInfo={seriesInfo}
           />

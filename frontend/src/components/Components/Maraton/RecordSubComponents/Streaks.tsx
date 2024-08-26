@@ -1,10 +1,10 @@
 import Date from '@/components/Components/Common/Date'
 import { Card } from '@/components/ui/card'
-import { useGetRecordData } from '@/lib/hooks/dataHooks/maraton/useGetRecordData'
+import { useLoaderData } from '@tanstack/react-router'
 import StreakCard from './StreakCard'
 
 const Streaks = () => {
-  const { data } = useGetRecordData()
+  const data = useLoaderData({ from: '/_layout/maraton/records/streaks' })
   return (
     <>
       {data ? (

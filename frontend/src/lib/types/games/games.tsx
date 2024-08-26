@@ -150,3 +150,210 @@ export type TeamGameObject = z.infer<typeof teamGameObject>
 export type SearchResultTeamGameObject = z.infer<
   typeof searchResultTeamgameObject
 >
+
+const groupArray = z.array(
+  z.object({
+    group: z.string(),
+    name: z.string(),
+    comment: z.string(),
+    dates: z.array(z.object({ date: z.string(), games: z.array(gameObject) })),
+  })
+)
+const groupRecord = z.record(z.string(), groupArray)
+
+const genderObject = z.object({
+  played: groupRecord,
+  unplayed: groupRecord,
+  playedLength: z.number(),
+  unplayedLength: z.number(),
+})
+const seasonGames = z.object({ men: genderObject, women: genderObject })
+export type SeasonGames = z.infer<typeof seasonGames>
+export type SortedGamesType = z.infer<typeof groupArray>
+
+// export type SeasonGames = {
+//   men: {
+//     played: {
+//       FinalGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       SemiGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QuarterGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       EightGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       RegularGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QualificationGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//     }
+//     unplayed: {
+//       FinalGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       SemiGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QuarterGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       EightGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       RegularGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QualificationGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//     }
+//     unplayedLength: number
+//     playedLength: number
+//   }
+//   women: {
+//     played: {
+//       FinalGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       SemiGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QuarterGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       EightGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       RegularGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QualificationGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//     }
+//     unplayed: {
+//       FinalGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       SemiGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QuarterGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       EightGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       RegularGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//       QualificationGames: {
+//         group: string
+//         dates: {
+//           date: string
+//           games: GameObjectType[]
+//         }[]
+//       }[]
+//     }
+//     unplayedLength: number
+//     playedLength: number
+//   }
+// }

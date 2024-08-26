@@ -12,12 +12,12 @@ export const useGamesSingleSeason = () => {
   const { data, isLoading, error } = useSuspenseQuery(
     seasonQueries['singleSeason'](seasonId)
   )
-  const singleSeason = data
-  const genderSeason = singleSeason.filter(
+
+  const genderSeason = data.filter(
     (indSeason) => indSeason.women === womenContext
   )
 
-  const genderSeasonObject = singleSeason.find(
+  const genderSeasonObject = data.find(
     (season) => season.women === womenContext
   )
   const seriesInfo = genderSeasonObject ? genderSeasonObject.series : []
