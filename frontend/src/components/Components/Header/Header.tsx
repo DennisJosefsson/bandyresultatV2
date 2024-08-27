@@ -44,8 +44,9 @@ const Header = () => {
             Sök
           </Link>
           <Link
-            to="/maraton"
-            search={{ table: 'all', women: womenContext }}
+            to="/maraton/$table"
+            params={{ table: 'all' }}
+            search={{ women: womenContext }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Maratontabeller
@@ -116,8 +117,9 @@ const Header = () => {
                 Sök
               </Link>
               <Link
-                to="/maraton"
-                search={{ table: 'all', women: womenContext }}
+                to="/maraton/$table"
+                params={{ table: 'all' }}
+                search={{ women: womenContext }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >

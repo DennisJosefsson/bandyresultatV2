@@ -1,55 +1,57 @@
 import { Button } from '@/components/ui/button'
-import { useGetMaratonTables } from '@/lib/hooks/dataHooks/maraton/useGetMaratonTables'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 
 const MaratonTableHeader = () => {
-  const { table, women } = useSearch({ from: '/_layout/maraton/' })
-  const navigate = useNavigate()
-  const { setHomeAwayTitle, isPending } = useGetMaratonTables()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   return (
-    <div className="mb-2 grid grid-cols-3 gap-4">
-      <Button
-        disabled={isPending}
-        variant={table === 'all' ? 'default' : 'outline'}
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        onClick={() => {
-          navigate({ search: { table: 'all', women: women } })
-          setHomeAwayTitle('')
-        }}
-      >
-        Alla
-      </Button>
-
-      <Button
-        disabled={isPending}
-        variant={table === 'home' ? 'default' : 'outline'}
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        onClick={() => {
-          navigate({
-            search: { table: 'home', women: women },
-          })
-          setHomeAwayTitle('Hemma')
-        }}
-      >
-        Hemma
-      </Button>
-
-      <Button
-        disabled={isPending}
-        variant={table === 'away' ? 'default' : 'outline'}
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        onClick={() => {
-          navigate({
-            search: { table: 'away', women: women },
-          })
-          setHomeAwayTitle('Borta')
-        }}
-      >
-        Borta
-      </Button>
+    <div className="flex flex-row justify-center">
+      <div className="mb-2 grid grid-cols-3 gap-4">
+        <div className="flex flex-row justify-center">
+          <Link
+            to="/maraton/$table"
+            params={{ table: 'all' }}
+            search={{ women: women }}
+            activeOptions={{ includeSearch: false, exact: true }}
+          >
+            {({ isActive }) => (
+              <Button variant={isActive ? 'default' : 'outline'} size="sm">
+                Alla
+              </Button>
+            )}
+          </Link>
+        </div>
+        <div className="flex flex-row justify-center">
+          <Link
+            to="/maraton/$table"
+            params={{ table: 'home' }}
+            search={{ women: women }}
+            activeOptions={{ includeSearch: false, exact: true }}
+          >
+            {({ isActive }) => (
+              <Button variant={isActive ? 'default' : 'outline'} size="sm">
+                Hemma
+              </Button>
+            )}
+          </Link>
+        </div>
+        <div className="flex flex-row justify-center">
+          <Link
+            to="/maraton/$table"
+            params={{ table: 'away' }}
+            search={{ women: women }}
+            activeOptions={{ includeSearch: false, exact: true }}
+          >
+            {({ isActive }) => (
+              <Button variant={isActive ? 'default' : 'outline'} size="sm">
+                Borta
+              </Button>
+            )}
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

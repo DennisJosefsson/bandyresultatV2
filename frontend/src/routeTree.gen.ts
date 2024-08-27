@@ -47,6 +47,7 @@ import { Route as LayoutMaratonRecordsStreaksImport } from './routes/_layout/mar
 import { Route as LayoutMaratonRecordsScoredImport } from './routes/_layout/maraton/records/scored'
 import { Route as LayoutMaratonRecordsPointsImport } from './routes/_layout/maraton/records/points'
 import { Route as LayoutMaratonRecordsConcededImport } from './routes/_layout/maraton/records/conceded'
+import { Route as LayoutMaratonTableTableImport } from './routes/_layout/maraton/_table/$table'
 import { Route as LayoutDashboardSeasonSeasonIdImport } from './routes/_layout/dashboard/season/$seasonId'
 import { Route as LayoutDashboardSeasonSeasonIdIndexImport } from './routes/_layout/dashboard/season/$seasonId.index'
 import { Route as LayoutDashboardSeasonSeasonIdTeamseasonImport } from './routes/_layout/dashboard/season/$seasonId.teamseason_'
@@ -260,6 +261,11 @@ const LayoutMaratonRecordsConcededRoute =
     path: '/conceded',
     getParentRoute: () => LayoutMaratonRecordsRoute,
   } as any)
+
+const LayoutMaratonTableTableRoute = LayoutMaratonTableTableImport.update({
+  path: '/$table',
+  getParentRoute: () => LayoutMaratonRoute,
+} as any)
 
 const LayoutDashboardSeasonSeasonIdRoute =
   LayoutDashboardSeasonSeasonIdImport.update({
@@ -490,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdImport
       parentRoute: typeof LayoutDashboardImport
     }
+    '/_layout/maraton/_table/$table': {
+      id: '/_layout/maraton/_table/$table'
+      path: '/$table'
+      fullPath: '/maraton/$table'
+      preLoaderRoute: typeof LayoutMaratonTableTableImport
+      parentRoute: typeof LayoutMaratonImport
+    }
     '/_layout/maraton/records/conceded': {
       id: '/_layout/maraton/records/conceded'
       path: '/conceded'
@@ -634,6 +647,7 @@ export const routeTree = rootRoute.addChildren({
         LayoutMaratonRecordsIndexRoute,
       }),
       LayoutMaratonIndexRoute,
+      LayoutMaratonTableTableRoute,
     }),
     LayoutSearchRoute: LayoutSearchRoute.addChildren({
       LayoutSearchHelpRoute,
@@ -707,7 +721,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_layout/maraton/help",
         "/_layout/maraton/records",
-        "/_layout/maraton/"
+        "/_layout/maraton/",
+        "/_layout/maraton/_table/$table"
       ]
     },
     "/_layout/search": {
@@ -840,6 +855,10 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/dashboard/season/$seasonId/teamseason",
         "/_layout/dashboard/season/$seasonId/"
       ]
+    },
+    "/_layout/maraton/_table/$table": {
+      "filePath": "_layout/maraton/_table/$table.tsx",
+      "parent": "/_layout/maraton"
     },
     "/_layout/maraton/records/conceded": {
       "filePath": "_layout/maraton/records/conceded.tsx",

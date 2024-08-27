@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { MaratonTableType, SingleSeasonTableType } from '../types/tables/tables'
+import { MaratonTabell, SingleSeasonTableType } from '../types/tables/tables'
 import {
   CompareResponseObjectType,
   compareResponseObject,
@@ -15,8 +15,12 @@ const tablesApi = axios.create({
   headers: header,
 })
 
-export const maratonTabell = async (): Promise<MaratonTableType> => {
-  const response = await tablesApi.get(`/maraton`)
+type MaratonQueryType = 'all' | 'home' | 'away'
+
+export const maratonTabell = async (
+  query: MaratonQueryType
+): Promise<MaratonTabell[]> => {
+  const response = await tablesApi.get(`/maraton?table=${query}`)
   return response.data
 }
 

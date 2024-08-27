@@ -7,24 +7,35 @@ import {
 } from '@/components/Components/Common/Icons/icons'
 import { TabBarDivided } from '@/components/Components/Common/TabBar'
 import { Button } from '@/components/ui/button'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { Link, useNavigate } from '@tanstack/react-router'
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearch,
+} from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
+
+const re = /all|home|away/
 
 const MaratonTabBar = () => {
   const navigate = useNavigate()
-  const { womenContext } = useGenderContext()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
+  const location = useLocation().pathname
+
   const matches = useMediaQuery('(min-width: 430px)')
   const maratonTabBarObject = {
     gender: (
       <Button
         onClick={() => {
-          navigate({ search: { women: !womenContext } })
+          navigate({ search: { women: !women } })
         }}
         variant="default"
         size={matches ? 'default' : 'xs'}
       >
-        {womenContext ? (
+        {women ? (
           matches ? (
             'Herrar'
           ) : (
@@ -40,7 +51,7 @@ const MaratonTabBar = () => {
     help: (
       <Link
         to="/maraton/help"
-        search={{ women: womenContext }}
+        search={{ women: women }}
         activeOptions={{ includeSearch: false }}
       >
         {({ isActive }) => {
@@ -59,20 +70,16 @@ const MaratonTabBar = () => {
       {
         tab: (
           <Link
-            to="/maraton"
-            search={{ table: 'all', women: womenContext }}
-            activeOptions={{ includeSearch: false, exact: true }}
+            to="/maraton/$table"
+            params={{ table: 'all' }}
+            search={{ women: women }}
           >
-            {({ isActive }) => {
-              return (
-                <Button
-                  variant={isActive ? 'default' : 'outline'}
-                  size={matches ? 'default' : 'xs'}
-                >
-                  {matches ? 'Maratontabeller' : <ListIcon />}
-                </Button>
-              )
-            }}
+            <Button
+              variant={location.match(re) ? 'default' : 'outline'}
+              size={matches ? 'default' : 'xs'}
+            >
+              {matches ? 'Maratontabeller' : <ListIcon />}
+            </Button>
           </Link>
         ),
         tabName: 'maraton',
@@ -81,8 +88,8 @@ const MaratonTabBar = () => {
         tab: (
           <Link
             to="/maraton/records"
-            search={{ women: womenContext }}
-            activeOptions={{ includeSearch: false }}
+            search={{ women: women }}
+            activeOptions={{ includeSearch: false, exact: true }}
           >
             {({ isActive }) => {
               return (
