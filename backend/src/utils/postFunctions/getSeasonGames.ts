@@ -303,7 +303,7 @@ export const getSeasonGames = (
   return returnObject
 }
 
-function gameSortFunction(
+export function gameSortFunction(
   gamesArray: Game[],
   seriesData: SeriesData[],
   played = false
@@ -352,3 +352,5 @@ function gameSortFunction(
 
   return sortGroupsAndDates
 }
+
+export type SortedGames = ReturnType<typeof gameSortFunction>
