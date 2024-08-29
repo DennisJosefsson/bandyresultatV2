@@ -1,27 +1,15 @@
-//import { useState, useEffect } from 'react'
-import { StaticSeasonTable } from '@/lib/types/tables/tables'
-import { SerieAttributes } from '@/lib/types/series/series'
+import { StaticGroupTable } from '@/lib/types/tables/tables'
 
 import DataTable from './StaticDataTable'
 import { columns } from './staticColumns'
 
 type StaticTableListProps = {
-  tableArray: StaticSeasonTable[]
-  seriesInfo: SerieAttributes[]
-  serieName: string
+  tableObject: StaticGroupTable | undefined
 }
 
-const StaticTableList = ({
-  tableArray,
-  seriesInfo,
-  serieName,
-}: StaticTableListProps) => {
-  const group = tableArray[0]?.group
-
-  const serieObject = seriesInfo.find((serie) => serie.serieGroupCode === group)
-  if (!serieObject) throw new Error('Missing serie object')
-
-  const teamObject = tableArray.reduce(
+const StaticTableList = ({ tableObject }: StaticTableListProps) => {
+  if (tableObject === undefined) return null
+  const teamObject = tableObject.tables.reduce(
     (o, key) => ({ ...o, [key.team.name]: key.teamId }),
     {}
   )
@@ -30,19 +18,19 @@ const StaticTableList = ({
     <div className="my-6">
       <div className="mb-6">
         <h2 className="text-sm font-bold lg:text-base xl:text-xl">
-          {serieName}
+          {tableObject.name}
         </h2>
 
         <div>
           <DataTable
             columns={columns}
-            data={tableArray}
-            serieStructure={serieObject.serieStructure}
+            data={tableObject.tables}
+            serieStructure={tableObject.serieStructure}
             teamObject={teamObject}
           />
-          {serieObject.comment != null && (
+          {tableObject.comment != null && (
             <p className="bg-background p-1 text-xs font-bold">
-              {serieObject.comment}
+              {tableObject.comment}
             </p>
           )}
         </div>

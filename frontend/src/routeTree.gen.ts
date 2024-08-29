@@ -37,7 +37,6 @@ import { Route as LayoutDashboardNewSeasonImport } from './routes/_layout/dashbo
 import { Route as LayoutDashboardErrorsImport } from './routes/_layout/dashboard/errors'
 import { Route as LayoutDashboardAddTeamsImport } from './routes/_layout/dashboard/addTeams'
 import { Route as LayoutMaratonRecordsIndexImport } from './routes/_layout/maraton/records/index'
-import { Route as LayoutSeasonSeasonIdTablesImport } from './routes/_layout/season/$seasonId.tables'
 import { Route as LayoutSeasonSeasonIdStatsImport } from './routes/_layout/season/$seasonId.stats'
 import { Route as LayoutSeasonSeasonIdPlayoffImport } from './routes/_layout/season/$seasonId.playoff'
 import { Route as LayoutSeasonSeasonIdMapImport } from './routes/_layout/season/$seasonId.map'
@@ -49,11 +48,13 @@ import { Route as LayoutMaratonRecordsPointsImport } from './routes/_layout/mara
 import { Route as LayoutMaratonRecordsConcededImport } from './routes/_layout/maraton/records/conceded'
 import { Route as LayoutMaratonTableTableImport } from './routes/_layout/maraton/_table/$table'
 import { Route as LayoutDashboardSeasonSeasonIdImport } from './routes/_layout/dashboard/season/$seasonId'
+import { Route as LayoutSeasonSeasonIdTablesIndexImport } from './routes/_layout/season/$seasonId/tables/index'
 import { Route as LayoutDashboardSeasonSeasonIdIndexImport } from './routes/_layout/dashboard/season/$seasonId.index'
 import { Route as LayoutDashboardSeasonSeasonIdTeamseasonImport } from './routes/_layout/dashboard/season/$seasonId.teamseason_'
 import { Route as LayoutDashboardSeasonSeasonIdNewseriesImport } from './routes/_layout/dashboard/season/$seasonId.newseries'
 import { Route as LayoutDashboardSeasonSeasonIdMetadataImport } from './routes/_layout/dashboard/season/$seasonId.metadata'
 import { Route as LayoutDashboardSeasonSeasonIdBulkgamesImport } from './routes/_layout/dashboard/season/$seasonId.bulkgames'
+import { Route as LayoutSeasonSeasonIdTablesTableTableImport } from './routes/_layout/season/$seasonId/tables/_table/$table'
 
 // Create Virtual Routes
 
@@ -202,13 +203,6 @@ const LayoutMaratonRecordsIndexRoute = LayoutMaratonRecordsIndexImport.update({
   getParentRoute: () => LayoutMaratonRecordsRoute,
 } as any)
 
-const LayoutSeasonSeasonIdTablesRoute = LayoutSeasonSeasonIdTablesImport.update(
-  {
-    path: '/tables',
-    getParentRoute: () => LayoutSeasonSeasonIdRoute,
-  } as any,
-)
-
 const LayoutSeasonSeasonIdStatsRoute = LayoutSeasonSeasonIdStatsImport.update({
   path: '/stats',
   getParentRoute: () => LayoutSeasonSeasonIdRoute,
@@ -273,6 +267,12 @@ const LayoutDashboardSeasonSeasonIdRoute =
     getParentRoute: () => LayoutDashboardRoute,
   } as any)
 
+const LayoutSeasonSeasonIdTablesIndexRoute =
+  LayoutSeasonSeasonIdTablesIndexImport.update({
+    path: '/tables/',
+    getParentRoute: () => LayoutSeasonSeasonIdRoute,
+  } as any)
+
 const LayoutDashboardSeasonSeasonIdIndexRoute =
   LayoutDashboardSeasonSeasonIdIndexImport.update({
     path: '/',
@@ -301,6 +301,12 @@ const LayoutDashboardSeasonSeasonIdBulkgamesRoute =
   LayoutDashboardSeasonSeasonIdBulkgamesImport.update({
     path: '/bulkgames',
     getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutSeasonSeasonIdTablesTableTableRoute =
+  LayoutSeasonSeasonIdTablesTableTableImport.update({
+    path: '/tables/$table',
+    getParentRoute: () => LayoutSeasonSeasonIdRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -566,13 +572,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSeasonSeasonIdStatsImport
       parentRoute: typeof LayoutSeasonSeasonIdImport
     }
-    '/_layout/season/$seasonId/tables': {
-      id: '/_layout/season/$seasonId/tables'
-      path: '/tables'
-      fullPath: '/season/$seasonId/tables'
-      preLoaderRoute: typeof LayoutSeasonSeasonIdTablesImport
-      parentRoute: typeof LayoutSeasonSeasonIdImport
-    }
     '/_layout/maraton/records/': {
       id: '/_layout/maraton/records/'
       path: '/'
@@ -614,6 +613,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/season/$seasonId/'
       preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdIndexImport
       parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/tables/': {
+      id: '/_layout/season/$seasonId/tables/'
+      path: '/tables'
+      fullPath: '/season/$seasonId/tables'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdTablesIndexImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
+    }
+    '/_layout/season/$seasonId/tables/_table/$table': {
+      id: '/_layout/season/$seasonId/tables/_table/$table'
+      path: '/tables/$table'
+      fullPath: '/season/$seasonId/tables/$table'
+      preLoaderRoute: typeof LayoutSeasonSeasonIdTablesTableTableImport
+      parentRoute: typeof LayoutSeasonSeasonIdImport
     }
   }
 }
@@ -660,7 +673,8 @@ export const routeTree = rootRoute.addChildren({
         LayoutSeasonSeasonIdMapRoute,
         LayoutSeasonSeasonIdPlayoffRoute,
         LayoutSeasonSeasonIdStatsRoute,
-        LayoutSeasonSeasonIdTablesRoute,
+        LayoutSeasonSeasonIdTablesIndexRoute,
+        LayoutSeasonSeasonIdTablesTableTableRoute,
       }),
     }),
     LayoutSeasonsRoute,
@@ -810,7 +824,8 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/season/$seasonId/map",
         "/_layout/season/$seasonId/playoff",
         "/_layout/season/$seasonId/stats",
-        "/_layout/season/$seasonId/tables"
+        "/_layout/season/$seasonId/tables/",
+        "/_layout/season/$seasonId/tables/_table/$table"
       ]
     },
     "/_layout/team/$teamId": {
@@ -896,10 +911,6 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_layout/season/$seasonId.stats.tsx",
       "parent": "/_layout/season/$seasonId"
     },
-    "/_layout/season/$seasonId/tables": {
-      "filePath": "_layout/season/$seasonId.tables.tsx",
-      "parent": "/_layout/season/$seasonId"
-    },
     "/_layout/maraton/records/": {
       "filePath": "_layout/maraton/records/index.tsx",
       "parent": "/_layout/maraton/records"
@@ -923,6 +934,14 @@ export const routeTree = rootRoute.addChildren({
     "/_layout/dashboard/season/$seasonId/": {
       "filePath": "_layout/dashboard/season/$seasonId.index.tsx",
       "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/tables/": {
+      "filePath": "_layout/season/$seasonId/tables/index.tsx",
+      "parent": "/_layout/season/$seasonId"
+    },
+    "/_layout/season/$seasonId/tables/_table/$table": {
+      "filePath": "_layout/season/$seasonId/tables/_table/$table.tsx",
+      "parent": "/_layout/season/$seasonId"
     }
   }
 }

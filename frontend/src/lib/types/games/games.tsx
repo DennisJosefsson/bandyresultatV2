@@ -151,12 +151,14 @@ export type SearchResultTeamGameObject = z.infer<
   typeof searchResultTeamgameObject
 >
 
+const dateObject = z.object({ date: z.string(), games: z.array(gameObject) })
+
 const groupArray = z.array(
   z.object({
     group: z.string(),
     name: z.string(),
     comment: z.string(),
-    dates: z.array(z.object({ date: z.string(), games: z.array(gameObject) })),
+    dates: z.array(dateObject),
   })
 )
 const groupRecord = z.record(z.string(), groupArray)
@@ -168,6 +170,7 @@ const genderObject = z.object({
   unplayedLength: z.number(),
 })
 const seasonGames = z.object({ men: genderObject, women: genderObject })
+export type GameDateObject = z.infer<typeof dateObject>
 export type SeasonGames = z.infer<typeof seasonGames>
 export type SortedGamesType = z.infer<typeof groupArray>
 

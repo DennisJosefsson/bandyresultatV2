@@ -1,5 +1,6 @@
 import TeamsTabBar from '@/components/Components/Teams/TeamsTabBar'
 import { Card, CardContent } from '@/components/ui/card'
+import { getTeams } from '@/lib/requests/teams'
 import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 
@@ -14,6 +15,7 @@ const searchParams = z.object({
 export const Route = createFileRoute('/_layout/teams')({
   component: TeamsHeader,
   validateSearch: searchParams,
+  loader: () => getTeams(),
 })
 
 function TeamsHeader() {

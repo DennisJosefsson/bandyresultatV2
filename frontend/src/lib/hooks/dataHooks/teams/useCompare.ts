@@ -1,8 +1,7 @@
 import { teamQueries } from '@/lib/queries/teams/queries'
 import { CompareFormState } from '@/lib/types/teams/teams'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useLocation, useSearch } from '@tanstack/react-router'
-import useGetAllSeasons from '../season/useGetAllSeasons'
+import { useLoaderData, useLocation, useSearch } from '@tanstack/react-router'
 
 const baseUrl = import.meta.env.PROD
   ? 'https://bandyresultat.se'
@@ -18,7 +17,7 @@ export const useCompareResults = (compareObject: CompareFormState) => {
 }
 
 export const useCompareSeasons = () => {
-  const { seasons } = useGetAllSeasons()
+  const seasons = useLoaderData({ from: '/_layout/teams/selection' })
   const { women } = useSearch({
     from: '/_layout/teams',
   })

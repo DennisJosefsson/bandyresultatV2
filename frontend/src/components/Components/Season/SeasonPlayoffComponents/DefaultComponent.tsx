@@ -1,6 +1,5 @@
 import { Dialog } from '@/components/ui/dialog'
 import { GameObjectType } from '@/lib/types/games/games'
-import { TableObjectType } from '@/lib/types/tables/tables'
 import { groupConstant } from '@/lib/utils/constants'
 import PlayoffCard from './PlayoffCard'
 
@@ -16,57 +15,40 @@ type GroupType = {
   }[]
 }
 
-type TableType = {
+type ResultType = {
   group: string
-  tables: TableObjectType[]
+  result: string
 }
 
 type DefaultComponentProps = {
   group: GroupType
   colStarts: ColstartsType
-  playoffGames: GameObjectType[]
   favTeams: number[]
-  tables: TableType[]
+  results: ResultType[]
 }
 
 const DefaultComponent = ({
   group,
   colStarts,
-  playoffGames,
-  tables,
+  results,
 }: DefaultComponentProps) => {
   const styleClass = colStarts
     ? `${colStarts[group.group]} cursor-pointer`
     : 'cursor-pointer lg:col-start-4 lg:odd:col-start-2'
 
-  let resultString
-  const tableObject = tables.find(
-    (tableGroup) => tableGroup.group === group.group
-  )
-  if (tables.length === 0) {
-    resultString = '0-0'
-  } else if (tableObject) {
-    const actualTableObject = tableObject.tables.find(
-      (team) => team.team === group.dates[0].games[0].homeTeamId
-    )
-    if (!actualTableObject) {
-      resultString = ''
-      return
-    }
-    resultString = `${actualTableObject.totalWins}-${actualTableObject.totalLost}`
-  } else {
-    resultString = ''
-  }
+  const result =
+    results.find((table) => table.group === group.group)?.result ?? ''
+  const playoffGames = group.dates.map((date) => date.games[0])
 
   return (
     <PlayoffCard
       styleClass={styleClass}
-      playoffGames={playoffGames.filter((game) => game.group === group.group)}
+      playoffGames={playoffGames}
       group={group.group}
     >
       <PlayoffCard.Title>
         <PlayoffCard.Group>{groupConstant[group.group]}</PlayoffCard.Group>
-        <PlayoffCard.Result>{resultString}</PlayoffCard.Result>
+        <PlayoffCard.Result>{result}</PlayoffCard.Result>
       </PlayoffCard.Title>
       <PlayoffCard.Content>
         <Dialog>

@@ -2,8 +2,17 @@ import { SeasonObjectType } from '@/lib/types/season/seasons'
 import { z } from 'zod'
 
 const parseRoute = z
-  .enum(['games', 'tables', 'development', 'playoff', 'stats', 'map'])
-  .catch('tables')
+  .enum([
+    'games',
+    'tables/all',
+    'tables/home',
+    'tables/away',
+    'development',
+    'playoff',
+    'stats',
+    'map',
+  ])
+  .catch('tables/all')
 
 type SeasonArray = {
   year: string

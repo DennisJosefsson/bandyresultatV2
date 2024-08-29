@@ -4,14 +4,12 @@ import FilterComponent from '@/components/Components/Season/FilterComponent'
 import SeasonsList from '@/components/Components/Season/SeasonsList'
 import { Card, CardContent } from '@/components/ui/card'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { seasonQueries } from '@/lib/queries/season/queries'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { getSeasons } from '@/lib/requests/seasons'
 import { CatchBoundary, createFileRoute } from '@tanstack/react-router'
 import { KeyboardEvent, useState } from 'react'
 
 export const Route = createFileRoute('/_layout/seasons')({
-  loader: ({ context }) =>
-    context.queryClient.ensureQueryData(seasonQueries['allSeasons']()),
+  loader: () => getSeasons(),
   component: Seasons,
   pendingComponent: () => <Loading page="seasonList" />,
   errorComponent: () => <div>Oj, här gick något fel.</div>,
@@ -19,7 +17,7 @@ export const Route = createFileRoute('/_layout/seasons')({
 
 function Seasons() {
   const [seasonFilter, setSeasonFilter] = useState('')
-  const { data: seasons } = useSuspenseQuery(seasonQueries['allSeasons']())
+  const seasons = Route.useLoaderData()
 
   useScrollTo()
 

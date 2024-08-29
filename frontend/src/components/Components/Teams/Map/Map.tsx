@@ -1,7 +1,5 @@
 import { CheckedState } from '@/components/ui/checkbox'
-
-import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
 import { useCallback, useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
@@ -12,7 +10,7 @@ const Map = () => {
   const [teamFilter, setTeamFilter] = useState<string>('')
   const { women, teamArray } = useSearch({ from: '/_layout/teams' })
   const [selectedTeams, setSelectedTeams] = useState<number[]>(teamArray ?? [])
-  const { data } = useGetTeams()
+  const data = useLoaderData({ from: '/_layout/teams' })
 
   const navigate = useNavigate({ from: '/teams' })
 

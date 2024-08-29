@@ -24,6 +24,7 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   const { women } = useSearch({ from: '/_layout' })
   const baseLinePosition = women ? 10 : 17
   const baseLineSeasonId = women ? 161 : 101
+  console.log({ chartData })
   const positionChart: PositionType[] = chartData
     .filter((year) => year.seasonId > baseLineSeasonId)
     .map((year) => {
@@ -34,6 +35,12 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
         points: year.points,
       }
     })
+
+  console.log({ positionChart })
+
+  // const lastYear = women ? 2015 : 2008
+
+  if (positionChart.length === 0) return null
 
   return (
     <>

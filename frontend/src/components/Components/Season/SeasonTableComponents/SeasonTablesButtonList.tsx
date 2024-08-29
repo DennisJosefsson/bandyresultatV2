@@ -1,50 +1,67 @@
-import { Dispatch, SetStateAction } from 'react'
 import { Button } from '@/components/ui/button'
-type SeasonTablesButtonListProps = {
-  setHomeAwayTitle: Dispatch<SetStateAction<string>>
-  setSelectedTable: Dispatch<SetStateAction<string>>
-  table: string
-}
-const SeasonTablesButtonList = ({
-  setHomeAwayTitle,
-  setSelectedTable,
-  table,
-}: SeasonTablesButtonListProps) => {
+import { Link, useParams, useSearch } from '@tanstack/react-router'
+
+const SeasonTablesButtonList = () => {
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
+  const seasonId = useParams({
+    from: '/_layout/season/$seasonId',
+    select: (param) => param.seasonId,
+  })
   return (
     <div className="my-2 grid w-full grid-cols-3 justify-center gap-4 px-6 sm:px-2 md:flex md:flex-row lg:px-0">
-      <Button
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        variant={table === 'all' ? 'default' : 'outline'}
-        onClick={() => {
-          setSelectedTable('all')
-          setHomeAwayTitle('')
-        }}
+      <Link
+        to="/season/$seasonId/tables/$table"
+        search={{ women }}
+        params={{ table: 'all', seasonId: seasonId }}
+        activeOptions={{ includeSearch: false, exact: true }}
       >
-        Alla matcher
-      </Button>
-      <Button
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        variant={table === 'home' ? 'default' : 'outline'}
-        onClick={() => {
-          setSelectedTable('home')
-          setHomeAwayTitle('Hemma')
-        }}
+        {({ isActive, isTransitioning }) => (
+          <Button
+            size="sm"
+            variant={isActive || isTransitioning ? 'default' : 'outline'}
+            disabled={isTransitioning}
+          >
+            Alla
+          </Button>
+        )}
+      </Link>
+      <Link
+        to="/season/$seasonId/tables/$table"
+        search={{ women }}
+        params={{ table: 'home', seasonId: seasonId }}
+        activeOptions={{ includeSearch: false, exact: true }}
+        disabled={['1973', '1974'].includes(seasonId)}
       >
-        Hemmatabell
-      </Button>
-      <Button
-        size="sm"
-        className="truncate text-[8px] sm:text-[10px] lg:text-sm"
-        variant={table === 'away' ? 'default' : 'outline'}
-        onClick={() => {
-          setSelectedTable('away')
-          setHomeAwayTitle('Borta')
-        }}
+        {({ isActive, isTransitioning }) => (
+          <Button
+            size="sm"
+            variant={isActive || isTransitioning ? 'default' : 'outline'}
+            disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
+          >
+            Hemma
+          </Button>
+        )}
+      </Link>
+      <Link
+        to="/season/$seasonId/tables/$table"
+        search={{ women }}
+        params={{ table: 'away', seasonId: seasonId }}
+        activeOptions={{ includeSearch: false, exact: true }}
+        disabled={['1973', '1974'].includes(seasonId)}
       >
-        Bortatabell
-      </Button>
+        {({ isActive, isTransitioning }) => (
+          <Button
+            size="sm"
+            variant={isActive || isTransitioning ? 'default' : 'outline'}
+            disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
+          >
+            Borta
+          </Button>
+        )}
+      </Link>
     </div>
   )
 }

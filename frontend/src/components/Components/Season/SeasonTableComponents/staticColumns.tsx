@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { StaticSeasonTable } from '@/lib/types/tables/tables'
 import { Button } from '@/components/ui/button'
+import { StaticSeasonTable } from '@/lib/types/tables/tables'
+import { ColumnDef } from '@tanstack/react-table'
 
 import {
   ArrowDownIcon,
@@ -24,12 +24,12 @@ export const columns: ColumnDef<StaticSeasonTable>[] = [
   {
     accessorKey: 'team.casualName',
     header: () => (
-      <div className="max-w-6 truncate text-left text-[8px] sm:max-w-24 sm:text-[10px] lg:max-w-32 lg:text-sm">
+      <div className="w-6 truncate text-left text-[8px] sm:w-24 sm:text-[10px] lg:w-32 lg:text-sm">
         Lag
       </div>
     ),
     cell: ({ row }) => (
-      <div className="max-w-6 truncate text-left sm:max-w-24 lg:max-w-32">
+      <div className="w-6 truncate text-left sm:w-24 lg:w-32">
         {row.getValue('team_casualName')}
       </div>
     ),

@@ -1,7 +1,11 @@
 import { SeasonObjectType } from '@/lib/types/season/seasons'
-import { Link } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 
 const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   return (
     <div className="grid grid-cols-1 justify-between gap-x-8 gap-y-2 pt-2 sm:grid-cols-2 lg:grid-cols-3">
       {seasons.map((season) => {
@@ -18,9 +22,9 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
               <div className="w-28 font-semibold">{season.year}</div>
               <div className="rounded-md px-2 py-1 text-center  xl:p-0">
                 <Link
-                  to="/season/$seasonId/tables"
-                  params={{ seasonId: seasonYear }}
-                  search={(prev) => ({ ...prev })}
+                  to="/season/$seasonId/tables/$table"
+                  params={{ seasonId: seasonYear, table: 'all' }}
+                  search={{ women }}
                   className="font-medium tabular-nums hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Tabeller
@@ -30,7 +34,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <Link
                   to="/season/$seasonId/games"
                   params={{ seasonId: seasonYear }}
-                  search={(prev) => ({ ...prev })}
+                  search={{ women }}
                   className="font-medium hover:font-bold hover:text-primary lg:font-normal"
                 >
                   Matcher

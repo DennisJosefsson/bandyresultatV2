@@ -2,11 +2,13 @@ import Loading from '@/components/Components/Common/Loading'
 import CategoryArray from '@/components/Components/Teams/Selection/CategoryArray'
 import EndSeason from '@/components/Components/Teams/Selection/EndSeason'
 import StartSeason from '@/components/Components/Teams/Selection/StartSeason'
+import { getSeasons } from '@/lib/requests/seasons'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/teams/selection')({
   component: Selection,
   pendingComponent: () => <Loading page="searchSelection" />,
+  loader: () => getSeasons(),
 })
 
 function Selection() {

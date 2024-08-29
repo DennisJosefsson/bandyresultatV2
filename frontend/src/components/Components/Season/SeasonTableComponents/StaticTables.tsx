@@ -1,29 +1,18 @@
-import { StaticSeasonTable } from '@/lib/types/tables/tables'
-import { SerieAttributes } from '@/lib/types/series/series'
+import { StaticGroupTable } from '@/lib/types/tables/tables'
 import StaticTableList from './StaticTableList'
 
 type StaticTableListProps = {
-  tableArray: StaticSeasonTable[]
-  seriesInfo: SerieAttributes[]
+  tableArray: StaticGroupTable[]
 }
 
-const StaticTables = ({
-  tableArray,
-
-  seriesInfo,
-}: StaticTableListProps) => {
+const StaticTables = ({ tableArray }: StaticTableListProps) => {
   return (
     <div>
-      <StaticTableList
-        tableArray={tableArray.filter((team) => team.group === 'Div1Norr')}
-        seriesInfo={seriesInfo}
-        serieName="Division 1 Norra"
-      />
-      <StaticTableList
-        tableArray={tableArray.filter((team) => team.group === 'Div1Syd')}
-        seriesInfo={seriesInfo}
-        serieName="Division 1 Södra"
-      />
+      {tableArray.map((tableObject) => {
+        return (
+          <StaticTableList key={tableObject.group} tableObject={tableObject} />
+        )
+      })}
     </div>
   )
 }

@@ -1,26 +1,24 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonPlayoffTables from '@/components/Components/Season/SeasonPlayoffComponents/SeasonPlayoffTables'
-import { useGetPlayoffData } from '@/lib/hooks/dataHooks/playoff/useGetPlayoffData'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { playoffQueries } from '@/lib/queries/playoff/queries'
+import { getSingleSeasonPlayoff } from '@/lib/requests/tables'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/playoff')({
+  loaderDeps: ({ search: { women } }) => ({ women }),
   component: Playoff,
   pendingComponent: () => <Loading page="seasonPlayoff" />,
-  loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(playoffQueries['data'](params.seasonId))
-  },
+  loader: ({ deps, params }) =>
+    getSingleSeasonPlayoff({ seasonId: params.seasonId, women: deps.women }),
 })
 
 function Playoff() {
   const { women } = Route.useSearch()
   const { seasonId } = Route.useParams()
   const { lastSeason } = useGetFirstAndLastSeason()
-  const { tables, final, playoffGames } = useGetPlayoffData(seasonId)
-
+  const data = Route.useLoaderData()
   useScrollTo()
 
   if (women && parseInt(seasonId) < 1973) {
@@ -29,15 +27,8 @@ function Playoff() {
 
   return (
     <div>
-      {parseInt(seasonId) <= lastSeason && tables && playoffGames && final ? (
-        <SeasonPlayoffTables
-          tables={tables}
-          playoffGames={playoffGames}
-          final={final}
-          women={women}
-          seasonId={seasonId}
-          lastSeason={lastSeason.toString()}
-        />
+      {parseInt(seasonId) <= lastSeason ? (
+        <SeasonPlayoffTables data={data} lastSeason={lastSeason.toString()} />
       ) : null}
     </div>
   )

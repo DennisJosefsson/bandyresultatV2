@@ -12,7 +12,7 @@ export const initializer = (initialValue = initialState) => {
 
 export const favTeamsReducer = (
   state: TeamPreference,
-  action: FavTeamsActionType,
+  action: FavTeamsActionType
 ) => {
   switch (action.type) {
     case 'ADD_TEAM':
@@ -31,16 +31,19 @@ export const favTeamsReducer = (
   }
 }
 
-export const addToFavTeams = (teamId: number) => ({
-  type: 'ADD_TEAM',
-  teamId,
-})
+export const addToFavTeams = (teamId: number) =>
+  ({
+    type: 'ADD_TEAM',
+    teamId,
+  }) as FavTeamsActionType
 
-export const removeFromFavTeams = (teamId: number) => ({
-  type: 'REMOVE_TEAM',
-  teamId,
-})
+export const removeFromFavTeams = (teamId: number) =>
+  ({
+    type: 'REMOVE_TEAM',
+    teamId,
+  }) as FavTeamsActionType
 
-export const clearTeams = () => ({
-  type: 'CLEAR_TEAMS',
-})
+export const clearTeams = () =>
+  ({
+    type: 'CLEAR_TEAMS',
+  }) as FavTeamsActionType

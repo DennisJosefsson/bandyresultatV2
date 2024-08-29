@@ -12,11 +12,14 @@ const SeasonHeader = () => {
     select: (params) => params.seasonId,
   })
 
-  const pathnameArray = useLocation({
+  const pathnameEnd = useLocation({
     select: (location) => location.pathname,
-  }).split('/')
+  })
+    .split('/')
+    .slice(3)
+    .join('/')
 
-  const parsedRoute = getParsedRoute(pathnameArray[pathnameArray.length - 1])
+  const parsedRoute = getParsedRoute(pathnameEnd)
 
   return (
     <div className="pt-2 mb-1 flex gap-10 items-center justify-center sm:mb-2 xl:mb-4">

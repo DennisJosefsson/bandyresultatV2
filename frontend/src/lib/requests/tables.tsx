@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { MaratonTabell, SingleSeasonTableType } from '../types/tables/tables'
+import {
+  MaratonTabell,
+  SingleSeasonPlayoffType,
+  SingleSeasonTableType,
+} from '../types/tables/tables'
 import {
   CompareResponseObjectType,
   compareResponseObject,
@@ -79,10 +83,29 @@ export const compareTeams = async (
   }
 }
 
-export const getSingleSeasonTable = async (
+export const getSingleSeasonTable = async ({
+  seasonId,
+  table,
+  women,
+}: {
   seasonId: string
-): Promise<SingleSeasonTableType> => {
-  const response = await tablesApi.get(`/${seasonId}`)
+  table: string
+  women: boolean
+}): Promise<SingleSeasonTableType> => {
+  const response = await tablesApi.get(
+    `/league/${seasonId}?table=${table}&women=${women}`
+  )
+  return response.data
+}
+
+export const getSingleSeasonPlayoff = async ({
+  seasonId,
+  women,
+}: {
+  seasonId: string
+  women: boolean
+}): Promise<SingleSeasonPlayoffType> => {
+  const response = await tablesApi.get(`/playoff/${seasonId}?women=${women}`)
   return response.data
 }
 
