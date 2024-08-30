@@ -13,11 +13,11 @@ import { z } from 'zod'
 import Serie from '../../models/Serie.js'
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
-import { gameSortFunction } from '../../utils/postFunctions/getSeasonGames.js'
+
 import { leagueTableParser } from '../../utils/postFunctions/leagueTableParser.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 import {
-  getResultString,
+  getResultAndTeams,
   tableSortFunction,
 } from '../../utils/postFunctions/sortLeagueTables.js'
 import {
@@ -196,41 +196,39 @@ playoffRouter.get('/playoff/:seasonId', (async (
   )
   const sortedEightTables = tableSortFunction(unsortedEightTables, seriesData)
 
-  const sortedPlayoffGames = gameSortFunction(playoffGames, seriesData)
-
-  const eightGames = sortedPlayoffGames.filter(
-    (group) => group.group[0] === 'E'
-  )
-  const quarterGames = sortedPlayoffGames.filter(
-    (group) => group.group[0] === 'Q'
-  )
-
-  const semiGames = sortedPlayoffGames.filter((group) => group.group[0] === 'S')
-
   const semiResults = sortedSemiTables.map((table, _, array) => {
     return {
       group: table.group,
-      result: getResultString(array, semiGames, table.group),
+      games: playoffGames
+        .filter((game) => game.group === table.group)
+        .sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
+      result: getResultAndTeams(array, table.group),
     }
   })
 
   const quarterResults = sortedQuarterTables.map((table, _, array) => {
     return {
       group: table.group,
-      result: getResultString(array, quarterGames, table.group),
+      games: playoffGames
+        .filter((game) => game.group === table.group)
+        .sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
+      result: getResultAndTeams(array, table.group),
     }
   })
 
   const eightResults = sortedEightTables.map((table, _, array) => {
     return {
       group: table.group,
-      result: getResultString(array, eightGames, table.group),
+      games: playoffGames
+        .filter((game) => game.group === table.group)
+        .sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
+      result: getResultAndTeams(array, table.group),
     }
   })
 
   res.status(200).json({
     results: { semiResults, quarterResults, eightResults },
-    playoffGames: { semiGames, quarterGames, eightGames },
+
     final,
   })
 }) as RequestHandler)

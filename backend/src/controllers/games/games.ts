@@ -17,6 +17,7 @@ import newGameEntry, {
 } from '../../utils/postFunctions/newGameEntry.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 
+import { z } from 'zod'
 import { getSeasonGames } from '../../utils/postFunctions/getSeasonGames.js'
 import IDCheck from '../../utils/postFunctions/IDCheck.js'
 import {
@@ -62,13 +63,17 @@ gameRouter.get('/', (async (
   res.status(200).json(games)
 }) as RequestHandler)
 
+const parseWomen = z.enum(['true', 'false']).catch('false')
+
 gameRouter.get('/season/:seasonId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const women = parseWomen.parse(req.query.women)
   const games = await Game.findAll({
+    where: { women: women === 'true' ? true : false },
     include: [
       {
         model: Season,
@@ -94,30 +99,24 @@ gameRouter.get('/season/:seasonId', (async (
   })
 
   const season = await Season.findAll({
-    where: { year: seasonYear },
+    where: { year: seasonYear, women: women === 'true' ? true : false },
     raw: true,
     nest: true,
   })
 
-  const menSeries = await Serie.findAll({
+  const series = await Serie.findAll({
     include: [
       {
         model: Season,
-        where: { year: { [Op.eq]: seasonYear }, women: false },
+        where: {
+          year: { [Op.eq]: seasonYear },
+          women: women === 'true' ? true : false,
+        },
       },
     ],
   })
 
-  const womenSeries = await Serie.findAll({
-    include: [
-      {
-        model: Season,
-        where: { year: { [Op.eq]: seasonYear }, women: true },
-      },
-    ],
-  })
-
-  const returnGames = getSeasonGames(games, season, menSeries, womenSeries)
+  const returnGames = getSeasonGames(games, season, series)
 
   res.status(200).json(returnGames)
 }) as RequestHandler)

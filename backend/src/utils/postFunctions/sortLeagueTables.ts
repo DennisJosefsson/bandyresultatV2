@@ -1,3 +1,4 @@
+import Game from '../../models/Game'
 import TeamTable from '../../models/TeamTable'
 import { SortedGames } from './getSeasonGames'
 
@@ -155,6 +156,19 @@ export const sortPlayoffTables = (tableArray: TableObjectType[]) => {
 
 type SortedPlayoffTables = ReturnType<typeof sortPlayoffTables>
 
+export function getResultAndTeams(tables: SortedPlayoffTables, group: string) {
+  const tableObject = tables.find((table) => table.group === group)
+  const groupTables = tableObject?.tables.sort(
+    (a, b) => b.totalWins - a.totalWins
+  )
+  if (!groupTables) throw Error('Missing tbales')
+  return {
+    result: `${groupTables[0].totalWins} - ${groupTables[1].totalWins}`,
+    homeTeam: groupTables[0].lag,
+    awayTeam: groupTables[1].lag,
+  }
+}
+
 export function getResultString(
   tables: SortedPlayoffTables,
   gameArray: SortedGames,
@@ -181,6 +195,15 @@ export function getResultString(
   }
 
   return resultString
+}
+
+export function getTeams(gameArray: Game[]) {
+  return {
+    homeTeamId: gameArray[0].homeTeamId,
+    homeTeam: gameArray[0].homeTeam,
+    awayTeamId: gameArray[0].awayTeamId,
+    awayTeam: gameArray[0].awayTeam,
+  }
 }
 
 export const staticTableSortFunction = (

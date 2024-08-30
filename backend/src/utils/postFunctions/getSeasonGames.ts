@@ -15,289 +15,145 @@ type SeriesData = { group: string; comment: string; name: string }
 export const getSeasonGames = (
   games: Game[],
   season: Season[],
-  menSeries: Serie[],
-  womenSeries: Serie[]
+  series: Serie[]
 ) => {
-  const menSeriesData = menSeries.map((serie) => {
+  const seriesData = series.map((serie) => {
     return {
       group: serie.serieGroupCode,
       comment: serie.comment,
       name: serie.serieName,
     }
   }) as SeriesData[]
-  const womenSeriesData = womenSeries.map((serie) => {
-    return {
-      group: serie.serieGroupCode,
-      season: serie.seasonId,
-      comment: serie.comment,
-      name: serie.serieName,
-    }
-  }) as SeriesData[]
-  const mensGames = games.filter((table) => table.women === false)
-  const womensGames = games.filter((table) => table.women === true)
-  const playedMensGames = mensGames.filter((game) => game.played === true)
-  const unplayedMensGames = mensGames.filter((game) => !game.played)
-  const unplayedMensGamesLength = unplayedMensGames.length
-  const playedMensGamesLength = playedMensGames.length
-  const playedWomensGames = womensGames.filter((game) => game.played === true)
-  const unplayedWomensGames = womensGames.filter((game) => !game.played)
-  const unplayedWomensGamesLength = unplayedWomensGames.length
-  const playedWomensGamesLength = playedWomensGames.length
 
-  const mensUnsortedPlayedFinalGames = playedMensGames.filter(
+  const playedGames = games.filter((game) => game.played === true)
+  const unplayedGames = games.filter((game) => !game.played)
+  const unplayedGamesLength = unplayedGames.length
+  const playedGamesLength = playedGames.length
+
+  const unsortedPlayedFinalGames = playedGames.filter(
     (game) => game.category === 'final'
   )
 
-  const mensUnsortedPlayedSemiGames = playedMensGames.filter(
+  const unsortedPlayedSemiGames = playedGames.filter(
     (game) => game.category === 'semi'
   )
 
-  const mensUnsortedPlayedQuarterGames = playedMensGames.filter(
+  const unsortedPlayedQuarterGames = playedGames.filter(
     (game) => game.category === 'quarter'
   )
 
-  const mensUnsortedPlayedEightGames = playedMensGames.filter(
+  const unsortedPlayedEightGames = playedGames.filter(
     (game) => game.category === 'eight'
   )
 
-  const mensUnsortedPlayedRegularGames = playedMensGames.filter(
+  const unsortedPlayedRegularGames = playedGames.filter(
     (game) => game.category === 'regular'
   )
 
-  const mensUnsortedPlayedQualificationGames = playedMensGames.filter(
+  const unsortedPlayedQualificationGames = playedGames.filter(
     (game) => game.category === 'qualification'
   )
 
-  const mensUnsortedUnplayedFinalGames = unplayedMensGames.filter(
+  const unsortedUnplayedFinalGames = unplayedGames.filter(
     (game) => game.category === 'final'
   )
 
-  const mensUnsortedUnplayedSemiGames = unplayedMensGames.filter(
+  const unsortedUnplayedSemiGames = unplayedGames.filter(
     (game) => game.category === 'semi'
   )
 
-  const mensUnsortedUnplayedQuarterGames = unplayedMensGames.filter(
+  const unsortedUnplayedQuarterGames = unplayedGames.filter(
     (game) => game.category === 'quarter'
   )
 
-  const mensUnsortedUnplayedEightGames = unplayedMensGames.filter(
+  const unsortedUnplayedEightGames = unplayedGames.filter(
     (game) => game.category === 'eight'
   )
 
-  const mensUnsortedUnplayedRegularGames = unplayedMensGames.filter(
+  const unsortedUnplayedRegularGames = unplayedGames.filter(
     (game) => game.category === 'regular'
   )
 
-  const mensUnsortedUnplayedQualificationGames = unplayedMensGames.filter(
+  const unsortedUnplayedQualificationGames = unplayedGames.filter(
     (game) => game.category === 'qualification'
   )
 
-  const womensUnsortedPlayedFinalGames = playedWomensGames.filter(
-    (game) => game.category === 'final'
-  )
-
-  const womensUnsortedPlayedSemiGames = playedWomensGames.filter(
-    (game) => game.category === 'semi'
-  )
-
-  const womensUnsortedPlayedQuarterGames = playedWomensGames.filter(
-    (game) => game.category === 'quarter'
-  )
-
-  const womensUnsortedPlayedEightGames = playedWomensGames.filter(
-    (game) => game.category === 'eight'
-  )
-
-  const womensUnsortedPlayedRegularGames = playedWomensGames.filter(
-    (game) => game.category === 'regular'
-  )
-
-  const womensUnsortedPlayedQualificationGames = playedWomensGames.filter(
-    (game) => game.category === 'qualification'
-  )
-
-  const womensUnsortedUnplayedFinalGames = unplayedWomensGames.filter(
-    (game) => game.category === 'final'
-  )
-
-  const womensUnsortedUnplayedSemiGames = unplayedWomensGames.filter(
-    (game) => game.category === 'semi'
-  )
-
-  const womensUnsortedUnplayedQuarterGames = unplayedWomensGames.filter(
-    (game) => game.category === 'quarter'
-  )
-
-  const womensUnsortedUnplayedEightGames = unplayedWomensGames.filter(
-    (game) => game.category === 'eight'
-  )
-
-  const womensUnsortedUnplayedRegularGames = unplayedWomensGames.filter(
-    (game) => game.category === 'regular'
-  )
-
-  const womensUnsortedUnplayedQualificationGames = unplayedWomensGames.filter(
-    (game) => game.category === 'qualification'
-  )
-
-  const mensPlayedFinalGames = gameSortFunction(
-    mensUnsortedPlayedFinalGames,
-    menSeriesData,
+  const playedFinalGames = gameSortFunction(
+    unsortedPlayedFinalGames,
+    seriesData,
     true
   )
-  const mensPlayedSemiGames = gameSortFunction(
-    mensUnsortedPlayedSemiGames,
-    menSeriesData,
+  const playedSemiGames = gameSortFunction(
+    unsortedPlayedSemiGames,
+    seriesData,
     true
   )
-  const mensPlayedQuarterGames = gameSortFunction(
-    mensUnsortedPlayedQuarterGames,
-    menSeriesData,
+  const playedQuarterGames = gameSortFunction(
+    unsortedPlayedQuarterGames,
+    seriesData,
     true
   )
-  const mensPlayedEightGames = gameSortFunction(
-    mensUnsortedPlayedEightGames,
-    menSeriesData,
+  const playedEightGames = gameSortFunction(
+    unsortedPlayedEightGames,
+    seriesData,
     true
   )
-  const mensPlayedRegularGames = gameSortFunction(
-    mensUnsortedPlayedRegularGames,
-    menSeriesData,
+  const playedRegularGames = gameSortFunction(
+    unsortedPlayedRegularGames,
+    seriesData,
     true
   )
-  const mensPlayedQualificationGames = gameSortFunction(
-    mensUnsortedPlayedQualificationGames,
-    menSeriesData,
+  const playedQualificationGames = gameSortFunction(
+    unsortedPlayedQualificationGames,
+    seriesData,
     true
   )
-  const mensUnplayedFinalGames = gameSortFunction(
-    mensUnsortedUnplayedFinalGames,
-    menSeriesData
+  const unplayedFinalGames = gameSortFunction(
+    unsortedUnplayedFinalGames,
+    seriesData
   )
-  const mensUnplayedSemiGames = gameSortFunction(
-    mensUnsortedUnplayedSemiGames,
-    menSeriesData
+  const unplayedSemiGames = gameSortFunction(
+    unsortedUnplayedSemiGames,
+    seriesData
   )
-  const mensUnplayedQuarterGames = gameSortFunction(
-    mensUnsortedUnplayedQuarterGames,
-    menSeriesData
+  const unplayedQuarterGames = gameSortFunction(
+    unsortedUnplayedQuarterGames,
+    seriesData
   )
-  const mensUnplayedEightGames = gameSortFunction(
-    mensUnsortedUnplayedEightGames,
-    menSeriesData
+  const unplayedEightGames = gameSortFunction(
+    unsortedUnplayedEightGames,
+    seriesData
   )
-  const mensUnplayedRegularGames = gameSortFunction(
-    mensUnsortedUnplayedRegularGames,
-    menSeriesData
+  const unplayedRegularGames = gameSortFunction(
+    unsortedUnplayedRegularGames,
+    seriesData
   )
-  const mensUnplayedQualificationGames = gameSortFunction(
-    mensUnsortedUnplayedQualificationGames,
-    menSeriesData
+  const unplayedQualificationGames = gameSortFunction(
+    unsortedUnplayedQualificationGames,
+    seriesData
   )
-
-  const womensPlayedFinalGames = gameSortFunction(
-    womensUnsortedPlayedFinalGames,
-    womenSeriesData,
-    true
-  )
-  const womensPlayedSemiGames = gameSortFunction(
-    womensUnsortedPlayedSemiGames,
-    womenSeriesData,
-    true
-  )
-  const womensPlayedQuarterGames = gameSortFunction(
-    womensUnsortedPlayedQuarterGames,
-    womenSeriesData,
-    true
-  )
-  const womensPlayedEightGames = gameSortFunction(
-    womensUnsortedPlayedEightGames,
-    womenSeriesData,
-    true
-  )
-  const womensPlayedRegularGames = gameSortFunction(
-    womensUnsortedPlayedRegularGames,
-    womenSeriesData,
-    true
-  )
-  const womensPlayedQualificationGames = gameSortFunction(
-    womensUnsortedPlayedQualificationGames,
-    womenSeriesData,
-    true
-  )
-  const womensUnplayedFinalGames = gameSortFunction(
-    womensUnsortedUnplayedFinalGames,
-    womenSeriesData
-  )
-  const womensUnplayedSemiGames = gameSortFunction(
-    womensUnsortedUnplayedSemiGames,
-    womenSeriesData
-  )
-  const womensUnplayedQuarterGames = gameSortFunction(
-    womensUnsortedUnplayedQuarterGames,
-    womenSeriesData
-  )
-  const womensUnplayedEightGames = gameSortFunction(
-    womensUnsortedUnplayedEightGames,
-    womenSeriesData
-  )
-  const womensUnplayedRegularGames = gameSortFunction(
-    womensUnsortedUnplayedRegularGames,
-    womenSeriesData
-  )
-  const womensUnplayedQualificationGames = gameSortFunction(
-    womensUnsortedUnplayedQualificationGames,
-    womenSeriesData
-  )
-
-  const menSeasons = season.find((season) => season.women === false)
-  const womenSeasons = season.find((season) => season.women === true)
 
   const returnObject = {
-    men: {
-      played: {
-        FinalGames: mensPlayedFinalGames,
-        SemiGames: mensPlayedSemiGames,
-        QuarterGames: mensPlayedQuarterGames,
-        EightGames: mensPlayedEightGames,
-        RegularGames: mensPlayedRegularGames,
-        QualificationGames: mensPlayedQualificationGames,
-      },
-      unplayed: {
-        FinalGames: mensUnplayedFinalGames,
-        SemiGames: mensUnplayedSemiGames,
-        QuarterGames: mensUnplayedQuarterGames,
-        EightGames: mensUnplayedEightGames,
-        RegularGames: mensUnplayedRegularGames,
-        QualificationGames: mensUnplayedQualificationGames,
-      },
-      unplayedLength: unplayedMensGamesLength,
-      playedLength: playedMensGamesLength,
-      season: menSeasons ?? [],
-      series: menSeries,
+    played: {
+      FinalGames: playedFinalGames,
+      SemiGames: playedSemiGames,
+      QuarterGames: playedQuarterGames,
+      EightGames: playedEightGames,
+      RegularGames: playedRegularGames,
+      QualificationGames: playedQualificationGames,
     },
-    women: {
-      played: {
-        FinalGames: womensPlayedFinalGames,
-        SemiGames: womensPlayedSemiGames,
-        QuarterGames: womensPlayedQuarterGames,
-        EightGames: womensPlayedEightGames,
-        RegularGames: womensPlayedRegularGames,
-        QualificationGames: womensPlayedQualificationGames,
-      },
-      unplayed: {
-        FinalGames: womensUnplayedFinalGames,
-        SemiGames: womensUnplayedSemiGames,
-        QuarterGames: womensUnplayedQuarterGames,
-        EightGames: womensUnplayedEightGames,
-        RegularGames: womensUnplayedRegularGames,
-        QualificationGames: womensUnplayedQualificationGames,
-      },
-      unplayedLength: unplayedWomensGamesLength,
-      playedLength: playedWomensGamesLength,
-      season: womenSeasons ?? [],
-      series: womenSeries,
+    unplayed: {
+      FinalGames: unplayedFinalGames,
+      SemiGames: unplayedSemiGames,
+      QuarterGames: unplayedQuarterGames,
+      EightGames: unplayedEightGames,
+      RegularGames: unplayedRegularGames,
+      QualificationGames: unplayedQualificationGames,
     },
+    unplayedLength: unplayedGamesLength,
+    playedLength: playedGamesLength,
+    season: season ?? [],
+    series: series ?? [],
   }
 
   return returnObject
