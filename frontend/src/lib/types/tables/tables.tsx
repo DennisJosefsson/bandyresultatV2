@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { GameDateObject, GameObjectWithSeasonType } from '../games/games'
+import { GameObjectType, GameObjectWithSeasonType } from '../games/games'
 
 export const tableObject = z.object({
   group: z.string(),
@@ -60,17 +60,34 @@ export type SingleSeasonTableType = {
   staticTables: StaticGroupTable[]
 }
 
+type Result = {
+  result: string
+  homeTeam: {
+    casualName: string
+    name: string
+    shortName: string
+    teamId: number
+  }
+  awayTeam: {
+    casualName: string
+    name: string
+    shortName: string
+    teamId: number
+  }
+}
+
+export type PlayoffGroup = {
+  group: string
+  result: Result
+  games: GameObjectType[]
+}
+
 export type SingleSeasonPlayoffType = {
   final: GameObjectWithSeasonType[]
   results: {
-    semiResults: { group: string; result: string }[]
-    quarterResults: { group: string; result: string }[]
-    eightResults: { group: string; result: string }[]
-  }
-  playoffGames: {
-    semiGames: { group: string; dates: GameDateObject[] }[]
-    quarterGames: { group: string; dates: GameDateObject[] }[]
-    eightGames: { group: string; dates: GameDateObject[] }[]
+    semiResults: PlayoffGroup[]
+    quarterResults: PlayoffGroup[]
+    eightResults: PlayoffGroup[]
   }
 }
 

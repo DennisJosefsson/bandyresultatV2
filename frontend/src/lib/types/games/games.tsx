@@ -163,13 +163,13 @@ const groupArray = z.array(
 )
 const groupRecord = z.record(z.string(), groupArray)
 
-const genderObject = z.object({
+const seasonGames = z.object({
   played: groupRecord,
   unplayed: groupRecord,
   playedLength: z.number(),
   unplayedLength: z.number(),
 })
-const seasonGames = z.object({ men: genderObject, women: genderObject })
+
 export type GameDateObject = z.infer<typeof dateObject>
 export type SeasonGames = z.infer<typeof seasonGames>
 export type SortedGamesType = z.infer<typeof groupArray>

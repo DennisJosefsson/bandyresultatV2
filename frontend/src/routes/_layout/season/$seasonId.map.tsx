@@ -2,7 +2,8 @@ import { qualIcon } from '@/components/Components/Common/Icons/leafletMarker'
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import { useMapData } from '@/lib/hooks/dataHooks/map/useMapData'
-import { seasonQueries } from '@/lib/queries/season/queries'
+
+import { getSingleSeason } from '@/lib/requests/seasons'
 import { createFileRoute } from '@tanstack/react-router'
 import { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -12,16 +13,12 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 export const Route = createFileRoute('/_layout/season/$seasonId/map')({
   component: Map,
   pendingComponent: () => <Loading page="seasonMap" />,
-  loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(
-      seasonQueries['singleSeason'](params.seasonId)
-    )
-  },
+  loader: ({ params }) => getSingleSeason(params.seasonId),
 })
 
 function Map() {
   const { seasonId } = Route.useParams()
-  const { teams, qualificationTeams, bounds } = useMapData(seasonId)
+  const { teams, qualificationTeams, bounds } = useMapData()
   const { women } = Route.useSearch()
 
   if (women && parseInt(seasonId) < 1973) {

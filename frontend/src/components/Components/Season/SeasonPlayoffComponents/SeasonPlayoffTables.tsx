@@ -1,4 +1,3 @@
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import { SingleSeasonPlayoffType } from '@/lib/types/tables/tables'
 import {
   eightColStarts,
@@ -22,7 +21,6 @@ const SeasonPlayoffTables = ({
   data,
   lastSeason,
 }: SeasonPlayoffTablesProps) => {
-  const { favTeams } = useTeampreferenceContext()
   const women = useSearch({
     from: '/_layout',
     select: (search) => search.women,
@@ -36,10 +34,6 @@ const SeasonPlayoffTables = ({
   const quarterResults = data['results']['quarterResults']
   const eightResults = data['results']['eightResults']
 
-  const semiGames = data['playoffGames']['semiGames']
-  const quarterGames = data['playoffGames']['quarterGames']
-  const eightGames = data['playoffGames']['eightGames']
-
   const nilSemiGroups = ['S1', 'S2']
   const nilQuarterGroups = ['Q1', 'Q2', 'Q3', 'Q4']
   const nilEightGroups = ['E1', 'E2']
@@ -51,15 +45,13 @@ const SeasonPlayoffTables = ({
         {data['final'].length > 0 && (
           <>
             {data['final'].map((game) => {
-              return (
-                <FinalCard key={game.date} game={game} favTeams={favTeams} />
-              )
+              return <FinalCard key={game.gameId} game={game} />
             })}
           </>
         )}
 
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
-          {semiGames.length === 0 && seasonId === lastSeason && (
+          {semiResults.length === 0 && seasonId === lastSeason && (
             <>
               {nilSemiGroups.map((group, index) => {
                 return (
@@ -72,23 +64,21 @@ const SeasonPlayoffTables = ({
               })}
             </>
           )}
-          {semiGames.length > 0 && (
+          {semiResults.length > 0 && (
             <>
-              {semiGames.map((group, index) => {
+              {semiResults.map((group, index) => {
                 return (
                   <DefaultComponent
                     key={`${group.group}-${index}`}
                     group={group}
                     colStarts={semiColStarts}
-                    favTeams={favTeams}
-                    results={semiResults}
                   />
                 )
               })}
             </>
           )}
         </div>
-        {quarterGames.length === 0 && seasonId === lastSeason && (
+        {quarterResults.length === 0 && seasonId === lastSeason && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
             {nilQuarterGroups.map((group, index) => {
               return (
@@ -101,38 +91,34 @@ const SeasonPlayoffTables = ({
             })}
           </div>
         )}
-        {quarterGames.length !== 2 && quarterGames.length !== 0 && (
+        {quarterResults.length !== 2 && quarterResults.length !== 0 && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
-            {quarterGames.map((group, index) => {
+            {quarterResults.map((group, index) => {
               return (
                 <DefaultComponent
                   key={`${group.group}-${index}`}
                   group={group}
                   colStarts={quarterColStarts}
-                  favTeams={favTeams}
-                  results={quarterResults}
                 />
               )
             })}
           </div>
         )}
 
-        {quarterGames.length === 2 && (
+        {quarterResults.length === 2 && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
-            {quarterGames.map((group, index) => {
+            {quarterResults.map((group, index) => {
               return (
                 <DefaultComponent
                   key={`${group.group}-${index}`}
                   group={group}
                   colStarts={quarterColStartsTwoQuarter}
-                  favTeams={favTeams}
-                  results={quarterResults}
                 />
               )
             })}
           </div>
         )}
-        {eightGames.length === 0 &&
+        {eightResults.length === 0 &&
           seasonId === lastSeason &&
           women === false && (
             <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
@@ -147,31 +133,27 @@ const SeasonPlayoffTables = ({
               })}
             </div>
           )}
-        {eightGames.length === 2 && (
+        {eightResults.length === 2 && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
-            {eightGames.map((group, index) => {
+            {eightResults.map((group, index) => {
               return (
                 <DefaultComponent
                   key={`${group.group}-${index}`}
                   group={group}
                   colStarts={eightColStarts}
-                  favTeams={favTeams}
-                  results={eightResults}
                 />
               )
             })}
           </div>
         )}
-        {eightGames.length === 4 && (
+        {eightResults.length === 4 && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-4">
-            {eightGames.map((group, index) => {
+            {eightResults.map((group, index) => {
               return (
                 <DefaultComponent
                   key={`${group.group}-${index}`}
                   group={group}
                   colStarts={eightColStartsFourTeams}
-                  favTeams={favTeams}
-                  results={eightResults}
                 />
               )
             })}

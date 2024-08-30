@@ -1,19 +1,19 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import Games from '@/components/Components/Season/SeasonGamesComponents/Games'
-//import { useSingleSeasonGames } from '@/lib/hooks/dataHooks/games/useSingleSeasonGames'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-//import { gameQueries } from '@/lib/queries/games/queries'
 import { getSeasonGames } from '@/lib/requests/games'
 import { createFileRoute, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/games')({
+  loaderDeps: ({ search: { women } }) => ({ women }),
   component: SeasonGames,
   pendingComponent: () => <Loading page="seasonGamesList" />,
-  loader: ({ params }) => getSeasonGames(params.seasonId),
+  loader: ({ deps, params }) =>
+    getSeasonGames({ seasonId: params.seasonId, women: deps.women }),
   errorComponent: ({ error, reset }) => (
     <ErrorComponent error={error} reset={reset} />
   ),
@@ -24,9 +24,7 @@ function SeasonGames() {
     select: (param) => param.seasonId,
   })
   const women = Route.useSearch({ select: (search) => search.women })
-  const games = Route.useLoaderData({
-    select: (data) => (women ? data.women : data.men),
-  })
+  const games = Route.useLoaderData()
 
   const { lastSeason } = useGetFirstAndLastSeason()
 

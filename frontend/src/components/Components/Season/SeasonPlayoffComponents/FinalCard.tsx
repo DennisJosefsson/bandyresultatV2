@@ -3,7 +3,6 @@ import { GameObjectType } from '@/lib/types/games/games'
 import PlayoffCard from './PlayoffCard'
 type FinalCardProps = {
   game: GameObjectType
-  favTeams: number[]
 }
 
 const FinalCard = ({ game }: FinalCardProps) => {

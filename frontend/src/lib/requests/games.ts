@@ -39,10 +39,14 @@ export const getSearch = async (
   return response.data
 }
 
-export const getSeasonGames = async (
+export const getSeasonGames = async ({
+  seasonId,
+  women,
+}: {
   seasonId: string
-): Promise<SeasonGames> => {
-  const response = await gamesApi.get(`/season/${seasonId}`)
+  women: boolean
+}): Promise<SeasonGames> => {
+  const response = await gamesApi.get(`/season/${seasonId}?women=${women}`)
 
   return response.data
 }

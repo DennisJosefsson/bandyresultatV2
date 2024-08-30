@@ -1,12 +1,14 @@
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-
 import { latLngBounds, LatLngBounds, LatLngTuple } from 'leaflet'
-import { useGetSingleSeason } from '../season/useGetSingleSeason'
 
-export const useMapData = (seasonId: string) => {
-  const { womenContext } = useGenderContext()
-  const { data, error, isLoading, isSuccess } = useGetSingleSeason(seasonId)
-  const seasonObject = data?.find((season) => season.women === womenContext)
+import { useLoaderData, useSearch } from '@tanstack/react-router'
+
+export const useMapData = () => {
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
+  const data = useLoaderData({ from: '/_layout/season/$seasonId/map' })
+  const seasonObject = data?.find((season) => season.women === women)
 
   const teams = seasonObject?.teams.filter(
     (team) => team.teamseason.qualification !== true
@@ -22,5 +24,5 @@ export const useMapData = (seasonId: string) => {
 
   const bounds = latLngBounds(latLongArray) as LatLngBounds
 
-  return { teams, qualificationTeams, bounds, error, isLoading, isSuccess }
+  return { teams, qualificationTeams, bounds }
 }
