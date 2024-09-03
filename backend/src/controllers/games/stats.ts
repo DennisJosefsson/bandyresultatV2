@@ -32,7 +32,7 @@ statsRouter.get('/stats/:seasonId', (async (
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const women = parseWomen.parse(req.query.women)
 
-  const goalsScoredTotalRaw = await TeamGame.findAll({
+  const goalsScoredTotalRaw = await TeamGame.findOne({
     where: { homeGame: true, women: women === 'true' ? true : false },
     include: {
       model: Season,
@@ -65,7 +65,7 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredTotalCat = goalStatsByCatObject.parse(goalsScoredTotalCatRaw)
 
-  const goalsScoredHomeTotalRaw = await Game.findAll({
+  const goalsScoredHomeTotalRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
     include: {
       model: Season,
@@ -100,7 +100,7 @@ statsRouter.get('/stats/:seasonId', (async (
     goalsScoredHomeTotalCatRaw
   )
 
-  const goalsScoredAwayTotalRaw = await Game.findAll({
+  const goalsScoredAwayTotalRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
     include: {
       model: Season,
@@ -135,7 +135,7 @@ statsRouter.get('/stats/:seasonId', (async (
     goalsScoredAwayTotalCatRaw
   )
 
-  const goalsScoredAverageRaw = await TeamGame.findAll({
+  const goalsScoredAverageRaw = await TeamGame.findOne({
     where: { played: true, women: women === 'true' ? true : false },
     include: {
       model: Season,
@@ -186,7 +186,7 @@ statsRouter.get('/stats/:seasonId', (async (
     goalsScoredAverageCatRaw
   )
 
-  const goalsScoredHomeAverageRaw = await Game.findAll({
+  const goalsScoredHomeAverageRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
     include: {
       model: Season,
@@ -239,7 +239,7 @@ statsRouter.get('/stats/:seasonId', (async (
     goalsScoredHomeAverageCatRaw
   )
 
-  const goalsScoredAwayAverageRaw = await Game.findAll({
+  const goalsScoredAwayAverageRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
     include: {
       model: Season,

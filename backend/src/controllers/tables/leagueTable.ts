@@ -196,7 +196,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const tabell = leagueTableParser(teamArray, parsedTable)
 
   const series = await Serie.findAll({
-    where: { serieCategory: 'regular' },
+    where: { serieCategory: ['regular', 'qualification'] },
     include: [{ model: Season, where: { year: seasonYear } }],
     raw: true,
     nest: true,

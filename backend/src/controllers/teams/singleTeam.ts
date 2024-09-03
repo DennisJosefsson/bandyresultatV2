@@ -1,21 +1,21 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
-import Team from '../../models/Team.js'
+import { QueryTypes } from 'sequelize'
 import Season from '../../models/Season.js'
+import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
 import { sequelize } from '../../utils/db.js'
-import { QueryTypes } from 'sequelize'
-import { teamIdChecker } from '../../utils/postFunctions/teamRequest.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
+import { teamIdChecker } from '../../utils/postFunctions/teamRequest.js'
 import {
-  singleTeamTable,
   fiveSeasonsLeagueTable,
   FiveSeasonsLeagueTableType,
+  singleTeamTable,
 } from '../../utils/responseTypes/tableTypes.js'
 
 const singleTeamRouter = Router()
@@ -40,7 +40,7 @@ singleTeamRouter.get('/:teamId', (async (
     order: [[{ model: Season, as: 'seasonteam' }, 'seasonId', 'DESC']],
   })
 
-  if (!team) {
+  if (!team || teamId === 176) {
     throw new NotFoundError({
       code: 404,
       message: 'Inget sådant lag finns.',

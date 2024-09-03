@@ -1,20 +1,21 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
 import { Op } from 'sequelize'
-import Season from '../../models/Season.js'
 import Game from '../../models/Game.js'
-import Team from '../../models/Team.js'
+import Season from '../../models/Season.js'
 import Serie from '../../models/Serie.js'
+import Team from '../../models/Team.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 //import TeamSeason from '../../models/TeamSeason.js'
+import { z } from 'zod'
 import {
-  gameSortFunction,
   animationData,
+  gameSortFunction,
 } from '../../utils/postFunctions/animationData.js'
 
 const animationRouter = Router()
@@ -23,6 +24,8 @@ const getTime = (date?: Date): number => {
   return date != null ? date.getTime() : 0
 }
 
+const parseWomen = z.enum(['true', 'false']).catch('false')
+
 animationRouter.get('/animation/:seasonId', (async (
   req: Request,
   res: Response,
@@ -30,10 +33,16 @@ animationRouter.get('/animation/:seasonId', (async (
 ) => {
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const parsedSeasonId = parseInt(req.params.seasonId)
+  const women = parseWomen.parse(req.query.women)
 
   const series = await Serie.findAll({
     where: { serieCategory: 'regular' },
-    include: [{ model: Season, where: { year: seasonYear } }],
+    include: [
+      {
+        model: Season,
+        where: { year: seasonYear, women: women === 'true' ? true : false },
+      },
+    ],
     raw: true,
     nest: true,
   })
@@ -42,6 +51,7 @@ animationRouter.get('/animation/:seasonId', (async (
     where: {
       '$seasonteam.year$': seasonYear,
       '$seasonteam.teamseason.qualification$': { [Op.not]: true },
+      '$seasonteam.women$': women === 'true' ? true : false,
     },
     include: [
       {
@@ -58,7 +68,10 @@ animationRouter.get('/animation/:seasonId', (async (
     include: [
       {
         model: Season,
-        where: { year: { [Op.eq]: seasonYear } },
+        where: {
+          year: { [Op.eq]: seasonYear },
+          women: women === 'true' ? true : false,
+        },
       },
       {
         model: Team,
@@ -79,20 +92,11 @@ animationRouter.get('/animation/:seasonId', (async (
     nest: true,
   })
   if (!games || games.length === 0) {
-    res.status(200).json([
-      {
-        women: false,
-        games: [],
-        length: 0,
-        series: series.filter((serie) => serie.season.women === false),
-      },
-      {
-        women: true,
-        games: [],
-        length: 0,
-        series: series.filter((serie) => serie.season.women === true),
-      },
-    ])
+    res.status(200).json({
+      games: [],
+      length: 0,
+      series: series,
+    })
   }
 
   if (seasonYear && ['1933', '1937'].includes(seasonYear)) {
@@ -134,51 +138,30 @@ animationRouter.get('/animation/:seasonId', (async (
     games.sort((a, b) => getTime(new Date(a.date)) - getTime(new Date(b.date)))
   }
 
-  const mensTeamArray = teams
-    ? teams
-        .filter((team) => team.women === false)
-        .map((team) => {
-          return {
-            casualName: team.casualName,
-            teamId: team.teamId as number,
-          }
-        })
+  const teamArray = teams
+    ? teams.map((team) => {
+        return {
+          casualName: team.casualName,
+          teamId: team.teamId,
+        }
+      })
     : []
 
-  const womensTeamArray = teams
-    ? teams
-        .filter((team) => team.women === true)
-        .map((team) => {
-          return {
-            casualName: team.casualName,
-            teamId: team.teamId as number,
-          }
-        })
-    : []
-
-  const mensRegularGames = gameSortFunction(
-    games
-      .filter((team) => team.women === false)
-      .filter((game) => game.result !== null)
+  const regularGames = gameSortFunction(
+    games.filter((game) => game.result !== null)
   )
 
-  const womensRegularGames = gameSortFunction(
-    games
-      .filter((team) => team.women === true)
-      .filter((game) => game.result !== null)
-  )
-
-  const mensAnimationArray = animationData(
-    mensRegularGames,
-    mensTeamArray,
-    series.filter((serie) => serie.season.women === false),
+  const animationArray = animationData(
+    regularGames,
+    teamArray,
+    series,
     parsedSeasonId
   )
 
-  const mensGameArray = mensRegularGames
+  const gameArray = regularGames
     .filter((group) => group.group !== 'mix')
     .map((group) => {
-      const animationObject = mensAnimationArray.find(
+      const animationObject = animationArray.find(
         (aniGroup) => aniGroup.group === group.group
       )
       if (
@@ -207,58 +190,11 @@ animationRouter.get('/animation/:seasonId', (async (
       }
     })
 
-  const womensAnimationArray = animationData(
-    womensRegularGames,
-    womensTeamArray,
-    series.filter((serie) => serie.season.women === true),
-    parsedSeasonId
-  )
-
-  const womensGameArray = womensRegularGames
-    .filter((group) => group.group !== 'mix')
-    .map((group) => {
-      const animationObject = womensAnimationArray.find(
-        (aniGroup) => aniGroup.group === group.group
-      )
-      if (
-        !animationObject ||
-        !animationObject.serieName ||
-        !animationObject.tables
-      ) {
-        throw new Error('Missing data from Animation')
-      }
-      return {
-        group: group.group,
-        serieName: animationObject.serieName,
-        dates: group.dates.map((date) => {
-          const tableObject = animationObject.tables.find(
-            (tableDate) => tableDate.date === date.date
-          )
-          if (!tableObject || !tableObject.table) {
-            throw new Error('Missing table data from Animation')
-          }
-          return {
-            date: date.date,
-            games: [...date.games],
-            table: tableObject.table,
-          }
-        }),
-      }
-    })
-  res.status(200).json([
-    {
-      women: false,
-      games: mensGameArray,
-      length: mensGameArray.length,
-      series: series.filter((serie) => serie.season.women === false),
-    },
-    {
-      women: true,
-      games: womensGameArray,
-      length: womensGameArray.length,
-      series: series.filter((serie) => serie.season.women === true),
-    },
-  ])
+  res.status(200).json({
+    games: gameArray,
+    length: gameArray.length,
+    series: series,
+  })
 }) as RequestHandler)
 
 export default animationRouter
