@@ -12,7 +12,7 @@ const GeneralStats = () => {
           <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Säsonger
           </h2>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 lg:gap-6 lg:grid-cols-2">
             <div>
               <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Sedan 1931
@@ -52,7 +52,7 @@ const GeneralStats = () => {
           <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Slutspel
           </h2>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 lg:gap-6 lg:grid-cols-2">
             <div>
               <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Sedan 1931
@@ -92,7 +92,7 @@ const GeneralStats = () => {
           <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             SM-Finaler
           </h2>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 lg:gap-6 lg:grid-cols-2">
             <div>
               <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Guld
@@ -132,7 +132,7 @@ const GeneralStats = () => {
       )}
       {women && (
         <>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 lg:gap-6 lg:grid-cols-2">
             <div>
               <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
                 Säsonger
@@ -172,7 +172,7 @@ const GeneralStats = () => {
           <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             SM-Finaler
           </h2>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
             <div>
               <h3 className="mb-2 text-xs font-bold leading-4 sm:text-base lg:text-lg">
                 Guld

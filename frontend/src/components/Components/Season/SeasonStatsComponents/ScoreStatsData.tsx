@@ -1,29 +1,23 @@
-import { useGetStreakStats } from '@/lib/hooks/dataHooks/stats/useGetStreaksStats'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import ScoreStatsCard from './MaxMinGoalsStatsCard'
 
 const ScoreStatsData = () => {
-  const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useSearch({ from: '/_layout' })
-  const { maxGoalsMen, maxGoalsWomen, minGoalsMen, minGoalsWomen } =
-    useGetStreakStats(seasonId, women)
+  const { maxGoals, minGoals } = useLoaderData({
+    from: '/_layout/season/$seasonId/stats',
+  })
 
   return (
     <>
-      {maxGoalsMen && maxGoalsWomen ? (
+      {maxGoals ? (
         <ScoreStatsCard
           title="Match(er) med flest antal mål:"
-          maxMinGoalsMen={maxGoalsMen}
-          maxMinGoalsWomen={maxGoalsWomen}
-          women={women}
+          maxMinGoals={maxGoals}
         />
       ) : null}
-      {minGoalsMen && minGoalsWomen ? (
+      {minGoals ? (
         <ScoreStatsCard
           title="Match(er) med minst antal mål:"
-          maxMinGoalsMen={minGoalsMen}
-          maxMinGoalsWomen={minGoalsWomen}
-          women={women}
+          maxMinGoals={minGoals}
         />
       ) : null}
     </>

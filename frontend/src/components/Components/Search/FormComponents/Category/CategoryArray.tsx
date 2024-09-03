@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card'
 import { CheckedState } from '@/components/ui/checkbox'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import MemoCategoryItem from './CategoryItem'
 
 const initCategories = [
@@ -36,12 +36,20 @@ const CategoryArray = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryArray ?? initCategories
   )
+
   const navigate = useNavigate({ from: '/teams' })
+
+  useEffect(() => {
+    navigate({
+      search: (prev) => ({ ...prev, categoryArray: selectedCategories }),
+    })
+  }, [selectedCategories, navigate])
 
   const onCheckedChange = useCallback(
     (checked: CheckedState, category: string) => {
       if (checked) {
         setSelectedCategories((prev) => [...prev, category])
+
         navigate({
           search: (prev) => {
             if (prev.categoryArray) {

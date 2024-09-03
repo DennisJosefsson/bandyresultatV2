@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseUrl, mobileBaseUrl, header } from '../config/requestConfig'
+import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { PostNewSeasonType, SeasonObjectType } from '../types/season/seasons'
 
 import { SerieAttributes } from '../types/series/series'
@@ -19,7 +19,11 @@ export const getSeasons = async (): Promise<SeasonObjectType[]> => {
 export const getSingleSeason = async (
   seasonId: string
 ): Promise<SeasonObjectType[]> => {
-  const response = await seasonsApi.get(`/${seasonId}`)
+  const response = await seasonsApi.get(`/${seasonId}`, {
+    validateStatus: (status) => {
+      return status < 500
+    },
+  })
   return response.data
 }
 

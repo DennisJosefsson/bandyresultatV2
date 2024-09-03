@@ -5,7 +5,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/maraton/records/')({
   component: GeneralStats,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="generalStats" />,
   loaderDeps: ({ search: { women } }) => ({
     women,
   }),

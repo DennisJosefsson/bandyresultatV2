@@ -9,63 +9,34 @@ type MaxDiffType = {
 }[]
 
 type MaxDiffStatsCardProps = {
-  maxDiffMen: MaxDiffType
-  maxDiffWomen: MaxDiffType
-  women: boolean
+  maxDiff: MaxDiffType
   title: string
 }
 
-const MaxDiffStatsCard = ({
-  maxDiffMen,
-  maxDiffWomen,
-  women,
-  title,
-}: MaxDiffStatsCardProps) => {
+const MaxDiffStatsCard = ({ maxDiff, title }: MaxDiffStatsCardProps) => {
   return (
     <div className="streakCard">
       <h6 className="head">{title}</h6>
-      {!women && (
-        <div>
-          {maxDiffMen.map((game, index) => {
-            return (
-              <div key={`${index}-${Math.random()}`}>
-                <div className="streak1st">
-                  <div className="name">
-                    {game.home_name}-{game.away_name}
-                  </div>
-                  <div className="count">{game.resultat}</div>
+
+      <div>
+        {maxDiff.map((game, index) => {
+          return (
+            <div key={`${index}-${Math.random()}`}>
+              <div className="streak1st">
+                <div className="name">
+                  {game.home_name}-{game.away_name}
                 </div>
-                <div className="streak2nd">
-                  <div className="dates">
-                    <Date>{game.datum}</Date>
-                  </div>
+                <div className="count">{game.resultat}</div>
+              </div>
+              <div className="streak2nd">
+                <div className="dates">
+                  <Date>{game.datum}</Date>
                 </div>
               </div>
-            )
-          })}
-        </div>
-      )}
-      {women && (
-        <div>
-          {maxDiffWomen.map((game, index) => {
-            return (
-              <div key={`${index}-${Math.random()}`}>
-                <div className="streak1st">
-                  <div className="name">
-                    {game.home_name}-{game.away_name}
-                  </div>
-                  <div className="count">{game.resultat}</div>
-                </div>
-                <div className="streak2nd">
-                  <div className="dates">
-                    <Date>{game.datum}</Date>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

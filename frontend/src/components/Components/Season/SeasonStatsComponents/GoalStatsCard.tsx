@@ -1,9 +1,8 @@
-import { sortStatsCat } from '@/lib/utils/sortFunction'
 import { groupConstant } from '@/lib/utils/constants'
+import { sortStatsCat } from '@/lib/utils/sortFunction'
 
 type BaseType = {
   data: number
-  women: boolean
   season: {
     year: string
     seasonId: number
@@ -11,7 +10,6 @@ type BaseType = {
 }
 type CatArrayType = {
   data: number
-  women: boolean
   category: string
   season: {
     seasonId: number

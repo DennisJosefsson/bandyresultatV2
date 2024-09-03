@@ -1,3 +1,4 @@
+import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import SearchTabBar from '@/components/Components/Search/SearchTabBar'
 import { Card, CardContent } from '@/components/ui/card'
 import { searchParamsObject } from '@/lib/types/games/search'
@@ -24,7 +25,9 @@ function SearchHeader() {
             onCatch={(error) => {
               console.error(error)
             }}
-            errorComponent={() => <p>Fel</p>}
+            errorComponent={({ error, reset }) => (
+              <SimpleErrorComponent id="Sök" error={error} reset={reset} />
+            )}
           >
             <Outlet />
           </CatchBoundary>

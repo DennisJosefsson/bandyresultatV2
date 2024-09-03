@@ -1,72 +1,57 @@
-import { useGetSeasonStats } from './useGetSeasonStats'
+import { useLoaderData } from '@tanstack/react-router'
 
-export const useGetGameResultStats = (seasonId: string, women: boolean) => {
-  const { data, isLoading, error, isSuccess } = useGetSeasonStats(seasonId)
-
-  const gamesCountTotal = data?.gamesCountTotal.find(
-    (cat) => cat.women === women
-  )
-  const gamesCountTotalCat = data?.gamesCountTotalCat.filter(
-    (cat) => cat.women === women
-  )
-  const winCountHomeTeam = data?.winCountHomeTeam.find(
-    (cat) => cat.women === women
-  )
-  const winCountAwayTeam = data?.winCountAwayTeam.find(
-    (cat) => cat.women === women
-  )
-  const drawCount = data?.drawCount.find((cat) => cat.women === women)
-
-  const winCountHomeTeamCat = data?.winCountHomeTeamCat
-    .filter((cat) => cat.women === women)
-    .filter((cat) => cat.category !== 'final')
-  const winCountAwayTeamCat = data?.winCountAwayTeamCat
-    .filter((cat) => cat.women === women)
-    .filter((cat) => cat.category !== 'final')
-  const drawCountCat = data?.drawCountCat
-    .filter((cat) => cat.women === women)
-    .filter((cat) => cat.category !== 'final')
+export const useGetGameResultStats = () => {
+  const {
+    gamesCountTotal,
+    gamesCountTotalCat,
+    winCountHomeTeam,
+    winCountAwayTeam,
+    drawCount,
+    winCountHomeTeamCat,
+    winCountAwayTeamCat,
+    drawCountCat,
+  } = useLoaderData({
+    from: '/_layout/season/$seasonId/stats',
+  })
 
   const pieChartData = [
     {
       win: 'Hemma',
-      count: winCountHomeTeam?.count ?? 0,
+      count: winCountHomeTeam ?? 0,
       percent:
-        winCountHomeTeam?.count && gamesCountTotal?.count
-          ? (winCountHomeTeam?.count / gamesCountTotal?.count) * 100
+        winCountHomeTeam && gamesCountTotal
+          ? (winCountHomeTeam / gamesCountTotal) * 100
           : 0,
     },
     {
       win: 'Borta',
-      count: winCountAwayTeam?.count ?? 0,
+      count: winCountAwayTeam ?? 0,
       percent:
-        winCountAwayTeam?.count && gamesCountTotal?.count
-          ? (winCountAwayTeam?.count / gamesCountTotal?.count) * 100
+        winCountAwayTeam && gamesCountTotal
+          ? (winCountAwayTeam / gamesCountTotal) * 100
           : 0,
     },
     {
       win: 'Oavgjort',
-      count: drawCount?.count ?? 0,
+      count: drawCount ?? 0,
       percent:
-        drawCount?.count && gamesCountTotal?.count
-          ? (drawCount?.count / gamesCountTotal?.count) * 100
-          : 0,
+        drawCount && gamesCountTotal ? (drawCount / gamesCountTotal) * 100 : 0,
     },
   ]
 
   return {
-    data,
-    isLoading,
-    error,
-    isSuccess,
     gamesCountTotal,
     gamesCountTotalCat,
     winCountAwayTeam,
-    winCountAwayTeamCat,
+    winCountAwayTeamCat: winCountAwayTeamCat.filter(
+      (cat) => cat.category !== 'final'
+    ),
     winCountHomeTeam,
-    winCountHomeTeamCat,
+    winCountHomeTeamCat: winCountHomeTeamCat.filter(
+      (cat) => cat.category !== 'final'
+    ),
     drawCount,
-    drawCountCat,
+    drawCountCat: drawCountCat.filter((cat) => cat.category !== 'final'),
     pieChartData,
   }
 }

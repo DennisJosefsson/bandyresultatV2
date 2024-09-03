@@ -43,9 +43,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/games"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (
@@ -65,9 +67,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/tables"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (
@@ -87,9 +91,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/playoff"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (
@@ -109,9 +115,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/development"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (
@@ -131,9 +139,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/stats"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (
@@ -153,9 +163,11 @@ const SeasonTabBar = () => {
       {
         tab: (
           <Link
+            from="/season/$seasonId"
             to="/season/$seasonId/map"
             params={{ seasonId: seasonId }}
-            search={{ women: womenContext }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (

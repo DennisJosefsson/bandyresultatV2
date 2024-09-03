@@ -75,7 +75,6 @@ function Compare() {
 
 function ErrorComponent({ error }: { error: unknown }) {
   const compareObject = Route.useSearch()
-  console.log('ERROR', error)
 
   if (error && error instanceof AxiosError) {
     if (error.response?.status === 400) {

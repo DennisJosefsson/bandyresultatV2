@@ -3,6 +3,7 @@ import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComp
 import SeasonHeader from '@/components/Components/Season/SeasonHeader'
 import SeasonTabBar from '@/components/Components/Season/SeasonTabBar'
 import { Card, CardContent } from '@/components/ui/card'
+import { getSingleSeason } from '@/lib/requests/seasons'
 
 import {
   CatchBoundary,
@@ -12,15 +13,25 @@ import {
 } from '@tanstack/react-router'
 import { z } from 'zod'
 
-const seasonIdParser = z.string().length(4)
+const seasonIdParser = z
+  .string()
+  .length(4)
+  .refine((val) => parseInt(val) > 1906)
 
 export const Route = createFileRoute('/_layout/season/$seasonId')({
   component: Season,
   notFoundComponent: NotFound,
-  pendingComponent: Loading,
-  loader: ({ params }) => {
-    const parseSeasonId = seasonIdParser.safeParse(params.seasonId)
-    if (!parseSeasonId.success) throw notFound()
+  pendingComponent: () => <Loading page="singleSeason" />,
+  loader: async ({ params }) => {
+    const season = await getSingleSeason(params.seasonId)
+    if (
+      typeof season === 'object' &&
+      'errors' in season &&
+      season.errors === 'No such season'
+    ) {
+      throw notFound()
+    }
+    return season
   },
 })
 

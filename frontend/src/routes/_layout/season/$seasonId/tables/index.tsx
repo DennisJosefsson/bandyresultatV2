@@ -1,10 +1,23 @@
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
+import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableComponents/SeasonTablesButtonList'
 
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import {
+  CatchBoundary,
+  createFileRoute,
+  Outlet,
+  redirect,
+} from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/tables/')({
+  beforeLoad: ({ search, params }) => {
+    throw redirect({
+      to: '/season/$seasonId/tables/$table',
+      params: { table: 'all', seasonId: params.seasonId },
+      search: { women: search.women },
+    })
+  },
   component: Tables,
 })
 
@@ -29,7 +42,21 @@ function Tables() {
   return (
     <div>
       <SeasonTablesButtonList />
-      <Outlet />
+      <CatchBoundary
+        getResetKey={() => 'reset'}
+        onCatch={(error) => {
+          console.error(error)
+        }}
+        errorComponent={({ error, reset }) => (
+          <SimpleErrorComponent
+            id="Säsongstabell"
+            error={error}
+            reset={reset}
+          />
+        )}
+      >
+        <Outlet />
+      </CatchBoundary>
     </div>
   )
 }

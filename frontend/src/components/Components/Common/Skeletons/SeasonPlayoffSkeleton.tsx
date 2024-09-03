@@ -17,7 +17,7 @@ const SeasonPlayoffSkeleton = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
-          <Card className="col-start-2">
+          <Card className="lg:col-start-2">
             <CardHeader>
               <Skeleton className="w-full h-6" />
             </CardHeader>
@@ -25,7 +25,7 @@ const SeasonPlayoffSkeleton = () => {
               <Skeleton className="w-full h-6" />
             </CardContent>
           </Card>
-          <Card className="col-start-4">
+          <Card className="lg:col-start-4">
             <CardHeader>
               <Skeleton className="w-full h-6" />
             </CardHeader>

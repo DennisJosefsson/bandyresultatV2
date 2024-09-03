@@ -1,3 +1,4 @@
+import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import TeamsTabBar from '@/components/Components/Teams/TeamsTabBar'
 import { Card, CardContent } from '@/components/ui/card'
 import { getTeams } from '@/lib/requests/teams'
@@ -33,6 +34,9 @@ function TeamsHeader() {
             onCatch={(error) => {
               console.error(error)
             }}
+            errorComponent={({ error, reset }) => (
+              <SimpleErrorComponent id="teams" error={error} reset={reset} />
+            )}
           >
             <Outlet />
           </CatchBoundary>

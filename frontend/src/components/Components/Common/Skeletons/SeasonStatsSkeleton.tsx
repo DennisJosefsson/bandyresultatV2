@@ -7,7 +7,7 @@ const SeasonStatsSkeleton = () => {
       <h4 className="ml-2 text-xs font-bold md:text-sm xl:ml-0 xl:text-base">
         Match- och resultatstatistik
       </h4>
-      <div className="grid grid-cols-1 gap-y-4 pt-2 md:grid-cols-2 md:gap-x-20 lg:grid-cols-3 xl:gap-x-44">
+      <div className="grid grid-cols-1 gap-y-4 pt-2 md:grid-cols-2 md:gap-x-20 lg:grid-cols-3 xl:gap-x-44 mb-2">
         <div>
           {Array.from({ length: 6 }).map((_i, index) => {
             return <Skeleton key={index} className="h-9 w-full mb-1" />

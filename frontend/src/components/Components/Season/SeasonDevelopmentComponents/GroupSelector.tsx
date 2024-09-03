@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { CarouselApi } from '@/components/ui/carousel'
 import { sortOrder } from '@/lib/utils/constants'
 import { Dispatch, SetStateAction } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 type GroupArrayObject = {
   group: string
   serieName: string
@@ -26,9 +27,10 @@ const GroupSelector = ({
   api,
   dateApi,
 }: GroupSelectorProps) => {
+  const matches = useMediaQuery('(min-width: 600px)')
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+      <div className="flex flex-row gap-1 justify-center">
         {groupArray
           .sort((a, b) => {
             if (sortOrder.indexOf(a.group) > sortOrder.indexOf(b.group)) {
@@ -52,7 +54,7 @@ const GroupSelector = ({
                   dateApi && dateApi.scrollTo(0)
                 }}
                 className="truncate"
-                size="sm"
+                size={matches ? 'sm' : 'textxxs'}
                 variant={group === groupItem.group ? 'default' : 'outline'}
               >
                 {groupItem.serieName}
@@ -61,7 +63,7 @@ const GroupSelector = ({
           })}
       </div>
       {!groupName ? (
-        <div className="mt-2 grid place-content-center font-bold">
+        <div className="mt-2 grid place-content-center font-bold text-[10px] md:text-sm">
           Välj serie.
         </div>
       ) : null}

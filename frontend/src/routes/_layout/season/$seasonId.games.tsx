@@ -75,5 +75,5 @@ function ErrorComponent({
     return <div>{error.response?.data.errors}</div>
   }
 
-  return <div>Fel</div>
+  return <div className="flex flex-row justify-center">Något gick fel.</div>
 }

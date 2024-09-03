@@ -2,7 +2,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { SearchParamsFields } from '@/lib/types/games/search'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useDebounceValue } from 'usehooks-ts'
 
 type NumberInputProps = {
   field: Extract<
@@ -19,19 +20,22 @@ const NumberInput = ({ field, label, placeholder }: NumberInputProps) => {
     select: (search) => search[field],
   })
   const [input, setInput] = useState(searchField?.toString() ?? '')
+  const [debouncedValue, setValue] = useDebounceValue(input, 500)
   const navigate = useNavigate({ from: '/search' })
 
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
     navigate({
       search: (prev) => ({
         ...prev,
         [field]:
-          event.target.value.length === 0
-            ? undefined
-            : parseInt(event.target.value),
+          debouncedValue.length === 0 ? undefined : parseInt(debouncedValue),
       }),
     })
+  }, [debouncedValue, field, navigate])
+
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value)
+    setValue(event.target.value)
   }
 
   return (

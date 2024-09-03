@@ -5,7 +5,7 @@ const DefaultNotFound = () => {
   return (
     <>
       <Header />
-      <div>
+      <div className="flex flex-row justify-center">
         <p>
           Glöggen är slut och länken finns inte, dags att ta sig{' '}
           <Link to="/" className="text-blue-700">

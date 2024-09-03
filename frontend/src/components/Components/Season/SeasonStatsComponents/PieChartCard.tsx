@@ -61,6 +61,7 @@ const PieChartCard = ({ data }: PieChartCardProps) => {
         height={280}
         margin={{
           right: 60,
+          left: 20,
         }}
       >
         <Pie

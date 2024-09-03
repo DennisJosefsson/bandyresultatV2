@@ -4,9 +4,11 @@ import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import { useMapData } from '@/lib/hooks/dataHooks/map/useMapData'
 
 import { getSingleSeason } from '@/lib/requests/seasons'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLocation } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
 import { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { useEffect, useRef } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 
@@ -14,6 +16,9 @@ export const Route = createFileRoute('/_layout/season/$seasonId/map')({
   component: Map,
   pendingComponent: () => <Loading page="seasonMap" />,
   loader: ({ params }) => getSingleSeason(params.seasonId),
+  errorComponent: ({ error, reset }) => (
+    <ErrorComponent error={error} reset={reset} />
+  ),
 })
 
 function Map() {
@@ -67,4 +72,25 @@ function Map() {
       )}
     </div>
   )
+}
+
+function ErrorComponent({
+  error,
+  reset,
+}: {
+  error: unknown
+  reset: () => void
+}) {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const errorLocation = useRef(pathname)
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      reset()
+    }
+  }, [pathname, reset])
+  if (error && error instanceof AxiosError && error.response?.status === 404) {
+    return <div>{error.response?.data.errors}</div>
+  }
+
+  return <div className="flex flex-row justify-center">Något gick fel.</div>
 }

@@ -1,39 +1,27 @@
-import { useGetSeasonStats } from './useGetSeasonStats'
+import { useLoaderData } from '@tanstack/react-router'
 
-export const useGetStreakStats = (seasonId: string, women: boolean) => {
-  const { data, isLoading, error, isSuccess } = useGetSeasonStats(seasonId)
-
-  const unbeatenStreak = data?.unbeatenStreak.filter(
-    (table) => table.women === women
-  )
-  const winStreak = data?.winStreak.filter((table) => table.women === women)
-  const drawStreak = data?.drawStreak.filter((table) => table.women === women)
-  const noWinStreak = data?.noWinStreak.filter((table) => table.women === women)
-  const losingStreak = data?.losingStreak.filter(
-    (table) => table.women === women
-  )
-
-  const maxGoalsMen = data?.maxGoalsMen
-  const minGoalsMen = data?.minGoalsMen
-  const maxDiffMen = data?.maxDiffMen
-  const maxGoalsWomen = data?.maxGoalsWomen
-  const minGoalsWomen = data?.minGoalsWomen
-  const maxDiffWomen = data?.maxDiffWomen
-
-  return {
-    isLoading,
-    error,
-    isSuccess,
+export const useGetStreakStats = () => {
+  const {
     unbeatenStreak,
     winStreak,
     drawStreak,
     noWinStreak,
     losingStreak,
-    maxGoalsMen,
-    minGoalsMen,
-    maxDiffMen,
-    maxGoalsWomen,
-    minGoalsWomen,
-    maxDiffWomen,
+    maxGoals,
+    minGoals,
+    maxDiff,
+  } = useLoaderData({
+    from: '/_layout/season/$seasonId/stats',
+  })
+
+  return {
+    unbeatenStreak,
+    winStreak,
+    drawStreak,
+    noWinStreak,
+    losingStreak,
+    maxGoals,
+    minGoals,
+    maxDiff,
   }
 }

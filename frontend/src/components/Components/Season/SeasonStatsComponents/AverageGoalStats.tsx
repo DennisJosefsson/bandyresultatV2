@@ -1,10 +1,7 @@
-import { useGetGoalStats } from '@/lib/hooks/dataHooks/stats/useGetGoalStats'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import GoalStatsCard from './GoalStatsCard'
 
 const AverageGoalStats = () => {
-  const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useSearch({ from: '/_layout' })
   const {
     goalsScoredAverage,
     goalsScoredAverageCat,
@@ -12,7 +9,9 @@ const AverageGoalStats = () => {
     goalsScoredHomeAverageCat,
     goalsScoredAwayAverage,
     goalsScoredAwayAverageCat,
-  } = useGetGoalStats(seasonId, women)
+  } = useLoaderData({
+    from: '/_layout/season/$seasonId/stats',
+  })
 
   return (
     <>

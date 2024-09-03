@@ -1,9 +1,10 @@
+import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import Header from '@/components/Components/Header/Header'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { Toaster } from '@/components/ui/toaster'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { z } from 'zod'
 
@@ -29,7 +30,17 @@ function LayoutComponent() {
       <Header />
       <Toaster />
       <ScrollArea className="content-container">
-        <Outlet />
+        <CatchBoundary
+          getResetKey={() => 'reset'}
+          onCatch={(error) => {
+            console.error(error)
+          }}
+          errorComponent={({ error, reset }) => (
+            <SimpleErrorComponent id="layout" error={error} reset={reset} />
+          )}
+        >
+          <Outlet />
+        </CatchBoundary>
       </ScrollArea>
     </div>
   )

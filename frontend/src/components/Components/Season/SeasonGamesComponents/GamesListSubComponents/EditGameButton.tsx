@@ -22,7 +22,7 @@ const EditGameButton = ({
   deleteButtonOnClick,
 }: EditGameButtonProps) => {
   const matches = useMediaQuery('(min-width: 768px)')
-  console.log(game.gameId)
+
   return (
     <div>
       <DropdownMenu>

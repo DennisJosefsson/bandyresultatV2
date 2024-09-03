@@ -24,9 +24,10 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
   const { women } = useSearch({ from: '/_layout' })
   const baseLinePosition = women ? 10 : 17
   const baseLineSeasonId = women ? 161 : 101
-  console.log({ chartData })
+
   const positionChart: PositionType[] = chartData
     .filter((year) => year.seasonId > baseLineSeasonId)
+    .filter((year) => year.position !== null)
     .map((year) => {
       return {
         year: year.year.slice(-4),
@@ -35,10 +36,6 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
         points: year.points,
       }
     })
-
-  console.log({ positionChart })
-
-  // const lastYear = women ? 2015 : 2008
 
   if (positionChart.length === 0) return null
 
@@ -51,7 +48,14 @@ const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-1 md:p-6">
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer
+            width={
+              positionChart.length > 5
+                ? '100%'
+                : positionChart.length * 40 + 100
+            }
+            height={350}
+          >
             <BarChart data={positionChart}>
               <XAxis
                 dataKey="year"

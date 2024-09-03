@@ -3,7 +3,9 @@ import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableCo
 import StaticTables from '@/components/Components/Season/SeasonTableComponents/StaticTables'
 import TableList from '@/components/Components/Season/SeasonTableComponents/TableList'
 import { getSingleSeasonTable } from '@/lib/requests/tables'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useLocation } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute(
   '/_layout/season/$seasonId/tables/_table/$table'
@@ -25,13 +27,17 @@ export const Route = createFileRoute(
     }
   },
   component: Table,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="seasonTable" />,
   loader: ({ deps, params }) =>
     getSingleSeasonTable({
       seasonId: params.seasonId,
       table: params.table,
       women: deps.women,
     }),
+
+  errorComponent: ({ error, reset }) => (
+    <ErrorComponent error={error} reset={reset} />
+  ),
 })
 
 function Table() {
@@ -56,4 +62,25 @@ function Table() {
       </div>
     </div>
   )
+}
+
+function ErrorComponent({
+  error,
+  reset,
+}: {
+  error: unknown
+  reset: () => void
+}) {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const errorLocation = useRef(pathname)
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      reset()
+    }
+  }, [pathname, reset])
+  if (error && error instanceof AxiosError && error.response?.status === 404) {
+    return <div>{error.response?.data.errors}</div>
+  }
+
+  return <div className="flex flex-row justify-center">Något gick fel.</div>
 }

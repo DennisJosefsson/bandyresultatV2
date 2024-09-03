@@ -6,18 +6,20 @@ import AnimationTable from '@/components/Components/Season/SeasonDevelopmentComp
 import GroupSelector from '@/components/Components/Season/SeasonDevelopmentComponents/GroupSelector'
 import { CarouselApi } from '@/components/ui/carousel'
 import useDevelopmentData from '@/lib/hooks/dataHooks/development/useDevelopmentData'
-import { developmentQueries } from '@/lib/queries/development/queries'
-import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { getAnimation } from '@/lib/requests/games'
+import { createFileRoute, useLocation } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { useEffect, useRef, useState } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/development')({
+  loaderDeps: ({ search: { women } }) => ({ women }),
   component: Development,
   pendingComponent: () => <Loading page="seasonDevelopment" />,
-  loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(
-      developmentQueries['data'](params.seasonId)
-    )
-  },
+  loader: ({ deps, params }) =>
+    getAnimation({ seasonId: params.seasonId, women: deps.women }),
+  errorComponent: ({ error, reset }) => (
+    <ErrorComponent error={error} reset={reset} />
+  ),
 })
 
 function Development() {
@@ -33,9 +35,9 @@ function Development() {
     seriesArray,
     dateArray,
     dateArrayLength,
-    animationObject,
+    data,
     justDatesArray,
-  } = useDevelopmentData(seasonId, group, setGroup, setRound, api, dateApi)
+  } = useDevelopmentData(group, setGroup, setRound, api, dateApi)
   const { women } = Route.useSearch()
 
   useEffect(() => {
@@ -51,7 +53,7 @@ function Development() {
     return <NoWomenSeason />
   }
 
-  if (animationObject && animationObject.length === 0) {
+  if (data && data.length === 0) {
     return (
       <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-sm font-bold text-foreground md:text-base">
         <p className="mx-10 text-center">
@@ -61,10 +63,10 @@ function Development() {
     )
   }
 
-  if (animationObject && animationObject.length > 0) {
+  if (data && data.length > 0) {
     return (
-      <div className="mx-auto flex flex-col pt-2 font-inter text-foreground">
-        {animationObject.games.length > 1 && (
+      <div className="w-full mx-auto flex flex-col pt-2 font-inter text-foreground">
+        {data.games.length > 1 && (
           <GroupSelector
             groupArray={groupArray}
             setRound={setRound}
@@ -76,7 +78,7 @@ function Development() {
           />
         )}
 
-        {groupName !== '' && animationObject.games.length > 0 && (
+        {groupName !== '' && data.games.length > 0 && (
           <div>
             <AnimationClicker
               arrayLength={dateArrayLength}
@@ -104,4 +106,25 @@ function Development() {
       </div>
     )
   }
+}
+
+function ErrorComponent({
+  error,
+  reset,
+}: {
+  error: unknown
+  reset: () => void
+}) {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const errorLocation = useRef(pathname)
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      reset()
+    }
+  }, [pathname, reset])
+  if (error && error instanceof AxiosError && error.response?.status === 404) {
+    return <div>{error.response?.data.errors}</div>
+  }
+
+  return <div className="flex flex-row justify-center">Något gick fel.</div>
 }

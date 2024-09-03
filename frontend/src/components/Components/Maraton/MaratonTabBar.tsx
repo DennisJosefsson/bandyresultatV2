@@ -70,7 +70,7 @@ const MaratonTabBar = () => {
       {
         tab: (
           <Link
-            to="/maraton/$table"
+            to="/maraton/table/$table"
             params={{ table: 'all' }}
             search={{ women: women }}
           >
@@ -89,7 +89,7 @@ const MaratonTabBar = () => {
           <Link
             to="/maraton/records"
             search={{ women: women }}
-            activeOptions={{ includeSearch: false, exact: true }}
+            activeOptions={{ includeSearch: false }}
           >
             {({ isActive }) => {
               return (

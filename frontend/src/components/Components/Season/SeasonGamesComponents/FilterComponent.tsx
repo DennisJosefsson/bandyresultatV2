@@ -19,8 +19,6 @@ const FilterComponent = () => {
     }
   }
 
-  console.log(teamFilter)
-
   const handleCopy = () => {
     const baseUrl = import.meta.env.PROD
       ? 'https://bandyresultat.se'

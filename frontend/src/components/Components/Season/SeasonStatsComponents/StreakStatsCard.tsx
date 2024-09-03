@@ -1,6 +1,5 @@
 import Date from '@/components/Components/Common/Date'
 type StreakType = {
-  women: boolean
   team: number
   casual_name: string
   game_count: number

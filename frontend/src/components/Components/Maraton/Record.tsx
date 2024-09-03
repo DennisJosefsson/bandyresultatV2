@@ -1,6 +1,7 @@
+import SimpleErrorComponent from '../Common/SimpleErrorComponent'
 import RecordHeader from './RecordSubComponents/RecordHeader'
 
-import { Outlet } from '@tanstack/react-router'
+import { CatchBoundary, Outlet } from '@tanstack/react-router'
 
 const Record = () => {
   return (
@@ -8,7 +9,17 @@ const Record = () => {
       <div className="flex flex-col">
         <RecordHeader />
         <div>
-          <Outlet />
+          <CatchBoundary
+            getResetKey={() => 'reset'}
+            onCatch={(error) => {
+              console.error(error)
+            }}
+            errorComponent={({ error, reset }) => (
+              <SimpleErrorComponent id="record" error={error} reset={reset} />
+            )}
+          >
+            <Outlet />
+          </CatchBoundary>
         </div>
       </div>
     </div>

@@ -1,18 +1,17 @@
-import { useGetGameResultStats } from '@/lib/hooks/dataHooks/stats/useGetGameResultStats'
 import { groupConstant } from '@/lib/utils/constants'
 import { sortStatsCat } from '@/lib/utils/sortFunction'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import GameResultStatsCard from './GameResultStatsCard'
 
 const ResultCatCountStats = () => {
-  const { seasonId } = useParams({ from: '/_layout/season/$seasonId/stats' })
-  const { women } = useSearch({ from: '/_layout' })
   const {
-    gamesCountTotalCat,
     winCountAwayTeamCat,
     winCountHomeTeamCat,
     drawCountCat,
-  } = useGetGameResultStats(seasonId, women)
+    gamesCountTotalCat,
+  } = useLoaderData({
+    from: '/_layout/season/$seasonId/stats',
+  })
 
   return (
     <>

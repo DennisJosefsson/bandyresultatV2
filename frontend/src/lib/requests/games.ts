@@ -51,18 +51,26 @@ export const getSeasonGames = async ({
   return response.data
 }
 
-export const getSeasonStats = async (
+export const getSeasonStats = async ({
+  seasonId,
+  women,
+}: {
   seasonId: string
-): Promise<SeasonStatsObjectType> => {
-  const response = await gamesApi.get(`/stats/${seasonId}`)
+  women: boolean
+}): Promise<SeasonStatsObjectType> => {
+  const response = await gamesApi.get(`/stats/${seasonId}?women=${women}`)
 
   return response.data
 }
 
-export const getAnimation = async (
+export const getAnimation = async ({
+  seasonId,
+  women,
+}: {
   seasonId: string
-): Promise<AnimationObject> => {
-  const response = await gamesApi.get(`/animation/${seasonId}`)
+  women: boolean
+}): Promise<AnimationObject> => {
+  const response = await gamesApi.get(`/animation/${seasonId}?women=${women}`)
 
   return response.data
 }

@@ -1,32 +1,35 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import StatsComponent from '@/components/Components/Season/SeasonStatsComponents/StatsComponent'
-import { useGetSeasonStats } from '@/lib/hooks/dataHooks/stats/useGetSeasonStats'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { statsQueries } from '@/lib/queries/stats/queries'
-import { createFileRoute } from '@tanstack/react-router'
+import { getSeasonStats } from '@/lib/requests/games'
+import { createFileRoute, useLocation } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
+import { useEffect, useRef } from 'react'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/stats')({
   component: Stats,
   pendingComponent: () => <Loading page="seasonStats" />,
-  loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(statsQueries['data'](params.seasonId))
-  },
+  loaderDeps: ({ search: { women } }) => ({ women }),
+  loader: ({ deps, params }) =>
+    getSeasonStats({ seasonId: params.seasonId, women: deps.women }),
+  errorComponent: ({ error, reset }) => (
+    <ErrorComponent error={error} reset={reset} />
+  ),
 })
 
 function Stats() {
   const { seasonId } = Route.useParams()
-  const { data } = useGetSeasonStats(seasonId)
+  const data = Route.useLoaderData()
 
   const { women } = Route.useSearch()
 
-  const gameCount =
-    data.gamesCountTotal.find((item) => item.women === women)?.count ?? 0
-
   useScrollTo()
-
+  if (women && parseInt(seasonId) < 1973) {
+    return <NoWomenSeason />
+  }
   if (
-    gameCount === 0 ||
+    data.gamesCountTotal === 0 ||
     (women && (parseInt(seasonId) === 1973 || parseInt(seasonId) === 1974))
   ) {
     return (
@@ -36,9 +39,26 @@ function Stats() {
     )
   }
 
-  if (women && parseInt(seasonId) < 1973) {
-    return <NoWomenSeason />
+  return <>{<StatsComponent />}</>
+}
+
+function ErrorComponent({
+  error,
+  reset,
+}: {
+  error: unknown
+  reset: () => void
+}) {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const errorLocation = useRef(pathname)
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      reset()
+    }
+  }, [pathname, reset])
+  if (error && error instanceof AxiosError && error.response?.status === 404) {
+    return <div>{error.response?.data.errors}</div>
   }
 
-  return <>{data && <StatsComponent />}</>
+  return <div className="flex flex-row justify-center">Något gick fel.</div>
 }

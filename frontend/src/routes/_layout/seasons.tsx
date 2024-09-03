@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_layout/seasons')({
   loader: () => getSeasons(),
   component: Seasons,
   pendingComponent: () => <Loading page="seasonList" />,
-  errorComponent: () => <div>Oj, här gick något fel.</div>,
+  errorComponent: () => <div>Oj, här gick något jättefel.</div>,
 })
 
 function Seasons() {
