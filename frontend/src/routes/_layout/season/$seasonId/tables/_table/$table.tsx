@@ -41,7 +41,7 @@ export const Route = createFileRoute(
 })
 
 function Table() {
-  const { seasonId } = Route.useParams()
+  const { seasonId, table } = Route.useParams()
   const women = Route.useSearch({ select: (search) => search.women })
   const tableArray = Route.useLoaderData({
     select: (search) => search.tabeller,
@@ -57,7 +57,11 @@ function Table() {
         {women && ['1973', '1974'].includes(seasonId) ? (
           <StaticTables tableArray={staticTableArray} />
         ) : (
-          <TableList tableArray={tableArray} />
+          <TableList
+            tableArray={tableArray}
+            table={table}
+            seasonId={seasonId}
+          />
         )}
       </div>
     </div>

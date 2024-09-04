@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { CompareFormState } from '@/lib/types/teams/teams'
+import {
+  getOrigin,
+  resetOrigin,
+} from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { useNavigate } from '@tanstack/react-router'
 import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
 
 type CompareHeaderProps = {
@@ -12,9 +17,21 @@ type CompareHeaderProps = {
 const Buttons = ({ link, length }: { link: string; length: number }) => {
   const [copiedText, copy] = useCopyToClipboard()
   const matches = useMediaQuery('(min-width: 430px)')
+  const { origin } = getOrigin()
+  const navigate = useNavigate()
+
+  const goBack = () => {
+    origin && navigate({ to: origin })
+    resetOrigin()
+  }
 
   return (
     <div className="mb-2 flex flex-row justify-end gap-2 xl:mb-6">
+      {origin ? (
+        <Button size={matches ? 'sm' : 'xxs'} onClick={goBack}>
+          Tillbaka
+        </Button>
+      ) : null}
       {length > 0 && (
         <Button onClick={() => copy(link)} size={matches ? 'sm' : 'xxs'}>
           {copiedText ? 'Kopierad!' : `Länk`}

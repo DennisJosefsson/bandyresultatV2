@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { getSeasons } from '@/lib/requests/seasons'
 import { CatchBoundary, createFileRoute } from '@tanstack/react-router'
-import { KeyboardEvent, useState } from 'react'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/_layout/seasons')({
   loader: () => getSeasons(),
@@ -20,12 +20,6 @@ function Seasons() {
   const seasons = Route.useLoaderData()
 
   useScrollTo()
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-    }
-  }
 
   return (
     <div className="mx-auto mb-2 min-h-screen w-full px-1 font-inter text-foreground">
@@ -47,7 +41,6 @@ function Seasons() {
             <FilterComponent
               seasonFilter={seasonFilter}
               setSeasonFilter={setSeasonFilter}
-              handleKeyDown={handleKeyDown}
             />
 
             <div className="self-center">

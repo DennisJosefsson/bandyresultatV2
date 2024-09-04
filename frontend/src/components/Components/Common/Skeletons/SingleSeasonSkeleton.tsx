@@ -6,7 +6,7 @@ import SeasonTabBar from '../../Season/SeasonTabBar'
 
 const SingleSeasonSkeleton = () => {
   return (
-    <div>
+    <div className="w-full">
       <Card className="mb-2">
         <CardContent className="max-w-full">
           <div className="pt-2 mb-1 flex gap-10 items-center justify-center sm:mb-2 xl:mb-4">

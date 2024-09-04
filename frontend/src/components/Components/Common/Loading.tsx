@@ -10,6 +10,7 @@ import SeasonMapSkeleton from './Skeletons/SeasonMapSkeleton'
 import SeasonPlayoffSkeleton from './Skeletons/SeasonPlayoffSkeleton'
 import SeasonStatsSkeleton from './Skeletons/SeasonStatsSkeleton'
 import SeasonTableSkeleton from './Skeletons/SeasonTableSkeleton'
+import SingleSeasonSkeleton from './Skeletons/SingleSeasonSkeleton'
 import SingleTeamSkeleton from './Skeletons/SingleTeamSkeleton'
 import StreaksSkeleton from './Skeletons/StreaksSkeleton'
 import TeamListSkeleton from './Skeletons/TeamListSkeleton'
@@ -41,7 +42,7 @@ const Loading = ({ page }: LoadingProps) => {
   let content
   switch (page) {
     case 'singleSeason':
-      content = <SingleTeamSkeleton />
+      content = <SingleSeasonSkeleton />
       break
     case 'seasonList':
       content = <SeasonListSkeleton />

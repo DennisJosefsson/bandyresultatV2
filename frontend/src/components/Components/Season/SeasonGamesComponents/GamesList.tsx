@@ -1,5 +1,7 @@
 import Date from '@/components/Components/Common/Date'
 import { SortedGamesType } from '@/lib/types/games/games'
+import { Link, useParams } from '@tanstack/react-router'
+import { Link as LinkIcon } from 'lucide-react'
 import GamesListItem from './GamesListSubComponents/GamesListItem'
 
 type GameListProps = {
@@ -8,6 +10,10 @@ type GameListProps = {
 }
 
 const GamesList = ({ gamesArray, title }: GameListProps) => {
+  const seasonId = useParams({
+    from: '/_layout/season/$seasonId/games',
+    select: (params) => params.seasonId,
+  })
   if (gamesArray.length === 0) return null
   return (
     <div className="mb-6 w-full font-inter">
@@ -18,10 +24,22 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
         {gamesArray.map((group) => {
           return (
             <div key={group.group} className="mb-6">
-              <h3 className="text-[10px] font-semibold text-primary md:text-xs">
-                {group.name}
-              </h3>
-
+              <div
+                id={group.group}
+                className="flex flex-row gap-1 items-center mb-0.5 group"
+              >
+                <h3 className="text-[10px] font-semibold text-primary md:text-xs">
+                  {group.name}
+                </h3>
+                <Link
+                  from="/season/$seasonId/games"
+                  params={{ seasonId: seasonId }}
+                  hash={group.group}
+                  search={(prev) => ({ ...prev })}
+                >
+                  <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
+                </Link>
+              </div>
               {group.comment && (
                 <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold">
                   {group.comment}
@@ -32,9 +50,22 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                   return (
                     <div key={date.date}>
                       {date.date !== 'null' && (
-                        <h3 className="text-[0.75rem] md:text-sm">
-                          <Date>{date.date}</Date>
-                        </h3>
+                        <div className="flex flex-row gap-1 items-center mb-0.5 group">
+                          <h3
+                            className="text-[0.75rem] md:text-sm"
+                            id={`${group.group}-${date.date}`}
+                          >
+                            <Date>{date.date}</Date>
+                          </h3>
+                          <Link
+                            from="/season/$seasonId/games"
+                            params={{ seasonId: seasonId }}
+                            hash={`${group.group}-${date.date}`}
+                            search={(prev) => ({ ...prev })}
+                          >
+                            <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
+                          </Link>
+                        </div>
                       )}
                       {date.games.map((game) => {
                         return <GamesListItem key={game.gameId} game={game} />

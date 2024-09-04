@@ -7,6 +7,7 @@ import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { AxiosError } from 'axios'
 
 export const Route = createFileRoute('/_layout/teams/compare')({
@@ -18,6 +19,7 @@ export const Route = createFileRoute('/_layout/teams/compare')({
 function Compare() {
   const compareObject = Route.useSearch()
   const { data: compareData, compareLink } = useCompareResults(compareObject)
+  useScrollTo()
 
   return (
     <>

@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
 import { GameObjectType } from '@/lib/types/games/games'
-import { useNavigate } from '@tanstack/react-router'
+import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 type GamesListItemProps = {
@@ -11,10 +12,15 @@ type GamesListItemProps = {
 const GamesListItem = ({ game }: GamesListItemProps) => {
   const { favTeams } = useTeampreferenceContext()
   const navigate = useNavigate({ from: '/season/$seasonId/games' })
-
+  const pathName = useLocation().pathname
   const matches = useMediaQuery('(min-width: 768px)')
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
 
-  const onClickHandler = () => {
+  const onClickHandler = (gameId: number) => {
+    setOrigin(`${pathName}?women=${women}#${gameId}`)
     navigate({
       to: '/teams/compare',
       search: (prev) => ({
@@ -25,8 +31,11 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
   }
 
   return (
-    <div key={game.gameId} className="flex w-full flex-row items-center gap-1">
-      <div className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] ">
+    <div className="flex w-full flex-row items-center gap-1">
+      <div
+        id={game.gameId?.toString()}
+        className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+      >
         <span
           className={
             favTeams.includes(game.homeTeamId)
@@ -60,7 +69,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
         <Button
           size={matches ? 'sm' : 'xs'}
           variant="ghost"
-          onClick={onClickHandler}
+          onClick={() => game.gameId && onClickHandler(game.gameId)}
         >
           H2H
         </Button>
