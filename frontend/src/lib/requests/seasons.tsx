@@ -16,6 +16,20 @@ export const getSeasons = async (): Promise<SeasonObjectType[]> => {
   return response.data
 }
 
+type PaginatedSeason = {
+  rows: SeasonObjectType[]
+  count: number
+}
+
+export const getPaginatedSeasons = async ({
+  page,
+}: {
+  page: number
+}): Promise<PaginatedSeason> => {
+  const response = await seasonsApi.get(`/paginated?page=${page}`)
+  return response.data
+}
+
 export const getSingleSeason = async (
   seasonId: string
 ): Promise<SeasonObjectType[]> => {

@@ -24,7 +24,7 @@ const Header = () => {
         <nav className="hidden flex-col gap-6 text-lg font-medium lg:flex lg:flex-row lg:items-center lg:gap-6 lg:text-sm">
           <Link
             to="/seasons"
-            search={{ women: womenContext }}
+            search={{ women: womenContext, page: 1 }}
             className="text-foreground transition-colors hover:text-foreground"
           >
             Säsonger
@@ -94,7 +94,7 @@ const Header = () => {
 
               <Link
                 to="/seasons"
-                search={{ women: womenContext }}
+                search={{ women: womenContext, page: 1 }}
                 className="hover:text-foreground"
                 onClick={() => (open ? setOpen(false) : setOpen(true))}
               >

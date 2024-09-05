@@ -1,24 +1,25 @@
 import Loading from '@/components/Components/Common/Loading'
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
-import FilterComponent from '@/components/Components/Season/FilterComponent'
 import SeasonsList from '@/components/Components/Season/SeasonsList'
+import SeasonsPagination from '@/components/Components/Seasons/Pagination'
 import { Card, CardContent } from '@/components/ui/card'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
-import { getSeasons } from '@/lib/requests/seasons'
+import { getPaginatedSeasons } from '@/lib/requests/seasons'
 import { CatchBoundary, createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { z } from 'zod'
+
+const validateSearch = z.object({ page: z.number().catch(1) })
 
 export const Route = createFileRoute('/_layout/seasons')({
-  loader: () => getSeasons(),
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ deps }) => getPaginatedSeasons({ page: deps.page }),
   component: Seasons,
   pendingComponent: () => <Loading page="seasonList" />,
   errorComponent: () => <div>Oj, här gick något jättefel.</div>,
+  validateSearch: validateSearch,
 })
 
 function Seasons() {
-  const [seasonFilter, setSeasonFilter] = useState('')
-  const seasons = Route.useLoaderData()
-
   useScrollTo()
 
   return (
@@ -38,17 +39,12 @@ function Seasons() {
               />
             )}
           >
-            <FilterComponent
-              seasonFilter={seasonFilter}
-              setSeasonFilter={setSeasonFilter}
-            />
-
+            <SeasonsPagination />
             <div className="self-center">
-              <SeasonsList
-                seasons={seasons.filter((season) =>
-                  season.year.includes(seasonFilter)
-                )}
-              />
+              <SeasonsList />
+            </div>
+            <div className="sm:hidden">
+              <SeasonsPagination />
             </div>
           </CatchBoundary>
         </CardContent>
