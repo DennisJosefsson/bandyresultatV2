@@ -1,30 +1,49 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
+import { Op } from 'sequelize'
+import { z } from 'zod'
+import Metadata from '../models/Metadata.js'
 import Season from '../models/Season.js'
+import Serie from '../models/Serie.js'
+import Team from '../models/Team.js'
+import TeamSeason from '../models/TeamSeason.js'
+import TeamTable from '../models/TeamTable.js'
+import authControl from '../utils/middleware/authControl.js'
+import BadRequestError from '../utils/middleware/errors/BadRequestError.js'
+import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
+import IDCheck from '../utils/postFunctions/IDCheck.js'
 import newSeasonEntry, {
   fullNewSeason,
   newMetadataSeasons,
   newTeamSeasons,
   updateSeasonEntry,
 } from '../utils/postFunctions/newSeasonEntry.js'
-import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
-import { Op } from 'sequelize'
-import Team from '../models/Team.js'
-import Serie from '../models/Serie.js'
-import IDCheck from '../utils/postFunctions/IDCheck.js'
-import authControl from '../utils/middleware/authControl.js'
-import Metadata from '../models/Metadata.js'
-import TeamTable from '../models/TeamTable.js'
-import BadRequestError from '../utils/middleware/errors/BadRequestError.js'
-import TeamSeason from '../models/TeamSeason.js'
 
 const seasonRouter = Router()
+
+const parsedPage = z.coerce.number().catch(1)
+
+seasonRouter.get('/paginated', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const page = parsedPage.parse(req.query.page)
+  const seasons = await Season.findAndCountAll({
+    where: { women: false },
+    offset: (page - 1) * 12,
+    limit: 12,
+    order: [['seasonId', 'DESC']],
+  })
+
+  res.status(200).json(seasons)
+}) as RequestHandler)
 
 seasonRouter.get('/:seasonId', (async (
   req: Request,
