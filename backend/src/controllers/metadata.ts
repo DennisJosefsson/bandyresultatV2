@@ -1,18 +1,18 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
+import { Op } from 'sequelize'
 import Metadata from '../models/Metadata.js'
 import Season from '../models/Season.js'
-import { Op } from 'sequelize'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 
-import IDCheck from '../utils/postFunctions/IDCheck.js'
 import authControl from '../utils/middleware/authControl.js'
+import IDCheck from '../utils/postFunctions/IDCheck.js'
 import newMetadataEntry, {
   updateMetadataEntry,
 } from '../utils/postFunctions/newMetadataEntry.js'
@@ -23,7 +23,6 @@ metadataRouter.get('/:seasonId', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  console.log('seasonId ------->', req.params.seasonId)
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const metadata = await Metadata.findAll({
     include: {

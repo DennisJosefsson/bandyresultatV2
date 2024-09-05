@@ -1,3 +1,5 @@
+import dashboardGameRouter from '../controllers/dashboard/games.js'
+import dashboardSeasonRouter from '../controllers/dashboard/season.js'
 import errorRouter from '../controllers/error.js'
 import animationRouter from '../controllers/games/animation.js'
 import gameRouter from '../controllers/games/games.js'
@@ -40,4 +42,6 @@ export const routeArray = [
   { path: '/api/teamgames', router: teamgameRouter },
   { path: '/api/links', router: linkRouter },
   { path: '/api/errors', router: errorRouter },
+  { path: '/api/dashboard', router: dashboardGameRouter },
+  { path: '/api/dashboard', router: dashboardSeasonRouter },
 ]
