@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
-import { useGamesSingleSeason } from '@/lib/hooks/dataHooks/games/useGamesSingleSeason'
 import { postGame } from '@/lib/requests/games'
 import {
   GameFormObjectType,
@@ -17,15 +16,16 @@ import { sortOrder } from '@/lib/utils/constants'
 import { resetGame, useGameStore } from '@/lib/zustand/games/gameStore'
 import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSearch } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
+import {
+  useLoaderData,
+  useNavigate,
+  useParams,
+  useRouter,
+  useSearch,
+} from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { Dispatch, SetStateAction } from 'react'
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form'
-
-type GameFormPropTypes = {
-  setShowModal: Dispatch<SetStateAction<boolean>>
-}
 
 const ErrorComponent = ({ errors }: { errors: FieldErrors }) => {
   if (Object.keys(errors).length === 0) {
@@ -98,29 +98,45 @@ const categoryArray = [
   { value: 'qualification', label: 'Kvalmatch' },
 ]
 
-const GameForm = ({ setShowModal }: GameFormPropTypes) => {
-  const { genderSeason: season } = useGamesSingleSeason()
+const GameForm = () => {
+  const { teams, series } = useLoaderData({
+    from: '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit',
+  })
   const women = useSearch({
     from: '/_layout',
     select: (search) => search.women,
   })
+  const { seasonId, serieId } = useParams({
+    from: '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit',
+  })
+  const navigate = useNavigate({
+    from: '/dashboard/season/$seasonId/games/$serieId/$gameId/edit',
+  })
   const { toast } = useToast()
   const gameData = useGameStore((state) => state.game)
-  const client = useQueryClient()
+  const router = useRouter()
   const submitMutation = useMutation({
     mutationFn: (newGameData: GameFormObjectType) => postGame(newGameData),
     onSuccess: () => onSuccessSubmit(),
     onError: (error) => onErrorFunction(error),
   })
 
+  const close = () => {
+    resetGame()
+    navigate({
+      to: '/dashboard/season/$seasonId/games/$serieId',
+      search: { women },
+      params: { seasonId, serieId },
+    })
+  }
+
   const onSuccessSubmit = () => {
-    client.invalidateQueries({ queryKey: ['singleSeasonGames'] })
+    router.invalidate()
     toast({
       duration: 5000,
       title: 'Match inlagd/uppdaterad',
     })
-    resetGame()
-    setShowModal(false)
+    close()
   }
 
   const onErrorFunction = (error: unknown) => {
@@ -140,13 +156,13 @@ const GameForm = ({ setShowModal }: GameFormPropTypes) => {
     }
   }
 
-  const teamSelection = season[0].teams.map((team) => {
+  const teamSelection = teams.map((team) => {
     return { value: team.teamId, label: team.name }
   })
 
   teamSelection.push({ value: 176, label: 'Ej Bestämt' })
 
-  const groupArray = season[0].series
+  const groupArray = series
     .map((serie) => {
       return { value: serie.serieGroupCode, label: serie.serieName }
     })
@@ -163,7 +179,7 @@ const GameForm = ({ setShowModal }: GameFormPropTypes) => {
   const form = useForm<InputGameObjectType>({
     defaultValues: gameData
       ? initEdit(gameData)
-      : initAdd({ seasonId: season[0].seasonId, women }),
+      : initAdd({ seasonId: parseInt(seasonId), women }),
     criteriaMode: 'all',
     mode: 'onChange',
     resolver: zodResolver(inputGameObject),
@@ -196,14 +212,7 @@ const GameForm = ({ setShowModal }: GameFormPropTypes) => {
                   <CardTitle>Matchformulär</CardTitle>
                 </div>
                 <div className="flex flex-row gap-8">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={() => {
-                      resetGame()
-                      setShowModal(false)
-                    }}
-                  >
+                  <Button size="sm" variant="secondary" onClick={close}>
                     Stäng
                   </Button>
                   <Button size="sm" type="submit" form="GameForm">

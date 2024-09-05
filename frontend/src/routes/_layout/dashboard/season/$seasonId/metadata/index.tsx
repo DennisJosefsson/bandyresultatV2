@@ -1,25 +1,24 @@
 import Loading from '@/components/Components/Common/Loading'
-import BulkAddGame from '@/components/Components/Dashboard/Subcomponents/BulkAddGame/BulkAddGame'
+import MetadataForm from '@/components/Components/Dashboard/Subcomponents/MetadataForm'
 import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/_layout/dashboard/season/$seasonId/bulkgames'
+  '/_layout/dashboard/season/$seasonId/metadata/'
 )({
-  component: BulkGames,
+  component: Metadata,
   pendingComponent: Loading,
 })
 
-function BulkGames() {
+function Metadata() {
   const { seasonId } = Route.useParams()
   const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
-      <BulkAddGame
-        women={dashboardData.women}
+      <MetadataForm
         seasonId={parseInt(seasonId)}
+        metadataData={dashboardData.metadataData}
         teams={dashboardData.teamSeasonData}
-        series={dashboardData.seriesArray}
       />
     </div>
   )

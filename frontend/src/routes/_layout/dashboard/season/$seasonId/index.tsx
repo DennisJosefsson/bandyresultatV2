@@ -9,7 +9,7 @@ import {
   setDashboard,
   useDashboardStore,
 } from '@/lib/zustand/dashboard/dashboardStore'
-import { Navigate, createFileRoute } from '@tanstack/react-router'
+import { Link, Navigate, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/dashboard/season/$seasonId/')({
   component: SeasonIndex,
@@ -53,27 +53,12 @@ function SeasonIndex() {
                         navigate({
                           to: '/dashboard/season/$seasonId/teamseason',
                           params: { seasonId: seasonId },
+                          search: { women: dashboardData.women },
                         })
                       }}
                       size="sm"
                     >
                       Lägg till lag
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setDashboard({
-                          ...dashboardData,
-                          seriesArray: season.series,
-                          teamSeasonData: teamSeasonData,
-                        })
-                        navigate({
-                          to: '/dashboard/season/$seasonId/bulkgames',
-                          params: { seasonId: seasonId },
-                        })
-                      }}
-                      size="sm"
-                    >
-                      Lägg till matcher
                     </Button>
                   </div>
                 </div>
@@ -122,6 +107,7 @@ function SeasonIndex() {
                       navigate({
                         to: '/dashboard/season/$seasonId/newseries',
                         params: { seasonId: seasonId },
+                        search: { women: dashboardData.women },
                       })
                     }}
                     size="sm"
@@ -150,13 +136,26 @@ function SeasonIndex() {
                         }
                       })
                       .map((serie) => {
+                        if (!serie.serieId) return null
                         return (
                           <div
                             key={serie.serieId}
                             className="flex flex-row justify-between mb-1"
                           >
                             <div>{serie.serieName}</div>
-                            <div>
+                            <div className="flex flex-row gap-1">
+                              <Link
+                                to="/dashboard/season/$seasonId/games/$serieId"
+                                search={{ women: dashboardData.women }}
+                                params={{
+                                  seasonId: seasonId,
+                                  serieId: serie.serieId.toString(),
+                                }}
+                              >
+                                <Button size="sm" variant="outline">
+                                  Matcher
+                                </Button>
+                              </Link>
                               <Button
                                 onClick={() => {
                                   setDashboard({
@@ -166,6 +165,7 @@ function SeasonIndex() {
                                   navigate({
                                     to: '/dashboard/season/$seasonId/newseries',
                                     params: { seasonId: seasonId },
+                                    search: { women: dashboardData.women },
                                   })
                                 }}
                                 size="sm"
@@ -181,51 +181,79 @@ function SeasonIndex() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <div className="flex flex-row justify-between items-center">
-                  <CardTitle>Metadata</CardTitle>
-                  <Button
-                    onClick={() => {
-                      setDashboard({
-                        ...dashboardData,
-                        teamSeasonData: teamSeasonData,
-                        metadataData: metadataObject,
-                      })
-                      navigate({
-                        to: '/dashboard/season/$seasonId/metadata',
-                        params: { seasonId: seasonId },
-                      })
-                    }}
-                    size="sm"
-                  >
-                    Ändra metadata
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col gap-2 text-sm">
-                  <div></div>
-                  <div className="flex flex-col">
-                    <div className="flex flex-row items-center justify-between">
-                      <div>Finalstad:</div>{' '}
-                      <div>{metadataObject?.hostCity}</div>
-                    </div>
-                    <div className="flex flex-row items-center justify-between">
-                      <div>Finaldatum:</div>{' '}
-                      <div>{metadataObject?.finalDate}</div>
-                    </div>
-                    <div className="flex flex-row items-center justify-between">
-                      <div>SM-Guld:</div>
-                      <div> {metadataObject?.winnerName}</div>
-                    </div>
-                    <div className="flex flex-row items-center justify-between">
-                      <div>Kommentar:</div> <div>{metadataObject?.comment}</div>
+            <div className="flex flex-col gap-2">
+              <Card>
+                <CardHeader>
+                  <div className="flex flex-row justify-between items-center">
+                    <CardTitle>Nya matcher</CardTitle>
+                    <Button
+                      onClick={() => {
+                        setDashboard({
+                          ...dashboardData,
+                          seriesArray: season.series,
+                          teamSeasonData: teamSeasonData,
+                        })
+                        navigate({
+                          to: '/dashboard/season/$seasonId/bulkgames',
+                          params: { seasonId: seasonId },
+                          search: { women: dashboardData.women },
+                        })
+                      }}
+                      size="sm"
+                    >
+                      Lägg till
+                    </Button>
+                  </div>
+                </CardHeader>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="flex flex-row justify-between items-center">
+                    <CardTitle>Metadata</CardTitle>
+                    <Button
+                      onClick={() => {
+                        setDashboard({
+                          ...dashboardData,
+                          teamSeasonData: teamSeasonData,
+                          metadataData: metadataObject,
+                        })
+                        navigate({
+                          to: '/dashboard/season/$seasonId/metadata',
+                          params: { seasonId: seasonId },
+                          search: { women: dashboardData.women },
+                        })
+                      }}
+                      size="sm"
+                    >
+                      Ändra metadata
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col gap-2 text-sm">
+                    <div></div>
+                    <div className="flex flex-col">
+                      <div className="flex flex-row items-center justify-between">
+                        <div>Finalstad:</div>{' '}
+                        <div>{metadataObject?.hostCity}</div>
+                      </div>
+                      <div className="flex flex-row items-center justify-between">
+                        <div>Finaldatum:</div>{' '}
+                        <div>{metadataObject?.finalDate}</div>
+                      </div>
+                      <div className="flex flex-row items-center justify-between">
+                        <div>SM-Guld:</div>
+                        <div> {metadataObject?.winnerName}</div>
+                      </div>
+                      <div className="flex flex-row items-center justify-between">
+                        <div>Kommentar:</div>{' '}
+                        <div>{metadataObject?.comment}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       ) : null}
@@ -235,10 +263,12 @@ function SeasonIndex() {
 
 function OnErrorNavigate() {
   const { seasonId } = Route.useParams()
+  const women = Route.useSearch({ select: (search) => search.women })
   return (
     <Navigate
       to="/dashboard/season/$seasonId/teamseason"
       params={{ seasonId: seasonId }}
+      search={{ women: women }}
     />
   )
 }
