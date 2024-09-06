@@ -42,7 +42,7 @@ dashboardGameRouter.get('/games', (async (
       },
     ],
     order: [
-      ['group', 'ASC'],
+      ['played', 'ASC'],
       ['date', 'ASC'],
     ],
     raw: true,
