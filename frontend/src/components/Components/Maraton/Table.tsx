@@ -1,7 +1,6 @@
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { Outlet, useSearch } from '@tanstack/react-router'
 import MaratonTableHeader from './MaratonTableSubComponents/MaratonTableHeader'
-// import MaratonTables from './MaratonTableSubComponents/MaratonTables'
 
 const Table = () => {
   const { women } = useSearch({ from: '/_layout' })

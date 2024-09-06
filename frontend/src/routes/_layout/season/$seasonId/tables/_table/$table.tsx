@@ -2,6 +2,7 @@ import Loading from '@/components/Components/Common/Loading'
 import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableComponents/SeasonTablesButtonList'
 import StaticTables from '@/components/Components/Season/SeasonTableComponents/StaticTables'
 import TableList from '@/components/Components/Season/SeasonTableComponents/TableList'
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { getSingleSeasonTable } from '@/lib/requests/tables'
 import { createFileRoute, redirect, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
@@ -49,6 +50,7 @@ function Table() {
   const staticTableArray = Route.useLoaderData({
     select: (search) => search.staticTables,
   })
+  useScrollTo()
 
   return (
     <div>

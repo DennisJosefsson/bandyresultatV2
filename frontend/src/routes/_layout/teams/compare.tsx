@@ -7,6 +7,7 @@ import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { AxiosError } from 'axios'
 

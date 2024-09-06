@@ -2,6 +2,7 @@ import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import StatsComponent from '@/components/Components/Season/SeasonStatsComponents/StatsComponent'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
+
 import { getSeasonStats } from '@/lib/requests/games'
 import { createFileRoute, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'

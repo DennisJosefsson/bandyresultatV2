@@ -1,8 +1,8 @@
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 
 import { useLoaderData, useParams, useSearch } from '@tanstack/react-router'
 
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { NoWomenSeason } from '../../Common/NoWomenSeason'
 import Games from './Games'
 

@@ -4,6 +4,7 @@ import SeasonsList from '@/components/Components/Season/SeasonsList'
 import SeasonsPagination from '@/components/Components/Seasons/Pagination'
 import { Card, CardContent } from '@/components/ui/card'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
+
 import { getPaginatedSeasons } from '@/lib/requests/seasons'
 import { CatchBoundary, createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'

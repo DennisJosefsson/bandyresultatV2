@@ -2,7 +2,6 @@ import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableComponents/SeasonTablesButtonList'
 
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import {
   CatchBoundary,
   createFileRoute,
@@ -24,7 +23,6 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables/')({
 function Tables() {
   const { seasonId } = Route.useParams()
   const { women } = Route.useSearch()
-  useScrollTo()
 
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />

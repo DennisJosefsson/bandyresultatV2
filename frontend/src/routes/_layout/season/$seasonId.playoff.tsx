@@ -3,6 +3,7 @@ import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonPlayoffTables from '@/components/Components/Season/SeasonPlayoffComponents/SeasonPlayoffTables'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
+
 import { getSingleSeasonPlayoff } from '@/lib/requests/tables'
 import { createFileRoute, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
