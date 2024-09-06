@@ -1,20 +1,18 @@
-import { useNavigate, useLocation } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import { TabBarDivided } from '../Common/TabBar'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 
 const DashboardTabBar = () => {
-  const { women, dispatch } = useGenderContext()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   const navigate = useNavigate({ from: '/dashboard' })
   const pathName = useLocation().pathname
 
   const dashboardTabBarObject = {
     gender: (
-      <Button
-        onClick={() => {
-          dispatch({ type: 'TOGGLE' })
-        }}
-      >
+      <Button onClick={() => navigate({ search: { women: !women } })}>
         {women ? 'Herrar' : 'Damer'}
       </Button>
     ),
@@ -23,7 +21,7 @@ const DashboardTabBar = () => {
         tab: (
           <Button
             variant={pathName.endsWith('dashboard') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/dashboard' })}
+            onClick={() => navigate({ to: '/dashboard', search: { women } })}
           >
             Hem
           </Button>
@@ -35,7 +33,9 @@ const DashboardTabBar = () => {
         tab: (
           <Button
             variant={pathName.endsWith('errors') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/dashboard/errors' })}
+            onClick={() =>
+              navigate({ to: '/dashboard/errors', search: { women } })
+            }
           >
             Error
           </Button>
@@ -47,7 +47,9 @@ const DashboardTabBar = () => {
         tab: (
           <Button
             variant={pathName.endsWith('addTeams') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/dashboard/addTeams' })}
+            onClick={() =>
+              navigate({ to: '/dashboard/addTeams', search: { women } })
+            }
           >
             Nytt lag
           </Button>
@@ -60,7 +62,9 @@ const DashboardTabBar = () => {
         tab: (
           <Button
             variant={pathName.endsWith('newSeason') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/dashboard/newSeason' })}
+            onClick={() =>
+              navigate({ to: '/dashboard/newSeason', search: { women } })
+            }
           >
             Ny säsong
           </Button>
@@ -71,7 +75,9 @@ const DashboardTabBar = () => {
         tab: (
           <Button
             variant={pathName.endsWith('seasons') ? 'default' : 'outline'}
-            onClick={() => navigate({ to: '/dashboard/seasons' })}
+            onClick={() =>
+              navigate({ to: '/dashboard/seasons', search: { women } })
+            }
           >
             Säsonger
           </Button>

@@ -77,6 +77,7 @@ const NewSeriesForm = ({ women, seasonId, serieData }: NewSeriesFormProps) => {
     navigate({
       to: '/dashboard/season/$seasonId',
       params: { seasonId: seasonId.toString() },
+      search: { women },
     })
   }
 
@@ -98,6 +99,7 @@ const NewSeriesForm = ({ women, seasonId, serieData }: NewSeriesFormProps) => {
                 navigate({
                   to: '/dashboard/season/$seasonId',
                   params: { seasonId: seasonId.toString() },
+                  search: { women },
                 })
               }
             >

@@ -8,6 +8,7 @@ export const NoWomenSeason = () => {
         <Link
           to={'/season/$seasonId'}
           params={{ seasonId: '1973' }}
+          search={{ women: true }}
           className="font-bold"
         >
           1972/73

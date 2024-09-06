@@ -1,19 +1,8 @@
-//import { SheetContent } from '@/components/ui/sheet'
 import { SeasonObjectType } from '@/lib/types/season/seasons'
-// import { SerieAttributes } from '@/lib/types/series/series'
-// import {
-//   TeamAndSeasonAttributes,
-//   TeamSeasonAttributes,
-// } from '@/lib/types/teams/teams'
-// import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-// import { Sheet } from '@/components/ui/sheet'
-// import { useState } from 'react'
-// import SeriesModal from '../SeriesModal'
-// import SingleSeason from '../SingleSeason'
-// import BulkAddGame from './BulkAddGame/BulkAddGame'
-// import TeamSeasonForm from './TeamSeasonForm'
-// import MetadataForm from './MetadataForm'
-import { setDashboard } from '@/lib/zustand/dashboard/dashboardStore'
+import {
+  setDashboard,
+  useDashboardStore,
+} from '@/lib/zustand/dashboard/dashboardStore'
 import { useNavigate } from '@tanstack/react-router'
 
 export type FormContent =
@@ -25,18 +14,7 @@ export type FormContent =
 
 const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
   const navigate = useNavigate({ from: '/dashboard/seasons' })
-  // const [seasonId, setSeasonId] = useState<number>(0)
-  // const [year, setYear] = useState<string>('')
-  // const [open, setOpen] = useState<boolean>(false)
-  // const [teams, setTeams] = useState<TeamAndSeasonAttributes[] | null>(null)
-  // const [tab, setTab] = useState<string>('sections')
-  // const [formContent, setFormContent] = useState<FormContent>(null)
-  // const [women, setWomen] = useState<boolean>(false)
-  // const [serieData, setSerieData] = useState<SerieAttributes | null>(null)
-  // const [series, setSeries] = useState<SerieAttributes[] | null>(null)
-  // const [teamSeasonData, setTeamSeasonData] = useState<
-  //   TeamSeasonAttributes[] | null
-  // >(null)
+  const dashboardData = useDashboardStore((state) => state.dashboard)
 
   return (
     <>
@@ -61,6 +39,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                   className="cursor-pointer font-semibold"
                   onClick={() => {
                     setDashboard({
+                      ...dashboardData,
                       year: season.year,
                       women: season.women,
                       teamSeasonData: undefined,
@@ -69,6 +48,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                     navigate({
                       to: '/dashboard/season/$seasonId',
                       params: { seasonId: season.seasonId.toString() },
+                      search: { women: season.women },
                     })
                   }}
                 >

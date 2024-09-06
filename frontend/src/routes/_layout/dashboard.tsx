@@ -1,11 +1,11 @@
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
-import { Card, CardContent } from '@/components/ui/card'
 import DashboardTabBar from '@/components/Components/Dashboard/DashboardTabBar'
+import { Card, CardContent } from '@/components/ui/card'
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/dashboard')({
-  beforeLoad: ({ context }) => {
+  beforeLoad: ({ context, search }) => {
     if (!context.user) {
-      throw redirect({ to: '/unauthorized' })
+      throw redirect({ to: '/unauthorized', search: { women: search.women } })
     }
   },
   component: DashboardHeader,

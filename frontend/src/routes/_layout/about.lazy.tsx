@@ -1,5 +1,4 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 
 import kalenderbitare from '@/assets/kalenderbitare.png'
 
@@ -21,6 +20,7 @@ function About() {
             <Link
               to="/season/$seasonId/tables"
               params={{ seasonId: '1969' }}
+              search={{ women: false }}
               className="text-foreground transition-colors hover:text-foreground"
             >
               1968/69

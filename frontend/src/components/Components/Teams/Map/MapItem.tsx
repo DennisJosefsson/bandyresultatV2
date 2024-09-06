@@ -1,5 +1,5 @@
 import { Checkbox, CheckedState } from '@/components/ui/checkbox'
-import { Link } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 import { memo } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 
@@ -21,6 +21,10 @@ const MapItem = ({
   selectedTeams,
   onCheckedChange,
 }: MapItemProps) => {
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   return (
     <Marker key={team.teamId} position={position}>
       <Popup>
@@ -30,6 +34,7 @@ const MapItem = ({
             params={{
               teamId: team.teamId.toString(),
             }}
+            search={{ women }}
           >
             {team.casualName}
           </Link>

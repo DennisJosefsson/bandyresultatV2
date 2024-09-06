@@ -6,8 +6,9 @@ import { AxiosError } from 'axios'
 
 export const useAddTeamSeasonMutation = () => {
   const navigate = useNavigate()
-  const { seasonId } = useParams({
-    from: '/_layout/dashboard/season/$seasonId/teamseason',
+  const seasonId = useParams({
+    from: '/_layout/dashboard/season/$seasonId/teamseason/',
+    select: (params) => params.seasonId,
   })
   const women = useSearch({
     from: '/_layout/dashboard',

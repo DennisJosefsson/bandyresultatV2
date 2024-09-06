@@ -8,7 +8,7 @@ import { routeTree } from './routeTree.gen'
 const router = createRouter({
   routeTree,
   context: {
-    user: import.meta.env.PROD ? false : true,
+    user: false,
     queryClient,
     genderContext: undefined!,
   },

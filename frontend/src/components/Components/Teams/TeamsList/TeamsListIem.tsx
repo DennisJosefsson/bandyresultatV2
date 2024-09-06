@@ -31,6 +31,7 @@ const TeamsListItem = ({
         }
       >
         <Link
+          from="/teams"
           to="/team/$teamId"
           params={{ teamId: team.teamId.toString() }}
           search={(prev) => ({ ...prev })}
