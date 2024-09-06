@@ -1,3 +1,4 @@
+import dashboardDataRouter from '../controllers/dashboard/data.js'
 import dashboardGameRouter from '../controllers/dashboard/games.js'
 import dashboardSeasonRouter from '../controllers/dashboard/season.js'
 import errorRouter from '../controllers/error.js'
@@ -44,4 +45,5 @@ export const routeArray = [
   { path: '/api/errors', router: errorRouter },
   { path: '/api/dashboard', router: dashboardGameRouter },
   { path: '/api/dashboard', router: dashboardSeasonRouter },
+  { path: '/api/dashboard', router: dashboardDataRouter },
 ]
