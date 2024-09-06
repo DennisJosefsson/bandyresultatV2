@@ -35,3 +35,24 @@ export const getGameFormData = async ({
 
   return response.data
 }
+
+export type DashBoardData =
+  | {
+      women: false
+      count: number
+    }
+  | { women: true; count: number }
+  | { women: null; count: number }
+
+type DashboardDataObjects = {
+  gameCount: DashBoardData[]
+  seasonCount: DashBoardData[]
+  teamCount: DashBoardData[]
+  goalCount: DashBoardData[]
+}
+
+export const getDashBoardData = async (): Promise<DashboardDataObjects> => {
+  const response = await dashboardGamesApi.get('/data')
+
+  return response.data
+}
