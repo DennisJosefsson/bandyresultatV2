@@ -1,14 +1,14 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
 import Serie from '../models/Serie.js'
-import newSeriesEntry from '../utils/postFunctions/newSeriesEntry.js'
+import authControl from '../utils/middleware/authControl.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
-//import authControl from '../utils/middleware/authControl.js'
+import newSeriesEntry from '../utils/postFunctions/newSeriesEntry.js'
 
 const seriesRouter = Router()
 
@@ -29,12 +29,11 @@ seriesRouter.get('/', (async (
   res.status(200).json(series)
 }) as RequestHandler)
 
-seriesRouter.post('/', (async (
+seriesRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  console.log(req.body)
   const seriesObject = newSeriesEntry(req.body)
   const serie = await Serie.upsert(seriesObject)
   res.status(201).json(serie)

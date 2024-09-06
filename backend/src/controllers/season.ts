@@ -89,7 +89,7 @@ seasonRouter.get('/', (async (
   res.status(200).json(seasons)
 }) as RequestHandler)
 
-seasonRouter.post('/', (async (
+seasonRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -126,8 +126,6 @@ seasonRouter.post('/', (async (
       nest: true,
     })
 
-    console.log('TEAMSEASONS', teamSeasons)
-
     const teamArray = teamSeasons
       .filter(
         (team) =>
@@ -137,8 +135,6 @@ seasonRouter.post('/', (async (
       .map((team) => {
         return { teamId: team.teamId, women: team.women }
       })
-
-    console.log('TEAMARRAY', teamArray)
 
     const { mensTeamSeason, womensTeamSeason } = newTeamSeasons(
       teamArray,

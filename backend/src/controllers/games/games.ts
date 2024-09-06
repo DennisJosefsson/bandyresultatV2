@@ -26,7 +26,7 @@ import {
 } from '../../utils/postFunctions/newTeamGameEntry.js'
 import { parseNumber } from '../../utils/postFunctions/parsers.js'
 
-// import authControl from '../../utils/middleware/authControl.js'
+import authControl from '../../utils/middleware/authControl.js'
 
 const gameRouter = Router()
 
@@ -121,7 +121,7 @@ gameRouter.get('/season/:seasonId', (async (
   res.status(200).json(returnGames)
 }) as RequestHandler)
 
-gameRouter.post('/', (async (
+gameRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -218,7 +218,7 @@ gameRouter.post('/', (async (
   res.status(201).json({ game, homeTeamGame, awayTeamGame })
 }) as RequestHandler)
 
-gameRouter.delete('/:gameId', (async (
+gameRouter.delete('/:gameId', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction

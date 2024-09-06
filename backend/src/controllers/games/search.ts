@@ -274,8 +274,6 @@ searchRouter.post('/search', (async (
     })
   }
 
-  console.log('limit', searchParams.limit)
-
   const gameIdArray: number[] = []
 
   const searchResult = unfilteredSearchResult.rows

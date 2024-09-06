@@ -12,8 +12,6 @@ import Team from '../../models/Team.js'
 
 import { z } from 'zod'
 
-// import authControl from '../../utils/middleware/authControl.js'
-
 const dashboardGameRouter = Router()
 
 const parsedSerieId = z.coerce.number()

@@ -43,7 +43,7 @@ metadataRouter.get('/:seasonId', (async (
   }
 }) as RequestHandler)
 
-metadataRouter.post('/', (async (
+metadataRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -72,7 +72,7 @@ metadataRouter.put('/', authControl, (async (
   return res.status(200).json(updateMetadata)
 }) as RequestHandler)
 
-metadataRouter.delete('/:metadataId', (async (
+metadataRouter.delete('/:metadataId', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction

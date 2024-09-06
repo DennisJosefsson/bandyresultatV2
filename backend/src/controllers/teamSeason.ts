@@ -1,18 +1,19 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
-import TeamSeason from '../models/TeamSeason.js'
-import Season from '../models/Season.js'
-import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
-import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import { Op } from 'sequelize'
+import Season from '../models/Season.js'
+import TeamSeason from '../models/TeamSeason.js'
+import authControl from '../utils/middleware/authControl.js'
+import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
 import teamSeasonUpsertPromise, {
   teamSeasonIdParser,
 } from '../utils/postFunctions/newTeamSeasonEntry.js'
+import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 
 const teamSeasonRouter = Router()
 
@@ -57,7 +58,7 @@ teamSeasonRouter.get('/', (async (
   res.status(200).json(teamSeasons)
 }) as RequestHandler)
 
-teamSeasonRouter.post('/', (async (
+teamSeasonRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -74,12 +75,11 @@ teamSeasonRouter.post('/', (async (
   }
 }) as RequestHandler)
 
-teamSeasonRouter.delete('/:teamseasonId', (async (
+teamSeasonRouter.delete('/:teamseasonId', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  console.log(req.params.teamseasonId)
   const teamseasonId = teamSeasonIdParser.parse(req.params.teamseasonId)
   const teamseason = await TeamSeason.findByPk(teamseasonId)
   if (!teamseason) {
