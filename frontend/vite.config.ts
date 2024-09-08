@@ -11,19 +11,30 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // build: {
-  //   rollupOptions: {
-  //     output: {
-  //       manualChunks(id) {
-  //         if (id.includes('node_modules')) {
-  //           return id
-  //             .toString()
-  //             .split('node_modules/')[1]
-  //             .split('/')[0]
-  //             .toString()
-  //         }
-  //       },
-  //     },
-  //   },
-  // },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (
+            id.includes('/node_modules/react/') ||
+            id.includes('/node_modules/react-dom/')
+          ) {
+            return 'react'
+          }
+          if (id.includes('tanstack') || id.includes('zod')) {
+            return 'tanstack'
+          }
+          if (id.includes('recharts')) {
+            return 'recharts'
+          }
+          if (id.includes('radix-ui')) {
+            return 'radix'
+          }
+          if (id.includes('react-hook-form')) {
+            return 'hookform'
+          }
+        },
+      },
+    },
+  },
 })

@@ -46,7 +46,5 @@ export const TeamPreferenceContext = createContext<{
   favTeamsDispatch: Dispatch<FavTeamsActionType>
 } | null>(null)
 
-export const SeasonContext = createContext<{ seasonId: number } | null>(null)
-
 export const ThemeProviderContext =
   createContext<ThemeProviderState>(initialState)

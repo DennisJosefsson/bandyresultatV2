@@ -1,30 +1,18 @@
-import { qualIcon } from '@/components/Components/Common/Icons/leafletMarker'
-import Loading from '@/components/Components/Common/Loading'
-import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import { useMapData } from '@/lib/hooks/dataHooks/map/useMapData'
-
-import { getSingleSeason } from '@/lib/requests/seasons'
-import { createFileRoute, useLocation } from '@tanstack/react-router'
-import { AxiosError } from 'axios'
+import { getRouteApi } from '@tanstack/react-router'
 import { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useRef } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+import { qualIcon } from '../../Common/Icons/leafletMarker'
+import { NoWomenSeason } from '../../Common/NoWomenSeason'
 
-export const Route = createFileRoute('/_layout/season/$seasonId/map')({
-  component: Map,
-  pendingComponent: () => <Loading page="seasonMap" />,
-  loader: ({ params }) => getSingleSeason(params.seasonId),
-  errorComponent: ({ error, reset }) => (
-    <ErrorComponent error={error} reset={reset} />
-  ),
-})
+const route = getRouteApi('/_layout/season/$seasonId/map')
 
-function Map() {
-  const { seasonId } = Route.useParams()
+const Map = () => {
+  const { seasonId } = route.useParams()
   const { teams, qualificationTeams, bounds } = useMapData()
-  const { women } = Route.useSearch()
+  const { women } = route.useSearch()
 
   if (women && parseInt(seasonId) < 1973) {
     return <NoWomenSeason />
@@ -74,23 +62,4 @@ function Map() {
   )
 }
 
-function ErrorComponent({
-  error,
-  reset,
-}: {
-  error: unknown
-  reset: () => void
-}) {
-  const pathname = useLocation({ select: (location) => location.pathname })
-  const errorLocation = useRef(pathname)
-  useEffect(() => {
-    if (location.pathname !== errorLocation.current) {
-      reset()
-    }
-  }, [pathname, reset])
-  if (error && error instanceof AxiosError && error.response?.status === 404) {
-    return <div>{error.response?.data.errors}</div>
-  }
-
-  return <div className="flex flex-row justify-center">Något gick fel.</div>
-}
+export default Map

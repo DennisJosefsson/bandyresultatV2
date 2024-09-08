@@ -6,8 +6,7 @@ import {
   TableObjectType,
 } from '../types/tables/tables'
 import { sortOrder } from './constants'
-// import { SerieAttributes } from '../types/series/series'
-// import { TeamAndSeasonAttributes } from '../types/teams/teams'
+
 import { SortedStatsCat } from '../types/stats/stats'
 
 type SortedGameGroups = {
@@ -25,16 +24,6 @@ type SortedTableGroups = {
 type SortedCompareCategoryTables = {
   [key: string]: CompareCategoryTeamTable[]
 }
-
-// type DateGames = {
-//   date: string
-//   games: GameObjectType[]
-// }
-
-// type SortedGroupsAndDate = {
-//   group: string
-//   dates: DateGames[]
-// }
 
 export const gameSortFunction = (
   gamesArray: GameObjectType[],
