@@ -36,16 +36,16 @@ const bulkGameSchema = z.object({
       group: z.string(),
       women: z.boolean(),
       serieId: z.number().optional().nullable(),
-    }),
+    })
   ),
 })
 
 export type Game = z.infer<typeof bulkGameSchema>['games'][number]
 
-export const useBulkGameForm = <TSchema extends z.ZodType>(
+const useBulkGameForm = <TSchema extends z.ZodType>(
   props: Omit<UseFormProps<TSchema['_input']>, 'resolver'> & {
     schema: TSchema
-  },
+  }
 ) => {
   const form = useForm<TSchema['_input']>({
     ...props,
