@@ -1,7 +1,7 @@
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { postSeason } from '@/lib/requests/seasons'
@@ -51,7 +51,7 @@ const NewSeason = () => {
     error && error instanceof AxiosError ? error.response?.data.errors : null
 
   return (
-    <div className="flex flex-row gap-x-8">
+    <div className="flex flex-row gap-x-8 mt-2">
       <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

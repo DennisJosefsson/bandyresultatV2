@@ -1,7 +1,11 @@
-import { SyntheticEvent, ChangeEvent, useReducer } from 'react'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
 import teamFormReducer from '@/lib/reducers/teamFormReducer'
 import { postTeam } from '@/lib/requests/teams'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { ChangeEvent, SyntheticEvent, useReducer } from 'react'
 
 const initState = {
   city: '',
@@ -34,25 +38,30 @@ const TeamForm = () => {
   }
 
   return (
-    <>
-      <div>
-        {/*header*/}
-        <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-          <h3 className="text-lg font-semibold">Lägg till nytt lag</h3>
-        </div>
-        {/*body*/}
-        <div>
+    <div className="mt-2">
+      <Card>
+        <CardHeader>
+          <div className="flex flex-row justify-between items-center">
+            <CardTitle>Lägg till nytt lag</CardTitle>
+
+            <Button type="submit" form="teamForm" value="Spara">
+              Spara
+            </Button>
+          </div>
+        </CardHeader>
+
+        <CardContent>
           <form onSubmit={handleSubmit} id="teamForm">
-            <div className="flex w-[540px] flex-auto flex-col p-5 px-16">
-              <div className="p-1">
+            <div className="flex flex-col gap-2">
+              <div>
                 <label
                   htmlFor="name"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Lagnamn:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="name"
                       value={formState.name}
@@ -61,15 +70,15 @@ const TeamForm = () => {
                   </div>
                 </label>
               </div>
-              <div className="p-1">
+              <div>
                 <label
                   htmlFor="casualName"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Vanligt namn:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="casualName"
                       value={formState.casualName}
@@ -78,15 +87,15 @@ const TeamForm = () => {
                   </div>
                 </label>
               </div>
-              <div className="p-1">
+              <div>
                 <label
                   htmlFor="shortName"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Förkortning:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="shortName"
                       value={formState.shortName}
@@ -95,15 +104,15 @@ const TeamForm = () => {
                   </div>
                 </label>
               </div>
-              <div className="p-1">
+              <div>
                 <label
                   htmlFor="city"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Stad:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="city"
                       value={formState.city}
@@ -112,15 +121,15 @@ const TeamForm = () => {
                   </div>
                 </label>
               </div>
-              <div className="p-1">
+              <div>
                 <label
                   htmlFor="lat"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Latitud:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="lat"
                       value={formState.lat}
@@ -129,15 +138,15 @@ const TeamForm = () => {
                   </div>
                 </label>
               </div>
-              <div className="p-1">
+              <div>
                 <label
                   htmlFor="long"
-                  className="flex flex-row text-sm font-medium text-gray-900"
+                  className="flex flex-row items-center text-sm font-medium text-foreground"
                 >
                   <div className="w-32">Longitud:</div>
                   <div>
-                    <input
-                      className="w-72 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900"
+                    <Input
+                      className="w-72 rounded-lg border border-gray-300 bg-background text-sm text-foreground"
                       type="text"
                       name="long"
                       value={formState.long}
@@ -147,16 +156,15 @@ const TeamForm = () => {
                 </label>
               </div>
 
-              <div className="m-1 p-1">
+              <div>
                 <label
                   htmlFor="women"
-                  className="flex flex-row  space-x-2 text-sm font-medium text-gray-900 "
+                  className="flex flex-row items-center text-sm font-medium text-foreground mt-4"
                 >
-                  <div>Damlag?</div>
+                  <div className="w-32">Damlag?</div>
                   <div>
-                    <input
-                      className="text-gray-900 focus:ring-gray-500"
-                      type="checkbox"
+                    <Checkbox
+                      className="text-foreground focus:ring-gray-500"
                       name="women"
                       checked={formState.women}
                       onChange={() => dispatch({ type: 'TOGGLE' })}
@@ -166,18 +174,9 @@ const TeamForm = () => {
               </div>
             </div>
           </form>
-        </div>
-        {/*footer*/}
-        <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
-          <input
-            className="mb-1 mr-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
-            type="submit"
-            form="teamForm"
-            value="Spara"
-          />
-        </div>
-      </div>
-    </>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
