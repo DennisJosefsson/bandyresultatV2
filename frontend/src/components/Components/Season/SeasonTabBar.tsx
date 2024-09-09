@@ -10,23 +10,25 @@ import {
 } from '@/components/Components/Common/Icons/icons'
 import { TabBarInline } from '@/components/Components/Common/TabBar'
 import { Button } from '@/components/ui/button'
-import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
-import { Link, useNavigate, useParams } from '@tanstack/react-router'
+import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTabBar = () => {
   const matches = useMediaQuery('(min-width: 640px)')
-  const navigate = useNavigate()
-  const { womenContext } = useGenderContext()
+  const navigate = useNavigate({ from: '/season/$seasonId' })
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId' })
 
   const seasonTabBarObject = {
     gender: (
       <Button
-        onClick={() => navigate({ search: { women: !womenContext } })}
+        onClick={() => navigate({ search: { women: !women } })}
         size={matches ? 'default' : 'xs'}
       >
-        {womenContext ? (
+        {women ? (
           matches ? (
             'Herrar'
           ) : (

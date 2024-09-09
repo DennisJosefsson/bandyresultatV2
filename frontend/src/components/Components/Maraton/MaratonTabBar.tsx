@@ -18,7 +18,7 @@ import { useMediaQuery } from 'usehooks-ts'
 const re = /all|home|away/
 
 const MaratonTabBar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate({ from: '/maraton' })
   const women = useSearch({
     from: '/_layout',
     select: (search) => search.women,
