@@ -7,7 +7,7 @@ const GoalStats = () => {
   const matches = useMediaQuery('(min-width: 1000px)')
   return (
     <div>
-      <h4 className="text-xs font-bold md:text-sm xl:ml-0 xl:text-base">
+      <h4 className="text-xs font-bold md:text-sm ml-0 xl:text-base">
         Målstatistik
       </h4>
       {matches ? (

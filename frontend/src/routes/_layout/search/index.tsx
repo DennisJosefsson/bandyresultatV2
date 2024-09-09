@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 
 export const Route = createFileRoute('/_layout/search/')({
   component: Search,
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="search" />,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 

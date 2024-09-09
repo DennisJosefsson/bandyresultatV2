@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Link, useParams, useSearch } from '@tanstack/react-router'
+import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTablesButtonList = () => {
+  const matches = useMediaQuery('(min-width: 430px)')
   const women = useSearch({
     from: '/_layout',
     select: (search) => search.women,
@@ -20,7 +22,7 @@ const SeasonTablesButtonList = () => {
       >
         {({ isActive, isTransitioning }) => (
           <Button
-            size="sm"
+            size={matches ? 'sm' : 'xxs'}
             variant={isActive || isTransitioning ? 'default' : 'outline'}
             disabled={isTransitioning}
           >
@@ -37,7 +39,7 @@ const SeasonTablesButtonList = () => {
       >
         {({ isActive, isTransitioning }) => (
           <Button
-            size="sm"
+            size={matches ? 'sm' : 'textxxs'}
             variant={isActive || isTransitioning ? 'default' : 'outline'}
             disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
           >
@@ -54,7 +56,7 @@ const SeasonTablesButtonList = () => {
       >
         {({ isActive, isTransitioning }) => (
           <Button
-            size="sm"
+            size={matches ? 'sm' : 'textxxs'}
             variant={isActive || isTransitioning ? 'default' : 'outline'}
             disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
           >

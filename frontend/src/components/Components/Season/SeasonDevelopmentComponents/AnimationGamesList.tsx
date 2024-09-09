@@ -24,7 +24,7 @@ const AnimationGamesList = ({ dateArray, round }: AnimationGamesListProps) => {
         return (
           <div
             key={game.gameId}
-            className="flex flex-row justify-between border-b px-2 py-1 text-[8px] transition-colors hover:bg-slate-100/50 data-[state=selected]:bg-slate-100 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800 sm:text-[10px] lg:text-sm xl:py-2 "
+            className="flex flex-row justify-between border-b px-2 py-1 text-[8px] transition-colors hover:bg-muted/50 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800 sm:text-[10px] lg:text-sm xl:py-2 "
           >
             <div>
               <span

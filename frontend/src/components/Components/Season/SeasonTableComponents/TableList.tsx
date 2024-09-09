@@ -25,7 +25,9 @@ const TableList = ({ tableArray, seasonId, table }: TableListProps) => {
 
         return (
           <div key={group.group} className="mb-6">
-            {group.group.includes('Kval') && tableArray.length === 1 ? (
+            {group.group.includes('Kval') &&
+            tableArray.filter((item) => item.group.includes('Kval')).length ===
+              1 ? (
               <>
                 <div
                   id={group.group}

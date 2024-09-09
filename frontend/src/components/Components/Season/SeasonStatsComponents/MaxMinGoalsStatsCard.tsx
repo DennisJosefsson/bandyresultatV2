@@ -17,21 +17,24 @@ const MaxMinGoalsStatsCard = ({
   title,
 }: MaxMinGoalsStatsCardProps) => {
   return (
-    <div className="streakCard">
-      <h6 className="head">{title}</h6>
+    <div>
+      <h6 className="text-xs sm:text-sm font-semibold">{title}</h6>
 
       <div>
         {maxMinGoals.map((game, index) => {
           return (
-            <div key={`${index}-${Math.random()}`}>
-              <div className="streak1st">
-                <div className="name">
+            <div
+              key={`${index}-${Math.random()}`}
+              className="flex flex-col mb-2 gap-1 p-2 bg-muted rounded-md"
+            >
+              <div className="flex flex-row justify-between">
+                <div className="text-xs sm:text-sm">
                   {game.home_name}-{game.away_name}
                 </div>
-                <div className="count">{game.resultat}</div>
+                <div className="text-xs sm:text-sm">{game.resultat}</div>
               </div>
-              <div className="streak2nd">
-                <div className="dates">
+              <div className="flex flex-row">
+                <div className="text-xs sm:text-sm">
                   <Date>{game.datum}</Date>
                 </div>
               </div>

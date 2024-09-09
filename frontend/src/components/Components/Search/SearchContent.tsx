@@ -10,16 +10,17 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { SearchGame } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import { useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useCopyToClipboard } from 'usehooks-ts'
+import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
 import ResultComponent from './ResultComponent'
 
 type SearchContentProps = { gameArray: SearchGame[] | undefined }
 
 const baseUrl = import.meta.env.PROD
-  ? 'https://bandyresultat.se'
+  ? 'https://dev.bandyresultat.se'
   : 'http://localhost:5173'
 
 const SearchContent = ({ gameArray }: SearchContentProps) => {
+  const matches = useMediaQuery('(min-width: 430px)')
   const [copiedText, copy] = useCopyToClipboard()
 
   const link = useLocation({
@@ -31,27 +32,24 @@ const SearchContent = ({ gameArray }: SearchContentProps) => {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader className="flex flex-row justify-between items-center">
-            <DrawerTitle>Sökresultat</DrawerTitle>
+            <DrawerTitle className="text-[10px] sm:text-sm md:text-base">
+              Sökresultat
+            </DrawerTitle>
             <div className="flex flex-row gap-2">
               <Button
-                className="w-24"
+                size={matches ? 'sm' : 'xxs'}
                 onClick={() => copy(`${baseUrl + link + '&submit=true'}`)}
               >
                 {copiedText ? 'Kopierad!' : 'Länk'}
               </Button>
 
               <DrawerClose asChild>
-                <Button>Stäng</Button>
+                <Button size={matches ? 'sm' : 'xxs'}>Stäng</Button>
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <div className="ml-2 w-full lg:ml-0">
-            <ScrollArea className="h-[360px] w-full rounded-md border p-4">
-              {/* {searchResult && searchResult.searchResult.length === 0 && (
-          <div className="rounded bg-background p-2">
-            <p className="">Din sökning gav inga träffar.</p>
-          </div>
-        )} */}
+          <div className="w-full">
+            <ScrollArea className="h-[360px] w-full">
               <ResultComponent gameArray={gameArray} />
             </ScrollArea>
           </div>

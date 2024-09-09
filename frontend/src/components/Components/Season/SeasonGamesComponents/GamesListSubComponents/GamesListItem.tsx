@@ -34,7 +34,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
     <div className="flex w-full flex-row items-center gap-1">
       <div
         id={game.gameId?.toString()}
-        className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+        className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
       >
         <span
           className={
@@ -69,9 +69,10 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
         <Button
           size={matches ? 'sm' : 'xs'}
           variant="ghost"
+          className="group hover:bg-muted/90"
           onClick={() => game.gameId && onClickHandler(game.gameId)}
         >
-          H2H
+          <span className="group-hover:font-semibold">H2H</span>
         </Button>
       </div>
     </div>

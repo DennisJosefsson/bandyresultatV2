@@ -27,19 +27,22 @@ const FirstGames = ({ firstGames, searchObject }: FirstGamesProps) => {
           Första matcherna
         </CardTitle>
       </CardHeader>
-      <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm p-1 pt-0">
+      <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
         <div className="mb-2">
           {firstGames.map((game) => {
             return (
-              <div key={game.game_id} className="card">
-                <div className="line1">
+              <div
+                key={game.game_id}
+                className="my-2 flex w-full flex-col rounded bg-muted-foreground/20 px-3 py-1"
+              >
+                <div className="mb-0.5 font-semibold">
                   <Date>{game.date}</Date>
                 </div>
-                <div className="line2">
+                <div className="flex flex-row justify-between">
                   <div>
                     {game.home_name}-{game.away_name}
                   </div>
-                  <div className="result">{game.result}</div>
+                  <div className="tabular-nums">{game.result}</div>
                 </div>
               </div>
             )

@@ -26,16 +26,21 @@ type GoalStatsCardProps = {
 const GoalStatsCard = ({ title, base, catArray }: GoalStatsCardProps) => {
   return (
     <div>
-      <div className="statsCard">
-        <div className="name">{title}: </div>
-        <div className="count">{base.data}</div>
+      <div className="flex flex-row justify-between mb-1 bg-muted rounded-md p-2">
+        <div className="text-xs sm:text-sm">{title}: </div>
+        <div className="text-xs sm:text-sm">{base.data}</div>
       </div>
 
       {sortStatsCat(catArray).map((cat) => {
         return (
-          <div key={`${cat.category}-${Math.random()}`} className="statsCard">
-            <div className="name">{groupConstant[cat.category]}</div>
-            <div className="count">{cat.data}</div>
+          <div
+            key={`${cat.category}-${Math.random()}`}
+            className="flex flex-row justify-between mb-1 bg-muted rounded-md p-2"
+          >
+            <div className="text-xs sm:text-sm">
+              {groupConstant[cat.category]}
+            </div>
+            <div className="text-xs sm:text-sm">{cat.data}</div>
           </div>
         )
       })}

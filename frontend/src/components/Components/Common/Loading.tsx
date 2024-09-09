@@ -3,6 +3,7 @@ import GeneralStatsSkeleton from './Skeletons/GeneralStatsSkeleton'
 import MaratonSkeleton from './Skeletons/MaratonSkeleton'
 import PointsGoalsSkeleton from './Skeletons/PointsGoalsSkeleton'
 import SearchSelectionSkeleton from './Skeletons/SearchSelectionSkeleton'
+import SearchSkeleton from './Skeletons/SearchSkeleton'
 import SeasonDevelopmentSkeleton from './Skeletons/SeasonDevelopmentSkeleton'
 import SeasonGameListSkeleton from './Skeletons/SeasonGameListSkeleton'
 import SeasonListSkeleton from './Skeletons/SeasonListSkeleton'
@@ -33,6 +34,7 @@ type SkeletonType =
   | 'generalStats'
   | 'pointsgoals'
   | 'streaks'
+  | 'search'
 
 type LoadingProps = {
   page?: SkeletonType
@@ -88,6 +90,9 @@ const Loading = ({ page }: LoadingProps) => {
       break
     case 'streaks':
       content = <StreaksSkeleton />
+      break
+    case 'search':
+      content = <SearchSkeleton />
       break
     default:
       content = <Spinner />

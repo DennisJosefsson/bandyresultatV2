@@ -16,12 +16,15 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
         <CardHeader className="p-2">
           <CardTitle className="text-[10px] md:text-sm">Säsonger</CardTitle>
         </CardHeader>
-        <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm p-1 pt-0">
+        <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
             {allSeasons.map((team) => {
               return (
-                <div key={team.team} className="card">
-                  <div className="line2">
+                <div
+                  key={team.team}
+                  className="my-2 flex w-full flex-col rounded bg-muted-foreground/20 px-3 py-1"
+                >
+                  <div className="flex flex-row justify-between">
                     <div>{team.casual_name}</div>
                     <div className="text-right">{team.seasons}</div>
                   </div>
@@ -39,12 +42,15 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
                 Säsonger sedan 1931
               </CardTitle>
             </CardHeader>
-            <CardContent className="compareFirstLast w-full text-[8px] sm:text-sm  p-1 pt-0">
+            <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
               <div className="mb-2">
                 {seasons.map((team) => {
                   return (
-                    <div key={team.team} className="card">
-                      <div className="line2">
+                    <div
+                      key={team.team}
+                      className="my-2 flex w-full flex-col rounded bg-muted-foreground/20 px-3 py-1"
+                    >
+                      <div className="flex flex-row justify-between">
                         <div>{team.casual_name}</div>
                         <div className="text-right">{team.seasons}</div>
                       </div>

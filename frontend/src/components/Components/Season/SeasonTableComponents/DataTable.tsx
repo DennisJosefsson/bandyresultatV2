@@ -77,7 +77,7 @@ const DataTable = <TData, TValue>({
             <TableRow key={headerGroup.id}>
               <TableHead
                 key={'position'}
-                className="hidden px-0 py-1 sm:table-cell sm:w-12"
+                className="hidden px-0 py-1 sm:table-cell sm:w-12 sm:px-2"
               >
                 P
               </TableHead>
@@ -85,7 +85,7 @@ const DataTable = <TData, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    className={`px-0 py-1 max-w-[${header.column.getSize()}px]`}
+                    className={`max-w-[${header.column.getSize()}px]`}
                   >
                     {header.isPlaceholder
                       ? null
@@ -120,7 +120,7 @@ const DataTable = <TData, TValue>({
               >
                 <TableCell
                   key={`index-${index}`}
-                  className="hidden px-0 py-1 tabular-nums sm:table-cell sm:w-12"
+                  className="hidden tabular-nums sm:table-cell sm:w-12"
                 >
                   {index + 1}
                 </TableCell>
