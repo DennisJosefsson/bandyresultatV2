@@ -179,7 +179,7 @@ const GameForm = () => {
   const form = useForm<InputGameObjectType>({
     defaultValues: gameData
       ? initEdit(gameData)
-      : initAdd({ seasonId: parseInt(seasonId), women }),
+      : initAdd({ seasonId: seasonId, women }),
     criteriaMode: 'all',
     mode: 'onChange',
     resolver: zodResolver(inputGameObject),

@@ -1,4 +1,5 @@
 import Loading from '@/components/Components/Common/Loading'
+import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonTablesButtonList from '@/components/Components/Season/SeasonTableComponents/SeasonTablesButtonList'
 import StaticTables from '@/components/Components/Season/SeasonTableComponents/StaticTables'
 import TableList from '@/components/Components/Season/SeasonTableComponents/TableList'
@@ -7,17 +8,24 @@ import { getSingleSeasonTable } from '@/lib/requests/tables'
 import { createFileRoute, redirect, useLocation } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { useEffect, useRef } from 'react'
+import { z } from 'zod'
 
 export const Route = createFileRoute(
   '/_layout/season/$seasonId/tables/_table/$table'
 )({
+  params: {
+    parse: (params) => ({
+      table: z.enum(['all', 'away', 'home']).catch('all').parse(params.table),
+    }),
+    stringify: ({ table }) => ({ table: `${table}` }),
+  },
   loaderDeps: ({ search: { women } }) => ({
     women,
   }),
   beforeLoad: ({ search, params }) => {
     if (
       search.women &&
-      ['1973', '1974'].includes(params.seasonId) &&
+      [1973, 1974].includes(params.seasonId) &&
       params.table !== 'all'
     ) {
       throw redirect({
@@ -51,12 +59,15 @@ function Table() {
     select: (search) => search.staticTables,
   })
   useScrollTo()
+  if (women && seasonId < 1973) {
+    return <NoWomenSeason />
+  }
 
   return (
     <div>
       <SeasonTablesButtonList />
       <div>
-        {women && ['1973', '1974'].includes(seasonId) ? (
+        {women && [1973, 1974].includes(seasonId) ? (
           <StaticTables tableArray={staticTableArray} />
         ) : (
           <TableList

@@ -31,10 +31,7 @@ const SeasonHeader = () => {
         to={`/season/$seasonId/${parsedRoute}`}
         search={{ women }}
         params={{
-          seasonId:
-            parseInt(seasonId) === firstSeason
-              ? lastSeason.toString()
-              : (parseInt(seasonId) - 1).toString(),
+          seasonId: seasonId === firstSeason ? lastSeason : seasonId - 1,
         }}
       >
         <Button variant="outline" size="icon" className="h-3 w-3 lg:h-6 lg:w-6">
@@ -43,18 +40,13 @@ const SeasonHeader = () => {
         </Button>
       </Link>
       <span className="w-24 text-center font-semibold">
-        {parseInt(seasonId) > 1963
-          ? `${parseInt(seasonId) - 1}/${seasonId}`
-          : `${seasonId}`}
+        {seasonId > 1963 ? `${seasonId - 1}/${seasonId}` : `${seasonId}`}
       </span>
       <Link
         to={`/season/$seasonId/${parsedRoute}`}
         search={{ women }}
         params={{
-          seasonId:
-            parseInt(seasonId) === lastSeason
-              ? firstSeason.toString()
-              : (parseInt(seasonId) + 1).toString(),
+          seasonId: seasonId === lastSeason ? firstSeason : seasonId + 1,
         }}
       >
         <Button variant="outline" size="icon" className="h-3 w-3 lg:h-6 lg:w-6">

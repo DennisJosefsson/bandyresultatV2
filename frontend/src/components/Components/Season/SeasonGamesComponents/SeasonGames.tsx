@@ -23,7 +23,7 @@ const SeasonGames = () => {
 
   useScrollTo()
 
-  if (women && parseInt(seasonId) < 1973) {
+  if (women && seasonId < 1973) {
     return <NoWomenSeason />
   }
 
@@ -36,7 +36,7 @@ const SeasonGames = () => {
   }
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
-      {parseInt(seasonId) <= lastSeason && (
+      {seasonId <= lastSeason && (
         <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0 lg:gap-1">
           {games['playedLength'] > 0 ? (
             <Games games={games['played']} title="Spelade" />

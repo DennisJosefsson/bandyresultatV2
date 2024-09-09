@@ -12,6 +12,8 @@ const SeasonTablesButtonList = () => {
     from: '/_layout/season/$seasonId',
     select: (param) => param.seasonId,
   })
+
+  if (seasonId < 1930) return null
   return (
     <div className="my-2 grid w-full grid-cols-3 justify-center gap-4 px-6 sm:px-2 md:flex md:flex-row lg:px-0">
       <Link
@@ -35,13 +37,13 @@ const SeasonTablesButtonList = () => {
         search={{ women }}
         params={{ table: 'home', seasonId: seasonId }}
         activeOptions={{ includeSearch: false, exact: true }}
-        disabled={['1973', '1974'].includes(seasonId)}
+        disabled={[1973, 1974].includes(seasonId)}
       >
         {({ isActive, isTransitioning }) => (
           <Button
             size={matches ? 'sm' : 'textxxs'}
             variant={isActive || isTransitioning ? 'default' : 'outline'}
-            disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
+            disabled={isTransitioning || [1973, 1974].includes(seasonId)}
           >
             Hemma
           </Button>
@@ -52,13 +54,13 @@ const SeasonTablesButtonList = () => {
         search={{ women }}
         params={{ table: 'away', seasonId: seasonId }}
         activeOptions={{ includeSearch: false, exact: true }}
-        disabled={['1973', '1974'].includes(seasonId)}
+        disabled={[1973, 1974].includes(seasonId)}
       >
         {({ isActive, isTransitioning }) => (
           <Button
             size={matches ? 'sm' : 'textxxs'}
             variant={isActive || isTransitioning ? 'default' : 'outline'}
-            disabled={isTransitioning || ['1973', '1974'].includes(seasonId)}
+            disabled={isTransitioning || [1973, 1974].includes(seasonId)}
           >
             Borta
           </Button>

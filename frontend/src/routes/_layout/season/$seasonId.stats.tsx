@@ -26,12 +26,12 @@ function Stats() {
   const { women } = Route.useSearch()
 
   useScrollTo()
-  if (women && parseInt(seasonId) < 1973) {
+  if (women && seasonId < 1973) {
     return <NoWomenSeason />
   }
   if (
     data.gamesCountTotal === 0 ||
-    (women && (parseInt(seasonId) === 1973 || parseInt(seasonId) === 1974))
+    (women && (seasonId === 1973 || seasonId === 1974))
   ) {
     return (
       <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-sm font-bold text-foreground md:text-base">

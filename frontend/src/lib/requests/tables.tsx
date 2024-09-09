@@ -88,7 +88,7 @@ export const getSingleSeasonTable = async ({
   table,
   women,
 }: {
-  seasonId: string
+  seasonId: number
   table: string
   women: boolean
 }): Promise<SingleSeasonTableType> => {
@@ -102,20 +102,12 @@ export const getSingleSeasonPlayoff = async ({
   seasonId,
   women,
 }: {
-  seasonId: string
+  seasonId: number
   women: boolean
 }): Promise<SingleSeasonPlayoffType> => {
   const response = await tablesApi.get(`/playoff/${seasonId}?women=${women}`)
   return response.data
 }
-
-// export const postTable = async (table) => {
-//   return await tablesApi.post('/', table)
-// }
-
-// export const updateTable = async (table) => {
-//   return await tablesApi.put(`/${table.id}`, table)
-// }
 
 export const deleteTable = async ({ tableId }: { tableId: number }) => {
   return await tablesApi.delete(`/${tableId}`)

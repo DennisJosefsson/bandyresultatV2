@@ -16,7 +16,7 @@ function NewSeries() {
   return (
     <div>
       <NewSeriesForm
-        seasonId={parseInt(seasonId)}
+        seasonId={seasonId}
         women={dashboardData.women}
         serieData={dashboardData.seriesData}
       />

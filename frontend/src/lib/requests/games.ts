@@ -43,7 +43,7 @@ export const getSeasonGames = async ({
   seasonId,
   women,
 }: {
-  seasonId: string
+  seasonId: number
   women: boolean
 }): Promise<SeasonGames> => {
   const response = await gamesApi.get(`/season/${seasonId}?women=${women}`)
@@ -55,7 +55,7 @@ export const getSeasonStats = async ({
   seasonId,
   women,
 }: {
-  seasonId: string
+  seasonId: number
   women: boolean
 }): Promise<SeasonStatsObjectType> => {
   const response = await gamesApi.get(`/stats/${seasonId}?women=${women}`)
@@ -67,7 +67,7 @@ export const getAnimation = async ({
   seasonId,
   women,
 }: {
-  seasonId: string
+  seasonId: number
   women: boolean
 }): Promise<AnimationObject> => {
   const response = await gamesApi.get(`/animation/${seasonId}?women=${women}`)

@@ -29,7 +29,7 @@ type GameFormData = {
 export const getGameFormData = async ({
   seasonId,
 }: {
-  seasonId: string
+  seasonId: number
 }): Promise<GameFormData> => {
   const response = await dashboardGamesApi.get(`/gameform/${seasonId}`)
 

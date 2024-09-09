@@ -47,7 +47,7 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                     })
                     navigate({
                       to: '/dashboard/season/$seasonId',
-                      params: { seasonId: season.seasonId.toString() },
+                      params: { seasonId: season.seasonId },
                       search: { women: season.women },
                     })
                   }}

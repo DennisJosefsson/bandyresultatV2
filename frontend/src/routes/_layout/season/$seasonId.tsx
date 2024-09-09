@@ -3,39 +3,57 @@ import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComp
 import SeasonHeader from '@/components/Components/Season/SeasonHeader'
 import SeasonTabBar from '@/components/Components/Season/SeasonTabBar'
 import { Card, CardContent } from '@/components/ui/card'
-import { getSingleSeason } from '@/lib/requests/seasons'
 
 import {
   CatchBoundary,
-  Outlet,
   createFileRoute,
-  notFound,
+  Navigate,
+  Outlet,
+  useChildMatches,
 } from '@tanstack/react-router'
 import { z } from 'zod'
 
-const seasonIdParser = z
-  .string()
-  .length(4)
-  .refine((val) => parseInt(val) > 1906)
+const getMaxYear = () => {
+  const year = new Date().getFullYear()
+  const month = new Date().getMonth()
+  if (month > 6) return year + 1
+  return year
+}
+
+const seasonIdParser = z.object({
+  seasonId: z.number().int().min(1907),
+})
 
 export const Route = createFileRoute('/_layout/season/$seasonId')({
+  params: {
+    parse: (params) => ({
+      seasonId: z
+        .number()
+        .int()
+        .min(1907)
+        .max(getMaxYear())
+        .catch(getMaxYear())
+        .parse(Number(params.seasonId)),
+    }),
+    stringify: ({ seasonId }) => ({ seasonId: `${seasonId}` }),
+  },
   component: Season,
   notFoundComponent: NotFound,
   pendingComponent: () => <Loading page="singleSeason" />,
-  loader: async ({ params }) => {
-    const season = await getSingleSeason(params.seasonId)
-    if (
-      typeof season === 'object' &&
-      'errors' in season &&
-      season.errors === 'No such season'
-    ) {
-      throw notFound()
-    }
-    return season
-  },
 })
 
 function Season() {
+  const matches = useChildMatches()
+  if (matches.length === 0) {
+    return (
+      <Navigate
+        from="/season/$seasonId"
+        to="/season/$seasonId/tables/$table"
+        params={(prev) => ({ ...prev, table: 'all' })}
+        search={(prev) => ({ ...prev })}
+      />
+    )
+  }
   return (
     <div className="flex min-h-screen flex-col px-2 font-inter text-foreground">
       <Card className="mb-2">

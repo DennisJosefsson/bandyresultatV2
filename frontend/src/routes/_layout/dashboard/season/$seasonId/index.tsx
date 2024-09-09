@@ -21,7 +21,7 @@ function SeasonIndex() {
   const { seasonId } = Route.useParams()
   const navigate = Route.useNavigate()
   const dashboardData = useDashboardStore((state) => state.dashboard)
-  const { data } = useGetSingleSeason(dashboardData.year.slice(-4))
+  const { data } = useGetSingleSeason(parseInt(dashboardData.year.slice(-4)))
   const { data: metadata } = useGetMetaData(dashboardData.year)
   const mutation = useDeleteTeamSeasonMutation()
   const season = data.find((season) => season.women === dashboardData.women)

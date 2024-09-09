@@ -99,7 +99,7 @@ const TeamSeasonForm = ({
             onClick={() =>
               navigate({
                 to: '/dashboard/season/$seasonId',
-                params: { seasonId: seasonId.toString() },
+                params: { seasonId: seasonId },
                 search: { women },
               })
             }

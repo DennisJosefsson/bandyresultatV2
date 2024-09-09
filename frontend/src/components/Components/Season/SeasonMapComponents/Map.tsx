@@ -14,7 +14,7 @@ const Map = () => {
   const { teams, qualificationTeams, bounds } = useMapData()
   const { women } = route.useSearch()
 
-  if (women && parseInt(seasonId) < 1973) {
+  if (women && seasonId < 1973) {
     return <NoWomenSeason />
   }
 

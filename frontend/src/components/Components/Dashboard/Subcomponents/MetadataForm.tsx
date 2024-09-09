@@ -54,7 +54,7 @@ const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
     })
     navigate({
       to: '/dashboard/season/$seasonId',
-      params: { seasonId: seasonId.toString() },
+      params: { seasonId: seasonId },
       search: { women },
     })
   }
@@ -89,7 +89,7 @@ const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
                 onClick={() =>
                   navigate({
                     to: '/dashboard/season/$seasonId',
-                    params: { seasonId: seasonId.toString() },
+                    params: { seasonId: seasonId },
                     search: { women },
                   })
                 }

@@ -16,7 +16,7 @@ function TeamSeasonComponent() {
   return (
     <div>
       <TeamSeasonForm
-        seasonId={parseInt(seasonId)}
+        seasonId={seasonId}
         women={dashboardData.women}
         teamSeasonData={dashboardData.teamSeasonData}
       />

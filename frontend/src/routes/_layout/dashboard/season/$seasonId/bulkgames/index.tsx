@@ -11,13 +11,13 @@ export const Route = createFileRoute(
 })
 
 function BulkGames() {
-  const { seasonId } = Route.useParams()
+  const seasonId = Route.useParams({ select: (params) => params.seasonId })
   const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
       <BulkAddGame
         women={dashboardData.women}
-        seasonId={parseInt(seasonId)}
+        seasonId={seasonId}
         teams={dashboardData.teamSeasonData}
         series={dashboardData.seriesArray}
       />

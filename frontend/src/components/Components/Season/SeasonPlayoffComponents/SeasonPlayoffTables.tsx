@@ -14,7 +14,7 @@ import NilFinalComponent from './NilFinalComponent'
 
 type SeasonPlayoffTablesProps = {
   data: SingleSeasonPlayoffType
-  lastSeason: string
+  lastSeason: number
 }
 
 const SeasonPlayoffTables = ({

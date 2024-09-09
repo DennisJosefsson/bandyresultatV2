@@ -27,14 +27,14 @@ function Playoff() {
   const data = Route.useLoaderData()
   useScrollTo()
 
-  if (women && parseInt(seasonId) < 1973) {
+  if (women && seasonId < 1973) {
     return <NoWomenSeason />
   }
 
   return (
     <div>
-      {parseInt(seasonId) <= lastSeason ? (
-        <SeasonPlayoffTables data={data} lastSeason={lastSeason.toString()} />
+      {seasonId <= lastSeason ? (
+        <SeasonPlayoffTables data={data} lastSeason={lastSeason} />
       ) : null}
     </div>
   )

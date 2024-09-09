@@ -1,20 +1,25 @@
 import { SingleSeasonTableType } from '@/lib/types/tables/tables'
-import { Link, useSearch } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
 import DataTable from './DataTable'
 import { columns } from './columns'
 
 type TableListProps = {
   tableArray: SingleSeasonTableType['tabeller']
-  table: string
-  seasonId: string
+  table: 'all' | 'away' | 'home'
+  seasonId: number
 }
 
-const TableList = ({ tableArray, seasonId, table }: TableListProps) => {
-  const women = useSearch({
-    from: '/_layout',
-    select: (search) => search.women,
-  })
+const TableList = ({ tableArray, table }: TableListProps) => {
+  if (tableArray.length === 0) {
+    return (
+      <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-sm font-bold text-foreground md:text-base">
+        <p className="mx-10 text-center">
+          Serietabeller saknas för denna säsong.
+        </p>
+      </div>
+    )
+  }
   return (
     <div className="mb-6">
       {tableArray.map((group) => {
@@ -38,9 +43,9 @@ const TableList = ({ tableArray, seasonId, table }: TableListProps) => {
                   </h2>
                   <Link
                     from="/season/$seasonId/tables/$table"
-                    params={{ seasonId: seasonId, table: table }}
+                    params={(prev) => ({ ...prev, table: table })}
                     hash={group.group}
-                    search={{ women: women }}
+                    search={(prev) => ({ ...prev })}
                   >
                     <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
                   </Link>
@@ -57,9 +62,9 @@ const TableList = ({ tableArray, seasonId, table }: TableListProps) => {
                   </h2>
                   <Link
                     from="/season/$seasonId/tables/$table"
-                    params={{ seasonId: seasonId, table: table }}
+                    params={(prev) => ({ ...prev, table: table })}
                     hash={group.group}
-                    search={{ women: women }}
+                    search={(prev) => ({ ...prev })}
                   >
                     <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
                   </Link>

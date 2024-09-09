@@ -18,7 +18,7 @@ export const useDeleteTeamSeasonMutation = () => {
 
   const onMutationSuccess = () => {
     queryClient.invalidateQueries({
-      queryKey: seasonKeys.singleSeason(dashboardData.year.slice(-4)),
+      queryKey: seasonKeys.singleSeason(parseInt(dashboardData.year.slice(-4))),
     })
     toast({
       duration: 2500,

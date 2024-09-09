@@ -49,7 +49,7 @@ function Development() {
     })
   }, [api, dateApi])
 
-  if (women && parseInt(seasonId) < 1973) {
+  if (women && seasonId < 1973) {
     return <NoWomenSeason />
   }
 

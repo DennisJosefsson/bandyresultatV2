@@ -19,7 +19,7 @@ function About() {
             bandy&shy;vintern{' '}
             <Link
               to="/season/$seasonId/tables"
-              params={{ seasonId: '1969' }}
+              params={{ seasonId: 1969 }}
               search={{ women: false }}
               className="text-foreground transition-colors hover:text-foreground"
             >

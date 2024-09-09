@@ -14,8 +14,8 @@ const SeasonsList = () => {
       {seasons.map((season) => {
         const seasonYear =
           parseInt(season.year.split('/')[1]) >= 1964
-            ? season.year.split('/')[1]
-            : season.year
+            ? parseInt(season.year.split('/')[1])
+            : parseInt(season.year)
 
         return (
           <div

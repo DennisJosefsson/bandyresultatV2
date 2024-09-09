@@ -7,7 +7,7 @@ export const NoWomenSeason = () => {
         Första säsongen för damernas högsta serie var{' '}
         <Link
           to={'/season/$seasonId'}
-          params={{ seasonId: '1973' }}
+          params={{ seasonId: 1973 }}
           search={{ women: true }}
           className="font-bold"
         >

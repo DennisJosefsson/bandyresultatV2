@@ -31,7 +31,7 @@ export const getPaginatedSeasons = async ({
 }
 
 export const getSingleSeason = async (
-  seasonId: string
+  seasonId: number
 ): Promise<SeasonObjectType[]> => {
   const response = await seasonsApi.get(`/${seasonId}`, {
     validateStatus: (status) => {

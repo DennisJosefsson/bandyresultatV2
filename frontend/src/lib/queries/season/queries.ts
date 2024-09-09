@@ -16,13 +16,13 @@ const selectFirstAndLast = (data: SeasonObjectType[]) => {
 
 export const seasonKeys = {
   allSeasons: () => ['allSeasons'] as const,
-  singleSeason: (seasonId: string) => ['singleSeason', seasonId] as const,
+  singleSeason: (seasonId: number) => ['singleSeason', seasonId] as const,
 }
 
 export const seasonQueries = {
   allSeasons: () =>
     queryOptions({ queryKey: seasonKeys.allSeasons(), queryFn: getSeasons }),
-  singleSeason: (seasonId: string) =>
+  singleSeason: (seasonId: number) =>
     queryOptions({
       queryKey: seasonKeys.singleSeason(seasonId),
       queryFn: () => getSingleSeason(seasonId),

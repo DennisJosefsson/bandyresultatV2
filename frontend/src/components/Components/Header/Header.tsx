@@ -24,7 +24,7 @@ const Header = () => {
           </h1>
         </div>
         <div>
-          <nav className="hidden flex-col gap-6 text-lg font-semibold lg:flex lg:flex-row lg:items-center lg:gap-6 lg:text-base lg:ml-20 xl:ml-40">
+          <nav className="hidden flex-col gap-6 text-lg font-semibold tracking-wider lg:flex lg:flex-row lg:items-center lg:gap-6 lg:text-base lg:ml-20 xl:ml-40">
             <Link
               to="/seasons"
               search={{ women: womenContext, page: 1 }}
@@ -86,7 +86,7 @@ const Header = () => {
             </Button>
           </SheetTrigger>
           <SheetContent>
-            <nav className="grid gap-6 text-lg font-semibold">
+            <nav className="grid gap-6 text-lg font-semibold tracking-wider">
               <Link
                 to="/"
                 search={{ women: womenContext }}

@@ -16,7 +16,7 @@ function Metadata() {
   return (
     <div>
       <MetadataForm
-        seasonId={parseInt(seasonId)}
+        seasonId={seasonId}
         metadataData={dashboardData.metadataData}
         teams={dashboardData.teamSeasonData}
       />

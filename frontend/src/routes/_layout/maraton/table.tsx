@@ -1,7 +1,13 @@
 import Loading from '@/components/Components/Common/Loading'
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import MaratonTableHeader from '@/components/Components/Maraton/MaratonTableSubComponents/MaratonTableHeader'
-import { CatchBoundary, createFileRoute, Outlet } from '@tanstack/react-router'
+import {
+  CatchBoundary,
+  createFileRoute,
+  Navigate,
+  Outlet,
+  useChildMatches,
+} from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/maraton/table')({
   component: MaratonTables,
@@ -9,6 +15,17 @@ export const Route = createFileRoute('/_layout/maraton/table')({
 })
 
 function MaratonTables() {
+  const matches = useChildMatches()
+  if (matches.length === 0) {
+    return (
+      <Navigate
+        from="/maraton/table"
+        to="/maraton/table/$table"
+        params={(prev) => ({ ...prev, table: 'all' })}
+        search={(prev) => ({ ...prev })}
+      />
+    )
+  }
   return (
     <div>
       <MaratonTableHeader />
