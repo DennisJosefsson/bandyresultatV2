@@ -16,7 +16,8 @@
     "connectdev": "bash ./scripts/connectdev.sh",
     "updatedev": "bash ./scripts/updatedev.sh",
     "compressdev": "bash ./scripts/compressdev.sh",
-    "restartdev": "bash ./scripts/restartdev.sh"
+    "restartdev": "bash ./scripts/restartdev.sh",
+    "stopdev": "bash ./scripts/stopdev.sh"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
