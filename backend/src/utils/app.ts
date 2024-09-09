@@ -32,6 +32,9 @@ app.get('/healthcheck', (_req: Request, res: Response) => {
 })
 
 routeArray.forEach((route) => app.use(route.path, route.router))
+app.use((_req, res, _next) => {
+  res.sendFile(path.join(frontend, 'index.html'))
+})
 app.use(errorHandler)
 
 const startDB: () => Promise<void> = async () => {
