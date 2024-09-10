@@ -45,6 +45,15 @@ const lineArray = (chartData: TeamChartType[]): LineChartType[] => {
 }
 
 const TeamLineChart = ({ chartData }: { chartData: TeamChartType[] }) => {
+  if (chartData.length === 0) {
+    return (
+      <div className="flex flex-row justify-center mt-4">
+        <h2 className="text-xs font-bold md:text-sm">
+          Tyvärr saknas data för detta lag.
+        </h2>
+      </div>
+    )
+  }
   const lineChartData = lineArray(chartData)
 
   const perChunk = 16

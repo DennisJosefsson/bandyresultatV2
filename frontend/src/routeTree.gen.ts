@@ -707,74 +707,566 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  LayoutRoute: LayoutRoute.addChildren({
-    LayoutDashboardRoute: LayoutDashboardRoute.addChildren({
-      LayoutDashboardAddTeamsRoute,
-      LayoutDashboardErrorsRoute,
-      LayoutDashboardNewSeasonRoute,
-      LayoutDashboardSeasonsRoute,
-      LayoutDashboardIndexRoute,
-      LayoutDashboardSeasonSeasonIdRoute:
-        LayoutDashboardSeasonSeasonIdRoute.addChildren({
-          LayoutDashboardSeasonSeasonIdIndexRoute,
-          LayoutDashboardSeasonSeasonIdGamesSerieIdRoute:
-            LayoutDashboardSeasonSeasonIdGamesSerieIdRoute.addChildren({
-              LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRoute:
-                LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRoute.addChildren(
-                  {
-                    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute,
-                    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute,
-                  },
-                ),
-            }),
-          LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute,
-          LayoutDashboardSeasonSeasonIdMetadataIndexRoute,
-          LayoutDashboardSeasonSeasonIdNewseriesIndexRoute,
-          LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute,
-        }),
-    }),
-    LayoutMaratonRoute: LayoutMaratonRoute.addChildren({
-      LayoutMaratonHelpRoute,
-      LayoutMaratonRecordsRoute: LayoutMaratonRecordsRoute.addChildren({
-        LayoutMaratonRecordsConcededRoute,
-        LayoutMaratonRecordsPointsRoute,
-        LayoutMaratonRecordsScoredRoute,
-        LayoutMaratonRecordsStreaksRoute,
-        LayoutMaratonRecordsIndexRoute,
-      }),
-      LayoutMaratonTableRoute: LayoutMaratonTableRoute.addChildren({
-        LayoutMaratonTableTableRoute,
-      }),
-    }),
-    LayoutSearchRoute: LayoutSearchRoute.addChildren({
-      LayoutSearchHelpRoute,
-      LayoutSearchIndexRoute,
-    }),
-    LayoutSeasonRoute: LayoutSeasonRoute.addChildren({
-      LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRoute.addChildren({
-        LayoutSeasonSeasonIdDevelopmentRoute,
-        LayoutSeasonSeasonIdGamesRoute,
-        LayoutSeasonSeasonIdPlayoffRoute,
-        LayoutSeasonSeasonIdStatsRoute,
-        LayoutSeasonSeasonIdMapLazyRoute,
-        LayoutSeasonSeasonIdTablesIndexRoute,
-        LayoutSeasonSeasonIdTablesTableTableRoute,
-      }),
-    }),
-    LayoutSeasonsRoute,
-    LayoutTeamRoute: LayoutTeamRoute.addChildren({ LayoutTeamTeamIdRoute }),
-    LayoutTeamsRoute: LayoutTeamsRoute.addChildren({
-      LayoutTeamsCompareRoute,
-      LayoutTeamsSelectionRoute,
-      LayoutTeamsMapLazyRoute,
-      LayoutTeamsIndexRoute,
-    }),
-    LayoutAboutLazyRoute,
-    LayoutUnauthorizedLazyRoute,
-    LayoutIndexRoute,
-  }),
-})
+interface LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteChildren {
+  LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
+  LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+}
+
+const LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteChildren: LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteChildren =
+  {
+    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute:
+      LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute,
+    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute:
+      LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute,
+  }
+
+const LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren =
+  LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRoute._addFileChildren(
+    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteChildren,
+  )
+
+interface LayoutDashboardSeasonSeasonIdGamesSerieIdRouteChildren {
+  LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren
+}
+
+const LayoutDashboardSeasonSeasonIdGamesSerieIdRouteChildren: LayoutDashboardSeasonSeasonIdGamesSerieIdRouteChildren =
+  {
+    LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRoute:
+      LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren,
+  }
+
+const LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren =
+  LayoutDashboardSeasonSeasonIdGamesSerieIdRoute._addFileChildren(
+    LayoutDashboardSeasonSeasonIdGamesSerieIdRouteChildren,
+  )
+
+interface LayoutDashboardSeasonSeasonIdRouteChildren {
+  LayoutDashboardSeasonSeasonIdIndexRoute: typeof LayoutDashboardSeasonSeasonIdIndexRoute
+  LayoutDashboardSeasonSeasonIdGamesSerieIdRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute: typeof LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute
+  LayoutDashboardSeasonSeasonIdMetadataIndexRoute: typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
+  LayoutDashboardSeasonSeasonIdNewseriesIndexRoute: typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
+  LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute: typeof LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute
+}
+
+const LayoutDashboardSeasonSeasonIdRouteChildren: LayoutDashboardSeasonSeasonIdRouteChildren =
+  {
+    LayoutDashboardSeasonSeasonIdIndexRoute:
+      LayoutDashboardSeasonSeasonIdIndexRoute,
+    LayoutDashboardSeasonSeasonIdGamesSerieIdRoute:
+      LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren,
+    LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute:
+      LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute,
+    LayoutDashboardSeasonSeasonIdMetadataIndexRoute:
+      LayoutDashboardSeasonSeasonIdMetadataIndexRoute,
+    LayoutDashboardSeasonSeasonIdNewseriesIndexRoute:
+      LayoutDashboardSeasonSeasonIdNewseriesIndexRoute,
+    LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute:
+      LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute,
+  }
+
+const LayoutDashboardSeasonSeasonIdRouteWithChildren =
+  LayoutDashboardSeasonSeasonIdRoute._addFileChildren(
+    LayoutDashboardSeasonSeasonIdRouteChildren,
+  )
+
+interface LayoutDashboardRouteChildren {
+  LayoutDashboardAddTeamsRoute: typeof LayoutDashboardAddTeamsRoute
+  LayoutDashboardErrorsRoute: typeof LayoutDashboardErrorsRoute
+  LayoutDashboardNewSeasonRoute: typeof LayoutDashboardNewSeasonRoute
+  LayoutDashboardSeasonsRoute: typeof LayoutDashboardSeasonsRoute
+  LayoutDashboardIndexRoute: typeof LayoutDashboardIndexRoute
+  LayoutDashboardSeasonSeasonIdRoute: typeof LayoutDashboardSeasonSeasonIdRouteWithChildren
+}
+
+const LayoutDashboardRouteChildren: LayoutDashboardRouteChildren = {
+  LayoutDashboardAddTeamsRoute: LayoutDashboardAddTeamsRoute,
+  LayoutDashboardErrorsRoute: LayoutDashboardErrorsRoute,
+  LayoutDashboardNewSeasonRoute: LayoutDashboardNewSeasonRoute,
+  LayoutDashboardSeasonsRoute: LayoutDashboardSeasonsRoute,
+  LayoutDashboardIndexRoute: LayoutDashboardIndexRoute,
+  LayoutDashboardSeasonSeasonIdRoute:
+    LayoutDashboardSeasonSeasonIdRouteWithChildren,
+}
+
+const LayoutDashboardRouteWithChildren = LayoutDashboardRoute._addFileChildren(
+  LayoutDashboardRouteChildren,
+)
+
+interface LayoutMaratonRecordsRouteChildren {
+  LayoutMaratonRecordsConcededRoute: typeof LayoutMaratonRecordsConcededRoute
+  LayoutMaratonRecordsPointsRoute: typeof LayoutMaratonRecordsPointsRoute
+  LayoutMaratonRecordsScoredRoute: typeof LayoutMaratonRecordsScoredRoute
+  LayoutMaratonRecordsStreaksRoute: typeof LayoutMaratonRecordsStreaksRoute
+  LayoutMaratonRecordsIndexRoute: typeof LayoutMaratonRecordsIndexRoute
+}
+
+const LayoutMaratonRecordsRouteChildren: LayoutMaratonRecordsRouteChildren = {
+  LayoutMaratonRecordsConcededRoute: LayoutMaratonRecordsConcededRoute,
+  LayoutMaratonRecordsPointsRoute: LayoutMaratonRecordsPointsRoute,
+  LayoutMaratonRecordsScoredRoute: LayoutMaratonRecordsScoredRoute,
+  LayoutMaratonRecordsStreaksRoute: LayoutMaratonRecordsStreaksRoute,
+  LayoutMaratonRecordsIndexRoute: LayoutMaratonRecordsIndexRoute,
+}
+
+const LayoutMaratonRecordsRouteWithChildren =
+  LayoutMaratonRecordsRoute._addFileChildren(LayoutMaratonRecordsRouteChildren)
+
+interface LayoutMaratonTableRouteChildren {
+  LayoutMaratonTableTableRoute: typeof LayoutMaratonTableTableRoute
+}
+
+const LayoutMaratonTableRouteChildren: LayoutMaratonTableRouteChildren = {
+  LayoutMaratonTableTableRoute: LayoutMaratonTableTableRoute,
+}
+
+const LayoutMaratonTableRouteWithChildren =
+  LayoutMaratonTableRoute._addFileChildren(LayoutMaratonTableRouteChildren)
+
+interface LayoutMaratonRouteChildren {
+  LayoutMaratonHelpRoute: typeof LayoutMaratonHelpRoute
+  LayoutMaratonRecordsRoute: typeof LayoutMaratonRecordsRouteWithChildren
+  LayoutMaratonTableRoute: typeof LayoutMaratonTableRouteWithChildren
+}
+
+const LayoutMaratonRouteChildren: LayoutMaratonRouteChildren = {
+  LayoutMaratonHelpRoute: LayoutMaratonHelpRoute,
+  LayoutMaratonRecordsRoute: LayoutMaratonRecordsRouteWithChildren,
+  LayoutMaratonTableRoute: LayoutMaratonTableRouteWithChildren,
+}
+
+const LayoutMaratonRouteWithChildren = LayoutMaratonRoute._addFileChildren(
+  LayoutMaratonRouteChildren,
+)
+
+interface LayoutSearchRouteChildren {
+  LayoutSearchHelpRoute: typeof LayoutSearchHelpRoute
+  LayoutSearchIndexRoute: typeof LayoutSearchIndexRoute
+}
+
+const LayoutSearchRouteChildren: LayoutSearchRouteChildren = {
+  LayoutSearchHelpRoute: LayoutSearchHelpRoute,
+  LayoutSearchIndexRoute: LayoutSearchIndexRoute,
+}
+
+const LayoutSearchRouteWithChildren = LayoutSearchRoute._addFileChildren(
+  LayoutSearchRouteChildren,
+)
+
+interface LayoutSeasonSeasonIdRouteChildren {
+  LayoutSeasonSeasonIdDevelopmentRoute: typeof LayoutSeasonSeasonIdDevelopmentRoute
+  LayoutSeasonSeasonIdGamesRoute: typeof LayoutSeasonSeasonIdGamesRoute
+  LayoutSeasonSeasonIdPlayoffRoute: typeof LayoutSeasonSeasonIdPlayoffRoute
+  LayoutSeasonSeasonIdStatsRoute: typeof LayoutSeasonSeasonIdStatsRoute
+  LayoutSeasonSeasonIdMapLazyRoute: typeof LayoutSeasonSeasonIdMapLazyRoute
+  LayoutSeasonSeasonIdTablesIndexRoute: typeof LayoutSeasonSeasonIdTablesIndexRoute
+  LayoutSeasonSeasonIdTablesTableTableRoute: typeof LayoutSeasonSeasonIdTablesTableTableRoute
+}
+
+const LayoutSeasonSeasonIdRouteChildren: LayoutSeasonSeasonIdRouteChildren = {
+  LayoutSeasonSeasonIdDevelopmentRoute: LayoutSeasonSeasonIdDevelopmentRoute,
+  LayoutSeasonSeasonIdGamesRoute: LayoutSeasonSeasonIdGamesRoute,
+  LayoutSeasonSeasonIdPlayoffRoute: LayoutSeasonSeasonIdPlayoffRoute,
+  LayoutSeasonSeasonIdStatsRoute: LayoutSeasonSeasonIdStatsRoute,
+  LayoutSeasonSeasonIdMapLazyRoute: LayoutSeasonSeasonIdMapLazyRoute,
+  LayoutSeasonSeasonIdTablesIndexRoute: LayoutSeasonSeasonIdTablesIndexRoute,
+  LayoutSeasonSeasonIdTablesTableTableRoute:
+    LayoutSeasonSeasonIdTablesTableTableRoute,
+}
+
+const LayoutSeasonSeasonIdRouteWithChildren =
+  LayoutSeasonSeasonIdRoute._addFileChildren(LayoutSeasonSeasonIdRouteChildren)
+
+interface LayoutSeasonRouteChildren {
+  LayoutSeasonSeasonIdRoute: typeof LayoutSeasonSeasonIdRouteWithChildren
+}
+
+const LayoutSeasonRouteChildren: LayoutSeasonRouteChildren = {
+  LayoutSeasonSeasonIdRoute: LayoutSeasonSeasonIdRouteWithChildren,
+}
+
+const LayoutSeasonRouteWithChildren = LayoutSeasonRoute._addFileChildren(
+  LayoutSeasonRouteChildren,
+)
+
+interface LayoutTeamRouteChildren {
+  LayoutTeamTeamIdRoute: typeof LayoutTeamTeamIdRoute
+}
+
+const LayoutTeamRouteChildren: LayoutTeamRouteChildren = {
+  LayoutTeamTeamIdRoute: LayoutTeamTeamIdRoute,
+}
+
+const LayoutTeamRouteWithChildren = LayoutTeamRoute._addFileChildren(
+  LayoutTeamRouteChildren,
+)
+
+interface LayoutTeamsRouteChildren {
+  LayoutTeamsCompareRoute: typeof LayoutTeamsCompareRoute
+  LayoutTeamsSelectionRoute: typeof LayoutTeamsSelectionRoute
+  LayoutTeamsMapLazyRoute: typeof LayoutTeamsMapLazyRoute
+  LayoutTeamsIndexRoute: typeof LayoutTeamsIndexRoute
+}
+
+const LayoutTeamsRouteChildren: LayoutTeamsRouteChildren = {
+  LayoutTeamsCompareRoute: LayoutTeamsCompareRoute,
+  LayoutTeamsSelectionRoute: LayoutTeamsSelectionRoute,
+  LayoutTeamsMapLazyRoute: LayoutTeamsMapLazyRoute,
+  LayoutTeamsIndexRoute: LayoutTeamsIndexRoute,
+}
+
+const LayoutTeamsRouteWithChildren = LayoutTeamsRoute._addFileChildren(
+  LayoutTeamsRouteChildren,
+)
+
+interface LayoutRouteChildren {
+  LayoutDashboardRoute: typeof LayoutDashboardRouteWithChildren
+  LayoutMaratonRoute: typeof LayoutMaratonRouteWithChildren
+  LayoutSearchRoute: typeof LayoutSearchRouteWithChildren
+  LayoutSeasonRoute: typeof LayoutSeasonRouteWithChildren
+  LayoutSeasonsRoute: typeof LayoutSeasonsRoute
+  LayoutTeamRoute: typeof LayoutTeamRouteWithChildren
+  LayoutTeamsRoute: typeof LayoutTeamsRouteWithChildren
+  LayoutAboutLazyRoute: typeof LayoutAboutLazyRoute
+  LayoutUnauthorizedLazyRoute: typeof LayoutUnauthorizedLazyRoute
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutDashboardRoute: LayoutDashboardRouteWithChildren,
+  LayoutMaratonRoute: LayoutMaratonRouteWithChildren,
+  LayoutSearchRoute: LayoutSearchRouteWithChildren,
+  LayoutSeasonRoute: LayoutSeasonRouteWithChildren,
+  LayoutSeasonsRoute: LayoutSeasonsRoute,
+  LayoutTeamRoute: LayoutTeamRouteWithChildren,
+  LayoutTeamsRoute: LayoutTeamsRouteWithChildren,
+  LayoutAboutLazyRoute: LayoutAboutLazyRoute,
+  LayoutUnauthorizedLazyRoute: LayoutUnauthorizedLazyRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
+export interface FileRoutesByFullPath {
+  '': typeof LayoutRouteWithChildren
+  '/dashboard': typeof LayoutDashboardRouteWithChildren
+  '/maraton': typeof LayoutMaratonRouteWithChildren
+  '/search': typeof LayoutSearchRouteWithChildren
+  '/season': typeof LayoutSeasonRouteWithChildren
+  '/seasons': typeof LayoutSeasonsRoute
+  '/team': typeof LayoutTeamRouteWithChildren
+  '/teams': typeof LayoutTeamsRouteWithChildren
+  '/about': typeof LayoutAboutLazyRoute
+  '/unauthorized': typeof LayoutUnauthorizedLazyRoute
+  '/': typeof LayoutIndexRoute
+  '/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
+  '/dashboard/errors': typeof LayoutDashboardErrorsRoute
+  '/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
+  '/dashboard/seasons': typeof LayoutDashboardSeasonsRoute
+  '/maraton/help': typeof LayoutMaratonHelpRoute
+  '/maraton/records': typeof LayoutMaratonRecordsRouteWithChildren
+  '/maraton/table': typeof LayoutMaratonTableRouteWithChildren
+  '/search/help': typeof LayoutSearchHelpRoute
+  '/season/$seasonId': typeof LayoutSeasonSeasonIdRouteWithChildren
+  '/team/$teamId': typeof LayoutTeamTeamIdRoute
+  '/teams/compare': typeof LayoutTeamsCompareRoute
+  '/teams/selection': typeof LayoutTeamsSelectionRoute
+  '/teams/map': typeof LayoutTeamsMapLazyRoute
+  '/dashboard/': typeof LayoutDashboardIndexRoute
+  '/search/': typeof LayoutSearchIndexRoute
+  '/teams/': typeof LayoutTeamsIndexRoute
+  '/dashboard/season/$seasonId': typeof LayoutDashboardSeasonSeasonIdRouteWithChildren
+  '/maraton/records/conceded': typeof LayoutMaratonRecordsConcededRoute
+  '/maraton/records/points': typeof LayoutMaratonRecordsPointsRoute
+  '/maraton/records/scored': typeof LayoutMaratonRecordsScoredRoute
+  '/maraton/records/streaks': typeof LayoutMaratonRecordsStreaksRoute
+  '/maraton/table/$table': typeof LayoutMaratonTableTableRoute
+  '/season/$seasonId/development': typeof LayoutSeasonSeasonIdDevelopmentRoute
+  '/season/$seasonId/games': typeof LayoutSeasonSeasonIdGamesRoute
+  '/season/$seasonId/playoff': typeof LayoutSeasonSeasonIdPlayoffRoute
+  '/season/$seasonId/stats': typeof LayoutSeasonSeasonIdStatsRoute
+  '/season/$seasonId/map': typeof LayoutSeasonSeasonIdMapLazyRoute
+  '/maraton/records/': typeof LayoutMaratonRecordsIndexRoute
+  '/dashboard/season/$seasonId/': typeof LayoutDashboardSeasonSeasonIdIndexRoute
+  '/season/$seasonId/tables': typeof LayoutSeasonSeasonIdTablesIndexRoute
+  '/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/season/$seasonId/tables/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
+  '/dashboard/season/$seasonId/bulkgames': typeof LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute
+  '/dashboard/season/$seasonId/metadata': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
+  '/dashboard/season/$seasonId/newseries': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
+  '/dashboard/season/$seasonId/teamseason': typeof LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute
+  '/dashboard/season/$seasonId/games/$serieId/$gameId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren
+  '/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
+  '/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+}
+
+export interface FileRoutesByTo {
+  '/maraton': typeof LayoutMaratonRouteWithChildren
+  '/season': typeof LayoutSeasonRouteWithChildren
+  '/seasons': typeof LayoutSeasonsRoute
+  '/team': typeof LayoutTeamRouteWithChildren
+  '/about': typeof LayoutAboutLazyRoute
+  '/unauthorized': typeof LayoutUnauthorizedLazyRoute
+  '/': typeof LayoutIndexRoute
+  '/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
+  '/dashboard/errors': typeof LayoutDashboardErrorsRoute
+  '/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
+  '/dashboard/seasons': typeof LayoutDashboardSeasonsRoute
+  '/maraton/help': typeof LayoutMaratonHelpRoute
+  '/maraton/table': typeof LayoutMaratonTableRouteWithChildren
+  '/search/help': typeof LayoutSearchHelpRoute
+  '/season/$seasonId': typeof LayoutSeasonSeasonIdRouteWithChildren
+  '/team/$teamId': typeof LayoutTeamTeamIdRoute
+  '/teams/compare': typeof LayoutTeamsCompareRoute
+  '/teams/selection': typeof LayoutTeamsSelectionRoute
+  '/teams/map': typeof LayoutTeamsMapLazyRoute
+  '/dashboard': typeof LayoutDashboardIndexRoute
+  '/search': typeof LayoutSearchIndexRoute
+  '/teams': typeof LayoutTeamsIndexRoute
+  '/maraton/records/conceded': typeof LayoutMaratonRecordsConcededRoute
+  '/maraton/records/points': typeof LayoutMaratonRecordsPointsRoute
+  '/maraton/records/scored': typeof LayoutMaratonRecordsScoredRoute
+  '/maraton/records/streaks': typeof LayoutMaratonRecordsStreaksRoute
+  '/maraton/table/$table': typeof LayoutMaratonTableTableRoute
+  '/season/$seasonId/development': typeof LayoutSeasonSeasonIdDevelopmentRoute
+  '/season/$seasonId/games': typeof LayoutSeasonSeasonIdGamesRoute
+  '/season/$seasonId/playoff': typeof LayoutSeasonSeasonIdPlayoffRoute
+  '/season/$seasonId/stats': typeof LayoutSeasonSeasonIdStatsRoute
+  '/season/$seasonId/map': typeof LayoutSeasonSeasonIdMapLazyRoute
+  '/maraton/records': typeof LayoutMaratonRecordsIndexRoute
+  '/dashboard/season/$seasonId': typeof LayoutDashboardSeasonSeasonIdIndexRoute
+  '/season/$seasonId/tables': typeof LayoutSeasonSeasonIdTablesIndexRoute
+  '/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/season/$seasonId/tables/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
+  '/dashboard/season/$seasonId/bulkgames': typeof LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute
+  '/dashboard/season/$seasonId/metadata': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
+  '/dashboard/season/$seasonId/newseries': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
+  '/dashboard/season/$seasonId/teamseason': typeof LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute
+  '/dashboard/season/$seasonId/games/$serieId/$gameId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren
+  '/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
+  '/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/dashboard': typeof LayoutDashboardRouteWithChildren
+  '/_layout/maraton': typeof LayoutMaratonRouteWithChildren
+  '/_layout/search': typeof LayoutSearchRouteWithChildren
+  '/_layout/season': typeof LayoutSeasonRouteWithChildren
+  '/_layout/seasons': typeof LayoutSeasonsRoute
+  '/_layout/team': typeof LayoutTeamRouteWithChildren
+  '/_layout/teams': typeof LayoutTeamsRouteWithChildren
+  '/_layout/about': typeof LayoutAboutLazyRoute
+  '/_layout/unauthorized': typeof LayoutUnauthorizedLazyRoute
+  '/_layout/': typeof LayoutIndexRoute
+  '/_layout/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
+  '/_layout/dashboard/errors': typeof LayoutDashboardErrorsRoute
+  '/_layout/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
+  '/_layout/dashboard/seasons': typeof LayoutDashboardSeasonsRoute
+  '/_layout/maraton/help': typeof LayoutMaratonHelpRoute
+  '/_layout/maraton/records': typeof LayoutMaratonRecordsRouteWithChildren
+  '/_layout/maraton/table': typeof LayoutMaratonTableRouteWithChildren
+  '/_layout/search/help': typeof LayoutSearchHelpRoute
+  '/_layout/season/$seasonId': typeof LayoutSeasonSeasonIdRouteWithChildren
+  '/_layout/team/$teamId': typeof LayoutTeamTeamIdRoute
+  '/_layout/teams/compare': typeof LayoutTeamsCompareRoute
+  '/_layout/teams/selection': typeof LayoutTeamsSelectionRoute
+  '/_layout/teams/map': typeof LayoutTeamsMapLazyRoute
+  '/_layout/dashboard/': typeof LayoutDashboardIndexRoute
+  '/_layout/search/': typeof LayoutSearchIndexRoute
+  '/_layout/teams/': typeof LayoutTeamsIndexRoute
+  '/_layout/dashboard/season/$seasonId': typeof LayoutDashboardSeasonSeasonIdRouteWithChildren
+  '/_layout/maraton/records/conceded': typeof LayoutMaratonRecordsConcededRoute
+  '/_layout/maraton/records/points': typeof LayoutMaratonRecordsPointsRoute
+  '/_layout/maraton/records/scored': typeof LayoutMaratonRecordsScoredRoute
+  '/_layout/maraton/records/streaks': typeof LayoutMaratonRecordsStreaksRoute
+  '/_layout/maraton/table/$table': typeof LayoutMaratonTableTableRoute
+  '/_layout/season/$seasonId/development': typeof LayoutSeasonSeasonIdDevelopmentRoute
+  '/_layout/season/$seasonId/games': typeof LayoutSeasonSeasonIdGamesRoute
+  '/_layout/season/$seasonId/playoff': typeof LayoutSeasonSeasonIdPlayoffRoute
+  '/_layout/season/$seasonId/stats': typeof LayoutSeasonSeasonIdStatsRoute
+  '/_layout/season/$seasonId/map': typeof LayoutSeasonSeasonIdMapLazyRoute
+  '/_layout/maraton/records/': typeof LayoutMaratonRecordsIndexRoute
+  '/_layout/dashboard/season/$seasonId/': typeof LayoutDashboardSeasonSeasonIdIndexRoute
+  '/_layout/season/$seasonId/tables/': typeof LayoutSeasonSeasonIdTablesIndexRoute
+  '/_layout/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/_layout/season/$seasonId/tables/_table/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
+  '/_layout/dashboard/season/$seasonId/bulkgames/': typeof LayoutDashboardSeasonSeasonIdBulkgamesIndexRoute
+  '/_layout/dashboard/season/$seasonId/metadata/': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
+  '/_layout/dashboard/season/$seasonId/newseries/': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
+  '/_layout/dashboard/season/$seasonId/teamseason/': typeof LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute
+  '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdRouteWithChildren
+  '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
+  '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | ''
+    | '/dashboard'
+    | '/maraton'
+    | '/search'
+    | '/season'
+    | '/seasons'
+    | '/team'
+    | '/teams'
+    | '/about'
+    | '/unauthorized'
+    | '/'
+    | '/dashboard/addTeams'
+    | '/dashboard/errors'
+    | '/dashboard/newSeason'
+    | '/dashboard/seasons'
+    | '/maraton/help'
+    | '/maraton/records'
+    | '/maraton/table'
+    | '/search/help'
+    | '/season/$seasonId'
+    | '/team/$teamId'
+    | '/teams/compare'
+    | '/teams/selection'
+    | '/teams/map'
+    | '/dashboard/'
+    | '/search/'
+    | '/teams/'
+    | '/dashboard/season/$seasonId'
+    | '/maraton/records/conceded'
+    | '/maraton/records/points'
+    | '/maraton/records/scored'
+    | '/maraton/records/streaks'
+    | '/maraton/table/$table'
+    | '/season/$seasonId/development'
+    | '/season/$seasonId/games'
+    | '/season/$seasonId/playoff'
+    | '/season/$seasonId/stats'
+    | '/season/$seasonId/map'
+    | '/maraton/records/'
+    | '/dashboard/season/$seasonId/'
+    | '/season/$seasonId/tables'
+    | '/dashboard/season/$seasonId/games/$serieId'
+    | '/season/$seasonId/tables/$table'
+    | '/dashboard/season/$seasonId/bulkgames'
+    | '/dashboard/season/$seasonId/metadata'
+    | '/dashboard/season/$seasonId/newseries'
+    | '/dashboard/season/$seasonId/teamseason'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/maraton'
+    | '/season'
+    | '/seasons'
+    | '/team'
+    | '/about'
+    | '/unauthorized'
+    | '/'
+    | '/dashboard/addTeams'
+    | '/dashboard/errors'
+    | '/dashboard/newSeason'
+    | '/dashboard/seasons'
+    | '/maraton/help'
+    | '/maraton/table'
+    | '/search/help'
+    | '/season/$seasonId'
+    | '/team/$teamId'
+    | '/teams/compare'
+    | '/teams/selection'
+    | '/teams/map'
+    | '/dashboard'
+    | '/search'
+    | '/teams'
+    | '/maraton/records/conceded'
+    | '/maraton/records/points'
+    | '/maraton/records/scored'
+    | '/maraton/records/streaks'
+    | '/maraton/table/$table'
+    | '/season/$seasonId/development'
+    | '/season/$seasonId/games'
+    | '/season/$seasonId/playoff'
+    | '/season/$seasonId/stats'
+    | '/season/$seasonId/map'
+    | '/maraton/records'
+    | '/dashboard/season/$seasonId'
+    | '/season/$seasonId/tables'
+    | '/dashboard/season/$seasonId/games/$serieId'
+    | '/season/$seasonId/tables/$table'
+    | '/dashboard/season/$seasonId/bulkgames'
+    | '/dashboard/season/$seasonId/metadata'
+    | '/dashboard/season/$seasonId/newseries'
+    | '/dashboard/season/$seasonId/teamseason'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
+    | '/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/dashboard'
+    | '/_layout/maraton'
+    | '/_layout/search'
+    | '/_layout/season'
+    | '/_layout/seasons'
+    | '/_layout/team'
+    | '/_layout/teams'
+    | '/_layout/about'
+    | '/_layout/unauthorized'
+    | '/_layout/'
+    | '/_layout/dashboard/addTeams'
+    | '/_layout/dashboard/errors'
+    | '/_layout/dashboard/newSeason'
+    | '/_layout/dashboard/seasons'
+    | '/_layout/maraton/help'
+    | '/_layout/maraton/records'
+    | '/_layout/maraton/table'
+    | '/_layout/search/help'
+    | '/_layout/season/$seasonId'
+    | '/_layout/team/$teamId'
+    | '/_layout/teams/compare'
+    | '/_layout/teams/selection'
+    | '/_layout/teams/map'
+    | '/_layout/dashboard/'
+    | '/_layout/search/'
+    | '/_layout/teams/'
+    | '/_layout/dashboard/season/$seasonId'
+    | '/_layout/maraton/records/conceded'
+    | '/_layout/maraton/records/points'
+    | '/_layout/maraton/records/scored'
+    | '/_layout/maraton/records/streaks'
+    | '/_layout/maraton/table/$table'
+    | '/_layout/season/$seasonId/development'
+    | '/_layout/season/$seasonId/games'
+    | '/_layout/season/$seasonId/playoff'
+    | '/_layout/season/$seasonId/stats'
+    | '/_layout/season/$seasonId/map'
+    | '/_layout/maraton/records/'
+    | '/_layout/dashboard/season/$seasonId/'
+    | '/_layout/season/$seasonId/tables/'
+    | '/_layout/dashboard/season/$seasonId/games/$serieId'
+    | '/_layout/season/$seasonId/tables/_table/$table'
+    | '/_layout/dashboard/season/$seasonId/bulkgames/'
+    | '/_layout/dashboard/season/$seasonId/metadata/'
+    | '/_layout/dashboard/season/$seasonId/newseries/'
+    | '/_layout/dashboard/season/$seasonId/teamseason/'
+    | '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId'
+    | '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
+    | '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  LayoutRoute: typeof LayoutRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  LayoutRoute: LayoutRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 

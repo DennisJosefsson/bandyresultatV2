@@ -15,6 +15,7 @@ const Team = () => {
   const team = useLoaderData({
     from: '/_layout/team/$teamId',
   })
+
   return (
     <>
       {team && (
@@ -49,23 +50,34 @@ const Team = () => {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="tables">
-                {team.tabeller.length === 0 && (
-                  <h2 className="mb-2 ml-0 text-base font-bold md:text-xl">
-                    Tyvärr saknas tabelldata
-                  </h2>
-                )}
-                {team.tabeller.length > 0 && (
+                {team.tabeller.length > 0 ? (
                   <>
                     <TeamTable tabeller={team.tabeller} />
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-row justify-center mt-4">
+                      <h2 className="text-xs font-bold md:text-sm">
+                        Tyvärr saknas tabelldata för detta lag.
+                      </h2>
+                    </div>
                   </>
                 )}
               </TabsContent>
               <TabsContent value="fiveSeasons">
-                {team.sortedFiveSeasons.length > 1 && (
+                {team.sortedFiveSeasons.length > 0 ? (
                   <>
                     <TeamFiveSeasonsTables
                       tableArray={team.sortedFiveSeasons}
                     />
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-row justify-center mt-4">
+                      <h2 className="text-xs font-bold md:text-sm">
+                        Tyvärr saknas tabelldata för detta lag.
+                      </h2>
+                    </div>
                   </>
                 )}
               </TabsContent>

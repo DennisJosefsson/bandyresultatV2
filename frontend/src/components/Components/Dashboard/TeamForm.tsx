@@ -2,9 +2,12 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/use-toast'
 import teamFormReducer from '@/lib/reducers/teamFormReducer'
 import { postTeam } from '@/lib/requests/teams'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
 import { ChangeEvent, SyntheticEvent, useReducer } from 'react'
 
 const initState = {
@@ -18,15 +21,55 @@ const initState = {
 }
 
 const TeamForm = () => {
-  const mutation = useMutation({ mutationFn: postTeam })
+  const mutation = useMutation({
+    mutationFn: postTeam,
+    onSuccess: () => onSuccessMutation(),
+    onError: (error) => onErrorMutation(error),
+  })
   const [formState, dispatch] = useReducer(teamFormReducer, initState)
   const queryClient = useQueryClient()
+  const navigate = useNavigate({ from: '/dashboard/addTeams' })
+  const { toast } = useToast()
+  const women = useSearch({
+    from: '/_layout',
+    select(search) {
+      return search.women
+    },
+  })
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault()
 
     mutation.mutate({ formState })
+  }
+
+  const onSuccessMutation = () => {
     queryClient.invalidateQueries({ queryKey: ['teams'] })
+    toast({
+      duration: 5000,
+      title: 'Uppdaterad metadata',
+    })
+    navigate({
+      to: '/dashboard',
+      search: { women },
+    })
+  }
+
+  const onErrorMutation = (error: unknown) => {
+    if (error instanceof AxiosError) {
+      toast({
+        duration: 5000,
+        title: 'Fel',
+        description: error.response?.data.errors,
+        variant: 'destructive',
+      })
+    } else {
+      toast({
+        duration: 5000,
+        title: 'Något gick fel',
+        variant: 'destructive',
+      })
+    }
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -167,7 +210,7 @@ const TeamForm = () => {
                       className="text-foreground focus:ring-gray-500"
                       name="women"
                       checked={formState.women}
-                      onChange={() => dispatch({ type: 'TOGGLE' })}
+                      onCheckedChange={() => dispatch({ type: 'TOGGLE' })}
                     />
                   </div>
                 </label>
