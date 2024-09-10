@@ -24,8 +24,8 @@ export const teamAttributes = z.object({
   casualName: z.string(),
   shortName: z.string(),
   women: z.boolean().optional(),
-  lat: z.number().optional().nullable(),
-  long: z.number().optional().nullable(),
+  lat: z.coerce.number().optional().nullable(),
+  long: z.coerce.number().optional().nullable(),
 })
 
 export const teamInput = teamAttributes.partial({ teamId: true })

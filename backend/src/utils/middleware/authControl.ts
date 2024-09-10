@@ -1,16 +1,17 @@
 import dotenv from 'dotenv'
-dotenv.config()
-import { z } from 'zod'
+import { NextFunction, Request, Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express'
+import { z } from 'zod'
 import { userForAdmin } from '../../models/User.js'
 import LoginError from './errors/LoginError.js'
+dotenv.config()
 
 const checkString = z.string()
 
 const secret: Secret = checkString.parse(process.env.JWT_SECRET)
 
 const authControl = (req: Request, _res: Response, next: NextFunction) => {
+  if (process.env.NODE_ENV === 'development') return next()
   try {
     if (!req.cookies.bandykaka) {
       throw new LoginError({
