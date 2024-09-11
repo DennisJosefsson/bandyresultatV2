@@ -30,7 +30,6 @@ const StreakCard = ({ streak, title }: StreakCardProps) => {
               <div className="flex flex-col flex-grow">
                 <div className="flex flex-row justify-between">
                   <span className="truncate font-semibold">{streak.name}</span>
-                  <span className="text-right">{streak.game_count}</span>
                 </div>
                 <div className="flex flex-row items-center justify-between text-[10px] md:text-xs">
                   <span className="w-48 sm:w-64">
@@ -38,6 +37,11 @@ const StreakCard = ({ streak, title }: StreakCardProps) => {
                     <Date>{streak.end_date}</Date>
                   </span>
                 </div>
+              </div>
+              <div>
+                <span className="mr-4 w-8 text-right text-xs md:text-sm font-semibold tabular-nums">
+                  {streak.game_count}
+                </span>
               </div>
             </Card>
           )

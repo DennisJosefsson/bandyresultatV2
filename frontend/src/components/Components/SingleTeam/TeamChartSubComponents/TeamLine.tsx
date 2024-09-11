@@ -7,6 +7,7 @@ import { LineChartType } from './TeamLineChart'
 type TeamLineProps = {
   renderData: LineChartType[][]
   renderLength: number
+  chunk?: number
 }
 
 const yAxisFormatter = (value: number) => {
@@ -32,6 +33,26 @@ const yAxisFormatter = (value: number) => {
   }
 }
 
+function PreviousChartLable({
+  renderData,
+  renderLength,
+  chunk,
+}: TeamLineProps) {
+  if (chunk === undefined) return ''
+  if (renderData[chunk === 0 ? renderLength - 1 : chunk - 1].length === 1)
+    return `${renderData[chunk === 0 ? renderLength - 1 : chunk - 1][0]?.year}`
+  const lable = `${renderData[chunk === 0 ? renderLength - 1 : chunk - 1][0]?.year} - ${renderData[chunk === 0 ? renderLength - 1 : chunk - 1][renderData[chunk === 0 ? renderLength - 1 : chunk - 1].length - 1]?.year}`
+  return lable
+}
+
+function NextChartLable({ renderData, renderLength, chunk }: TeamLineProps) {
+  if (chunk === undefined) return ''
+  if (renderData[chunk === renderLength - 1 ? 0 : chunk + 1].length === 1)
+    return `${renderData[chunk === renderLength - 1 ? 0 : chunk + 1][0]?.year}`
+  const lable = `${renderData[chunk === renderLength - 1 ? 0 : chunk + 1][0]?.year} - ${renderData[chunk === renderLength - 1 ? 0 : chunk + 1][renderData[chunk === renderLength - 1 ? 0 : chunk + 1].length - 1]?.year}`
+  return lable
+}
+
 const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
   const [chunk, setChunk] = useState<number>(renderLength - 1)
 
@@ -54,7 +75,9 @@ const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
                 <ArrowLeftIcon className="h-4 w-4" />
                 <span className="sr-only">Föregående</span>
 
-                <div className="text-[8px] md:text-[12px]">{`${renderData[chunk === 0 ? renderLength - 1 : chunk - 1][0]?.year} - ${renderData[chunk === 0 ? renderLength - 1 : chunk - 1][renderData[chunk === 0 ? renderLength - 1 : chunk - 1].length - 1]?.year}`}</div>
+                <div className="text-[8px] md:text-[12px]">
+                  {PreviousChartLable({ renderData, renderLength, chunk })}
+                </div>
               </div>
             </Button>
           </div>
@@ -69,7 +92,9 @@ const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
               }
             >
               <div className="flex flex-row items-center gap-1 cursor-pointer">
-                <div className="text-[8px] md:text-[12px]">{`${renderData[chunk === renderLength - 1 ? 0 : chunk + 1][0]?.year} - ${renderData[chunk === renderLength - 1 ? 0 : chunk + 1][renderData[chunk === renderLength - 1 ? 0 : chunk + 1].length - 1]?.year}`}</div>
+                <div className="text-[8px] md:text-[12px]">
+                  {NextChartLable({ renderData, renderLength, chunk })}
+                </div>
                 <ArrowRightIcon className="h-4 w-4" />
                 <span className="sr-only">Nästa</span>
               </div>
@@ -84,22 +109,26 @@ const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
         >
           <XAxis
             dataKey="year"
-            fontSize={matches768 ? 12 : 6}
+            fontSize={matches768 ? 12 : 8}
             angle={matches768 ? 0 : -30}
             axisLine={false}
             tickLine={false}
+            stroke="currentColor"
+            className="text-primary"
           />
           <YAxis
             dataKey="dataPoint"
             domain={[-1, 8]}
             interval={0}
-            fontSize={matches768 ? 12 : 6}
+            fontSize={matches768 ? 12 : 8}
             tickFormatter={yAxisFormatter}
             tickCount={10}
             axisLine={false}
             tickLine={false}
             minTickGap={0}
             tickMargin={5}
+            stroke="currentColor"
+            className="text-primary"
           />
           <Line
             type="monotone"

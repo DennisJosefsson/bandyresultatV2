@@ -16,11 +16,15 @@ const PointsGoalsCard = ({ pos, name, data, year }: PointsGoalsCardProps) => {
       <div className="flex flex-col flex-grow">
         <div className="flex flex-row justify-between">
           <span className="truncate font-semibold">{name}</span>
-          <span className="text-right">{data}</span>
         </div>
         <div className="flex flex-row items-center justify-between text-[10px] md:text-xs">
           <span className="w-48 sm:w-64">{year}</span>
         </div>
+      </div>
+      <div>
+        <span className="mr-4 w-8 text-right text-xs md:text-sm font-semibold tabular-nums">
+          {data}
+        </span>
       </div>
     </Card>
   )

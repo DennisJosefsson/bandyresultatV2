@@ -34,11 +34,19 @@ const getTime = (date?: Date): number => {
 
 export const compareTeams = async (
   compObject: CompareFormState
-): Promise<CompareResponseObjectType> => {
+): Promise<CompareResponseObjectType | { status: number; error: string }> => {
   if (compObject === null || compObject === undefined) {
     throw new Error('nullObject')
   }
-  const response = await tablesApi.post('/compare', compObject)
+  const response = await tablesApi.post('/compare', compObject, {
+    validateStatus: (status) => {
+      return status < 500
+    },
+  })
+
+  if (response.status === 404) {
+    return { status: 404, error: response.data.errors }
+  }
 
   const parsedResponseObject = compareResponseObject.safeParse(response.data)
   if (!parsedResponseObject.success) {

@@ -4,16 +4,14 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useLoaderData, useLocation, useSearch } from '@tanstack/react-router'
 
 const baseUrl = import.meta.env.PROD
-  ? 'https://bandyresultat.se'
+  ? 'https://dev.bandyresultat.se'
   : 'http://localhost:5173'
 
 export const useCompareResults = (compareObject: CompareFormState) => {
-  const { data, error } = useSuspenseQuery(
-    teamQueries['compare'](compareObject)
-  )
+  const { data } = useSuspenseQuery(teamQueries['compare'](compareObject))
   const href = useLocation().href
   const compareLink = `${baseUrl}${href}`
-  return { data, error, compareLink }
+  return { data, compareLink }
 }
 
 export const useCompareSeasons = () => {

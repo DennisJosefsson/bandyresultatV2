@@ -13,9 +13,11 @@ const GeneralStatsCard = ({ pos, name, count }: GeneralStatsCardProps) => {
         {pos}
       </span>
 
-      <div className="flex flex-row flex-grow justify-between">
+      <div className="flex flex-row flex-grow justify-between items-center">
         <span className="truncate font-semibold">{name}</span>
-        <span className="text-right">{count}</span>
+        <span className="text-right text-xs md:text-sm font-semibold mr-4">
+          {count}
+        </span>
       </div>
     </Card>
   )

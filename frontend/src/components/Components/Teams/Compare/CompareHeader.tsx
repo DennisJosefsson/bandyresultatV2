@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { CompareFormState } from '@/lib/types/teams/teams'
 import {
   getOrigin,
@@ -47,6 +48,7 @@ const CompareHeader = ({
   link,
   compareHeaderText,
 }: CompareHeaderProps) => {
+  useScrollTo()
   if (!searchObject) return null
 
   return (

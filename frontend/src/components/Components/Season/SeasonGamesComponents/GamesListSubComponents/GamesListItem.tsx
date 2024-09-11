@@ -72,7 +72,9 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
           className="group hover:bg-muted/90"
           onClick={() => game.gameId && onClickHandler(game.gameId)}
         >
-          <span className="group-hover:font-semibold">H2H</span>
+          <span className="text-[8px] md:text-sm group-hover:font-semibold">
+            H2H
+          </span>
         </Button>
       </div>
     </div>

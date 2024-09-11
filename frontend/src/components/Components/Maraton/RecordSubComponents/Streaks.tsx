@@ -45,7 +45,7 @@ const Streaks = () => {
                       <span className="mr-4 w-8 text-right text-base md:text-2xl font-bold tabular-nums">
                         {index + 1}
                       </span>
-                      <div className="flex flex-col flex-grow">
+                      <div className="flex flex-col flex-grow mr-4">
                         <div className="flex flex-row justify-between">
                           <span className="truncate font-semibold">
                             {team.lag.name}

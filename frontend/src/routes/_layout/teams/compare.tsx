@@ -4,12 +4,18 @@ import CompareHeader from '@/components/Components/Teams/Compare/CompareHeader'
 import CompareStats from '@/components/Components/Teams/Compare/CompareStats'
 import DetailedData from '@/components/Components/Teams/Compare/DetailedData'
 import { useCompareResults } from '@/lib/hooks/dataHooks/teams/useCompare'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
+import { Button } from '@/components/ui/button'
 import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
+import {
+  getOrigin,
+  resetOrigin,
+} from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { AxiosError } from 'axios'
+import { useMediaQuery } from 'usehooks-ts'
 
 export const Route = createFileRoute('/_layout/teams/compare')({
   component: Compare,
@@ -21,6 +27,20 @@ function Compare() {
   const compareObject = Route.useSearch()
   const { data: compareData, compareLink } = useCompareResults(compareObject)
   useScrollTo()
+  if ('error' in compareData) {
+    return (
+      <div className="flex flex-col my-4 p-2">
+        <div className="flex flex-row justify-end">
+          <GoBackButton />
+        </div>
+        <div className="mt-1 flex flex-row justify-center">
+          <span className="text-[10px] font-semibold sm:text-sm">
+            {compareData.error}
+          </span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -72,6 +92,27 @@ function Compare() {
           </div>
         </div>
       )}
+    </>
+  )
+}
+
+function GoBackButton() {
+  const matches = useMediaQuery('(min-width: 430px)')
+  const { origin } = getOrigin()
+  const navigate = useNavigate()
+
+  const goBack = () => {
+    origin && navigate({ to: origin })
+    resetOrigin()
+  }
+
+  return (
+    <>
+      {origin ? (
+        <Button size={matches ? 'sm' : 'xxs'} onClick={goBack}>
+          Tillbaka
+        </Button>
+      ) : null}
     </>
   )
 }
