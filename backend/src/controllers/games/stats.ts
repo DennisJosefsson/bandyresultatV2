@@ -32,6 +32,19 @@ statsRouter.get('/stats/:seasonId', (async (
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const women = parseWomen.parse(req.query.women)
 
+  const gamesCountTotal = await Game.count({
+    where: { women: women === 'true' ? true : false, played: true },
+    include: {
+      model: Season,
+      where: { year: { [Op.eq]: seasonYear } },
+      attributes: ['year', 'seasonId'],
+    },
+  })
+
+  if (gamesCountTotal === 0) {
+    return res.status(200).json({ gamesCountTotal })
+  }
+
   const goalsScoredTotalRaw = await TeamGame.findOne({
     where: { homeGame: true, women: women === 'true' ? true : false },
     include: {
@@ -44,9 +57,7 @@ statsRouter.get('/stats/:seasonId', (async (
     raw: true,
     nest: true,
   })
-
   const goalsScoredTotal = goalStatsObject.parse(goalsScoredTotalRaw)
-
   const goalsScoredTotalCatRaw = await TeamGame.findAll({
     where: { homeGame: true, women: women === 'true' ? true : false },
     include: {
@@ -62,9 +73,7 @@ statsRouter.get('/stats/:seasonId', (async (
     raw: true,
     nest: true,
   })
-
   const goalsScoredTotalCat = goalStatsByCatObject.parse(goalsScoredTotalCatRaw)
-
   const goalsScoredHomeTotalRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
     include: {
@@ -291,15 +300,6 @@ statsRouter.get('/stats/:seasonId', (async (
   const goalsScoredAwayAverageCat = goalStatsByCatObject.parse(
     goalsScoredAwayAverageCatRaw
   )
-
-  const gamesCountTotal = await Game.count({
-    where: { women: women === 'true' ? true : false, played: true },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
-  })
 
   const gamesCountTotalCat = await Game.count({
     where: { women: women === 'true' ? true : false, played: true },
