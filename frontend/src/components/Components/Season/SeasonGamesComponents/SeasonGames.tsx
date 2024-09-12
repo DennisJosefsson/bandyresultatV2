@@ -2,7 +2,6 @@ import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFir
 
 import { useLoaderData, useParams, useSearch } from '@tanstack/react-router'
 
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { NoWomenSeason } from '../../Common/NoWomenSeason'
 import Games from './Games'
 
@@ -20,8 +19,6 @@ const SeasonGames = () => {
   })
 
   const { lastSeason } = useGetFirstAndLastSeason()
-
-  useScrollTo()
 
   if (women && seasonId < 1973) {
     return <NoWomenSeason />

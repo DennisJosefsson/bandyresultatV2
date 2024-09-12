@@ -1,15 +1,12 @@
 import { KeyboardEvent, useState } from 'react'
 
 import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import FilterComponent from './Subcomponents/FilterComponent'
 import SeasonsList from './Subcomponents/SeasonsList'
 
 const Seasons = () => {
   const [seasonFilter, setSeasonFilter] = useState('')
   const { seasons } = useGetAllSeasons()
-
-  useScrollTo()
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {

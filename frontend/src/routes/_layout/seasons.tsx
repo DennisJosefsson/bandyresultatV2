@@ -3,7 +3,6 @@ import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComp
 import SeasonsList from '@/components/Components/Season/SeasonsList'
 import SeasonsPagination from '@/components/Components/Seasons/Pagination'
 import { Card, CardContent } from '@/components/ui/card'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 
 import { getPaginatedSeasons } from '@/lib/requests/seasons'
 import { CatchBoundary, createFileRoute } from '@tanstack/react-router'
@@ -21,8 +20,6 @@ export const Route = createFileRoute('/_layout/seasons')({
 })
 
 function Seasons() {
-  useScrollTo()
-
   return (
     <div className="mx-auto mb-2 min-h-screen w-full px-1 font-inter text-foreground">
       <Card>

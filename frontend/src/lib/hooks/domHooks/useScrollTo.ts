@@ -1,8 +1,7 @@
 import { useLocation } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const useScrollTo = () => {
-  const [scrolled, setScrolled] = useState(false)
   const hash = useLocation({ select: (location) => location.hash })
   useEffect(() => {
     if (hash) {
@@ -10,14 +9,8 @@ const useScrollTo = () => {
       element?.scrollIntoView({
         behavior: 'smooth',
       })
-      setScrolled(true)
-    } else {
-      if (!scrolled) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-        setScrolled(true)
-      }
     }
-  }, [hash, scrolled])
+  }, [hash])
 }
 
 export default useScrollTo

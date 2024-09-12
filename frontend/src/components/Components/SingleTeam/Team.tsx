@@ -1,6 +1,5 @@
 import { CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import { useLoaderData, useParams } from '@tanstack/react-router'
 import TeamChart from './TeamChart'
 import TeamCuriosities from './TeamCuriosities'
@@ -16,8 +15,6 @@ const Team = () => {
   const team = useLoaderData({
     from: '/_layout/team/$teamId',
   })
-
-  useScrollTo()
 
   return (
     <>

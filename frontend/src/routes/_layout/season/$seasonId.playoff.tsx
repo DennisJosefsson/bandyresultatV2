@@ -2,7 +2,6 @@ import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import SeasonPlayoffTables from '@/components/Components/Season/SeasonPlayoffComponents/SeasonPlayoffTables'
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 
 import { getSingleSeasonPlayoff } from '@/lib/requests/tables'
 import { createFileRoute, useLocation } from '@tanstack/react-router'
@@ -25,7 +24,6 @@ function Playoff() {
   const { seasonId } = Route.useParams()
   const { lastSeason } = useGetFirstAndLastSeason()
   const data = Route.useLoaderData()
-  useScrollTo()
 
   if (women && seasonId < 1973) {
     return <NoWomenSeason />

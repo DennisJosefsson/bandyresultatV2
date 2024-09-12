@@ -9,7 +9,6 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { Button } from '@/components/ui/button'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import {
   getOrigin,
   resetOrigin,
@@ -26,7 +25,7 @@ export const Route = createFileRoute('/_layout/teams/compare')({
 function Compare() {
   const compareObject = Route.useSearch()
   const { data: compareData, compareLink } = useCompareResults(compareObject)
-  useScrollTo()
+
   if ('error' in compareData) {
     return (
       <div className="flex flex-col my-4 p-2">

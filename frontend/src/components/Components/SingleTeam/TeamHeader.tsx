@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { CardHeader, CardTitle } from '@/components/ui/card'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import useScrollTo from '@/lib/hooks/domHooks/useScrollTo'
 import {
   addToFavTeams,
   removeFromFavTeams,
@@ -10,7 +9,6 @@ import { SingleTeam } from '@/lib/types/teams/teams'
 import { useMediaQuery } from 'usehooks-ts'
 
 const TeamHeader = ({ team, teamId }: { team: SingleTeam; teamId: number }) => {
-  useScrollTo()
   const matches = useMediaQuery('(min-width: 430px)')
   const { favTeams, favTeamsDispatch } = useTeampreferenceContext()
 

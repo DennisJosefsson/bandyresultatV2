@@ -1,6 +1,6 @@
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import Header from '@/components/Components/Header/Header'
-import { ScrollArea } from '@/components/ui/scroll-area'
+//import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { Toaster } from '@/components/ui/toaster'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
@@ -20,6 +20,7 @@ export const Route = createFileRoute('/_layout')({
 function LayoutComponent() {
   const { womenContext, dispatch } = useGenderContext()
   const { women } = Route.useSearch()
+
   useEffect(() => {
     if (women !== womenContext) {
       dispatch({ type: 'SET', payload: women })
@@ -29,7 +30,8 @@ function LayoutComponent() {
     <div className="flex flex-col bg-background text-foreground w-full">
       <Header />
       <Toaster />
-      <ScrollArea className="content-container">
+      {/* <ScrollArea className="content-container"> */}
+      <div className="w-full">
         <CatchBoundary
           getResetKey={() => 'reset'}
           onCatch={(error) => {
@@ -41,7 +43,8 @@ function LayoutComponent() {
         >
           <Outlet />
         </CatchBoundary>
-      </ScrollArea>
+      </div>
+      {/* </ScrollArea> */}
     </div>
   )
 }
