@@ -24,3 +24,4 @@ tmp
 *.sln
 *.sw?
 stats.html
+.env

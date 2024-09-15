@@ -1,8 +1,6 @@
-//OBS! DEV.bandyresultat.se
+import { getBaseUrl } from '../utils/utils'
 
-export const baseUrl = import.meta.env.PROD
-  ? 'https://dev.bandyresultat.se'
-  : 'http://localhost:3001'
+export const { apiBaseUrl: baseUrl } = getBaseUrl()
 
 export const mobileBaseUrl = 'http://192.168.38.191:3001'
 

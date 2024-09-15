@@ -1,11 +1,10 @@
 import { teamQueries } from '@/lib/queries/teams/queries'
 import { CompareFormState } from '@/lib/types/teams/teams'
+import { getBaseUrl } from '@/lib/utils/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useLoaderData, useLocation, useSearch } from '@tanstack/react-router'
 
-const baseUrl = import.meta.env.PROD
-  ? 'https://dev.bandyresultat.se'
-  : 'http://localhost:5173'
+const { serverBaseUrl: baseUrl } = getBaseUrl()
 
 export const useCompareResults = (compareObject: CompareFormState) => {
   const { data } = useSuspenseQuery(teamQueries['compare'](compareObject))

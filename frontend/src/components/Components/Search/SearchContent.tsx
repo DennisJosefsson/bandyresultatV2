@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/drawer'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SearchGame } from '@/lib/hooks/dataHooks/search/useSearchForm'
+import { getBaseUrl } from '@/lib/utils/utils'
 import { useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
@@ -15,9 +16,7 @@ import ResultComponent from './ResultComponent'
 
 type SearchContentProps = { gameArray: SearchGame[] | undefined }
 
-const baseUrl = import.meta.env.PROD
-  ? 'https://dev.bandyresultat.se'
-  : 'http://localhost:5173'
+const { serverBaseUrl: baseUrl } = getBaseUrl()
 
 const SearchContent = ({ gameArray }: SearchContentProps) => {
   const matches = useMediaQuery('(min-width: 430px)')
