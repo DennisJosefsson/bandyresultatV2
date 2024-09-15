@@ -1,5 +1,6 @@
 import { Checkbox, CheckedState } from '@/components/ui/checkbox'
-import { Link, useSearch } from '@tanstack/react-router'
+import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { Link, useLocation, useSearch } from '@tanstack/react-router'
 import { memo } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 
@@ -25,6 +26,8 @@ const MapItem = ({
     from: '/_layout',
     select: (search) => search.women,
   })
+  const pathName = useLocation().pathname
+
   return (
     <Marker key={team.teamId} position={position}>
       <Popup>
@@ -35,6 +38,7 @@ const MapItem = ({
               teamId: team.teamId.toString(),
             }}
             search={{ women }}
+            onClick={() => setOrigin(`${pathName}?women=${women}`)}
           >
             {team.casualName}
           </Link>

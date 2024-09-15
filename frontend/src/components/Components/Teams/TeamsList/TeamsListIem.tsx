@@ -1,6 +1,7 @@
 import { Checkbox, CheckedState } from '@/components/ui/checkbox'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { Link } from '@tanstack/react-router'
+import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { Link, useLocation, useSearch } from '@tanstack/react-router'
 import { memo } from 'react'
 
 type Team = {
@@ -20,14 +21,19 @@ const TeamsListItem = ({
   onCheckedChange,
 }: TeamsListItemProps) => {
   const { favTeams } = useTeampreferenceContext()
+  const pathName = useLocation().pathname
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
 
   return (
-    <div className="flex flex-row items-center justify-between space-x-3 space-y-0 rounded bg-muted p-2 text-sm has-[:checked]:bg-primary has-[:checked]:text-white dark:bg-muted/50 md:text-base">
+    <div className="has-data-[state=checked]:font-bold flex flex-row items-center justify-between space-x-3 space-y-0 rounded bg-muted p-2 text-sm dark:bg-muted/50 md:text-base">
       <span
         className={
           favTeams.includes(team.teamId)
-            ? 'w-32 font-bold md:text-base'
-            : 'w-32 md:text-base'
+            ? 'w-32 font-bold md:text-base peer-data-[state=checked]:underline'
+            : 'w-32 md:text-base peer-data-[state=checked]:underline'
         }
       >
         <Link
@@ -35,6 +41,7 @@ const TeamsListItem = ({
           to="/team/$teamId"
           params={{ teamId: team.teamId.toString() }}
           search={(prev) => ({ ...prev })}
+          onClick={() => setOrigin(`${pathName}?women=${women}`)}
         >
           {team.casualName}
         </Link>
@@ -43,7 +50,7 @@ const TeamsListItem = ({
         name="teamArray"
         checked={selectedTeams.includes(team.teamId)}
         onCheckedChange={(checked) => onCheckedChange(checked, team.teamId)}
-        className="bg-muted data-[state=checked]:border-white data-[state=checked]:bg-primary data-[state=checked]:text-white dark:bg-muted/50 dark:data-[state=checked]:border-white dark:data-[state=checked]:bg-primary dark:data-[state=checked]:text-white"
+        className="peer bg-muted data-[state=checked]:border-primary data-[state=checked]:bg-background data-[state=checked]:text-primary dark:bg-muted/50 dark:data-[state=checked]:border-white dark:data-[state=checked]:bg-background dark:data-[state=checked]:text-primary"
       />
     </div>
   )

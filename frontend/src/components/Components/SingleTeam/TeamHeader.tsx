@@ -6,11 +6,23 @@ import {
   removeFromFavTeams,
 } from '@/lib/reducers/favteamsReducer'
 import { SingleTeam } from '@/lib/types/teams/teams'
+import {
+  getOrigin,
+  resetOrigin,
+} from '@/lib/zustand/linkOrigin/linkOriginStore'
+import { useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const TeamHeader = ({ team, teamId }: { team: SingleTeam; teamId: number }) => {
   const matches = useMediaQuery('(min-width: 430px)')
   const { favTeams, favTeamsDispatch } = useTeampreferenceContext()
+  const { origin } = getOrigin()
+  const navigate = useNavigate()
+
+  const goBack = () => {
+    origin && navigate({ to: origin })
+    resetOrigin()
+  }
 
   const add = () => {
     favTeamsDispatch(addToFavTeams(teamId))
@@ -25,7 +37,10 @@ const TeamHeader = ({ team, teamId }: { team: SingleTeam; teamId: number }) => {
       <div className="flex flex-row items-center justify-between">
         <CardTitle className="text-sm md:text-lg">{team.team.name}</CardTitle>
 
-        <div>
+        <div className="flex flex-row gap-1">
+          <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>
+            Tillbaka
+          </Button>
           {favTeams.includes(teamId) && (
             <Button onClick={remove} size={matches ? 'sm' : 'xxs'}>
               Ta bort favorit

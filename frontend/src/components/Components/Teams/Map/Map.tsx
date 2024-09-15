@@ -6,6 +6,8 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 import FilterComponent from '../FilterComponent'
 import MemoMapItem from './MapItem'
 
+import 'leaflet/dist/leaflet.css'
+
 const Map = () => {
   const [teamFilter, setTeamFilter] = useState<string>('')
   const { women, teamArray } = useSearch({ from: '/_layout/teams' })
@@ -26,6 +28,7 @@ const Map = () => {
       if (checked) {
         setSelectedTeams((prev) => [...prev, teamId])
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.teamArray) {
               return { ...prev, teamArray: [...prev.teamArray, teamId] }
@@ -37,6 +40,7 @@ const Map = () => {
       } else {
         setSelectedTeams((prev) => prev.filter((team) => team !== teamId))
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.teamArray && prev.teamArray.includes(teamId)) {
               return {

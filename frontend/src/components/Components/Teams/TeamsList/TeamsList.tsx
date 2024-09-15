@@ -24,6 +24,7 @@ const TeamsList = () => {
       if (checked) {
         setSelectedTeams((prev) => [...prev, teamId])
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.teamArray) {
               return { ...prev, teamArray: [...prev.teamArray, teamId] }
@@ -35,6 +36,7 @@ const TeamsList = () => {
       } else {
         setSelectedTeams((prev) => prev.filter((team) => team !== teamId))
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.teamArray && prev.teamArray.includes(teamId)) {
               return {

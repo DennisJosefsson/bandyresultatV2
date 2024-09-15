@@ -6,6 +6,18 @@
   .content-container {
     @apply h-[calc(100vh-5rem)];
   }
+
+  .leaflet-container {
+    @apply z-0;
+  }
+
+  .leaflet-icon-blue {
+    @apply border-none bg-transparent fill-blue-700;
+  }
+
+  .leaflet-icon-red {
+    @apply border-none bg-transparent fill-red-700;
+  }
 }
 
 #map {
