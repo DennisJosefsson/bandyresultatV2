@@ -7,7 +7,7 @@
     "start": "node ./backend/index.js",
     "dev": "pnpm run database:dev && pnpm run backend:dev",
     "tsc": "tsc -w",
-    "emit": "tsc",
+    "emit": "time -p tsc",
     "test": "cross-env NODE_ENV=test vitest run",
     "backend:dev": "cross-env NODE_ENV=development tsc-watch --onSuccess \"nodemon ./backend/index.js\"",
     "database:dev": "docker compose --profile dev down && docker compose --profile dev up -d",
@@ -17,7 +17,8 @@
     "updatedev": "bash ./scripts/updatedev.sh",
     "compressdev": "bash ./scripts/compressdev.sh",
     "restartdev": "bash ./scripts/restartdev.sh",
-    "stopdev": "bash ./scripts/stopdev.sh"
+    "stopdev": "bash ./scripts/stopdev.sh",
+    "deploydev": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopdev && pnpm run compressdev && pnpm run restartdev"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
