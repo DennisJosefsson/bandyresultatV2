@@ -14,6 +14,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { User2Icon } from 'lucide-react'
 import { SyntheticEvent, useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 import LoginForm from './LoginForm'
 
 const LoginComponent = () => {
@@ -23,6 +24,7 @@ const LoginComponent = () => {
   const [userName, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false)
+  const matches = useMediaQuery('(min-width: 430px)')
 
   const loginMutation = useMutation({
     mutationFn: () => getLogin(userName, password),
@@ -77,7 +79,7 @@ const LoginComponent = () => {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size={matches ? 'icon' : 'smallicon'}>
             <User2Icon className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         </DropdownMenuTrigger>

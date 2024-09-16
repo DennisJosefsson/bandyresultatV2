@@ -5,6 +5,7 @@ import useUserContext from '@/lib/hooks/contextHooks/useUserContext'
 import { Link } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
 import { useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 import LoginComponent from './LoginComponents/LoginComponent'
 import ModeToggle from './ModeToggle'
 
@@ -12,12 +13,13 @@ const Header = () => {
   const [open, setOpen] = useState<boolean>(false)
   const { user } = useUserContext()
   const { womenContext } = useGenderContext()
+  const matches = useMediaQuery('(min-width: 430px)')
 
   return (
     <header className="sticky top-0 z-[1] mb-4 flex h-16 flex-row items-center justify-between gap-4 border-b bg-background px-2 font-poppins text-foreground dark:bg-slate-950 dark:text-slate-50 md:px-6">
       <div className="flex flex-row gap-8 justify-between items-center">
         <div>
-          <h1 className="text-base font-bold uppercase tracking-[0.2rem] text-primary md:text-2xl lg:text-4xl xl:pl-0">
+          <h1 className="text-sm xs:text-base font-bold uppercase tracking-[0.2rem] text-primary md:text-2xl lg:text-4xl xl:pl-0">
             <Link to="/" search={{ women: womenContext }}>
               Bandyresultat
             </Link>
@@ -78,7 +80,7 @@ const Header = () => {
           <SheetTrigger asChild>
             <Button
               variant="outline"
-              size="icon"
+              size={matches ? 'icon' : 'smallicon'}
               className="shrink-0 lg:hidden"
             >
               <Menu className="h-5 w-5" />
@@ -154,7 +156,6 @@ const Header = () => {
         <LoginComponent />
         <ModeToggle />
       </div>
-      {/* <hr className="mx-auto my-2 h-px border-0 bg-[#011d29] dark:bg-gray-700 xl:w-[1280px]" /> */}
     </header>
   )
 }
