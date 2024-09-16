@@ -85,7 +85,7 @@ function About() {
             .
           </p>
           <img src={kalenderbitare} alt="Kalenderbitare" className="mb-6" />
-          <h4>Det kostar inget att fråga</h4>
+          <h4 className="text-foreground">Det kostar inget att fråga</h4>
           <p>
             Jag kan inte lova något, men det är ju så att det går att ta reda på
             annan stati&shy;stik än den som pre&shy;senteras här. Så har du en
