@@ -48,70 +48,28 @@ export const parseSearchRequest = (
         .nullable()
         .or(z.literal('')),
       gameResult: z.enum(['win', 'lost', 'draw', 'all']).catch('all'),
-      goalsScored: z
-        .string()
-        .refine(
-          (val) => {
-            return !isNaN(Number(val))
-          },
-          { message: 'Gjorda mål måste vara en siffra.' }
-        )
-        .refine(
-          (val) => {
-            return Number.isInteger(Number(val))
-          },
-          { message: 'Gjorda mål måste vara ett heltal.' }
-        )
-        .refine(
-          (val) => {
-            return Number(val) > -1
-          },
-          { message: 'Gjorda mål måste vara 0 eller större än 0.' }
-        )
+      goalsScored: z.coerce
+        .number({ message: 'Gjorda mål måste vara en siffra.' })
+        .int({ message: 'Gjorda mål måste vara ett heltal.' })
+        .nonnegative({
+          message: 'Gjorda mål måste vara 0 eller större än 0.',
+        })
         .optional(),
       goalsScoredOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
-      goalsConceded: z
-        .string()
-        .refine(
-          (val) => {
-            return !isNaN(Number(val))
-          },
-          { message: 'Insläppta mål måste vara en siffra.' }
-        )
-        .refine(
-          (val) => {
-            return Number.isInteger(Number(val))
-          },
-          { message: 'Insläppta mål måste vara ett heltal.' }
-        )
-        .refine(
-          (val) => {
-            return Number(val) > -1
-          },
-          { message: 'Insläppta mål måste vara 0 eller större än 0.' }
-        )
+      goalsConceded: z.coerce
+        .number({ message: 'Insläppta mål måste vara en siffra.' })
+        .int({ message: 'Insläppta mål måste vara ett heltal.' })
+        .nonnegative({
+          message: 'Insläppta mål måste vara 0 eller större än 0.',
+        })
         .optional(),
       goalsConcededOperator: z.enum(['eq', 'lte', 'gte']).catch('lte'),
-      goalDiff: z
-        .string()
-        .refine(
-          (val) => {
-            return !isNaN(Number(val))
-          },
-          { message: 'Målskillnaden måste vara en siffra.' }
-        )
-        .refine(
-          (val) => {
-            return Number.isInteger(Number(val))
-          },
-          { message: 'Målskillnaden måste vara ett heltal.' }
-        )
-        .refine(
-          (val) => {
-            return Number(val) > -1
-          },
-          { message: 'Målskillnaden måste vara 0 eller större än 0.' }
-        )
+      goalDiff: z.coerce
+        .number({ message: 'Målskillnaden måste vara en siffra.' })
+        .int({ message: 'Målskillnaden måste vara ett heltal.' })
+        .nonnegative({
+          message: 'Målskillnaden måste vara 0 eller större än 0.',
+        })
         .optional(),
       goalDiffOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
       startSeason: z
@@ -205,7 +163,7 @@ export const parseSearchRequest = (
         return true
       },
       {
-        message: 'Lag och motståndare måste vara olika.',
+        message: 'Lag och motståndare får inte vara samma.',
         path: ['opponent'],
       }
     )

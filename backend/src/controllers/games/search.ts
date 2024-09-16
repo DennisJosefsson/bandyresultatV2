@@ -121,7 +121,7 @@ searchRouter.post('/search', (async (
     }
   }
 
-  if (searchParams.goalDiff) {
+  if (searchParams.goalDiff || searchParams.goalDiff === 0) {
     if (searchParams.goalDiffOperator === 'gte') {
       goalDifference = { [Op.gte]: searchParams.goalDiff }
     } else if (searchParams.goalDiffOperator === 'eq') {
@@ -133,7 +133,7 @@ searchRouter.post('/search', (async (
     }
   }
 
-  if (searchParams.goalsScored) {
+  if (searchParams.goalsScored || searchParams.goalsScored === 0) {
     if (searchParams.goalsScoredOperator === 'gte') {
       goalsScored = { [Op.gte]: searchParams.goalsScored }
     } else if (searchParams.goalsScoredOperator === 'eq') {
@@ -145,7 +145,7 @@ searchRouter.post('/search', (async (
     }
   }
 
-  if (searchParams.goalsConceded) {
+  if (searchParams.goalsConceded || searchParams.goalsConceded === 0) {
     if (searchParams.goalsConcededOperator === 'gte') {
       goalsConceded = { [Op.gte]: searchParams.goalsConceded }
     } else if (searchParams.goalsConcededOperator === 'eq') {
