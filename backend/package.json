@@ -18,6 +18,11 @@
     "compressdev": "bash ./scripts/compressdev.sh",
     "restartdev": "bash ./scripts/restartdev.sh",
     "stopdev": "bash ./scripts/stopdev.sh",
+    "connectPRODUCTION": "bash ./scripts/connectPRODUCTION.sh",
+    "updatePRODUCTION": "bash ./scripts/updatePRODUCTION.sh",
+    "compressPRODUCTION": "bash ./scripts/compressPRODUCTION.sh",
+    "restartPRODUCTION": "bash ./scripts/restartPRODUCTION.sh",
+    "stopPRODUCTION": "bash ./scripts/stopPRODUCTION.sh",
     "deploydev": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopdev && pnpm run compressdev && pnpm run restartdev"
   },
   "devDependencies": {
