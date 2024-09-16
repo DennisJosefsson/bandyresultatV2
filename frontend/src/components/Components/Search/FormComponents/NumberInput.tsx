@@ -25,6 +25,7 @@ const NumberInput = ({ field, label, placeholder }: NumberInputProps) => {
 
   useEffect(() => {
     navigate({
+      resetScroll: false,
       search: (prev) => ({
         ...prev,
         [field]:

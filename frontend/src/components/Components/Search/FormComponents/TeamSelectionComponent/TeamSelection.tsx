@@ -37,6 +37,12 @@ const TeamSelection = ({ field, label }: TeamSelectionProps) => {
     setValue('')
   }, [women])
 
+  useEffect(() => {
+    if (value && searchField === undefined) {
+      setValue('')
+    }
+  }, [searchField])
+
   const onValueChange = (value: string): void => {
     navigate({ search: (prev) => ({ ...prev, [field]: parseInt(value) }) })
     setValue(value)

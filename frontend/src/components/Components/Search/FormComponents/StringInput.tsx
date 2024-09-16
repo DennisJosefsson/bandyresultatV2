@@ -22,6 +22,7 @@ const StringInput = ({ field, label, placeholder }: StringInputProps) => {
 
   useEffect(() => {
     navigate({
+      resetScroll: false,
       search: (prev) => ({
         ...prev,
         [field]: debouncedValue.length === 0 ? undefined : debouncedValue,

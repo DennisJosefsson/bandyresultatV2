@@ -41,7 +41,10 @@ const OperatorSelector = ({
   const navigate = useNavigate({ from: '/search' })
 
   const onValueChange = (value: string): void => {
-    navigate({ search: (prev) => ({ ...prev, [field]: value }) })
+    navigate({
+      resetScroll: false,
+      search: (prev) => ({ ...prev, [field]: value }),
+    })
     setValue(value)
   }
   return (

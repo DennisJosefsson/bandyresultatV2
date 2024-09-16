@@ -25,7 +25,10 @@ const StartSeason = () => {
   )
 
   const onValueChange = (value: string): void => {
-    navigate({ search: (prev) => ({ ...prev, startSeason: parseInt(value) }) })
+    navigate({
+      resetScroll: false,
+      search: (prev) => ({ ...prev, startSeason: parseInt(value) }),
+    })
     setValue(value)
   }
 

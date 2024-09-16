@@ -27,7 +27,10 @@ const RadioComponent = ({ array, field, label }: RadioComponentProps) => {
   const navigate = useNavigate({ from: '/teams' })
 
   const handleOnChange = (value: string) => {
-    navigate({ search: (prev) => ({ ...prev, [field]: value }) })
+    navigate({
+      resetScroll: false,
+      search: (prev) => ({ ...prev, [field]: value }),
+    })
     setSelectedRadio(value)
   }
 

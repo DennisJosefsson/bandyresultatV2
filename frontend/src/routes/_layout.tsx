@@ -1,14 +1,12 @@
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import Header from '@/components/Components/Header/Header'
-//import { ScrollArea } from '@/components/ui/scroll-area'
-
 import { Toaster } from '@/components/ui/toaster'
 import useGenderContext from '@/lib/hooks/contextHooks/useGenderContext'
 import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { z } from 'zod'
 
-const searchWomen = z.object({ women: z.boolean().optional().default(false) })
+const searchWomen = z.object({ women: z.boolean().catch(false) })
 
 export const Route = createFileRoute('/_layout')({
   component: LayoutComponent,
@@ -30,7 +28,7 @@ function LayoutComponent() {
     <div className="flex flex-col bg-background text-foreground w-full">
       <Header />
       <Toaster />
-      {/* <ScrollArea className="content-container"> */}
+
       <div className="w-full">
         <CatchBoundary
           getResetKey={() => 'reset'}
@@ -44,7 +42,6 @@ function LayoutComponent() {
           <Outlet />
         </CatchBoundary>
       </div>
-      {/* </ScrollArea> */}
     </div>
   )
 }

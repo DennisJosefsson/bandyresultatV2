@@ -27,7 +27,10 @@ const LimitSelection = () => {
   const navigate = useNavigate({ from: '/search' })
 
   const onValueChange = (value: string): void => {
-    navigate({ search: (prev) => ({ ...prev, limit: parseInt(value) }) })
+    navigate({
+      resetScroll: false,
+      search: (prev) => ({ ...prev, limit: parseInt(value) }),
+    })
     setValue(value)
   }
   return (

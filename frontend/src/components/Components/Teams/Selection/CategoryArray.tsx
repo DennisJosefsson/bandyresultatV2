@@ -40,6 +40,7 @@ const CategoryArray = () => {
       if (checked) {
         setSelectedCategories((prev) => [...prev, category])
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.categoryArray) {
               return {
@@ -54,6 +55,7 @@ const CategoryArray = () => {
       } else {
         setSelectedCategories((prev) => prev.filter((cat) => cat !== category))
         navigate({
+          resetScroll: false,
           search: (prev) => {
             if (prev.categoryArray && prev.categoryArray.includes(category)) {
               return {
