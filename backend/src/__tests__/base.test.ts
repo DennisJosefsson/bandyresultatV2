@@ -1,6 +1,6 @@
-import { test, expect, describe } from 'vitest'
-import { app } from '../utils'
 import supertest from 'supertest'
+import { describe, expect, test } from 'vitest'
+import { app } from '../utils'
 
 const api = supertest(app)
 
@@ -26,5 +26,6 @@ describe('Testing wrong api', async () => {
 
   test('Status code', () => {
     expect(response.statusCode).toBe(404)
+    expect(response.body.errors).toBe('Sidan finns inte.')
   })
 })

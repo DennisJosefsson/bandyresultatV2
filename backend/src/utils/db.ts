@@ -29,7 +29,7 @@ switch (process.env.NODE_ENV) {
     mode = 'development'
     break
   case 'test':
-    dbUrl = process.env.TESTING_URL_TESTING as string
+    dbUrl = process.env.TESTING_URL as string
     mode = 'test'
     break
   default:

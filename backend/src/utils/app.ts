@@ -7,6 +7,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { connectToDb } from './index.js'
 import { errorHandler } from './middleware/errors/errorhandler.js'
+import NotFoundError from './middleware/errors/NotFoundError.js'
 import { routeArray } from './routes.js'
 dotenv.config()
 
@@ -32,6 +33,14 @@ app.get('/healthcheck', (_req: Request, res: Response) => {
 })
 
 routeArray.forEach((route) => app.use(route.path, route.router))
+app.use('/api/*', (_req: Request, _res: Response) => {
+  throw new NotFoundError({
+    code: 404,
+    message: 'Sidan finns inte.',
+    logging: false,
+    context: { origin: 'API Root' },
+  })
+})
 app.use((_req, res, _next) => {
   res.sendFile(path.join(frontend, 'index.html'))
 })

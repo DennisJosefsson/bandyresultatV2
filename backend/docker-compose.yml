@@ -14,7 +14,7 @@ services:
     networks:
       - dev
   testDatabase:
-    container_name: testDatabase
+    container_name: test3Database
     image: postgres:alpine
     volumes:
       - /home/dennisjosefsson/projekt/database/bandyresultat/init/test.sql:/docker-entrypoint-initdb.d/init.sql
