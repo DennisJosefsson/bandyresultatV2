@@ -2,16 +2,20 @@ import { z } from 'zod'
 
 import {
   AllowNull,
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
   Default,
+  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript'
+import County from './County.js'
 import Game from './Game.js'
+import Municipality from './Municipality.js'
 import Season from './Season.js'
 import TeamGame from './TeamGame.js'
 import TeamSeason from './TeamSeason.js'
@@ -26,6 +30,8 @@ export const teamAttributes = z.object({
   women: z.boolean().optional(),
   lat: z.coerce.number().optional().nullable(),
   long: z.coerce.number().optional().nullable(),
+  countyId: z.number(),
+  municipalityId: z.number().nullable(),
 })
 
 export const teamInput = teamAttributes.partial({ teamId: true })
@@ -69,6 +75,14 @@ class Team extends Model<TeamAttributes, TeamInput> {
   @Column(DataType.FLOAT)
   declare long?: number
 
+  @ForeignKey(() => County)
+  @Column
+  declare countyId: number
+
+  @ForeignKey(() => Municipality)
+  @Column
+  declare municipalityId: number
+
   @BelongsToMany(() => Season, () => TeamSeason, 'teamId')
   declare seasonteam: Season[]
 
@@ -80,6 +94,12 @@ class Team extends Model<TeamAttributes, TeamInput> {
 
   @HasMany(() => TeamTable, 'teamId')
   declare tabeller: TeamTable[]
+
+  @BelongsTo(() => County, 'countyId')
+  declare county: ReturnType<() => County>
+
+  @BelongsTo(() => Municipality, 'municipalityId')
+  declare municipality: ReturnType<() => Municipality>
 }
 
 export default Team

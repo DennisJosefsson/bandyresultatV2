@@ -1,19 +1,23 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
-import { sequelize } from '../../utils/db.js'
+import { Op } from 'sequelize'
+import { z } from 'zod'
+import County from '../../models/County.js'
 import Team from '../../models/Team.js'
 import TeamSeason from '../../models/TeamSeason.js'
+import { sequelize } from '../../utils/db.js'
+import authControl from '../../utils/middleware/authControl.js'
+import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
+import IDCheck from '../../utils/postFunctions/IDCheck.js'
 import newTeamEntry, {
   updateTeamEntry,
 } from '../../utils/postFunctions/newTeamEntry.js'
-import IDCheck from '../../utils/postFunctions/IDCheck.js'
-import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
-import authControl from '../../utils/middleware/authControl.js'
+import { sortMapTeams } from '../../utils/postFunctions/sortMapTeams.js'
 const teamRouter = Router()
 
 teamRouter.get('/', (async (
@@ -33,6 +37,38 @@ teamRouter.get('/', (async (
     })
   }
   res.status(200).json(teams)
+}) as RequestHandler)
+
+const parseWomen = z.enum(['true', 'false']).catch('false')
+
+teamRouter.get('/map', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const women = parseWomen.parse(req.query.women)
+  const teams = await Team.findAll({
+    where: { women: women === 'true' ? true : false, teamId: { [Op.ne]: 176 } },
+    include: [County],
+    group: ['countyId', 'county.county_id', 'teamId'],
+    order: [
+      ['countyId', 'ASC'],
+      [sequelize.literal(`casual_name collate "se-SE-x-icu"`), 'ASC'],
+    ],
+    raw: true,
+    nest: true,
+  })
+  if (!teams || teams.length === 0) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No teams',
+      logging: false,
+      context: { origin: 'Get All Teams Router' },
+    })
+  }
+
+  const returnTeams = sortMapTeams(teams)
+  res.status(200).json(returnTeams)
 }) as RequestHandler)
 
 teamRouter.get('/latest', (async (_req, res, _next) => {

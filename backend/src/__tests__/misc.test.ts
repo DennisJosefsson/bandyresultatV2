@@ -1,12 +1,7 @@
-import { test, expect, describe, beforeAll } from 'vitest'
-import { app } from '../utils'
 import supertest from 'supertest'
-import { resetDb } from './testFunctions/resetDb'
+import { describe, expect, test } from 'vitest'
+import { app } from '../utils'
 const api = supertest(app)
-
-beforeAll(async () => {
-  await resetDb()
-})
 
 describe('Testing miscellaneous functions', () => {
   describe('Stats', () => {

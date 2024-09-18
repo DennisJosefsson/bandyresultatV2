@@ -3,9 +3,11 @@ import path from 'path'
 import { Sequelize } from 'sequelize-typescript'
 import { fileURLToPath } from 'url'
 import BandyError from '../models/BandyError.js'
+import County from '../models/County.js'
 import Game from '../models/Game.js'
 import Link from '../models/Link.js'
 import Metadata from '../models/Metadata.js'
+import Municipality from '../models/Municipality.js'
 import Season from '../models/Season.js'
 import Serie from '../models/Serie.js'
 import TableSeason from '../models/TableSeason.js'
@@ -14,6 +16,7 @@ import TeamGame from '../models/TeamGame.js'
 import TeamSeason from '../models/TeamSeason.js'
 import TeamTable from '../models/TeamTable.js'
 import User from '../models/User.js'
+
 dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
@@ -49,6 +52,8 @@ export const connectToDb = async () => {
       BandyError,
       Season,
       Game,
+      County,
+      Municipality,
       Team,
       TeamGame,
       TeamSeason,
