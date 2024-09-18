@@ -19,7 +19,7 @@ import {
 import { useMediaQuery } from 'usehooks-ts'
 
 const TeamsTabBar = () => {
-  const matches = useMediaQuery('(min-width: 430px)')
+  const matches = useMediaQuery('(min-width: 640px)')
   const search = useSearch({ from: '/_layout/teams' })
   const teamArray = useSearch({
     from: '/_layout/teams',

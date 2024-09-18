@@ -1,27 +1,42 @@
 import { CheckedState } from '@/components/ui/checkbox'
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
-import { useCallback, useState } from 'react'
+import { teamQueries } from '@/lib/queries/teams/queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { LatLng, LatLngBounds, LatLngTuple, Map as MapType } from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import { useCallback, useEffect, useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
-import FilterComponent from '../FilterComponent'
+import CountyListContainer from './CountyListContainer'
 import MemoMapItem from './MapItem'
 
-import 'leaflet/dist/leaflet.css'
+type County = {
+  county: string
+  center: LatLng
+}
 
 const Map = () => {
-  const [teamFilter, setTeamFilter] = useState<string>('')
+  const [map, setMap] = useState<MapType | null>(null)
   const { women, teamArray } = useSearch({ from: '/_layout/teams' })
+  const [counties, setCounties] = useState<County[]>([])
   const [selectedTeams, setSelectedTeams] = useState<number[]>(teamArray ?? [])
-  const data = useLoaderData({ from: '/_layout/teams' })
+  const { data: teams } = useSuspenseQuery(teamQueries['map'](women))
 
   const navigate = useNavigate({ from: '/teams' })
 
-  const teams = data
-    .filter((team) => team.teamId !== 176)
-    .filter((team) => team.women === women)
-    .filter((team) =>
-      team.name.toLowerCase().includes(teamFilter.toLowerCase())
+  const countyArray = teams.map((team) => {
+    const bounds = new LatLngBounds(
+      team.teams.map((team) => [team.lat, team.long] as LatLngTuple)
     )
+    return {
+      county: team.county,
+      center: bounds.pad(1).getCenter(),
+    }
+  })
+
+  useEffect(() => {
+    setCounties(countyArray)
+  }, [women])
 
   const onCheckedChange = useCallback(
     (checked: CheckedState, teamId: number) => {
@@ -61,9 +76,16 @@ const Map = () => {
 
   return (
     <div>
-      <FilterComponent teamFilter={teamFilter} setTeamFilter={setTeamFilter} />
       <div>
-        <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground lg:px-0">
+        <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground lg:px-0 flex flex-col md:flex-row-reverse md:justify-end gap-2 md:gap-8">
+          <div className="md:p-2">
+            <CountyListContainer
+              countyArray={countyArray}
+              setCounties={setCounties}
+              counties={counties}
+              map={map}
+            />
+          </div>
           <div
             id="map"
             className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl"
@@ -73,25 +95,39 @@ const Map = () => {
               zoom={4}
               scrollWheelZoom={true}
               className="h-[400px]"
+              key={women ? 'women' : 'men'}
+              ref={setMap}
+              zoomSnap={0.5}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <MarkerClusterGroup chunkedLoading>
-                {teams.map((team) => {
-                  const position = [team.lat, team.long] as [number, number]
+              {teams
+                .filter((team) =>
+                  counties.map((county) => county.county).includes(team.county)
+                )
+                .map((team) => {
                   return (
-                    <MemoMapItem
-                      key={team.teamId}
-                      team={team}
-                      position={position}
-                      selectedTeams={selectedTeams}
-                      onCheckedChange={onCheckedChange}
-                    />
+                    <MarkerClusterGroup chunkedLoading key={team.county}>
+                      {team.teams.map((team) => {
+                        const position = [team.lat, team.long] as [
+                          number,
+                          number,
+                        ]
+                        return (
+                          <MemoMapItem
+                            key={team.teamId}
+                            team={team}
+                            position={position}
+                            selectedTeams={selectedTeams}
+                            onCheckedChange={onCheckedChange}
+                          />
+                        )
+                      })}
+                    </MarkerClusterGroup>
                   )
                 })}
-              </MarkerClusterGroup>
             </MapContainer>
           </div>
         </div>

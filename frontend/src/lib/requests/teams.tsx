@@ -14,6 +14,17 @@ export const getTeams = async (): Promise<TeamAttributes[]> => {
   return response.data
 }
 
+type MapTeams = {
+  county: string
+  teams: TeamAttributes[]
+}
+
+export const getMapTeams = async (women: boolean): Promise<MapTeams[]> => {
+  const response = await teamsApi.get(`/map?women=${women}`)
+
+  return response.data
+}
+
 export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   const response = await teamsApi.get(`/${teamId}`, {
     validateStatus: (status) => {
@@ -27,13 +38,5 @@ export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
 export const postTeam = async ({ formState }: { formState: NewTeamType }) => {
   return await teamsApi.post('/', formState)
 }
-
-// export const updateTeam = async (team) => {
-//   return await teamsApi.put(`/${team.teamId}`, team)
-// }
-
-// export const deleteTeam = async ({ teamId }: { teamId: number }) => {
-//   return await teamsApi.delete(`/${teamId}`)
-// }
 
 export default teamsApi
