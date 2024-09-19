@@ -1,4 +1,4 @@
-import { NewTeamType } from '../types/teams/teams'
+import { TeamFormInit } from '@/components/Components/Dashboard/TeamForm'
 
 type NewTeamActionType =
   | {
@@ -8,7 +8,7 @@ type NewTeamActionType =
     }
   | { type: 'TOGGLE' }
 
-const teamFormReducer = (state: NewTeamType, action: NewTeamActionType) => {
+const teamFormReducer = (state: TeamFormInit, action: NewTeamActionType) => {
   switch (action.type) {
     case 'INPUT':
       return { ...state, [action.field]: action.payload }

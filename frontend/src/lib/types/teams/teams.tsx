@@ -13,6 +13,8 @@ export const newTeam = z.object({
   women: z.boolean(),
   lat: z.number(),
   long: z.number(),
+  countyId: z.string().nullable(),
+  municipalityId: z.string().nullable(),
 })
 
 export const compareFormState = z
@@ -63,16 +65,16 @@ export const validateSearchParams = z
   })
 
 export const teamAttributes = z.object({
-  teamId: z.number(),
+  teamId: z.number().nullable(),
   name: z.string(),
   city: z.string(),
   casualName: z.string(),
   shortName: z.string(),
-  women: z.boolean().optional(),
-  lat: z.number().optional().nullable(),
-  long: z.number().optional().nullable(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  women: z.boolean(),
+  lat: z.number().nullable(),
+  long: z.number().nullable(),
+  countyId: z.number(),
+  municipalityId: z.number().nullable(),
   seasonteam: z.array(
     z.object({
       year: z.string(),

@@ -57,6 +57,19 @@ const DashboardTabBar = () => {
         tabName: 'addteams',
         conditional: true,
       },
+      {
+        tab: (
+          <Button
+            variant={pathName.endsWith('/teams') ? 'default' : 'outline'}
+            onClick={() =>
+              navigate({ to: '/dashboard/teams', search: { women } })
+            }
+          >
+            Laglista
+          </Button>
+        ),
+        tabName: 'teamslist',
+      },
 
       {
         tab: (
