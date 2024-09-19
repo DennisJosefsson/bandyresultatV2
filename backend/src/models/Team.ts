@@ -22,7 +22,7 @@ import TeamSeason from './TeamSeason.js'
 import TeamTable from './TeamTable.js'
 
 export const teamAttributes = z.object({
-  teamId: z.number(),
+  teamId: z.number().nullable(),
   name: z.string(),
   city: z.string(),
   casualName: z.string(),
@@ -30,8 +30,11 @@ export const teamAttributes = z.object({
   women: z.boolean().optional(),
   lat: z.coerce.number().optional().nullable(),
   long: z.coerce.number().optional().nullable(),
-  countyId: z.number(),
-  municipalityId: z.number().nullable(),
+  countyId: z.coerce.number(),
+  municipalityId: z.coerce.number().transform((val) => {
+    if (val === 0) return null
+    return val
+  }),
 })
 
 export const teamInput = teamAttributes.partial({ teamId: true })
@@ -80,6 +83,7 @@ class Team extends Model<TeamAttributes, TeamInput> {
   declare countyId: number
 
   @ForeignKey(() => Municipality)
+  @AllowNull(true)
   @Column
   declare municipalityId: number
 

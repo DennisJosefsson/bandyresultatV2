@@ -1,3 +1,5 @@
+import { Router } from 'express'
+import countyRouter from '../controllers/county.js'
 import dashboardDataRouter from '../controllers/dashboard/data.js'
 import dashboardGameRouter from '../controllers/dashboard/games.js'
 import dashboardSeasonRouter from '../controllers/dashboard/season.js'
@@ -10,6 +12,7 @@ import streakRouter from '../controllers/games/streaks.js'
 import linkRouter from '../controllers/link.js'
 import loginRouter from '../controllers/login.js'
 import metadataRouter from '../controllers/metadata.js'
+import municipalityRouter from '../controllers/municipality.js'
 import seasonRouter from '../controllers/season.js'
 import seriesRouter from '../controllers/series.js'
 import compareRouter from '../controllers/tables/compare.js'
@@ -22,7 +25,12 @@ import singleTeamRouter from '../controllers/teams/singleTeam.js'
 import teamRouter from '../controllers/teams/team.js'
 import teamSeasonRouter from '../controllers/teamSeason.js'
 
-export const routeArray = [
+type RouteArray = {
+  path: `/api/${string}`
+  router: Router
+}[]
+
+export const routeArray: RouteArray = [
   { path: '/api/teams', router: teamRouter },
   { path: '/api/teams', router: singleTeamRouter },
   { path: '/api/seasons', router: seasonRouter },
@@ -46,4 +54,6 @@ export const routeArray = [
   { path: '/api/dashboard', router: dashboardGameRouter },
   { path: '/api/dashboard', router: dashboardSeasonRouter },
   { path: '/api/dashboard', router: dashboardDataRouter },
+  { path: '/api/county', router: countyRouter },
+  { path: '/api/municipality', router: municipalityRouter },
 ]

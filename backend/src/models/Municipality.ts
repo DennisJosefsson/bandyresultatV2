@@ -17,7 +17,7 @@ export const municipality = z.object({
   countyId: z.number(),
 })
 
-export type Municipality = z.infer<typeof municipality>
+export type MunicipalityType = z.infer<typeof municipality>
 
 @Table({
   underscored: true,
@@ -25,7 +25,7 @@ export type Municipality = z.infer<typeof municipality>
   modelName: 'municipality',
   freezeTableName: true,
 })
-class Serie extends Model<Municipality> {
+class Municipality extends Model<MunicipalityType> {
   @PrimaryKey
   @Column
   declare municipalityId: number
@@ -42,4 +42,4 @@ class Serie extends Model<Municipality> {
   declare county: ReturnType<() => County>
 }
 
-export default Serie
+export default Municipality

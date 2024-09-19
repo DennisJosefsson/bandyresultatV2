@@ -14,9 +14,7 @@ import { sequelize } from '../../utils/db.js'
 import authControl from '../../utils/middleware/authControl.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import IDCheck from '../../utils/postFunctions/IDCheck.js'
-import newTeamEntry, {
-  updateTeamEntry,
-} from '../../utils/postFunctions/newTeamEntry.js'
+import newTeamEntry from '../../utils/postFunctions/newTeamEntry.js'
 import { sortMapTeams } from '../../utils/postFunctions/sortMapTeams.js'
 const teamRouter = Router()
 
@@ -94,31 +92,12 @@ teamRouter.post('/', authControl, (async (
   _next: NextFunction
 ) => {
   const newTeamObject = newTeamEntry(req.body)
+
   const [newTeam] = await Team.upsert(newTeamObject)
   return res.status(201).json(newTeam)
 }) as RequestHandler)
 
-teamRouter.put('/', authControl, (async (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
-  const updateTeamObject = updateTeamEntry(req.body)
-  const team = await Team.findByPk(updateTeamObject.teamId)
-  if (!team) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'No such team',
-      logging: false,
-      context: { origin: 'Update Team Router' },
-    })
-  }
-
-  const [updateTeam] = await Team.upsert(updateTeamObject)
-  return res.status(201).json(updateTeam)
-}) as RequestHandler)
-
-teamRouter.delete('/:seasonId', authControl, (async (
+teamRouter.delete('/:teamId', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
