@@ -11,20 +11,24 @@ export const useGetSearchTeams = () => {
 
   const filteredTeams = data
     ? data
+        .filter((team) => team.teamId !== null)
         .filter((team) => team.teamId !== 176)
         .filter((team) => team.women === womenContext)
     : []
   const filteredOpponents = data
     ? data
+        .filter((team) => team.teamId !== null)
         .filter((team) => team.teamId !== 176)
         .filter((team) => team.women === womenContext)
     : []
 
   const teamSelection = filteredTeams.map((team) => {
+    if (team.teamId === null) throw Error('Missing TeamId')
     return { value: team.teamId, label: team.casualName }
   })
 
   const opponentSelection = filteredOpponents.map((team) => {
+    if (team.teamId === null) throw Error('Missing TeamId')
     return { value: team.teamId, label: team.casualName }
   })
 

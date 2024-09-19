@@ -59,6 +59,7 @@ const TeamSeasonForm = ({
     ? data
         .filter((team) => team.women === women)
         .map((team) => {
+          if (team.teamId === null) throw Error('Missing teamId')
           return {
             value: team.teamId,
             label: team.name,
