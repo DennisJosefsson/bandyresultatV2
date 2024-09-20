@@ -6,6 +6,8 @@ import {
   Router,
 } from 'express'
 import { QueryTypes } from 'sequelize'
+import County from '../../models/County.js'
+import Municipality from '../../models/Municipality.js'
 import Season from '../../models/Season.js'
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
@@ -29,14 +31,18 @@ singleTeamRouter.get('/:teamId', (async (
 
   res.locals.origin = 'GET Single Team router'
   const team = await Team.findByPk(teamId, {
-    include: {
-      model: Season,
-      attributes: ['year', 'seasonId'],
-      through: {
-        attributes: ['qualification'],
+    include: [
+      {
+        model: Season,
+        attributes: ['year', 'seasonId'],
+        through: {
+          attributes: ['qualification'],
+        },
+        as: 'seasonteam',
       },
-      as: 'seasonteam',
-    },
+      County,
+      Municipality,
+    ],
     order: [[{ model: Season, as: 'seasonteam' }, 'seasonId', 'DESC']],
   })
 

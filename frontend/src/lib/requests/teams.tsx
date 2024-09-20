@@ -1,6 +1,7 @@
+import { TeamFormInit } from '@/components/Components/Dashboard/TeamForm'
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { NewTeamType, SingleTeam, TeamAttributes } from '../types/teams/teams'
+import { SingleTeam, TeamAttributes } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -14,6 +15,17 @@ export const getTeams = async (): Promise<TeamAttributes[]> => {
   return response.data
 }
 
+type MapTeams = {
+  county: string
+  teams: TeamAttributes[]
+}
+
+export const getMapTeams = async (women: boolean): Promise<MapTeams[]> => {
+  const response = await teamsApi.get(`/map?women=${women}`)
+
+  return response.data
+}
+
 export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   const response = await teamsApi.get(`/${teamId}`, {
     validateStatus: (status) => {
@@ -24,16 +36,13 @@ export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   return response.data
 }
 
-export const postTeam = async ({ formState }: { formState: NewTeamType }) => {
+export const postTeam = async ({ formState }: { formState: TeamFormInit }) => {
   return await teamsApi.post('/', formState)
 }
 
-// export const updateTeam = async (team) => {
-//   return await teamsApi.put(`/${team.teamId}`, team)
-// }
-
-// export const deleteTeam = async ({ teamId }: { teamId: number }) => {
-//   return await teamsApi.delete(`/${teamId}`)
-// }
+export const deleteTeam = async ({ teamId }: { teamId: number }) => {
+  const response = await teamsApi.delete(`/${teamId}`)
+  return response.data
+}
 
 export default teamsApi

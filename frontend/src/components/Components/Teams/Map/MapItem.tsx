@@ -5,7 +5,7 @@ import { memo } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 
 type Team = {
-  teamId: number
+  teamId: number | null
   casualName: string
 }
 
@@ -28,6 +28,8 @@ const MapItem = ({
   })
   const pathName = useLocation().pathname
 
+  if (team.teamId === null) return null
+
   return (
     <Marker key={team.teamId} position={position}>
       <Popup>
@@ -46,7 +48,9 @@ const MapItem = ({
           <Checkbox
             name="teamArray"
             checked={selectedTeams.includes(team.teamId)}
-            onCheckedChange={(checked) => onCheckedChange(checked, team.teamId)}
+            onCheckedChange={(checked) =>
+              team.teamId && onCheckedChange(checked, team.teamId)
+            }
           />
         </div>
       </Popup>
@@ -55,8 +59,8 @@ const MapItem = ({
 }
 
 const arePropsEqual = (prev: MapItemProps, next: MapItemProps) =>
-  prev.selectedTeams.includes(prev.team.teamId) ===
-  next.selectedTeams.includes(next.team.teamId)
+  prev.selectedTeams.includes(prev.team.teamId ?? 0) ===
+  next.selectedTeams.includes(next.team.teamId ?? 0)
 
 const MemoMapItem = memo(MapItem, arePropsEqual)
 

@@ -26,7 +26,8 @@ export const getBaseUrl = () => {
       serverBaseUrl = import.meta.env.VITE_SITE_PROD_URL
       break
     default:
-      throw Error('Fel uppkoppling.')
+      apiBaseUrl = import.meta.env.VITE_API_LOCALHOST_URL
+      serverBaseUrl = import.meta.env.VITE_SITE_LOCALHOST_URL
   }
 
   return { apiBaseUrl, serverBaseUrl }
