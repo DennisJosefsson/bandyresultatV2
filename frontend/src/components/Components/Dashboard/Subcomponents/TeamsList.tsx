@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { useDeleteTeamMutation } from '@/lib/hooks/dataHooks/teams/useDeleteTeamMutation'
 import { TeamAttributes } from '@/lib/types/teams/teams'
 import { setTeam } from '@/lib/zustand/dashboard/teamStore'
-import { getRouteApi, useNavigate } from '@tanstack/react-router'
+import { getRouteApi, Outlet, useNavigate } from '@tanstack/react-router'
 
 const route = getRouteApi('/_layout/dashboard/teams/')
 
@@ -11,10 +10,12 @@ const TeamsList = () => {
   const teams = route.useLoaderData().filter((team) => team.women === women)
   const navigate = useNavigate({ from: '/dashboard/teams' })
 
-  const mutation = useDeleteTeamMutation()
-
-  const onDelete = (teamId: number) => {
-    mutation.mutate({ teamId })
+  const deleteButtonOnClick = (teamId: number) => {
+    navigate({
+      to: '/dashboard/teams/$teamId/delete',
+      params: { teamId },
+      search: { women },
+    })
   }
 
   const onClick = (team: TeamAttributes) => {
@@ -36,9 +37,9 @@ const TeamsList = () => {
                 Ändra
               </Button>
               <Button
-                variant="destructive"
                 size="sm"
-                onClick={() => team.teamId && onDelete(team.teamId)}
+                variant="destructive"
+                onClick={() => team.teamId && deleteButtonOnClick(team.teamId)}
               >
                 Ta bort
               </Button>
@@ -46,6 +47,7 @@ const TeamsList = () => {
           </div>
         )
       })}
+      <Outlet />
     </div>
   )
 }
