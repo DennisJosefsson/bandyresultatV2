@@ -1,15 +1,18 @@
-import { Checkbox } from '@/components/ui/checkbox'
-import { CheckedState } from '@radix-ui/react-checkbox'
+import { Checkbox, CheckedState } from '@/components/ui/checkbox'
 import { LatLng, LatLngTuple, Map as MapType } from 'leaflet'
 import { Dispatch, SetStateAction } from 'react'
 
 type County = {
   county: string
+}
+
+type CountyArray = {
+  county: string
   center: LatLng
 }
 
 type CountyListProp = {
-  countyArray: County[]
+  countyArray: CountyArray[]
   counties: County[]
   setCounties: Dispatch<SetStateAction<County[]>>
   map: MapType | null
@@ -34,7 +37,11 @@ const CountyList = ({
 
   const onCheckedAllChange = (checked: CheckedState) => {
     if (checked) {
-      setCounties(countyArray)
+      setCounties(
+        countyArray.map((item) => {
+          return { county: item.county }
+        })
+      )
     } else {
       setCounties([])
     }

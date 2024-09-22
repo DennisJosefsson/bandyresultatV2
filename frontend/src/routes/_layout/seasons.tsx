@@ -11,12 +11,12 @@ import { z } from 'zod'
 const validateSearch = z.object({ page: z.number().catch(1) })
 
 export const Route = createFileRoute('/_layout/seasons')({
+  validateSearch: validateSearch,
   loaderDeps: ({ search: { page } }) => ({ page }),
-  loader: ({ deps }) => getPaginatedSeasons({ page: deps.page }),
   component: Seasons,
   pendingComponent: () => <Loading page="seasonList" />,
   errorComponent: () => <div>Oj, här gick något jättefel.</div>,
-  validateSearch: validateSearch,
+  loader: ({ deps }) => getPaginatedSeasons({ page: deps.page }),
 })
 
 function Seasons() {

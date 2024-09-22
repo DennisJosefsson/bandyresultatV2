@@ -18,9 +18,6 @@ export const Route = createFileRoute(
     }),
     stringify: ({ table }) => ({ table: `${table}` }),
   },
-  loaderDeps: ({ search: { women } }) => ({
-    women,
-  }),
   beforeLoad: ({ search, params }) => {
     if (
       search.women &&
@@ -34,6 +31,9 @@ export const Route = createFileRoute(
       })
     }
   },
+  loaderDeps: ({ search: { women } }) => ({
+    women,
+  }),
   component: Table,
   pendingComponent: () => <Loading page="seasonTable" />,
   loader: ({ deps, params }) =>

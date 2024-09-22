@@ -2,7 +2,7 @@ import { CheckedState } from '@/components/ui/checkbox'
 import { teamQueries } from '@/lib/queries/teams/queries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { LatLng, LatLngBounds, LatLngTuple, Map as MapType } from 'leaflet'
+import { LatLngBounds, LatLngTuple, Map as MapType } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useCallback, useEffect, useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
@@ -12,7 +12,6 @@ import MemoMapItem from './MapItem'
 
 type County = {
   county: string
-  center: LatLng
 }
 
 const Map = () => {
@@ -35,8 +34,12 @@ const Map = () => {
   })
 
   useEffect(() => {
-    setCounties(countyArray)
-  }, [women])
+    setCounties(
+      teams.map((team) => {
+        return { county: team.county }
+      })
+    )
+  }, [teams])
 
   const onCheckedChange = useCallback(
     (checked: CheckedState, teamId: number) => {

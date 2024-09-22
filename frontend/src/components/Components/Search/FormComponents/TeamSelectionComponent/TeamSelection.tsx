@@ -10,7 +10,7 @@ import { useGetSearchTeams } from '@/lib/hooks/dataHooks/search/useSearchForm'
 import { SearchParamsFields } from '@/lib/types/games/search'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { CircleXIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { FixedSizeList } from 'react-window'
 import RenderItem from './RenderItem'
 
@@ -25,45 +25,29 @@ const TeamSelection = ({ field, label }: TeamSelectionProps) => {
     from: '/_layout/search',
     select: (search) => search[field],
   })
-  const women = useSearch({
-    from: '/_layout/search',
-    select: (search) => search.women,
-  })
+
   const navigate = useNavigate({ from: '/search' })
   const { teamSelection } = useGetSearchTeams()
-  const [value, setValue] = useState<string>(searchField?.toString() ?? '')
-
-  useEffect(() => {
-    setValue('')
-  }, [women])
-
-  useEffect(() => {
-    if (value && searchField === undefined) {
-      setValue('')
-    }
-  }, [searchField])
 
   const onValueChange = (value: string): void => {
     navigate({ search: (prev) => ({ ...prev, [field]: parseInt(value) }) })
-    setValue(value)
   }
 
   const reset = () => {
     navigate({ search: (prev) => ({ ...prev, [field]: undefined }) })
-    setValue('')
   }
 
   const onOpenChange = (open: boolean): void => {
     if (open && listRef && listRef.current && listRef.current.scrollToItem) {
       listRef.current.scrollToItem(
-        teamSelection.findIndex((val) => val.value === parseInt(value)),
+        teamSelection.findIndex((val) => val.value === searchField),
         'center'
       )
     }
   }
 
   const selectedLabel = teamSelection.find(
-    (val) => val.value === parseInt(value)
+    (val) => val.value === searchField
   )?.label
 
   return (
@@ -74,7 +58,7 @@ const TeamSelection = ({ field, label }: TeamSelectionProps) => {
       <div className="flex flex-row items-center gap-x-2">
         <div>
           <Select
-            value={value}
+            value={searchField?.toString() ?? ''}
             onValueChange={onValueChange}
             onOpenChange={(open) => onOpenChange(open)}
           >

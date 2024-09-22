@@ -12,15 +12,19 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import CountyList from './CountyList'
 
-type Counties = {
+type County = {
+  county: string
+}
+
+type CountyArray = {
   county: string
   center: LatLng
-}[]
+}
 
 type CountyListContainerProp = {
-  countyArray: Counties
-  counties: Counties
-  setCounties: Dispatch<SetStateAction<Counties>>
+  countyArray: CountyArray[]
+  counties: County[]
+  setCounties: Dispatch<SetStateAction<County[]>>
   map: MapType | null
 }
 

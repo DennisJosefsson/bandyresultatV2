@@ -2,24 +2,27 @@ import { useGetTeams } from '../teams/useGetTeams'
 
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import useGenderContext from '../../contextHooks/useGenderContext'
 import useSearchMutation from './useSearchMutation'
 
 export const useGetSearchTeams = () => {
-  const { womenContext } = useGenderContext()
+  const women = useSearch({
+    from: '/_layout',
+    select: (search) => search.women,
+  })
   const { data, isLoading, error } = useGetTeams()
+  const navigate = useNavigate({ from: '/search' })
+
+  useEffect(() => {
+    navigate({
+      search: (prev) => ({ ...prev, team: undefined, opponent: undefined }),
+    })
+  }, [data, navigate])
 
   const filteredTeams = data
     ? data
         .filter((team) => team.teamId !== null)
         .filter((team) => team.teamId !== 176)
-        .filter((team) => team.women === womenContext)
-    : []
-  const filteredOpponents = data
-    ? data
-        .filter((team) => team.teamId !== null)
-        .filter((team) => team.teamId !== 176)
-        .filter((team) => team.women === womenContext)
+        .filter((team) => team.women === women)
     : []
 
   const teamSelection = filteredTeams.map((team) => {
@@ -27,12 +30,7 @@ export const useGetSearchTeams = () => {
     return { value: team.teamId, label: team.casualName }
   })
 
-  const opponentSelection = filteredOpponents.map((team) => {
-    if (team.teamId === null) throw Error('Missing TeamId')
-    return { value: team.teamId, label: team.casualName }
-  })
-
-  return { teamSelection, opponentSelection, isLoading, error }
+  return { teamSelection, isLoading, error }
 }
 
 export type ErrorState =
