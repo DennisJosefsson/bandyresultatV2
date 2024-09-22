@@ -10,13 +10,6 @@ export const useGetSearchTeams = () => {
     select: (search) => search.women,
   })
   const { data, isLoading, error } = useGetTeams()
-  const navigate = useNavigate({ from: '/search' })
-
-  useEffect(() => {
-    navigate({
-      search: (prev) => ({ ...prev, team: undefined, opponent: undefined }),
-    })
-  }, [data, navigate])
 
   const filteredTeams = data
     ? data
