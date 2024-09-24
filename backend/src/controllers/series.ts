@@ -8,6 +8,7 @@ import {
 import Serie from '../models/Serie.js'
 import authControl from '../utils/middleware/authControl.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
+import IDCheck from '../utils/postFunctions/IDCheck.js'
 import newSeriesEntry from '../utils/postFunctions/newSeriesEntry.js'
 
 const seriesRouter = Router()
@@ -27,6 +28,26 @@ seriesRouter.get('/', (async (
     })
   }
   res.status(200).json(series)
+}) as RequestHandler)
+
+seriesRouter.get('/:serieId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  res.locals.origin = 'GET Single Game router'
+  const serieId = IDCheck.parse(req.params.serieId)
+
+  const game = await Serie.findByPk(serieId)
+  if (!game) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No such serie',
+      logging: false,
+      context: { origin: 'Single Serie Router' },
+    })
+  }
+  res.status(200).json(game)
 }) as RequestHandler)
 
 seriesRouter.post('/', authControl, (async (

@@ -9,9 +9,9 @@ import Season from '../../models/Season.js'
 import Team from '../../models/Team.js'
 
 import { z } from 'zod'
+import Metadata from '../../models/Metadata.js'
 import Serie from '../../models/Serie.js'
-
-// import authControl from '../../utils/middleware/authControl.js'
+import TeamSeason from '../../models/TeamSeason.js'
 
 const dashboardSeasonRouter = Router()
 
@@ -42,6 +42,20 @@ dashboardSeasonRouter.get('/gameform/:seasonId', (async (
   })
 
   res.status(200).json({ teams, series })
+}) as RequestHandler)
+
+dashboardSeasonRouter.get('/:seasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const seasonId = parsedSeasonId.parse(req.params.seasonId)
+  const metadata = await Metadata.findOne({ where: { seasonId } })
+  const teams = await TeamSeason.findAll({ where: { seasonId }, include: Team })
+  const series = await Serie.findAll({ where: { seasonId } })
+  const season = await Season.findByPk(seasonId)
+
+  res.status(200).json({ season, metadata, teams, series })
 }) as RequestHandler)
 
 export default dashboardSeasonRouter

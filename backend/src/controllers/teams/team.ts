@@ -11,7 +11,6 @@ import County from '../../models/County.js'
 import Team from '../../models/Team.js'
 import TeamSeason from '../../models/TeamSeason.js'
 import { sequelize } from '../../utils/db.js'
-import authControl from '../../utils/middleware/authControl.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import IDCheck from '../../utils/postFunctions/IDCheck.js'
 import newTeamEntry from '../../utils/postFunctions/newTeamEntry.js'
@@ -86,7 +85,7 @@ teamRouter.get('/latest', (async (_req, res, _next) => {
   res.status(200).json(teams)
 }) as RequestHandler)
 
-teamRouter.post('/', authControl, (async (
+teamRouter.post('/', (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -97,7 +96,7 @@ teamRouter.post('/', authControl, (async (
   return res.status(201).json(newTeam)
 }) as RequestHandler)
 
-teamRouter.delete('/:teamId', authControl, (async (
+teamRouter.delete('/:teamId', (async (
   req: Request,
   res: Response,
   _next: NextFunction

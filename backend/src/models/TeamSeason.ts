@@ -1,16 +1,17 @@
 import { z } from 'zod'
 
 import {
-  Model,
-  Table,
   Column,
-  PrimaryKey,
-  ForeignKey,
   Default,
+  ForeignKey,
+  HasOne,
+  Model,
+  PrimaryKey,
+  Table,
   Unique,
 } from 'sequelize-typescript'
-import Team from './Team.js'
 import Season from './Season.js'
+import Team from './Team.js'
 import TeamTable from './TeamTable.js'
 
 export const teamSeasonAttributes = z.object({
@@ -112,6 +113,12 @@ class TeamSeason extends Model<TeamSeasonAttributes, TeamSeasonInput> {
 
   @Column
   declare points?: number
+
+  @HasOne(() => Team, { sourceKey: 'teamId', foreignKey: 'teamId' })
+  declare team: ReturnType<() => Team>
+
+  @HasOne(() => Season, { foreignKey: 'seasonId' })
+  declare season: ReturnType<() => Season>
 }
 
 export default TeamSeason

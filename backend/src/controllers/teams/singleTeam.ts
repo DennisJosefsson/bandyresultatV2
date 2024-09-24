@@ -22,6 +22,23 @@ import {
 
 const singleTeamRouter = Router()
 
+singleTeamRouter.get('/:teamId/edit', (async (req: Request, res: Response) => {
+  const teamId = teamIdChecker.parse(req.params.teamId)
+
+  const team = await Team.findByPk(teamId)
+
+  if (!team) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'Inget sådant lag finns.',
+      logging: false,
+      context: { origin: 'GET Single Team Router' },
+    })
+  }
+
+  res.status(200).json(team)
+}) as RequestHandler)
+
 singleTeamRouter.get('/:teamId', (async (
   req: Request,
   res: Response,

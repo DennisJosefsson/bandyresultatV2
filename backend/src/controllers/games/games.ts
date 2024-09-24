@@ -121,28 +121,53 @@ gameRouter.get('/season/:seasonId', (async (
   res.status(200).json(returnGames)
 }) as RequestHandler)
 
-gameRouter.post('/', authControl, (async (
+gameRouter.get('/:gameId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const introData = simpleGameData.parse(req.body)
-  const serie = await Serie.findOne({
-    where: { seasonId: introData.seasonId, serieGroupCode: introData.group },
-    raw: true,
-    nest: true,
-  })
+  res.locals.origin = 'GET Single Game router'
+  const gameId = IDCheck.parse(req.params.gameId)
 
-  if (!serie) {
+  const game = await Game.findByPk(gameId)
+  if (!game) {
     throw new NotFoundError({
       code: 404,
-      message: 'No such serie',
-      logging: true,
-      context: { origin: 'POST New Game Router' },
+      message: 'No such game',
+      logging: false,
+      context: { origin: 'Single Game Router' },
     })
   }
+  res.status(200).json(game)
+}) as RequestHandler)
 
-  const serieId = parseNumber(serie.serieId)
+gameRouter.post('/', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  let serieId: number
+  const introData = simpleGameData.parse(req.body)
+  if (!req.body.serieId) {
+    const serie = await Serie.findOne({
+      where: { seasonId: introData.seasonId, serieGroupCode: introData.group },
+      raw: true,
+      nest: true,
+    })
+
+    if (!serie) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'No such serie',
+        logging: true,
+        context: { origin: 'POST New Game Router' },
+      })
+    }
+
+    serieId = z.coerce.number().parse(serie.serieId)
+  } else {
+    serieId = z.coerce.number().parse(req.body.serieId)
+  }
 
   const currChamp = await TeamGame.findOne({
     where: { currInoffChamp: true, women: introData.women || false },
