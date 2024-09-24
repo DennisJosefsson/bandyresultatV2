@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import { DashboardSingleSeason } from '../types/dashboard/dashboard'
 import { GameObjectType } from '../types/games/games'
 import { SerieAttributes } from '../types/series/series'
 import { TeamAndSeasonAttributes } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
-const dashboardGamesApi = axios.create({
+const dashboardApi = axios.create({
   baseURL: `${backendUrl}/api/dashboard`,
   headers: header,
 })
@@ -14,14 +15,14 @@ const dashboardGamesApi = axios.create({
 export const getGamesBySerieId = async ({
   serieId,
 }: {
-  serieId: string
+  serieId: number
 }): Promise<GameObjectType[]> => {
-  const response = await dashboardGamesApi.get(`/games?serieId=${serieId}`)
+  const response = await dashboardApi.get(`/games?serieId=${serieId}`)
 
   return response.data
 }
 
-type GameFormData = {
+export type GameFormData = {
   teams: TeamAndSeasonAttributes[]
   series: SerieAttributes[]
 }
@@ -31,7 +32,7 @@ export const getGameFormData = async ({
 }: {
   seasonId: number
 }): Promise<GameFormData> => {
-  const response = await dashboardGamesApi.get(`/gameform/${seasonId}`)
+  const response = await dashboardApi.get(`/gameform/${seasonId}`)
 
   return response.data
 }
@@ -52,7 +53,16 @@ type DashboardDataObjects = {
 }
 
 export const getDashBoardData = async (): Promise<DashboardDataObjects> => {
-  const response = await dashboardGamesApi.get('/data')
+  const response = await dashboardApi.get('/data')
 
+  return response.data
+}
+
+export const getDashBoardSingleSeason = async ({
+  seasonId,
+}: {
+  seasonId: number
+}): Promise<DashboardSingleSeason> => {
+  const response = await dashboardApi.get(`/${seasonId}`)
   return response.data
 }

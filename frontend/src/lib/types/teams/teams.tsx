@@ -11,10 +11,10 @@ export const newTeam = z.object({
   casualName: z.string(),
   city: z.string(),
   women: z.boolean(),
-  lat: z.number(),
-  long: z.number(),
-  countyId: z.string().nullable(),
-  municipalityId: z.string().nullable(),
+  lat: z.coerce.number(),
+  long: z.coerce.number(),
+  countyId: z.coerce.number().nullable(),
+  municipalityId: z.coerce.number().nullable(),
 })
 
 export const compareFormState = z
@@ -64,25 +64,50 @@ export const validateSearchParams = z
     path: ['startSeason'],
   })
 
-export const teamAttributes = z.object({
+export const team = z.object({
   teamId: z.number().nullable(),
   name: z.string(),
   city: z.string(),
   casualName: z.string(),
   shortName: z.string(),
   women: z.boolean(),
-  lat: z.number().nullable(),
-  long: z.number().nullable(),
-  countyId: z.number(),
-  municipalityId: z.number().nullable(),
-  seasonteam: z.array(
-    z.object({
-      year: z.string(),
-      seasonId: z.number(),
-      teamseason: z.object({ qualification: z.boolean().nullable() }),
-    })
-  ),
+  lat: z.coerce.number().nullable(),
+  long: z.coerce.number().nullable(),
+  countyId: z.coerce.number(),
+  municipalityId: z.coerce.number().nullable(),
 })
+
+export const teamAttributes = team.and(
+  z.object({
+    seasonteam: z.array(
+      z.object({
+        year: z.string(),
+        seasonId: z.number(),
+        teamseason: z.object({ qualification: z.boolean().nullable() }),
+      })
+    ),
+  })
+)
+
+// export const teamAttributes = z.object({
+//   teamId: z.number().nullable(),
+//   name: z.string(),
+//   city: z.string(),
+//   casualName: z.string(),
+//   shortName: z.string(),
+//   women: z.boolean(),
+//   lat: z.number().nullable(),
+//   long: z.number().nullable(),
+//   countyId: z.number(),
+//   municipalityId: z.number().nullable(),
+//   seasonteam: z.array(
+//     z.object({
+//       year: z.string(),
+//       seasonId: z.number(),
+//       teamseason: z.object({ qualification: z.boolean().nullable() }),
+//     })
+//   ),
+// })
 
 export const teamSeasonAttributes = z.object({
   teamseasonId: z.number().optional(),
@@ -103,6 +128,10 @@ export const teamSeasonAttributes = z.object({
   final: z.boolean().optional(),
   gold: z.boolean().optional(),
 })
+
+export const dashboardTeamSeason = teamSeasonAttributes.and(
+  z.object({ team: team })
+)
 
 export const teamAndSeasonAttributes = z.object({
   teamId: z.number(),
@@ -148,7 +177,7 @@ export const teamChartType = z.object({
 })
 
 export type TeamChartType = z.infer<typeof teamChartType>
-
+export type Team = z.infer<typeof team>
 export type TeamAttributes = z.infer<typeof teamAttributes>
 export type TeamSeasonAttributes = z.infer<typeof teamSeasonAttributes>
 export type TeamAndSeasonAttributes = z.infer<typeof teamAndSeasonAttributes>
@@ -172,3 +201,5 @@ export type SingleTeam = {
   playoffCount: { playoff_count: string }[]
   chartData: TeamChartType[]
 }
+
+export type DashBoardTeamSeason = z.infer<typeof dashboardTeamSeason>

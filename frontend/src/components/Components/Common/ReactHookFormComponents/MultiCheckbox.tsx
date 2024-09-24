@@ -37,8 +37,9 @@ function MultiCheckboxComponent({
                     id={item.label}
                     checked={field.value?.includes(item.value)}
                     onCheckedChange={(checked) => {
+                      const updatedValue = field.value || []
                       return checked
-                        ? field.onChange([...field.value, item.value])
+                        ? field.onChange([...updatedValue, item.value])
                         : field.onChange(
                             field.value?.filter(
                               (value: string) => value !== item.value

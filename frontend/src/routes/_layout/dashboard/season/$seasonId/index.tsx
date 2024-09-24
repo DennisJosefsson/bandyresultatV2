@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import useGetMetaData from '@/lib/hooks/dataHooks/season/useGetMetadata'
 import { useGetSingleSeason } from '@/lib/hooks/dataHooks/season/useGetSingleSeason'
 import { useDeleteTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useDeleteTeamSeasonMutation'
+import { getDashBoardSingleSeason } from '@/lib/requests/dashboard'
 import { sortOrder } from '@/lib/utils/constants'
 import {
   setDashboard,
@@ -12,6 +13,8 @@ import {
 import { Link, Navigate, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/dashboard/season/$seasonId/')({
+  loader: ({ params }) =>
+    getDashBoardSingleSeason({ seasonId: params.seasonId }),
   component: SeasonIndex,
   pendingComponent: Loading,
   errorComponent: OnErrorNavigate,
@@ -149,7 +152,7 @@ function SeasonIndex() {
                                 search={{ women: dashboardData.women }}
                                 params={{
                                   seasonId: seasonId,
-                                  serieId: serie.serieId.toString(),
+                                  serieId: serie.serieId,
                                 }}
                               >
                                 <Button size="sm" variant="outline">
@@ -163,8 +166,11 @@ function SeasonIndex() {
                                     seriesData: serie,
                                   })
                                   navigate({
-                                    to: '/dashboard/season/$seasonId/newseries',
-                                    params: { seasonId: seasonId },
+                                    to: '/dashboard/season/$seasonId/games/$serieId/edit',
+                                    params: {
+                                      seasonId: seasonId,
+                                      serieId: serie.serieId,
+                                    },
                                     search: { women: dashboardData.women },
                                   })
                                 }}
@@ -182,30 +188,6 @@ function SeasonIndex() {
               </CardContent>
             </Card>
             <div className="flex flex-col gap-2">
-              <Card>
-                <CardHeader>
-                  <div className="flex flex-row justify-between items-center">
-                    <CardTitle>Nya matcher</CardTitle>
-                    <Button
-                      onClick={() => {
-                        setDashboard({
-                          ...dashboardData,
-                          seriesArray: season.series,
-                          teamSeasonData: teamSeasonData,
-                        })
-                        navigate({
-                          to: '/dashboard/season/$seasonId/bulkgames',
-                          params: { seasonId: seasonId },
-                          search: { women: dashboardData.women },
-                        })
-                      }}
-                      size="sm"
-                    >
-                      Lägg till
-                    </Button>
-                  </div>
-                </CardHeader>
-              </Card>
               <Card>
                 <CardHeader>
                   <div className="flex flex-row justify-between items-center">

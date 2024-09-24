@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const metadataType = z.object({
+export const metadata = z.object({
   metadataId: z.number().optional(),
   seasonId: z.number(),
   name: z.string(),
@@ -18,4 +18,4 @@ export const metadataType = z.object({
   comment: z.string().optional(),
 })
 
-export type MetadataType = z.infer<typeof metadataType>
+export type MetadataType = z.infer<typeof metadata>

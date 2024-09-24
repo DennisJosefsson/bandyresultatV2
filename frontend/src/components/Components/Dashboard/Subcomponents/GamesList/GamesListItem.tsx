@@ -3,7 +3,7 @@ import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
   game: GameObjectType
-  changeButtonOnClick: (game: GameObjectType, gameId: number) => void
+  changeButtonOnClick: (gameId: number) => void
   deleteButtonOnClick: (gameId: number) => void
 }
 

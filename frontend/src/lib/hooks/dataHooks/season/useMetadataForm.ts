@@ -1,4 +1,4 @@
-import { MetadataType, metadataType } from '@/lib/types/metadata/metadata'
+import { MetadataType, metadata } from '@/lib/types/metadata/metadata'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -8,7 +8,7 @@ const useMetadataForm = (
   metadataData: MetadataType | undefined
 ) => {
   const form = useForm<MetadataType>({
-    resolver: zodResolver(metadataType),
+    resolver: zodResolver(metadata),
     criteriaMode: 'all',
     mode: 'onChange',
     defaultValues: {

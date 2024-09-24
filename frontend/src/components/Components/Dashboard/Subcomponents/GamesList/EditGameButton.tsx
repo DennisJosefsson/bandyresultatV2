@@ -12,7 +12,7 @@ import { useMediaQuery } from 'usehooks-ts'
 
 type EditGameButtonProps = {
   game: GameObjectType
-  changeButtonOnClick: (game: GameObjectType, gameId: number) => void
+  changeButtonOnClick: (gameId: number) => void
   deleteButtonOnClick: (gameId: number) => void
 }
 
@@ -33,9 +33,7 @@ const EditGameButton = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={() =>
-              game.gameId && changeButtonOnClick(game, game.gameId)
-            }
+            onClick={() => game.gameId && changeButtonOnClick(game.gameId)}
           >
             Ändra
           </DropdownMenuItem>

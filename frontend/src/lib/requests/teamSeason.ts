@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 
-import { TeamSeasonAttributes } from '../types/teams/teams'
+import { DashBoardTeamSeason, TeamSeasonAttributes } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -9,6 +9,16 @@ const teamseasonsApi = axios.create({
   baseURL: `${backendUrl}/api/teamSeasons`,
   headers: header,
 })
+
+export const getSingleSeasonTeamSeasons = async ({
+  seasonId,
+}: {
+  seasonId: number
+}): Promise<DashBoardTeamSeason[]> => {
+  const response = await teamseasonsApi.get(`/dashboard/${seasonId}`)
+
+  return response.data
+}
 
 export const postTeamSeason = async ({
   teamSeasons,
