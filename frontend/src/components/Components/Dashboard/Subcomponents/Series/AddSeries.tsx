@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
@@ -81,22 +80,6 @@ const AddSeries = ({ women }: { women: boolean }) => {
       <CardHeader>
         <div className="flex flex-row justify-between">
           <CardTitle>Serie</CardTitle>
-          <div className="flex flex-row gap-2">
-            <Button
-              onClick={() =>
-                navigate({
-                  to: '/dashboard/season/$seasonId',
-                  params: { seasonId: seasonId },
-                  search: { women },
-                })
-              }
-            >
-              Tillbaka
-            </Button>
-            <Button type="submit" form="seriedataForm">
-              Skicka
-            </Button>
-          </div>
         </div>
       </CardHeader>
       <CardContent>

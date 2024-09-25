@@ -63,6 +63,6 @@ export const getDashBoardSingleSeason = async ({
 }: {
   seasonId: number
 }): Promise<DashboardSingleSeason> => {
-  const response = await dashboardApi.get(`/${seasonId}`)
+  const response = await dashboardApi.get(`/season/${seasonId}`)
   return response.data
 }

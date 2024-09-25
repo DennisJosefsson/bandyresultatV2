@@ -8,27 +8,19 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { deleteTeam } from '@/lib/requests/teams'
 import { useMutation } from '@tanstack/react-query'
-import {
-  useNavigate,
-  useParams,
-  useRouter,
-  useSearch,
-} from '@tanstack/react-router'
+import { getRouteApi, useRouter } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
+
+const route = getRouteApi('/_layout/dashboard/teams/$teamId/delete')
 
 const DeleteDialog = () => {
   const { toast } = useToast()
   const router = useRouter()
-  const women = useSearch({
-    from: '/_layout',
+  const women = route.useSearch({
     select: (search) => search.women,
   })
-  const { teamId } = useParams({
-    from: '/_layout/dashboard/teams/$teamId/delete',
-  })
-  const navigate = useNavigate({
-    from: '/dashboard/teams/$teamId/delete',
-  })
+  const { teamId } = route.useParams()
+  const navigate = route.useNavigate()
 
   const close = () => {
     navigate({
@@ -47,7 +39,7 @@ const DeleteDialog = () => {
     router.invalidate()
     toast({
       duration: 5000,
-      title: 'Match borttagen',
+      title: 'Lag borttaget',
     })
     close()
   }
