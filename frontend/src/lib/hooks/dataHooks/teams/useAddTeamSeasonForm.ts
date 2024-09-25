@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getRouteApi } from '@tanstack/react-router'
 import { UseFormProps, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -22,7 +23,7 @@ const teamSeasonFormSchema = z.object({
       semi: z.boolean().optional(),
       final: z.boolean().optional(),
       gold: z.boolean().optional(),
-    }),
+    })
   ),
 })
 
@@ -53,7 +54,7 @@ export const initialData = [
 const useTeamSeasonForm = <TSchema extends z.ZodType>(
   props: Omit<UseFormProps<TSchema['_input']>, 'resolver'> & {
     schema: TSchema
-  },
+  }
 ) => {
   const form = useForm<TSchema['_input']>({
     ...props,
@@ -65,10 +66,13 @@ const useTeamSeasonForm = <TSchema extends z.ZodType>(
   return form
 }
 
-export const useAddTeamSeasonForm = (teamSeasons: TeamSeason[]) => {
+const route = getRouteApi('/_layout/dashboard/season/$seasonId/teamseason/')
+
+export const useAddTeamSeasonForm = () => {
+  const { teamseasons } = route.useLoaderData()
   const form = useTeamSeasonForm({
     schema: teamSeasonFormSchema,
-    defaultValues: { teamSeasons },
+    defaultValues: { teamSeasons: teamseasons },
     mode: 'onSubmit',
   })
 

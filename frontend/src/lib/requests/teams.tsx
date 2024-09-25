@@ -1,7 +1,11 @@
-import { TeamFormInit } from '@/components/Components/Dashboard/TeamForm'
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { SingleTeam, TeamAttributes } from '../types/teams/teams'
+import {
+  NewTeamType,
+  SingleTeam,
+  Team,
+  TeamAttributes,
+} from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -36,7 +40,21 @@ export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   return response.data
 }
 
-export const postTeam = async ({ formState }: { formState: TeamFormInit }) => {
+export const getSingleTeamForEdit = async (teamId: number): Promise<Team> => {
+  const response = await teamsApi.get(`/${teamId}/edit`, {
+    validateStatus: (status) => {
+      return status < 500
+    },
+  })
+
+  return response.data
+}
+
+export const editTeam = async ({ formState }: { formState: Team }) => {
+  return await teamsApi.post('/', formState)
+}
+
+export const addTeam = async ({ formState }: { formState: NewTeamType }) => {
   return await teamsApi.post('/', formState)
 }
 

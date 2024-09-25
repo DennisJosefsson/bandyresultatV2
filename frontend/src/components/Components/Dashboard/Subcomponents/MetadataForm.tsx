@@ -5,9 +5,8 @@ import { useToast } from '@/components/ui/use-toast'
 import useMetadataForm from '@/lib/hooks/dataHooks/season/useMetadataForm'
 import { postMetadata } from '@/lib/requests/metadata'
 import { MetadataType } from '@/lib/types/metadata/metadata'
-import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
 import { FormComponent } from '../../Common/ReactHookFormComponents/FormComponent'
@@ -17,16 +16,16 @@ type TeamSelection = {
   label: string
 }[]
 
-type MetadataFormProps = {
-  seasonId: number
-  metadataData: MetadataType | undefined
-  teams: TeamAndSeasonAttributes[] | undefined
-}
+const route = getRouteApi('/_layout/dashboard/season/$seasonId/metadata/')
 
-const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
-  const navigate = useNavigate()
-  const form = useMetadataForm(seasonId, metadataData)
-  const { women } = useSearch({ from: '/_layout/dashboard' })
+const MetadataForm = () => {
+  const teams = route.useLoaderData({
+    select: (search) => search.teams,
+  })
+  const navigate = route.useNavigate()
+  const form = useMetadataForm()
+  const women = route.useSearch({ select: (search) => search.women })
+  const { seasonId } = route.useParams()
   const mutation = useMutation({
     mutationFn: postMetadata,
     onSuccess: () => onSuccessMutation(),
@@ -35,11 +34,8 @@ const MetadataForm = ({ seasonId, metadataData, teams }: MetadataFormProps) => {
   const client = useQueryClient()
   const { toast } = useToast()
 
-  if (!teams) {
-    throw new Error('Missing team data')
-  }
   const teamSelection: TeamSelection = teams.map((team) => {
-    return { value: team.teamId, label: team.name }
+    return { value: team.teamId, label: team.team.name }
   })
 
   const handleSubmit: SubmitHandler<MetadataType> = (formData) => {

@@ -1,7 +1,33 @@
 import { z } from 'zod'
 
-export const inputGameObject = z.object({
-  gameId: z.number().int().positive().optional(),
+export const editGame = z.object({
+  gameId: z.number().int().positive(),
+  seasonId: z.number(),
+  homeTeamId: z.coerce.number().optional(),
+  awayTeamId: z.coerce.number().optional(),
+  result: z
+    .string()
+    .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Fel resultat, ny match' })
+    .optional()
+    .or(z.literal('')),
+  halftimeResult: z
+    .string()
+    .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Fel halvtidsresultat, ny match' })
+    .optional()
+    .or(z.literal('')),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Fel datum' }),
+  category: z
+    .enum(['qualification', 'regular', 'eight', 'quarter', 'semi', 'final'])
+    .default('regular'),
+  group: z.string().default('elitserien'),
+  playoff: z.boolean().default(false),
+  extraTime: z.boolean().default(false),
+  penalties: z.boolean().default(false),
+  women: z.boolean().default(false),
+  serieId: z.number(),
+})
+
+export const newGame = z.object({
   seasonId: z.number(),
   homeTeamId: z.coerce.number().optional(),
   awayTeamId: z.coerce.number().optional(),
@@ -24,6 +50,7 @@ export const inputGameObject = z.object({
   extraTime: z.boolean().default(false),
   penalties: z.boolean().default(false),
   women: z.boolean().default(false),
+  serieId: z.number(),
 })
 
 export const gameObject = z.object({
@@ -145,7 +172,7 @@ export const searchResultTeamgameObject = z.object({
 export type GameObjectType = z.infer<typeof gameObject>
 export type GameObjectWithSeasonType = z.infer<typeof gameObjectWithSeason>
 export type GameFormObjectType = z.infer<typeof gameFormObject>
-export type InputGameObjectType = z.infer<typeof inputGameObject>
+export type EditGame = z.infer<typeof editGame>
 export type TeamGameObject = z.infer<typeof teamGameObject>
 export type SearchResultTeamGameObject = z.infer<
   typeof searchResultTeamgameObject
@@ -173,190 +200,4 @@ const seasonGames = z.object({
 export type GameDateObject = z.infer<typeof dateObject>
 export type SeasonGames = z.infer<typeof seasonGames>
 export type SortedGamesType = z.infer<typeof groupArray>
-
-// export type SeasonGames = {
-//   men: {
-//     played: {
-//       FinalGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       SemiGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QuarterGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       EightGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       RegularGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QualificationGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//     }
-//     unplayed: {
-//       FinalGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       SemiGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QuarterGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       EightGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       RegularGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QualificationGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//     }
-//     unplayedLength: number
-//     playedLength: number
-//   }
-//   women: {
-//     played: {
-//       FinalGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       SemiGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QuarterGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       EightGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       RegularGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QualificationGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//     }
-//     unplayed: {
-//       FinalGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       SemiGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QuarterGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       EightGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       RegularGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//       QualificationGames: {
-//         group: string
-//         dates: {
-//           date: string
-//           games: GameObjectType[]
-//         }[]
-//       }[]
-//     }
-//     unplayedLength: number
-//     playedLength: number
-//   }
-// }
+export type NewGame = z.infer<typeof newGame>

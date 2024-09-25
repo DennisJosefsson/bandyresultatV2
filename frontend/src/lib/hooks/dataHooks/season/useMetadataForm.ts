@@ -1,33 +1,28 @@
-import { MetadataType, metadataType } from '@/lib/types/metadata/metadata'
+import { MetadataType, metadata } from '@/lib/types/metadata/metadata'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getRouteApi } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
-const useMetadataForm = (
-  seasonId: number,
-  metadataData: MetadataType | undefined
-) => {
+const route = getRouteApi('/_layout/dashboard/season/$seasonId/metadata/')
+
+const useMetadataForm = () => {
+  const metadataData = route.useLoaderData({
+    select: (search) => search.metadata,
+  })
+
   const form = useForm<MetadataType>({
-    resolver: zodResolver(metadataType),
+    resolver: zodResolver(metadata),
     criteriaMode: 'all',
     mode: 'onChange',
     defaultValues: {
-      metadataId: metadataData ? metadataData.metadataId : undefined,
-      seasonId: metadataData ? metadataData.seasonId : seasonId,
-      name: metadataData ? metadataData.name : '',
-      year: metadataData ? metadataData.year : '',
-      winnerId: metadataData ? metadataData.winnerId : undefined,
-      winnerName: metadataData ? metadataData.winnerName : '',
-      hostCity: metadataData ? metadataData.hostCity : '',
-      finalDate: metadataData ? metadataData.finalDate : '',
-      northSouth: metadataData && metadataData.northSouth ? true : false,
-      multipleGroupStages:
-        metadataData && metadataData.multipleGroupStages ? true : false,
-      eight: metadataData && metadataData.eight === false ? false : true,
-      quarter: metadataData && metadataData.quarter === false ? false : true,
-      semi: metadataData && metadataData.semi === false ? false : true,
-      final: metadataData && metadataData.final === false ? false : true,
-      comment: metadataData && metadataData.comment ? metadataData.comment : '',
+      ...metadataData,
+      name: metadataData.name ?? '',
+      year: metadataData.year ?? '',
+      winnerName: metadataData.winnerName ?? '',
+      hostCity: metadataData.hostCity ?? '',
+      finalDate: metadataData.finalDate ?? '',
+      comment: metadataData.comment ?? '',
     },
   })
 

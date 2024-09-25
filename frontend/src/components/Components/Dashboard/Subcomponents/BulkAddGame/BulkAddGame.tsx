@@ -1,8 +1,5 @@
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { SerieAttributes } from '@/lib/types/series/series'
-import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
-import { sortOrder } from '@/lib/utils/constants'
+import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
+import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 import BulkGameForm from './BulkGameForm'
 import FileInput from './FileInput'
@@ -17,23 +14,7 @@ type Games = {
   category: string
   group: string
   women: boolean
-  serieId: number | undefined | null
-}
-
-const categoryArray = [
-  { value: 'final', label: 'Final' },
-  { value: 'semi', label: 'Semi' },
-  { value: 'quarter', label: 'Kvart' },
-  { value: 'eight', label: 'Åttondel' },
-  { value: 'regular', label: 'Grundserie' },
-  { value: 'qualification', label: 'Kval' },
-]
-
-type BulkAddGameProps = {
-  teams: TeamAndSeasonAttributes[] | undefined
-  seasonId: number
-  series: SerieAttributes[] | undefined
-  women: boolean
+  serieId: number
 }
 
 type GameArrayType = {
@@ -42,25 +23,18 @@ type GameArrayType = {
   away: string
 }
 
-const BulkAddGame = ({ teams, seasonId, series, women }: BulkAddGameProps) => {
+const route = getRouteApi(
+  '/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/'
+)
+
+const BulkAddGame = () => {
+  const women = useDashboardStore((state) => state.dashboard.women)
+  const { serie, teams } = route.useLoaderData()
+  const { seasonId, serieId } = route.useParams()
   const [gamesList, setGamesList] = useState<GameArrayType[]>([])
 
-  const [category, setCategory] = useState<string>('regular')
-  const [group, setGroup] = useState<string>('elitserien')
-
-  const groupArray = series
-    ?.map((serie) => {
-      return { value: serie.serieGroupCode, label: serie.serieName }
-    })
-    .sort((a, b) => {
-      if (sortOrder.indexOf(a.value) > sortOrder.indexOf(b.value)) {
-        return 1
-      } else if (sortOrder.indexOf(a.value) < sortOrder.indexOf(b.value)) {
-        return -1
-      } else {
-        return 0
-      }
-    })
+  const group = serie.serieGroupCode
+  const category = serie.serieCategory
 
   const games: Games[] =
     gamesList.length > 0
@@ -69,57 +43,31 @@ const BulkAddGame = ({ teams, seasonId, series, women }: BulkAddGameProps) => {
             date: game.date,
             homeTeamId: game.home,
             homeTeam:
-              teams?.find((team) => team.teamId.toString() === game.home)
-                ?.casualName ?? 'Lag saknas',
+              teams?.find((team) => team.teamId.toString() === game.home)?.team
+                .casualName ?? 'Lag saknas',
             awayTeamId: game.away,
             awayTeam:
-              teams?.find((team) => team.teamId.toString() === game.away)
-                ?.casualName ?? 'Lag saknas',
+              teams?.find((team) => team.teamId.toString() === game.away)?.team
+                .casualName ?? 'Lag saknas',
             seasonId,
             group,
             category,
             women,
-            serieId:
-              series?.find((serie) => serie.serieGroupCode === group)
-                ?.serieId ?? undefined,
+            serieId,
           }
         })
       : []
 
+  const missingTeams = games.filter(
+    (game) => game.homeTeam === 'Lag saknas' || game.awayTeam === 'Lag saknas'
+  ).length
+
   return (
     <div>
       <form className="mb-4">
-        <RadioGroup
-          value={category}
-          onValueChange={setCategory}
-          className="mb-4 flex flex-row gap-4"
-        >
-          {categoryArray.map((cat) => {
-            return (
-              <div key={cat.value} className="flex items-center space-x-2">
-                <Label htmlFor={cat.value}>{cat.label}</Label>
-                <RadioGroupItem value={cat.value} id={cat.value} />
-              </div>
-            )
-          })}
-        </RadioGroup>
-        <RadioGroup
-          value={group}
-          onValueChange={setGroup}
-          className="mb-4 flex flex-row flex-wrap gap-4"
-        >
-          {groupArray?.map((group) => {
-            return (
-              <div key={group.value} className="flex items-center space-x-2">
-                <Label htmlFor={group.value}>{group.label}</Label>
-                <RadioGroupItem value={group.value} id={group.value} />
-              </div>
-            )
-          })}
-        </RadioGroup>
         <FileInput setGamesList={setGamesList} />
       </form>
-
+      {missingTeams > 0 ? <p>Lag saknas i {missingTeams} match(er).</p> : null}
       {games.length > 0 ? <BulkGameForm gameArray={games} /> : null}
     </div>
   )

@@ -97,7 +97,7 @@ teamRouter.post('/', authControl, (async (
   return res.status(201).json(newTeam)
 }) as RequestHandler)
 
-teamRouter.delete('/:teamId', authControl, (async (
+teamRouter.delete('/:teamId', (async (
   req: Request,
   res: Response,
   _next: NextFunction

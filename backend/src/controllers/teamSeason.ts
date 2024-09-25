@@ -6,7 +6,9 @@ import {
   Router,
 } from 'express'
 import { Op } from 'sequelize'
+import { z } from 'zod'
 import Season from '../models/Season.js'
+import Team from '../models/Team.js'
 import TeamSeason from '../models/TeamSeason.js'
 import authControl from '../utils/middleware/authControl.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
@@ -16,6 +18,28 @@ import teamSeasonUpsertPromise, {
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 
 const teamSeasonRouter = Router()
+
+teamSeasonRouter.get('/dashboard/:seasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const seasonId = z.coerce.number().parse(req.params.seasonId)
+
+  const teamSeasons = await TeamSeason.findAll({
+    where: { seasonId },
+    include: Team,
+  })
+  if (!teamSeasons || teamSeasons.length === 0) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No teamseasons',
+      logging: false,
+      context: { origin: 'Get Single Season Teamseasons' },
+    })
+  }
+  res.status(200).json(teamSeasons)
+}) as RequestHandler)
 
 teamSeasonRouter.get('/:id', (async (
   req: Request,

@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { Game } from '../types/games/addGames'
 import { AnimationObject } from '../types/games/animation'
-import { InputGameObjectType, SeasonGames } from '../types/games/games'
+import { EditGame, NewGame, SeasonGames } from '../types/games/games'
 import { SearchParamsObject, SearchResponseObject } from '../types/games/search'
 import { SeasonStatsObjectType } from '../types/games/stats'
 import { StreakObjectTypes, StreakParams } from '../types/games/streaks'
@@ -80,7 +80,23 @@ export const getSingleGame = async ({ gameId }: { gameId: number }) => {
   return response.data
 }
 
-export const postGame = async (newGameData: InputGameObjectType | null) => {
+export const addGame = async ({ formState }: { formState: NewGame }) => {
+  const response = await gamesApi.post('/', formState)
+  if (response instanceof AxiosError) {
+    return response
+  }
+  return response.data
+}
+
+export const editGame = async ({ formState }: { formState: EditGame }) => {
+  const response = await gamesApi.post('/', formState)
+  if (response instanceof AxiosError) {
+    return response
+  }
+  return response.data
+}
+
+export const postGame = async (newGameData: EditGame | null) => {
   const response = await gamesApi.post('/', newGameData)
   if (response instanceof AxiosError) {
     return response

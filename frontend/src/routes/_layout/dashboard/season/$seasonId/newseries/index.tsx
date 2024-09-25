@@ -1,5 +1,5 @@
 import Loading from '@/components/Components/Common/Loading'
-import NewSeriesForm from '@/components/Components/Dashboard/Subcomponents/NewSeries'
+import AddSeries from '@/components/Components/Dashboard/Subcomponents/Series/AddSeries'
 import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -11,15 +11,10 @@ export const Route = createFileRoute(
 })
 
 function NewSeries() {
-  const { seasonId } = Route.useParams()
   const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
-      <NewSeriesForm
-        seasonId={seasonId}
-        women={dashboardData.women}
-        serieData={dashboardData.seriesData}
-      />
+      <AddSeries women={dashboardData.women} />
     </div>
   )
 }

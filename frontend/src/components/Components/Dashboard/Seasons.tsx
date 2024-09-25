@@ -1,12 +1,14 @@
 import { KeyboardEvent, useState } from 'react'
 
-import useGetAllSeasons from '@/lib/hooks/dataHooks/season/useGetAllSeasons'
+import { getRouteApi } from '@tanstack/react-router'
 import FilterComponent from './Subcomponents/FilterComponent'
 import SeasonsList from './Subcomponents/SeasonsList'
 
+const route = getRouteApi('/_layout/dashboard/seasons')
+
 const Seasons = () => {
   const [seasonFilter, setSeasonFilter] = useState('')
-  const { seasons } = useGetAllSeasons()
+  const seasons = route.useLoaderData()
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {

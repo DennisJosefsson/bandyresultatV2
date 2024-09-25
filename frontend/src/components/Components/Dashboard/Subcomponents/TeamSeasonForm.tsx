@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,58 +14,46 @@ import {
 import { Switch } from '@/components/ui/switch'
 
 import {
-  initialData,
   TeamSeason,
   useAddTeamSeasonForm,
 } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonForm'
 import { useAddTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonMutation'
-import { useGetTeams } from '@/lib/hooks/dataHooks/teams/useGetTeams'
-import { TeamAndSeasonAttributes } from '@/lib/types/teams/teams'
-import { useNavigate } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 
 type TeamSeasonFormProps = {
-  seasonId: number
   women: boolean
-  teamSeasonData: TeamAndSeasonAttributes[] | undefined
 }
 
-const TeamSeasonForm = ({
-  seasonId,
-  women,
-  teamSeasonData,
-}: TeamSeasonFormProps) => {
-  const navigate = useNavigate()
-  const [teamSeasons, setTeamSeasons] = useState<TeamSeason[]>(() =>
-    !teamSeasonData || (teamSeasonData && teamSeasonData.length === 0)
-      ? initialData
-      : teamSeasonData.map((team) => team.teamseason)
-  )
-  const { data } = useGetTeams()
+const route = getRouteApi('/_layout/dashboard/season/$seasonId/teamseason/')
+
+const TeamSeasonForm = ({ women }: TeamSeasonFormProps) => {
+  const navigate = route.useNavigate()
+  const { seasonId } = route.useParams()
+  const { allTeams } = route.useLoaderData()
+  // const [teamSeasons, setTeamSeasons] = useState<DashBoardTeamSeason[]>(teamseasons)
+
   const mutation = useAddTeamSeasonMutation()
 
-  const { form, handleSubmit, fields, replace, remove, append } =
-    useAddTeamSeasonForm(teamSeasons)
+  const { form, handleSubmit, fields, remove, append } = useAddTeamSeasonForm()
 
-  useEffect(() => {
-    if (teamSeasonData) {
-      setTeamSeasons(teamSeasonData.map((team) => team.teamseason))
-      replace(teamSeasonData.map((team) => team.teamseason))
-    }
-  }, [teamSeasonData, replace])
+  // useEffect(() => {
+  //   if (teamSeasonData) {
+  //     setTeamSeasons(teamSeasonData.map((team) => team.teamseason))
+  //     replace(teamSeasonData.map((team) => team.teamseason))
+  //   }
+  // }, [teamSeasonData, replace])
 
   const [teamFilter, setTeamFilter] = useState('')
 
-  const teamSelection = data
-    ? data
-        .filter((team) => team.women === women)
-        .map((team) => {
-          if (team.teamId === null) throw Error('Missing teamId')
-          return {
-            value: team.teamId,
-            label: team.name,
-          }
-        })
-    : []
+  const teamSelection = allTeams
+    .filter((team) => team.women === women)
+    .map((team) => {
+      if (team.teamId === null) throw Error('Missing teamId')
+      return {
+        value: team.teamId,
+        label: team.name,
+      }
+    })
 
   const onSubmit = ({ teamSeasons }: { teamSeasons: TeamSeason[] }) => {
     mutation.mutate({ teamSeasons })
@@ -110,16 +98,15 @@ const TeamSeasonForm = ({
           <Button type="submit" form="teamSeasonForm">
             Spara
           </Button>
-          <form>
-            <Input
-              className="rounded"
-              type="text"
-              placeholder="Filter"
-              value={teamFilter}
-              name="teamFilter"
-              onChange={(event) => setTeamFilter(event.target.value)}
-            />
-          </form>
+
+          <Input
+            className="rounded"
+            type="text"
+            placeholder="Filter"
+            value={teamFilter}
+            name="teamFilter"
+            onChange={(event) => setTeamFilter(event.target.value)}
+          />
         </div>
       </div>
 
