@@ -13,8 +13,9 @@ import SeriesForm from './SeriesForm'
 
 const route = getRouteApi('/_layout/dashboard/season/$seasonId/newseries/')
 
-const AddSeries = ({ women }: { women: boolean }) => {
+const AddSeries = () => {
   const { toast } = useToast()
+  const women = route.useSearch({ select: (search) => search.women })
   const navigate = route.useNavigate()
   const { seasonId } = route.useParams()
   const router = useRouter()

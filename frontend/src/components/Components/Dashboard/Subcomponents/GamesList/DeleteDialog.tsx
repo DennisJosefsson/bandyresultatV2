@@ -80,9 +80,7 @@ const DeleteDialog = () => {
           <div className="flex flex-row items-center justify-center gap-2">
             <Button
               variant="destructive"
-              onClick={() =>
-                deleteMutation.mutate({ gameId: parseInt(gameId) })
-              }
+              onClick={() => deleteMutation.mutate({ gameId })}
             >
               Ja, ta bort
             </Button>
