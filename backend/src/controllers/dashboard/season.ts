@@ -44,7 +44,7 @@ dashboardSeasonRouter.get('/gameform/:seasonId', (async (
   res.status(200).json({ teams, series })
 }) as RequestHandler)
 
-dashboardSeasonRouter.get('/:seasonId', (async (
+dashboardSeasonRouter.get('/season/:seasonId', (async (
   req: Request,
   res: Response,
   _next: NextFunction

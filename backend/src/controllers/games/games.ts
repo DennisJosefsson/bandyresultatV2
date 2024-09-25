@@ -141,7 +141,7 @@ gameRouter.get('/:gameId', (async (
   res.status(200).json(game)
 }) as RequestHandler)
 
-gameRouter.post('/', (async (
+gameRouter.post('/', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
