@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 
-import { DashBoardTeamSeason, TeamSeasonAttributes } from '../types/teams/teams'
+import { z } from 'zod'
+import { dashboardTeamSeason, teamSeasonAttributes } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -14,7 +15,7 @@ export const getSingleSeasonTeamSeasons = async ({
   seasonId,
 }: {
   seasonId: number
-}): Promise<DashBoardTeamSeason[]> => {
+}): Promise<z.infer<typeof dashboardTeamSeason>[]> => {
   const response = await teamseasonsApi.get(`/dashboard/${seasonId}`)
 
   return response.data
@@ -23,7 +24,7 @@ export const getSingleSeasonTeamSeasons = async ({
 export const postTeamSeason = async ({
   teamSeasons,
 }: {
-  teamSeasons: TeamSeasonAttributes[]
+  teamSeasons: z.infer<typeof teamSeasonAttributes>[]
 }) => {
   const promise = await Promise.all(
     teamSeasons.map((teamSeason) => teamseasonsApi.post('/', teamSeason))
@@ -31,16 +32,11 @@ export const postTeamSeason = async ({
   return promise
 }
 
-type DeleteReturnType = {
-  status: number | undefined
-  message: string
-}
-
 export const deleteTeamSeason = async ({
   teamSeasonId,
 }: {
   teamSeasonId: number
-}): Promise<DeleteReturnType> => {
+}) => {
   const response = await teamseasonsApi.delete(`/${teamSeasonId}`)
   return response.data
 }

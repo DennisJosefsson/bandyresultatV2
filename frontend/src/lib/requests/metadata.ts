@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { baseUrl, mobileBaseUrl, header } from '../config/requestConfig'
+import { z } from 'zod'
+import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 
-import { MetadataType } from '../types/metadata/metadata'
+import { metadata } from '../types/metadata/metadata'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -17,13 +18,13 @@ export const getMetadata = async () => {
 
 export const getSingleMetadata = async (
   year: string
-): Promise<MetadataType[]> => {
+): Promise<z.infer<typeof metadata>[]> => {
   const seasonId = year.slice(-4)
   const response = await metadataApi.get(`/${seasonId}`)
   return response.data
 }
 
-export const postMetadata = async (formData: MetadataType) => {
+export const postMetadata = async (formData: z.infer<typeof metadata>) => {
   return await metadataApi.post('/', formData)
 }
 

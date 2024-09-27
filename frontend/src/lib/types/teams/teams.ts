@@ -1,21 +1,24 @@
 import { z } from 'zod'
-import { TeamGameObject } from '../games/games'
-import { SingleTeamTable } from '../tables/tables'
+import { teamGame } from '../games/games'
+import { seasonTable } from '../tables/tables'
 
 export const teamIdFromParams = z.coerce.number().int().positive()
 export const compareTeamsSeasonId = z.coerce.number().int().positive()
 
-export const newTeam = z.object({
+export const team = z.object({
+  teamId: z.number(),
   name: z.string(),
-  shortName: z.string(),
-  casualName: z.string(),
   city: z.string(),
+  casualName: z.string(),
+  shortName: z.string(),
   women: z.boolean(),
-  lat: z.coerce.number(),
-  long: z.coerce.number(),
-  countyId: z.coerce.number().nullable(),
+  lat: z.coerce.number().nullable(),
+  long: z.coerce.number().nullable(),
+  countyId: z.coerce.number(),
   municipalityId: z.coerce.number().nullable(),
 })
+
+export const newTeam = team.omit({ teamId: true })
 
 export const compareFormState = z
   .object({
@@ -63,19 +66,6 @@ export const validateSearchParams = z
     message: 'Första säsong kan inte komma efter sista säsong.',
     path: ['startSeason'],
   })
-
-export const team = z.object({
-  teamId: z.number().nullable(),
-  name: z.string(),
-  city: z.string(),
-  casualName: z.string(),
-  shortName: z.string(),
-  women: z.boolean(),
-  lat: z.coerce.number().nullable(),
-  long: z.coerce.number().nullable(),
-  countyId: z.coerce.number(),
-  municipalityId: z.coerce.number().nullable(),
-})
 
 export const teamAttributes = team.and(
   z.object({
@@ -156,8 +146,6 @@ export const streakType = z.object({
   women: z.boolean(),
 })
 
-export type StreakType = z.infer<typeof streakType>
-
 export const teamChartType = z.object({
   seasonId: z.number(),
   year: z.string(),
@@ -176,30 +164,28 @@ export const teamChartType = z.object({
   gold: z.boolean().nullable(),
 })
 
-export type TeamChartType = z.infer<typeof teamChartType>
-export type Team = z.infer<typeof team>
-export type TeamAttributes = z.infer<typeof teamAttributes>
-export type TeamSeasonAttributes = z.infer<typeof teamSeasonAttributes>
-export type TeamAndSeasonAttributes = z.infer<typeof teamAndSeasonAttributes>
-export type CompareFormState = z.infer<typeof compareFormState>
-export type NewTeamType = z.infer<typeof newTeam>
-export type SingleTeam = {
-  team: TeamAttributes
-  tabeller: SingleTeamTable[]
-  sortedFiveSeasons: { season: string; tables: SingleTeamTable[] }[]
-  finalsAndWins: TeamGameObject[]
-  noWinStreak: StreakType[]
-  unbeatenStreak: StreakType[]
-  winStreak: StreakType[]
-  drawStreak: StreakType[]
-  losingStreak: StreakType[]
-  playoffStreak: {
-    streak_length: number
-    start_year: string
-    end_year: string
-  }[]
-  playoffCount: { playoff_count: string }[]
-  chartData: TeamChartType[]
-}
-
-export type DashBoardTeamSeason = z.infer<typeof dashboardTeamSeason>
+export const singleTeam = z.object({
+  team,
+  tables: z.array(seasonTable),
+  sortedFiveSeasons: z.array(
+    z.object({
+      season: z.string(),
+      tables: z.array(seasonTable),
+    })
+  ),
+  finalsAndWins: z.array(teamGame),
+  noWinStreak: z.array(streakType),
+  unbeatenStreak: z.array(streakType),
+  winStreak: z.array(streakType),
+  drawStreak: z.array(streakType),
+  losingStreak: z.array(streakType),
+  playoffStreak: z.array(
+    z.object({
+      streak_length: z.number(),
+      start_year: z.string(),
+      end_year: z.string(),
+    })
+  ),
+  playoffCount: z.array(z.object({ playoff_count: z.string() })),
+  chartData: z.array(teamChartType),
+})

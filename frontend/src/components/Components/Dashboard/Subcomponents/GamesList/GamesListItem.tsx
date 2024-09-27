@@ -1,8 +1,9 @@
-import { GameObjectType } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/games'
+import { z } from 'zod'
 import EditGameButton from './EditGameButton'
 
 type GamesListItemProps = {
-  game: GameObjectType
+  game: z.infer<typeof gameObject>
   changeButtonOnClick: (gameId: number) => void
   deleteButtonOnClick: (gameId: number) => void
 }

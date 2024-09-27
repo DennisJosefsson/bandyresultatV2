@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { serieAttributes } from '../series/series'
+import { serie } from '../series/series'
 import { gameObjectWithSeason } from './games'
 
-export const animationObject = z.object({
+export const developmentData = z.object({
   length: z.number(),
   games: z.array(
     z.object({
@@ -32,7 +32,5 @@ export const animationObject = z.object({
       ),
     })
   ),
-  series: z.array(serieAttributes),
+  series: z.array(serie),
 })
-
-export type AnimationObject = z.infer<typeof animationObject>

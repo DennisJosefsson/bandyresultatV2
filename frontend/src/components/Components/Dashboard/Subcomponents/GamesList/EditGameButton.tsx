@@ -5,13 +5,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { GameObjectType } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/games'
 import { DotsVerticalIcon } from '@radix-ui/react-icons'
 
 import { useMediaQuery } from 'usehooks-ts'
+import { z } from 'zod'
 
 type EditGameButtonProps = {
-  game: GameObjectType
+  game: z.infer<typeof gameObject>
   changeButtonOnClick: (gameId: number) => void
   deleteButtonOnClick: (gameId: number) => void
 }
@@ -32,14 +33,10 @@ const EditGameButton = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            onClick={() => game.gameId && changeButtonOnClick(game.gameId)}
-          >
+          <DropdownMenuItem onClick={() => changeButtonOnClick(game.gameId)}>
             Ändra
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => game.gameId && deleteButtonOnClick(game.gameId)}
-          >
+          <DropdownMenuItem onClick={() => deleteButtonOnClick(game.gameId)}>
             Ta bort
           </DropdownMenuItem>
         </DropdownMenuContent>

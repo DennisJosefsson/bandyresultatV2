@@ -17,5 +17,3 @@ export const metadata = z.object({
   final: z.boolean(),
   comment: z.string().optional(),
 })
-
-export type MetadataType = z.infer<typeof metadata>

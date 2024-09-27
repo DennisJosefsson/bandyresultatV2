@@ -1,10 +1,11 @@
 import Date from '@/components/Components/Common/Date'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { GameObjectWithSeasonType } from '@/lib/types/games/games'
+import { gameObjectWithSeason } from '@/lib/types/games/games'
+import { z } from 'zod'
 
 type DateArrayItem = {
   date: string
-  games: GameObjectWithSeasonType[]
+  games: z.infer<typeof gameObjectWithSeason>[]
 }
 
 type AnimationGamesListProps = {

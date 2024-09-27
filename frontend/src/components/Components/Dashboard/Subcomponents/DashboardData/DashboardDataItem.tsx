@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DashBoardData } from '@/lib/requests/dashboard'
+import { dashboardData } from '@/lib/types/dashboard/dashboard'
+import { z } from 'zod'
 
 type DashboardDataItemProps = {
-  data: DashBoardData[]
+  data: z.infer<typeof dashboardData>[]
   title: string
 }
 

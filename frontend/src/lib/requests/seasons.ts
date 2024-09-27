@@ -1,8 +1,12 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { PostNewSeasonType, SeasonObjectType } from '../types/season/seasons'
+import {
+  newSeasonReturn,
+  paginatedSeasons,
+  season,
+} from '../types/season/seasons'
 
-import { SerieAttributes } from '../types/series/series'
+import { z } from 'zod'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -11,28 +15,23 @@ const seasonsApi = axios.create({
   headers: header,
 })
 
-export const getSeasons = async (): Promise<SeasonObjectType[]> => {
+export const getSeasons = async (): Promise<z.infer<typeof season>[]> => {
   const response = await seasonsApi.get('/')
   return response.data
-}
-
-type PaginatedSeason = {
-  rows: SeasonObjectType[]
-  count: number
 }
 
 export const getPaginatedSeasons = async ({
   page,
 }: {
   page: number
-}): Promise<PaginatedSeason> => {
+}): Promise<z.infer<typeof paginatedSeasons>> => {
   const response = await seasonsApi.get(`/paginated?page=${page}`)
   return response.data
 }
 
 export const getSingleSeason = async (
   seasonId: number
-): Promise<SeasonObjectType[]> => {
+): Promise<z.infer<typeof season>[]> => {
   const response = await seasonsApi.get(`/${seasonId}`, {
     validateStatus: (status) => {
       return status < 500
@@ -41,17 +40,11 @@ export const getSingleSeason = async (
   return response.data
 }
 
-type PostNewSeasonReturnType = {
-  womenSeason: PostNewSeasonType
-  menSeason: PostNewSeasonType
-  newSeries: SerieAttributes[]
-}
-
 export const postSeason = async ({
   yearString,
 }: {
   yearString: string
-}): Promise<PostNewSeasonReturnType> => {
+}): Promise<z.infer<typeof newSeasonReturn>> => {
   const response = await seasonsApi.post('/', { yearString })
   return response.data
 }

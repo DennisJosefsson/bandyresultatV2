@@ -4,11 +4,12 @@ import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
 import useMetadataForm from '@/lib/hooks/dataHooks/season/useMetadataForm'
 import { postMetadata } from '@/lib/requests/metadata'
-import { MetadataType } from '@/lib/types/metadata/metadata'
+import { metadata } from '@/lib/types/metadata/metadata'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
+import { z } from 'zod'
 import { FormComponent } from '../../Common/ReactHookFormComponents/FormComponent'
 
 type TeamSelection = {
@@ -38,7 +39,7 @@ const MetadataForm = () => {
     return { value: team.teamId, label: team.team.name }
   })
 
-  const handleSubmit: SubmitHandler<MetadataType> = (formData) => {
+  const handleSubmit: SubmitHandler<z.infer<typeof metadata>> = (formData) => {
     mutation.mutate(formData)
   }
 

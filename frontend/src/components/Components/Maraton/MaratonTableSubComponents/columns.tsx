@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { MaratonTabell } from '@/lib/types/tables/tables'
-import { ColumnDef } from '@tanstack/react-table'
-
+import { maratonTable } from '@/lib/types/tables/tables'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   CaretSortIcon,
 } from '@radix-ui/react-icons'
+import { ColumnDef } from '@tanstack/react-table'
+import { z } from 'zod'
 
 export const showColumns = {
   totalDraws: true,
@@ -20,7 +20,7 @@ export const hideColumns = {
   totalGoalsConceded: false,
 }
 
-export const columns: ColumnDef<MaratonTabell>[] = [
+export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'lag.casualName',
     header: () => (

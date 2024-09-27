@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
 const limitSelection = [
@@ -18,9 +18,10 @@ const limitSelection = [
   { value: '100', label: '100' },
 ]
 
+const route = getRouteApi('/_layout/search')
+
 const LimitSelection = () => {
-  const limit = useSearch({
-    from: '/_layout/search',
+  const limit = route.useSearch({
     select: (search) => search.limit,
   })
   const [value, setValue] = useState(limit?.toString() ?? '10')

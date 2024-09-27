@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const serieAttributes = z.object({
+export const serie = z.object({
   serieId: z.number(),
   serieGroupCode: z.string(),
   serieCategory: z.string(),
@@ -11,7 +11,4 @@ export const serieAttributes = z.object({
   comment: z.string().nullable().optional(),
 })
 
-export const newSerie = serieAttributes.omit({ serieId: true })
-
-export type SerieAttributes = z.infer<typeof serieAttributes>
-export type NewSerie = z.infer<typeof newSerie>
+export const newSerie = serie.omit({ serieId: true })

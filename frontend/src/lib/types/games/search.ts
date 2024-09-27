@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { searchResultTeamgameObject } from './games'
+import { searchResult } from './games'
 
-export const searchParamsObject = z.object({
+export const searchParams = z.object({
   categoryArray: z.array(z.string()).optional().catch(undefined),
   order: z.string().optional().catch(undefined),
   limit: z.number().optional().catch(undefined),
@@ -33,12 +33,10 @@ export const searchParamsObject = z.object({
   submit: z.boolean().optional().catch(undefined),
 })
 
-export const searchResponseObject = z.object({
-  searchResult: z.array(searchResultTeamgameObject),
+export const searchResponse = z.object({
+  searchResult: z.array(searchResult),
 })
 
-const searchParamsFields = searchParamsObject.keyof()
+const searchParamsFields = searchParams.keyof()
 
-export type SearchParamsObject = z.infer<typeof searchParamsObject>
-export type SearchResponseObject = z.infer<typeof searchResponseObject>
 export type SearchParamsFields = z.infer<typeof searchParamsFields>

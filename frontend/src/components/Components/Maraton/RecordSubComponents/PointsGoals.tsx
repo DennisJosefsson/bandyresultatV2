@@ -1,7 +1,12 @@
-import { StreakObjectTypes } from '@/lib/types/games/streaks'
+import { pointsGoalsResponse } from '@/lib/types/games/streaks'
+import { z } from 'zod'
 import PointsGoalsCard from './PointsGoalsCard'
 
-const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
+const PointsGoals = ({
+  data,
+}: {
+  data: z.infer<typeof pointsGoalsResponse>
+}) => {
   return (
     <>
       {data ? (

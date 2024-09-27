@@ -1,11 +1,7 @@
 import axios from 'axios'
+import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import {
-  NewTeamType,
-  SingleTeam,
-  Team,
-  TeamAttributes,
-} from '../types/teams/teams'
+import { newTeam, singleTeam, team } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -14,23 +10,22 @@ const teamsApi = axios.create({
   headers: header,
 })
 
-export const getTeams = async (): Promise<TeamAttributes[]> => {
+export const getTeams = async (): Promise<z.infer<typeof team>[]> => {
   const response = await teamsApi.get('/')
   return response.data
 }
 
-type MapTeams = {
-  county: string
-  teams: TeamAttributes[]
-}
-
-export const getMapTeams = async (women: boolean): Promise<MapTeams[]> => {
+export const getMapTeams = async (
+  women: boolean
+): Promise<{ county: string; teams: z.infer<typeof team>[] }[]> => {
   const response = await teamsApi.get(`/map?women=${women}`)
 
   return response.data
 }
 
-export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
+export const getSingleTeam = async (
+  teamId: string
+): Promise<z.infer<typeof singleTeam>> => {
   const response = await teamsApi.get(`/${teamId}`, {
     validateStatus: (status) => {
       return status < 500
@@ -40,7 +35,9 @@ export const getSingleTeam = async (teamId: string): Promise<SingleTeam> => {
   return response.data
 }
 
-export const getSingleTeamForEdit = async (teamId: number): Promise<Team> => {
+export const getSingleTeamForEdit = async (
+  teamId: number
+): Promise<z.infer<typeof team>> => {
   const response = await teamsApi.get(`/${teamId}/edit`, {
     validateStatus: (status) => {
       return status < 500
@@ -50,11 +47,19 @@ export const getSingleTeamForEdit = async (teamId: number): Promise<Team> => {
   return response.data
 }
 
-export const editTeam = async ({ formState }: { formState: Team }) => {
+export const editTeam = async ({
+  formState,
+}: {
+  formState: z.infer<typeof team>
+}) => {
   return await teamsApi.post('/', formState)
 }
 
-export const addTeam = async ({ formState }: { formState: NewTeamType }) => {
+export const addTeam = async ({
+  formState,
+}: {
+  formState: z.infer<typeof newTeam>
+}) => {
   return await teamsApi.post('/', formState)
 }
 

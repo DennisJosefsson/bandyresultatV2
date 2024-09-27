@@ -1,5 +1,7 @@
-import axios, { AxiosError } from 'axios'
-import { baseUrl, mobileBaseUrl, header } from '../config/requestConfig'
+import axios from 'axios'
+import { z } from 'zod'
+import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import { login } from '../types/login/login'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -8,17 +10,16 @@ const loginApi = axios.create({
   headers: header,
 })
 
-export const logout = async () => {
+export const logout = async (): Promise<z.infer<typeof login>> => {
   const response = await loginApi.get('/logout')
   return response.data
 }
 
-export const getLogin = async (userName: string, password: string) => {
+export const getLogin = async (
+  userName: string,
+  password: string
+): Promise<z.infer<typeof login>> => {
   const response = await loginApi.post('/', { userName, password })
-
-  if (response instanceof AxiosError) {
-    return response
-  }
   return response.data
 }
 

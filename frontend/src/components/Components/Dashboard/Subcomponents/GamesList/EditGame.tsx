@@ -9,7 +9,7 @@ import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
 import { editGame } from '@/lib/requests/games'
-import { editGame as editGameObject } from '@/lib/types/games/games'
+import { game } from '@/lib/types/games/games'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { getRouteApi, useRouter } from '@tanstack/react-router'
@@ -75,11 +75,11 @@ const EditGame = () => {
     }
   }
 
-  const form = useForm<z.infer<typeof editGameObject>>({
+  const form = useForm<z.infer<typeof game>>({
     defaultValues: data.gameData,
     criteriaMode: 'all',
     mode: 'onChange',
-    resolver: zodResolver(editGameObject),
+    resolver: zodResolver(game),
   })
 
   const {
@@ -87,9 +87,7 @@ const EditGame = () => {
     formState: { errors },
   } = form
 
-  const onSubmit: SubmitHandler<z.infer<typeof editGameObject>> = (
-    formData
-  ) => {
+  const onSubmit: SubmitHandler<z.infer<typeof game>> = (formData) => {
     const gameData = {
       ...formData,
       homeTeamId: formData.homeTeamId ?? 176,
