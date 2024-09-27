@@ -1,16 +1,16 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
-import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
-import TeamGame from '../models/TeamGame.js'
-import Team from '../models/Team.js'
-import Season from '../models/Season.js'
 import { Op } from 'sequelize'
+import Season from '../models/Season.js'
+import Team from '../models/Team.js'
+import TeamGame from '../models/TeamGame.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
+import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 
 const teamgameRouter = Router()
 
@@ -29,12 +29,12 @@ teamgameRouter.get('/season/:seasonId', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'opp',
+        as: 'opponent',
       },
     ],
     order: [

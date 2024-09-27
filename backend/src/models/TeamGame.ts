@@ -1,26 +1,26 @@
 import { z } from 'zod'
 
 import {
-  Model,
-  Column,
-  Table,
-  PrimaryKey,
-  ForeignKey,
   BelongsTo,
+  Column,
   Default,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
 } from 'sequelize-typescript'
-import Season from './Season.js'
-import Team from './Team.js'
 import Game from './Game.js'
+import Season from './Season.js'
 import Serie from './Serie.js'
+import Team from './Team.js'
 
 export const teamGameAttributes = z.object({
   teamGameId: z.number().optional(),
   gameId: z.number(),
   seasonId: z.number(),
   serieId: z.number(),
-  team: z.number(),
-  opponent: z.number(),
+  teamId: z.number(),
+  opponentId: z.number(),
   goalsScored: z.number().optional().nullable(),
   goalsConceded: z.number().optional().nullable(),
   totalGoals: z.number().optional(),
@@ -68,12 +68,12 @@ class TeamGame extends Model<TeamGameAttributes, TeamGameInput> {
   declare serieId: number
 
   @ForeignKey(() => Team)
-  @Column
-  declare team: number
+  @Column({ field: 'team' })
+  declare teamId: number
 
   @ForeignKey(() => Team)
-  @Column
-  declare opponent: number
+  @Column({ field: 'opponent' })
+  declare opponentId: number
 
   @Column
   declare goalsScored: number
@@ -147,11 +147,11 @@ class TeamGame extends Model<TeamGameAttributes, TeamGameInput> {
   @BelongsTo(() => Serie, 'serieId')
   declare serie: ReturnType<() => Serie>
 
-  @BelongsTo(() => Team, 'team')
-  declare lag: ReturnType<() => Team>
+  @BelongsTo(() => Team, 'teamId')
+  declare team: ReturnType<() => Team>
 
-  @BelongsTo(() => Team, 'opponent')
-  declare opp: ReturnType<() => Team>
+  @BelongsTo(() => Team, 'opponentId')
+  declare opponent: ReturnType<() => Team>
 }
 
 export default TeamGame

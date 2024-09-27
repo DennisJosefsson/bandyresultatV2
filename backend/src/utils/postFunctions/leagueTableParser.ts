@@ -1,12 +1,12 @@
 import {
-  MiniTableItemArray,
-  LeagueTableType,
   leagueTable,
+  LeagueTableType,
+  MiniTableItemArray,
   TableItem,
 } from '../responseTypes/tableTypes.js'
 
 const defaultTable = {
-  team: 0,
+  teamId: 0,
   totalDraws: 0,
   totalGames: 0,
   totalGoalDifference: 0,
@@ -23,7 +23,8 @@ export const leagueTableParser = (
 ): LeagueTableType => {
   teamArray.forEach((teamItem) => {
     const tableItemExist = tabell.find(
-      (table) => table.team === teamItem.team && table.group === teamItem.group
+      (table) =>
+        table.teamId === teamItem.teamId && table.group === teamItem.group
     )
     if (!tableItemExist) {
       const teamTable: TableItem = { ...teamItem, ...defaultTable }

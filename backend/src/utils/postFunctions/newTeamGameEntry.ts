@@ -1,8 +1,8 @@
+import { GameAttributes } from '../../models/Game.js'
 import {
   TeamGameAttributes,
   teamGameAttributes,
 } from '../../models/TeamGame.js'
-import { GameAttributes } from '../../models/Game.js'
 import BadRequestError from '../middleware/errors/BadRequestError.js'
 import { parseNumber } from './parsers.js'
 
@@ -26,8 +26,8 @@ export const newTeamGameHomeEntry = (
     date: object.date,
     category: object.category,
     group: object.group,
-    team: object.homeTeamId,
-    opponent: object.awayTeamId,
+    teamId: object.homeTeamId,
+    opponentId: object.awayTeamId,
     qualificationGame: object.category === 'qualification' ? true : false,
     homeGame: true,
     women: false,
@@ -115,8 +115,8 @@ export const newTeamGameAwayEntry = (
     date: object.date,
     category: object.category,
     group: object.group,
-    team: object.awayTeamId,
-    opponent: object.homeTeamId,
+    teamId: object.awayTeamId,
+    opponentId: object.homeTeamId,
     qualificationGame: object.category === 'qualification' ? true : false,
     homeGame: false,
     women: false,

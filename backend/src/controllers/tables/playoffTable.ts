@@ -48,23 +48,23 @@ playoffRouter.get('/playoff/:seasonId', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
     ],
     attributes: [
-      [sequelize.literal('DISTINCT (team)'), 'team'],
+      [sequelize.literal('DISTINCT (team)'), 'teamId'],
       'group',
       'category',
       'women',
     ],
     group: [
       'group',
-      'team',
+      'teamId',
       'category',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
       'season.season_id',
       'season.year',
       'teamgame.women',
@@ -107,7 +107,7 @@ playoffRouter.get('/playoff/:seasonId', (async (
       women: women === 'true' ? true : false,
     },
     attributes: [
-      'team',
+      'teamId',
       'group',
       'women',
       'category',
@@ -130,7 +130,7 @@ playoffRouter.get('/playoff/:seasonId', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
       {
         model: Season,
@@ -141,10 +141,10 @@ playoffRouter.get('/playoff/:seasonId', (async (
     group: [
       'group',
       'team',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
       'category',
       'season.season_id',
       'season.year',
@@ -162,7 +162,7 @@ playoffRouter.get('/playoff/:seasonId', (async (
 
   const parsedTable = leagueTable.parse(getTable)
 
-  const tabell = leagueTableParser(teamArray, parsedTable)
+  const table = leagueTableParser(teamArray, parsedTable)
 
   const series = await Serie.findAll({
     where: { serieCategory: 'regular' },
@@ -181,11 +181,11 @@ playoffRouter.get('/playoff/:seasonId', (async (
   })
 
   const final = playoffGames?.filter((games) => games.category === 'final')
-  const unsortedSemiTables = tabell.filter((table) => table.category === 'semi')
-  const unsortedQuarterTables = tabell.filter(
+  const unsortedSemiTables = table.filter((table) => table.category === 'semi')
+  const unsortedQuarterTables = table.filter(
     (table) => table.category === 'quarter'
   )
-  const unsortedEightTables = tabell.filter(
+  const unsortedEightTables = table.filter(
     (table) => table.category === 'eight'
   )
 

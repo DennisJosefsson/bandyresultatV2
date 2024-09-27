@@ -1,11 +1,12 @@
 import Game from '../../models/Game'
 import TeamTable from '../../models/TeamTable'
+import { sortOrder } from './constants'
 import { SortedGames } from './getSeasonGames'
 
 type TableObjectType = {
   women: boolean
-  team: number
-  lag: {
+  teamId: number
+  team: {
     name: string
     shortName: string
     casualName: string
@@ -35,63 +36,6 @@ type SeriesData = {
   name: string
   serieStructure: number[]
 }
-
-const sortOrder = [
-  'final',
-  'S1',
-  'S2',
-  'Q1',
-  'Q2',
-  'Q3',
-  'Q4',
-  'E1',
-  'E2',
-  'E3',
-  'E4',
-  'elitserien',
-  'ElitA',
-  'ElitB',
-  'DamElit',
-  'ElitNorr',
-  'ElitSyd',
-  'allsvenskan',
-  'AllsvNorr',
-  'AllsvSyd',
-  'DamAllsvNorrForts',
-  'DamAllsvSydForts',
-  'DamAllsvNorr',
-  'DamAllsvMitt',
-  'DamAllsvSyd',
-  'Div1Norr',
-  'Div1Central',
-  'Div1Ost',
-  'Div1Vast',
-  'Div1Syd',
-  'AvdA',
-  'AvdB',
-  'AvdC',
-  'AvdD',
-  'KvalA',
-  'KvalB',
-  'Div1NorrA',
-  'Div1NorrB',
-  'Div1SydA',
-  'Div1SydB',
-  'NedflyttningNorr',
-  'NedflyttningSyd',
-  'SlutspelA',
-  'SlutspelB',
-  'final',
-  'semi',
-  'quarter',
-  'eight',
-  'regular',
-  'qualification',
-  'Totalt',
-  'Hemma',
-  'Borta',
-  'Oavgjort',
-]
 
 export const tableSortFunction = (
   tableArray: TableObjectType[],
@@ -164,8 +108,8 @@ export function getResultAndTeams(tables: SortedPlayoffTables, group: string) {
   if (!groupTables) throw Error('Missing tbales')
   return {
     result: `${groupTables[0].totalWins} - ${groupTables[1].totalWins}`,
-    homeTeam: groupTables[0].lag,
-    awayTeam: groupTables[1].lag,
+    homeTeam: groupTables[0].team,
+    awayTeam: groupTables[1].team,
   }
 }
 
@@ -183,7 +127,7 @@ export function getResultString(
       (group) => group.group === tableObject.group
     )
     const actualTableObject = tableObject.tables.find(
-      (team) => team.team === gameObject?.dates[0].games[0].homeTeamId
+      (team) => team.teamId === gameObject?.dates[0].games[0].homeTeamId
     )
     if (!actualTableObject) {
       resultString = ''

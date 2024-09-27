@@ -97,7 +97,7 @@ class Team extends Model<TeamAttributes, TeamInput> {
   declare teamgames: TeamGame[]
 
   @HasMany(() => TeamTable, 'teamId')
-  declare tabeller: TeamTable[]
+  declare tables: TeamTable[]
 
   @BelongsTo(() => County, 'countyId')
   declare county: ReturnType<() => County>

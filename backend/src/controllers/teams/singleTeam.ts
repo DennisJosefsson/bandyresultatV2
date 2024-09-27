@@ -74,7 +74,7 @@ singleTeamRouter.get('/:teamId', (async (
 
   const getTables = await TeamGame.findAll({
     where: {
-      team: teamId,
+      teamId: teamId,
       played: true,
     },
     attributes: [
@@ -105,10 +105,10 @@ singleTeamRouter.get('/:teamId', (async (
     nest: true,
   })
 
-  const tabeller = singleTeamTable.parse(getTables)
+  const tables = singleTeamTable.parse(getTables)
 
   const finalsAndWins = await TeamGame.findAll({
-    where: { team: teamId, category: 'final' },
+    where: { teamId: teamId, category: 'final' },
     order: [['date', 'ASC']],
   })
 
@@ -443,7 +443,7 @@ where team = $teamId and ("category" = any(array['quarter', 'semi', 'final']) or
 
   const latestFiveSeasons = await TeamGame.findAll({
     where: {
-      team: req.params.teamId,
+      teamId: req.params.teamId,
       played: true,
     },
     attributes: [
@@ -500,7 +500,7 @@ where "seasonId" >= (
 
   res.json({
     team,
-    tabeller,
+    tables,
     noWinStreak,
     unbeatenStreak,
     winStreak,

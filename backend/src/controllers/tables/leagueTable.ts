@@ -97,23 +97,23 @@ leagueTableRouter.get('/league/:seasonId', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
     ],
     attributes: [
-      [sequelize.literal('DISTINCT (team)'), 'team'],
+      [sequelize.literal('DISTINCT (team)'), 'teamId'],
       'group',
       'category',
       'women',
     ],
     group: [
       'group',
-      'team',
+      'teamId',
       'category',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
       'season.season_id',
       'season.year',
       'teamgame.women',
@@ -138,7 +138,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const getTable = await TeamGame.findAll({
     where: where,
     attributes: [
-      'team',
+      'teamId',
       'group',
       'women',
       'category',
@@ -161,7 +161,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
       {
         model: Season,
@@ -171,11 +171,11 @@ leagueTableRouter.get('/league/:seasonId', (async (
     ],
     group: [
       'group',
-      'team',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
+      'teamId',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
       'category',
       'season.season_id',
       'season.year',
@@ -226,14 +226,14 @@ leagueTableRouter.get('/league/:seasonId', (async (
         ? {
             ...table,
             totalPoints:
-              table.totalPoints + bonusPointsObject[table.team.toString()],
+              table.totalPoints + bonusPointsObject[table.teamId.toString()],
           }
         : table
     })
 
-    const tabeller = tableSortFunction(updatedTable, seriesData)
+    const tables = tableSortFunction(updatedTable, seriesData)
 
-    return res.status(200).json({ tabeller })
+    return res.status(200).json({ tables })
   }
 
   if (seasonYear && ['1933', '1937'].includes(seasonYear)) {
@@ -244,7 +244,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
           [Op.startsWith]: seasonYear === '1933' ? 'Div' : 'Avd',
         },
         [Op.not]: {
-          opponent: seasonYear === '1933' ? [5, 31, 57, 29] : [5, 64, 57, 17],
+          opponentId: seasonYear === '1933' ? [5, 31, 57, 29] : [5, 64, 57, 17],
         },
       },
       include: [
@@ -283,16 +283,16 @@ leagueTableRouter.get('/league/:seasonId', (async (
         tabell[tableIndex].totalPoints + game.points
     })
 
-    const tabeller = tableSortFunction(tabell, seriesData)
+    const tables = tableSortFunction(tabell, seriesData)
 
     return res.status(200).json({
-      tabeller,
+      tables,
     })
   }
 
-  const tabeller = tableSortFunction(tabell, seriesData)
+  const tables = tableSortFunction(tabell, seriesData)
 
-  res.status(200).json({ tabeller })
+  res.status(200).json({ tables })
 }) as RequestHandler)
 
 export default leagueTableRouter
