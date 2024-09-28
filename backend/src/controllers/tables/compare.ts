@@ -209,10 +209,10 @@ compareRouter.post('/compare', (async (
     nest: true,
   })
 
-  const compareAllGames = compareAllTeamTables.parse(getCompareAllGames)
-  const sortedData = compareAllTeamData(compareAllGames)
+  const allData = compareAllTeamTables.parse(getCompareAllGames)
+  const sortedData = compareAllTeamData(allData)
 
-  const gameCount = compareAllGames.length
+  const gameCount = allData.length
 
   const golds = await sequelize.query(
     `
@@ -303,7 +303,7 @@ order by "date" asc;
 
   res.status(200).json({
     tables,
-    compareAllGames,
+    allData,
     categoryData,
     sortedData,
     golds,

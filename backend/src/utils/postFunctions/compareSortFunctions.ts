@@ -5,7 +5,7 @@ import {
   newCompareObject,
   parseFirstLast,
 } from '../responseTypes/tableTypes'
-import { sortOrder } from './constants'
+import { sortOrder } from './constants.js'
 
 type SortedCompareCategoryTables = {
   [key: string]: z.infer<typeof compareCategoryTeamTables>

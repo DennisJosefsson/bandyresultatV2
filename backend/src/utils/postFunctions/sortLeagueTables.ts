@@ -1,6 +1,6 @@
 import Game from '../../models/Game'
 import TeamTable from '../../models/TeamTable'
-import { sortOrder } from './constants'
+import { sortOrder } from './constants.js'
 import { SortedGames } from './getSeasonGames'
 
 type TableObjectType = {
