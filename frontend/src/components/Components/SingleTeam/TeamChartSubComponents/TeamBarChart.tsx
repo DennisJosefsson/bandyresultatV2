@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { singleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { useSearch } from '@tanstack/react-router'
 import {
   Bar,

@@ -1,5 +1,5 @@
 import Date from '@/components/Components/Common/Date'
-import { gameObject } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/gameObject'
 import { z } from 'zod'
 import PlayoffCard from './PlayoffCard'
 type FinalCardProps = {

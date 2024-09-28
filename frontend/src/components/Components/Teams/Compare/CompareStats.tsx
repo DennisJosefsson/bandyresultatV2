@@ -1,6 +1,8 @@
 import { TabsContent } from '@/components/ui/tabs'
-import { compareResponseObject } from '@/lib/types/teams/compare'
-import { compareFormState } from '@/lib/types/teams/teams'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 import { z } from 'zod'
 import FirstGames from './CompareStatsSubComponents/FirstGames'
 import Golds from './CompareStatsSubComponents/Golds'

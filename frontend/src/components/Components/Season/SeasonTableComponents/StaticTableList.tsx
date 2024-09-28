@@ -1,4 +1,4 @@
-import { staticGroupTable } from '@/lib/types/tables/tables'
+import { staticGroupTable } from '@/lib/types/tables/seasonTable'
 import { z } from 'zod'
 import DataTable from './StaticDataTable'
 import { columns } from './staticColumns'

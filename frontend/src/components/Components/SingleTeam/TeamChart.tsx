@@ -1,4 +1,4 @@
-import { singleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { z } from 'zod'
 import TeamBarChart from './TeamChartSubComponents/TeamBarChart'
 import TeamLineChart from './TeamChartSubComponents/TeamLineChart'

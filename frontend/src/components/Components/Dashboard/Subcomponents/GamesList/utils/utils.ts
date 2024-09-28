@@ -1,4 +1,4 @@
-import { gameFormData } from '@/lib/types/games/games'
+import { gameFormData } from '@/lib/types/games/gameForm'
 import { sortOrder } from '@/lib/utils/constants'
 import { z } from 'zod'
 

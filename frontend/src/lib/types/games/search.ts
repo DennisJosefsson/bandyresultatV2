@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { searchResult } from './games'
+import { searchResult } from './searchResult'
 
 export const searchParams = z.object({
   categoryArray: z.array(z.string()).optional().catch(undefined),

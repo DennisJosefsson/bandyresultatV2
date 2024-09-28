@@ -5,7 +5,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { gameObject } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/gameObject'
+
 import { DotsVerticalIcon } from '@radix-ui/react-icons'
 
 import { useMediaQuery } from 'usehooks-ts'

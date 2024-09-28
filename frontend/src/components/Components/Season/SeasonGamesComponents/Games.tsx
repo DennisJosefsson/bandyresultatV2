@@ -1,4 +1,4 @@
-import { groupRecord } from '@/lib/types/games/games'
+import { groupRecord } from '@/lib/types/games/gameObject'
 import { z } from 'zod'
 import GamesList from './GamesList'
 

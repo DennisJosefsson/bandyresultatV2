@@ -1,5 +1,5 @@
 import { teamQueries } from '@/lib/queries/teams/queries'
-import { compareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
 import { getBaseUrl } from '@/lib/utils/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useLoaderData, useLocation, useSearch } from '@tanstack/react-router'

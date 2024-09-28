@@ -5,7 +5,7 @@ import {
   addToFavTeams,
   removeFromFavTeams,
 } from '@/lib/reducers/favteamsReducer'
-import { singleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import {
   getOrigin,
   resetOrigin,

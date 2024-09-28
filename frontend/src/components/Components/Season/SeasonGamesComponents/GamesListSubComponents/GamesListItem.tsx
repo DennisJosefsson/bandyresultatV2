@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { gameObject } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/gameObject'
 import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'

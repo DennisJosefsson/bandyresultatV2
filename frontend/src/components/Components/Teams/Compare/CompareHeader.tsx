@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { compareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
+
 import {
   getOrigin,
   resetOrigin,

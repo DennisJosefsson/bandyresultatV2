@@ -2,7 +2,8 @@ import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 
 import { z } from 'zod'
-import { dashboardTeamSeason, teamSeasonAttributes } from '../types/teams/teams'
+import { dashboardTeamSeason } from '../types/dashboard/dashboardTeamseason'
+import { teamSeason } from '../types/teamSeason/teamSeason'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -24,7 +25,7 @@ export const getSingleSeasonTeamSeasons = async ({
 export const postTeamSeason = async ({
   teamSeasons,
 }: {
-  teamSeasons: z.infer<typeof teamSeasonAttributes>[]
+  teamSeasons: z.infer<typeof teamSeason>[]
 }) => {
   const promise = await Promise.all(
     teamSeasons.map((teamSeason) => teamseasonsApi.post('/', teamSeason))

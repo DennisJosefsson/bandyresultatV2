@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { seasonTable } from '@/lib/types/tables/tables'
+import { seasonTable } from '@/lib/types/tables/seasonTable'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {

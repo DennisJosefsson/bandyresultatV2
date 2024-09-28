@@ -1,5 +1,5 @@
 import Date from '@/components/Components/Common/Date'
-import { groupArray } from '@/lib/types/games/games'
+import { groupArray } from '@/lib/types/games/gameObject'
 import { Link, useParams } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
 import { z } from 'zod'

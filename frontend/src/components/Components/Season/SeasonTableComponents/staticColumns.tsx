@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { staticTable } from '@/lib/types/tables/tables'
+
 import { ColumnDef } from '@tanstack/react-table'
 
+import { staticTable } from '@/lib/types/tables/seasonTable'
 import {
   ArrowDownIcon,
   ArrowUpIcon,

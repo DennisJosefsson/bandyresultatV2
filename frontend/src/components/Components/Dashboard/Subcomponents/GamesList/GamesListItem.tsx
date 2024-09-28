@@ -1,4 +1,4 @@
-import { gameObject } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/gameObject'
 import { z } from 'zod'
 import EditGameButton from './EditGameButton'
 

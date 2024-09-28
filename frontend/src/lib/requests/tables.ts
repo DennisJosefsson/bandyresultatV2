@@ -1,13 +1,9 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import {
-  maratonTable,
-  singleSeasonPlayoff,
-  singleSeasonTable,
-} from '../types/tables/tables'
-import { compareResponseObject } from '../types/teams/compare'
-import { compareFormState } from '../types/teams/teams'
+import { singleSeasonTable } from '../types/tables/seasonTable'
+import { maratonTable, singleSeasonPlayoff } from '../types/tables/tables'
+import { compareFormState, compareResponseObject } from '../types/teams/compare'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 

@@ -1,6 +1,6 @@
 import Date from '@/components/Components/Common/Date'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { gameObjectWithSeason } from '@/lib/types/games/games'
+import { gameObjectWithSeason } from '@/lib/types/games/gameObject'
 import { z } from 'zod'
 
 type DateArrayItem = {

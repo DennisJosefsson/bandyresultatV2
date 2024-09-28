@@ -1,4 +1,4 @@
-import { groupTable } from '@/lib/types/tables/tables'
+import { groupTable } from '@/lib/types/tables/seasonTable'
 import { Link } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
 import { z } from 'zod'

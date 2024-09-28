@@ -1,13 +1,10 @@
 import axios from 'axios'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import {
-  newSeasonReturn,
-  paginatedSeasons,
-  season,
-  singleSeason,
-} from '../types/season/seasons'
+import { paginatedSeasons, season } from '../types/season/seasons'
 
 import { z } from 'zod'
+import { newSeasonReturn } from '../types/season/newSeason'
+import { singleSeason } from '../types/season/singleSeason'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 

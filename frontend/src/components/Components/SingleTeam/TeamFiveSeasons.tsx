@@ -1,4 +1,4 @@
-import { fiveSeason } from '@/lib/types/teams/teams'
+import { fiveSeason } from '@/lib/types/teams/singleTeam'
 import { z } from 'zod'
 import TeamTable from './TeamTable'
 

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { serie } from '../series/series'
-import { gameObjectWithSeason } from './games'
+import { gameObjectWithSeason } from './gameObject'
 
 export const developmentTable = z.object({
   teamId: z.number(),

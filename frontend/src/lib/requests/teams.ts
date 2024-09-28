@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { newTeam, singleTeam, team } from '../types/teams/teams'
+import { singleTeam } from '../types/teams/singleTeam'
+import { newTeam, team } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 

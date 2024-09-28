@@ -1,6 +1,7 @@
 import { compareTeams } from '@/lib/requests/tables'
 import { getMapTeams, getSingleTeam, getTeams } from '@/lib/requests/teams'
-import { compareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
+
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
 

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody } from '@/components/ui/table'
-import { singleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { groupConstant, sortOrder } from '@/lib/utils/constants'
 import { z } from 'zod'
 import TeamTableHeader from './TableComponents/TableHeader'

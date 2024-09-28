@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { metadata } from '../metadata/metadata'
 import { season } from '../season/seasons'
 import { serie } from '../series/series'
-import { dashboardTeamSeason } from '../teams/teams'
+import { dashboardTeamSeason } from './dashboardTeamseason'
 
 export const dashboardSingleSeason = z.object({
   season: season,

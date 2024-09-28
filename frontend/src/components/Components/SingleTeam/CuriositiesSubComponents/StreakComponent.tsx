@@ -1,6 +1,6 @@
 import Date from '@/components/Components/Common/Date'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { streakType } from '@/lib/types/teams/teams'
+import { streakType } from '@/lib/types/teams/singleTeam'
 import { ReactNode } from 'react'
 import { z } from 'zod'
 

@@ -5,7 +5,8 @@ import {
   dashboardDataObjects,
   dashboardSingleSeason,
 } from '../types/dashboard/dashboard'
-import { gameFormData, gameObject } from '../types/games/games'
+import { gameFormData } from '../types/games/gameForm'
+import { gameObject } from '../types/games/gameObject'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 

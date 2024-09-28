@@ -1,6 +1,8 @@
 import { Table, TableBody } from '@/components/ui/table'
-import { compareResponseObject } from '@/lib/types/teams/compare'
-import { compareFormState } from '@/lib/types/teams/teams'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 import AllDataTableHeader from './AllDataTableHeader'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

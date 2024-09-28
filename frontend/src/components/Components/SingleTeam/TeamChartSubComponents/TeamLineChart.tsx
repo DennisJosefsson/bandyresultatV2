@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { singleTeam, teamChartType } from '@/lib/types/teams/teams'
+import { singleTeam, teamChartType } from '@/lib/types/teams/singleTeam'
 
 import { z } from 'zod'
 import TeamLine from './TeamLine'
