@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { gameObject } from '@/lib/types/games/games'
 import { ReactNode, useState } from 'react'
-import { GameObjectType } from '@/lib/types/games/games'
+import { z } from 'zod'
 
 import Date from '@/components/Components/Common/Date'
 
@@ -15,7 +16,7 @@ const PlayoffCard = ({
 }: {
   styleClass?: string
   children: ReactNode
-  playoffGames?: GameObjectType[]
+  playoffGames?: z.infer<typeof gameObject>[]
   group: string
 }) => {
   const [open, setOpen] = useState(false)

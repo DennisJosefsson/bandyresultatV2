@@ -1,14 +1,14 @@
 import { Dialog } from '@/components/ui/dialog'
-import { PlayoffGroup } from '@/lib/types/tables/tables'
+import { playoffGroup } from '@/lib/types/tables/tables'
 import { groupConstant } from '@/lib/utils/constants'
+import { z } from 'zod'
 import PlayoffCard from './PlayoffCard'
-
 type ColstartsType = {
   [key: string]: string
 }
 
 type DefaultComponentProps = {
-  group: PlayoffGroup
+  group: z.infer<typeof playoffGroup>
   colStarts: ColstartsType
 }
 

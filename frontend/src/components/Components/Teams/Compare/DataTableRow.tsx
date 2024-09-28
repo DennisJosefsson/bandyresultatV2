@@ -1,12 +1,12 @@
+import { TableCell, TableRow } from '@/components/ui/table'
 import { useMediaQuery } from 'usehooks-ts'
-import { TableRow, TableCell } from '@/components/ui/table'
 
 interface TableRowData {
-  lag: {
+  team: {
     shortName: string
     casualName: string
   }
-  opp?: {
+  opponent?: {
     shortName: string
     casualName: string
   }
@@ -25,15 +25,15 @@ const DataTableRow = ({ team }: { team: TableRowData }) => {
   return (
     <TableRow>
       <TableCell className="px-1 py-1 text-left text-[8px] sm:text-[10px] md:py-2 lg:text-sm">
-        {team.opp && (
+        {team.opponent && (
           <>
             {!matches
-              ? `${team.lag.shortName}-${team.opp.shortName}`
-              : `${team.lag.casualName}-${team.opp.casualName}`}
+              ? `${team.team.shortName}-${team.opponent.shortName}`
+              : `${team.team.casualName}-${team.opponent.casualName}`}
           </>
         )}
-        {!team.opp && (
-          <>{!matches ? team.lag.shortName : team.lag.casualName}</>
+        {!team.opponent && (
+          <>{!matches ? team.team.shortName : team.team.casualName}</>
         )}
       </TableCell>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">

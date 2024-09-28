@@ -1,11 +1,12 @@
 import Date from '@/components/Components/Common/Date'
-import { SortedGamesType } from '@/lib/types/games/games'
+import { groupArray } from '@/lib/types/games/games'
 import { Link, useParams } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
+import { z } from 'zod'
 import GamesListItem from './GamesListSubComponents/GamesListItem'
 
 type GameListProps = {
-  gamesArray: SortedGamesType
+  gamesArray: z.infer<typeof groupArray>
   title: string
 }
 

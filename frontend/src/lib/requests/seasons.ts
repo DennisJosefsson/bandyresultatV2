@@ -4,6 +4,7 @@ import {
   newSeasonReturn,
   paginatedSeasons,
   season,
+  singleSeason,
 } from '../types/season/seasons'
 
 import { z } from 'zod'
@@ -31,7 +32,7 @@ export const getPaginatedSeasons = async ({
 
 export const getSingleSeason = async (
   seasonId: number
-): Promise<z.infer<typeof season>[]> => {
+): Promise<z.infer<typeof singleSeason>[]> => {
   const response = await seasonsApi.get(`/${seasonId}`, {
     validateStatus: (status) => {
       return status < 500

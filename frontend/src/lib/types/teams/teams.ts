@@ -79,26 +79,6 @@ export const teamAttributes = team.and(
   })
 )
 
-// export const teamAttributes = z.object({
-//   teamId: z.number().nullable(),
-//   name: z.string(),
-//   city: z.string(),
-//   casualName: z.string(),
-//   shortName: z.string(),
-//   women: z.boolean(),
-//   lat: z.number().nullable(),
-//   long: z.number().nullable(),
-//   countyId: z.number(),
-//   municipalityId: z.number().nullable(),
-//   seasonteam: z.array(
-//     z.object({
-//       year: z.string(),
-//       seasonId: z.number(),
-//       teamseason: z.object({ qualification: z.boolean().nullable() }),
-//     })
-//   ),
-// })
-
 export const teamSeasonAttributes = z.object({
   teamseasonId: z.number().optional(),
   seasonId: z.number(),
@@ -164,15 +144,15 @@ export const teamChartType = z.object({
   gold: z.boolean().nullable(),
 })
 
-export const singleTeam = z.object({
-  team,
+export const fiveSeason = z.object({
+  season: z.string(),
   tables: z.array(seasonTable),
-  sortedFiveSeasons: z.array(
-    z.object({
-      season: z.string(),
-      tables: z.array(seasonTable),
-    })
-  ),
+})
+
+export const singleTeam = z.object({
+  team: teamAttributes,
+  tables: z.array(seasonTable),
+  sortedFiveSeasons: z.array(fiveSeason),
   finalsAndWins: z.array(teamGame),
   noWinStreak: z.array(streakType),
   unbeatenStreak: z.array(streakType),

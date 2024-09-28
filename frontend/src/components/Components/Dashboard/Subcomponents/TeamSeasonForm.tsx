@@ -20,31 +20,16 @@ import {
 import { useAddTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useAddTeamSeasonMutation'
 import { getRouteApi } from '@tanstack/react-router'
 
-type TeamSeasonFormProps = {
-  women: boolean
-}
-
 const route = getRouteApi('/_layout/dashboard/season/$seasonId/teamseason/')
 
-const TeamSeasonForm = ({ women }: TeamSeasonFormProps) => {
+const TeamSeasonForm = () => {
   const navigate = route.useNavigate()
   const { seasonId } = route.useParams()
   const { allTeams } = route.useLoaderData()
-  // const [teamSeasons, setTeamSeasons] = useState<DashBoardTeamSeason[]>(teamseasons)
-
+  const women = route.useSearch({ select: (search) => search.women })
   const mutation = useAddTeamSeasonMutation()
-
   const { form, handleSubmit, fields, remove, append } = useAddTeamSeasonForm()
-
-  // useEffect(() => {
-  //   if (teamSeasonData) {
-  //     setTeamSeasons(teamSeasonData.map((team) => team.teamseason))
-  //     replace(teamSeasonData.map((team) => team.teamseason))
-  //   }
-  // }, [teamSeasonData, replace])
-
   const [teamFilter, setTeamFilter] = useState('')
-
   const teamSelection = allTeams
     .filter((team) => team.women === women)
     .map((team) => {

@@ -9,7 +9,7 @@ const MaratonTables = ({
   tabell: z.infer<typeof maratonTable>[]
 }) => {
   const teamObject = tabell.reduce(
-    (o, key) => ({ ...o, [key.team.casualName]: key.team }),
+    (o, key) => ({ ...o, [key.team.casualName]: key.teamId }),
     {}
   )
 

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { game, gameObjectWithSeason } from '../games/games'
+import { gameObject, gameObjectWithSeason } from '../games/games'
 import { season } from '../season/seasons'
 import { team } from '../teams/teams'
 
@@ -70,7 +70,7 @@ export const result = z.object({
 export const playoffGroup = z.object({
   group: z.string(),
   result,
-  games: z.array(game),
+  games: z.array(gameObject),
 })
 
 export const singleSeasonPlayoff = z.object({

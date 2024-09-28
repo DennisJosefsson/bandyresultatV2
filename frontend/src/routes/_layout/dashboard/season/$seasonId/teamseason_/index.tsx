@@ -2,7 +2,7 @@ import Loading from '@/components/Components/Common/Loading'
 import TeamSeasonForm from '@/components/Components/Dashboard/Subcomponents/TeamSeasonForm'
 import { getTeams } from '@/lib/requests/teams'
 import { getSingleSeasonTeamSeasons } from '@/lib/requests/teamSeason'
-import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
+
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
@@ -20,10 +20,9 @@ export const Route = createFileRoute(
 })
 
 function TeamSeasonComponent() {
-  const dashboardData = useDashboardStore((state) => state.dashboard)
   return (
     <div>
-      <TeamSeasonForm women={dashboardData.women} />
+      <TeamSeasonForm />
     </div>
   )
 }

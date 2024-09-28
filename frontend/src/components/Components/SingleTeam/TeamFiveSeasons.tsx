@@ -1,15 +1,13 @@
-import { SingleTeamTable } from '@/lib/types/tables/tables'
+import { fiveSeason } from '@/lib/types/teams/teams'
+import { z } from 'zod'
 import TeamTable from './TeamTable'
 
-type FiveSeasons = {
-  season: string
-  tables: SingleTeamTable[]
-}
+type FiveSeason = z.infer<typeof fiveSeason>
 
-type TeamFiveSeasonsTablesProps = { tableArray: FiveSeasons[] }
+type TeamFiveSeasonsTablesProps = { tableArray: FiveSeason[] }
 
 const TeamFiveSeasonsTables = ({ tableArray }: TeamFiveSeasonsTablesProps) => {
-  const sortedSeasons = (a: FiveSeasons, b: FiveSeasons) => {
+  const sortedSeasons = (a: FiveSeason, b: FiveSeason) => {
     if (a.season < b.season) {
       return 1
     } else if (a.season > b.season) {
@@ -22,7 +20,7 @@ const TeamFiveSeasonsTables = ({ tableArray }: TeamFiveSeasonsTablesProps) => {
       {tableArray.sort(sortedSeasons).map((season) => {
         return (
           <div key={season.season}>
-            <TeamTable tabeller={season.tables} season={season.season} />
+            <TeamTable tables={season.tables} season={season.season} />
           </div>
         )
       })}

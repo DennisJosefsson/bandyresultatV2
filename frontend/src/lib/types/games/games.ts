@@ -156,9 +156,12 @@ export const bulkGame = z.object({
   ),
 })
 
-const dateObject = z.object({ date: z.string(), games: z.array(gameObject) })
+export const dateObject = z.object({
+  date: z.string(),
+  games: z.array(gameObject),
+})
 
-const groupArray = z.array(
+export const groupArray = z.array(
   z.object({
     group: z.string(),
     name: z.string(),
@@ -166,7 +169,7 @@ const groupArray = z.array(
     dates: z.array(dateObject),
   })
 )
-const groupRecord = z.record(z.string(), groupArray)
+export const groupRecord = z.record(z.string(), groupArray)
 
 export const seasonGames = z.object({
   played: groupRecord,

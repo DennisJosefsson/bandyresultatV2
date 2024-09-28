@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useDeleteTeamSeasonMutation } from '@/lib/hooks/dataHooks/teams/useDeleteTeamSeasonMutation'
-import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { getRouteApi } from '@tanstack/react-router'
 
 const route = getRouteApi('/_layout/dashboard/season/$seasonId/')
@@ -10,7 +9,7 @@ const Teams = () => {
   const { teams } = route.useLoaderData()
   const navigate = route.useNavigate()
   const { seasonId } = route.useParams()
-  const women = useDashboardStore((store) => store.dashboard.women)
+  const women = route.useSearch({ select: (search) => search.women })
   const mutation = useDeleteTeamSeasonMutation()
   return (
     <Card>

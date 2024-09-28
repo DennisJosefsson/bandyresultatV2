@@ -1,8 +1,9 @@
 import Date from '@/components/Components/Common/Date'
-import { GameObjectType } from '@/lib/types/games/games'
+import { gameObject } from '@/lib/types/games/games'
+import { z } from 'zod'
 import PlayoffCard from './PlayoffCard'
 type FinalCardProps = {
-  game: GameObjectType
+  game: z.infer<typeof gameObject>
 }
 
 const FinalCard = ({ game }: FinalCardProps) => {

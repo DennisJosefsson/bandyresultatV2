@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
+import { compareResponseObject } from '@/lib/types/teams/compare'
+import { z } from 'zod'
 type GoldsProps = {
-  golds: CompareResponseObjectType['golds']
+  golds: z.infer<typeof compareResponseObject>['golds']
 }
 
 const Golds = ({ golds }: GoldsProps) => {

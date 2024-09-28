@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { compareCategoryTeamTable } from '../tables/tables'
+import { compareCategoryTeamTable, table } from '../tables/tables'
+import { team } from './teams'
 
 const rankedGames = z.array(
   z.object({
@@ -14,10 +15,14 @@ const rankedGames = z.array(
 )
 
 export const compareResponseObject = z.object({
-  categoryData: z.object({
-    category: z.string(),
-    teams: z.array(compareCategoryTeamTable),
-  }),
+  categoryData: z.array(
+    z.object({
+      category: z.string(),
+      teams: z.array(compareCategoryTeamTable),
+    })
+  ),
+  allData: z.array(compareCategoryTeamTable),
+  sortedData: z.array(table.and(z.object({ team }))),
   golds: z.array(
     z.object({
       guld: z.string(),

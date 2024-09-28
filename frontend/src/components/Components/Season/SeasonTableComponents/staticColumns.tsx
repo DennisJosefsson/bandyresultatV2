@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { StaticSeasonTable } from '@/lib/types/tables/tables'
+import { staticTable } from '@/lib/types/tables/tables'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -7,6 +7,7 @@ import {
   ArrowUpIcon,
   CaretSortIcon,
 } from '@radix-ui/react-icons'
+import { z } from 'zod'
 
 export const showColumns = {
   draw: true,
@@ -20,7 +21,7 @@ export const hideColumns = {
   concededGoals: false,
 }
 
-export const columns: ColumnDef<StaticSeasonTable>[] = [
+export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'team.casualName',
     header: () => (

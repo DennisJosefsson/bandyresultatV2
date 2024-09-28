@@ -12,32 +12,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
-import { GameObjectType } from '@/lib/types/games/games'
-import { SerieAttributes } from '@/lib/types/series/series'
-
-type DateArrayObject = {
-  date: string
-  games: GameObjectType[]
-  table: {
-    teamId: number
-    casualName: string
-    table: {
-      position: number
-      games: number
-      wins: number
-      draws: number
-      lost: number
-      scoredGoals: number
-      concededGoals: number
-      points: number
-    }
-  }[]
-}
+import { developmentDates } from '@/lib/types/games/development'
+import { serie } from '@/lib/types/series/series'
+import { z } from 'zod'
 
 type AnimationTableProps = {
-  dateArray: DateArrayObject[]
+  dateArray: z.infer<typeof developmentDates>
   round: number
-  seriesArray: SerieAttributes[]
+  seriesArray: z.infer<typeof serie>[]
   group: string | null
 }
 
@@ -45,7 +27,6 @@ const AnimationTable = ({
   dateArray,
   round,
   seriesArray,
-
   group,
 }: AnimationTableProps) => {
   const { favTeams } = useTeampreferenceContext()

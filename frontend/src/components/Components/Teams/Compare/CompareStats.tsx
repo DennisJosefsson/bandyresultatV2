@@ -1,20 +1,21 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
-import { CompareFormState } from '@/lib/types/teams/teams'
+import { TabsContent } from '@/components/ui/tabs'
+import { compareResponseObject } from '@/lib/types/teams/compare'
+import { compareFormState } from '@/lib/types/teams/teams'
+import { z } from 'zod'
 import FirstGames from './CompareStatsSubComponents/FirstGames'
 import Golds from './CompareStatsSubComponents/Golds'
 import LatestGames from './CompareStatsSubComponents/LatestGames'
 import Playoffs from './CompareStatsSubComponents/Playoffs'
 import Seasons from './CompareStatsSubComponents/Seasons'
-import { TabsContent } from '@/components/ui/tabs'
 type CompareStatsProps = {
-  searchObject: CompareFormState
-  firstGames: CompareResponseObjectType['firstGames']
-  latestGames: CompareResponseObjectType['latestGames']
-  golds: CompareResponseObjectType['golds']
-  playoffs: CompareResponseObjectType['playoffs']
-  allPlayoffs: CompareResponseObjectType['allPlayoffs']
-  seasons: CompareResponseObjectType['seasons']
-  allSeasons: CompareResponseObjectType['allSeasons']
+  searchObject: z.infer<typeof compareFormState>
+  firstGames: z.infer<typeof compareResponseObject>['firstGames']
+  latestGames: z.infer<typeof compareResponseObject>['latestGames']
+  golds: z.infer<typeof compareResponseObject>['golds']
+  playoffs: z.infer<typeof compareResponseObject>['playoffs']
+  allPlayoffs: z.infer<typeof compareResponseObject>['allPlayoffs']
+  seasons: z.infer<typeof compareResponseObject>['seasons']
+  allSeasons: z.infer<typeof compareResponseObject>['allSeasons']
 }
 
 const CompareStats = ({

@@ -1,8 +1,9 @@
 import TeamSeasonCuriosities from './CuriositiesSubComponents/TeamSeasonCuriosities'
 
-import { SingleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/teams'
+import { z } from 'zod'
 import StreakComponent from './CuriositiesSubComponents/StreakComponent'
-const TeamCuriosities = ({ team }: { team: SingleTeam }) => {
+const TeamCuriosities = ({ team }: { team: z.infer<typeof singleTeam> }) => {
   return (
     <div>
       <TeamSeasonCuriosities team={team} />

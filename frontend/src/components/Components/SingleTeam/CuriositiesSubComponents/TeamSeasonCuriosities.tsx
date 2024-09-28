@@ -1,7 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SingleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/teams'
+import { z } from 'zod'
 
-const TeamSeasonCuriosities = ({ team }: { team: SingleTeam }) => {
+const TeamSeasonCuriosities = ({
+  team,
+}: {
+  team: z.infer<typeof singleTeam>
+}) => {
   const playoffStreak = team.playoffStreak
   const playoffCount = Number(team.playoffCount[0].playoff_count)
   const seasons = team.team.seasonteam.filter(

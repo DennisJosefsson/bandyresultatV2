@@ -1,4 +1,4 @@
-import { SingleSeasonPlayoffType } from '@/lib/types/tables/tables'
+import { singleSeasonPlayoff } from '@/lib/types/tables/tables'
 import {
   eightColStarts,
   eightColStartsFourTeams,
@@ -7,13 +7,14 @@ import {
   semiColStarts,
 } from '@/lib/utils/constants'
 import { useParams, useSearch } from '@tanstack/react-router'
+import { z } from 'zod'
 import DefaultComponent from './DefaultComponent'
 import FinalCard from './FinalCard'
 import NilComponent from './NilComponent'
 import NilFinalComponent from './NilFinalComponent'
 
 type SeasonPlayoffTablesProps = {
-  data: SingleSeasonPlayoffType
+  data: z.infer<typeof singleSeasonPlayoff>
   lastSeason: number
 }
 

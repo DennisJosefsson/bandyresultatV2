@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { TableObjectType } from '@/lib/types/tables/tables'
+import { seasonTable } from '@/lib/types/tables/tables'
 import { ColumnDef } from '@tanstack/react-table'
 
 import {
@@ -7,6 +7,7 @@ import {
   ArrowUpIcon,
   CaretSortIcon,
 } from '@radix-ui/react-icons'
+import { z } from 'zod'
 
 export const showColumns = {
   totalDraws: true,
@@ -20,9 +21,9 @@ export const hideColumns = {
   totalGoalsConceded: false,
 }
 
-export const columns: ColumnDef<TableObjectType>[] = [
+export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
   {
-    accessorKey: 'lag.casualName',
+    accessorKey: 'team.casualName',
     header: () => (
       <div className="w-6 truncate text-left text-[8px] sm:w-24 sm:text-[10px] lg:w-32 lg:text-sm">
         Lag
@@ -30,7 +31,7 @@ export const columns: ColumnDef<TableObjectType>[] = [
     ),
     cell: ({ row }) => (
       <div className="w-6 truncate text-left sm:w-24 lg:w-32">
-        {row.getValue('lag_casualName')}
+        {row.getValue('team_casualName')}
       </div>
     ),
   },
