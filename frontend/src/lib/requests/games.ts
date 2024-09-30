@@ -4,7 +4,7 @@ import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { developmentData } from '../types/games/development'
 import { seasonGames } from '../types/games/gameObject'
 import { bulkGame, game } from '../types/games/games'
-import { newGame } from '../types/games/newGame'
+import { editGame as editGameType, newGame } from '../types/games/newGame'
 import { searchParams, searchResponse } from '../types/games/search'
 import { statsObject } from '../types/games/stats'
 import { streakParams, streakReturn } from '../types/games/streaks'
@@ -92,7 +92,7 @@ export const addGame = async ({
 export const editGame = async ({
   formState,
 }: {
-  formState: z.infer<typeof game>
+  formState: z.infer<typeof editGameType>
 }) => {
   const response = await gamesApi.post('/', formState)
   if (response instanceof AxiosError) {

@@ -9,7 +9,7 @@ import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
 import { editGame } from '@/lib/requests/games'
-import { game } from '@/lib/types/games/games'
+import { editGame as editGameType } from '@/lib/types/games/newGame'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { getRouteApi, useRouter } from '@tanstack/react-router'
@@ -21,6 +21,14 @@ import GameFormComponent from './GameFormComponent'
 const route = getRouteApi(
   '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
 )
+
+const getDefaultValues = (data: z.infer<typeof editGameType>) => {
+  return {
+    ...data,
+    result: data.result ?? '',
+    halftimeResult: data.halftimeResult ?? '',
+  }
+}
 
 const EditGame = () => {
   const data = route.useLoaderData()
@@ -75,11 +83,11 @@ const EditGame = () => {
     }
   }
 
-  const form = useForm<z.infer<typeof game>>({
-    defaultValues: data.gameData,
+  const form = useForm<z.infer<typeof editGameType>>({
+    defaultValues: getDefaultValues(data.gameData),
     criteriaMode: 'all',
     mode: 'onChange',
-    resolver: zodResolver(game),
+    resolver: zodResolver(editGameType),
   })
 
   const {
@@ -87,7 +95,7 @@ const EditGame = () => {
     formState: { errors },
   } = form
 
-  const onSubmit: SubmitHandler<z.infer<typeof game>> = (formData) => {
+  const onSubmit: SubmitHandler<z.infer<typeof editGameType>> = (formData) => {
     const gameData = {
       ...formData,
       homeTeamId: formData.homeTeamId ?? 176,

@@ -43,14 +43,14 @@ export const streakResponse = z.object({
     count: z.number(),
     rows: z.array(
       z.object({
-        team: z.number(),
-        lag: z.object({
+        teamId: z.number(),
+        team: z.object({
           name: z.string(),
           casulName: z.string(),
           shortName: z.string(),
         }),
-        opponent: z.number(),
-        opp: z.object({
+        opponentId: z.number(),
+        opponent: z.object({
           name: z.string(),
           casulName: z.string(),
           shortName: z.string(),
@@ -64,8 +64,8 @@ export const streakResponse = z.object({
 })
 
 const pointsGoals = z.object({
-  team: z.number(),
-  lag: z.object({
+  teamId: z.number(),
+  team: z.object({
     name: z.string(),
     casulName: z.string(),
     shortName: z.string(),

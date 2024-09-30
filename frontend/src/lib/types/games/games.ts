@@ -7,16 +7,8 @@ export const game = z.object({
   awayTeamId: z.coerce.number(),
   homeGoal: z.number(),
   awayGoal: z.number(),
-  result: z
-    .string()
-    .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Fel resultat, ny match' })
-    .optional()
-    .or(z.literal('')),
-  halftimeResult: z
-    .string()
-    .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Fel halvtidsresultat, ny match' })
-    .optional()
-    .or(z.literal('')),
+  result: z.string(),
+  halftimeResult: z.string(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Fel datum' }),
   category: z
     .enum(['qualification', 'regular', 'eight', 'quarter', 'semi', 'final'])

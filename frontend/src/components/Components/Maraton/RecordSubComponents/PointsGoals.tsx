@@ -25,7 +25,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -43,7 +43,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -61,7 +61,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -84,7 +84,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -102,7 +102,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -120,7 +120,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -143,7 +143,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -161,7 +161,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -179,7 +179,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -202,7 +202,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -220,7 +220,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -238,7 +238,7 @@ const PointsGoals = ({
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />

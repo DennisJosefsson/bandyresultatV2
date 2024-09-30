@@ -40,7 +40,7 @@ const Streaks = () => {
                   return (
                     <Card
                       className="mb-1 p-1 flex flex-row justify-between items-center text-[10px] md:text-sm md:mb-2 md:p-2"
-                      key={`${team.lag.name}-${Math.random()}`}
+                      key={`${team.team.name}-${Math.random()}`}
                     >
                       <span className="mr-4 w-8 text-right text-base md:text-2xl font-bold tabular-nums">
                         {index + 1}
@@ -48,7 +48,7 @@ const Streaks = () => {
                       <div className="flex flex-col flex-grow mr-4">
                         <div className="flex flex-row justify-between">
                           <span className="truncate font-semibold">
-                            {team.lag.name}
+                            {team.team.name}
                           </span>
                           <span className="text-right">
                             {team.goalsScored}-{team.goalsConceded}
@@ -62,7 +62,7 @@ const Streaks = () => {
                           </div>
 
                           <span className="text-right">
-                            {team.opp.shortName}
+                            {team.opponent.shortName}
                           </span>
                         </div>
                       </div>

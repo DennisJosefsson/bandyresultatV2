@@ -1,12 +1,3 @@
-import { useEffect, useState } from 'react'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table'
 import {
   Table,
   TableBody,
@@ -16,9 +7,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 
-import { showColumns, hideColumns } from './columns'
+import { hideColumns, showColumns } from './columns'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -94,7 +94,7 @@ const DataTable = <TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}
                 className={`${
                   favTeams.includes(
-                    teamObject[getString(row.getValue('lag_casualName'))]
+                    teamObject[getString(row.getValue('team_casualName'))]
                   )
                     ? 'font-bold'
                     : null
