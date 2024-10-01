@@ -210,6 +210,7 @@ compareRouter.post('/compare', (async (
   })
 
   const allData = compareAllTeamTables.parse(getCompareAllGames)
+
   const sortedData = compareAllTeamData(allData)
 
   const gameCount = allData.length

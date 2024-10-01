@@ -45,8 +45,9 @@ export const compareAllTeamData = (
 ) => {
   const newArray: z.infer<typeof newCompareObject> = []
 
+
   allDataArray.forEach((team) => {
-    if (!newArray.find((teamItem) => team.team === teamItem.team)) {
+    if (!newArray.find((teamItem) => team.teamId === teamItem.teamId)) {
       newArray.push({
         teamId: team.teamId,
         team: {
@@ -66,7 +67,7 @@ export const compareAllTeamData = (
       })
     }
     const teamIndex = newArray.findIndex(
-      (teamItem) => team.team === teamItem.team
+      (teamItem) => team.teamId === teamItem.teamId
     )
     newArray[teamIndex].totalGames += team.totalGames
     newArray[teamIndex].totalWins += team.totalWins
