@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TeamChartType } from '@/lib/types/teams/teams'
+import { singleTeam, teamChartType } from '@/lib/types/teams/singleTeam'
 
+import { z } from 'zod'
 import TeamLine from './TeamLine'
 
 export type LineChartType = {
@@ -9,7 +10,7 @@ export type LineChartType = {
   dataPoint: number | undefined | null
 }
 
-const tickParser = (item: TeamChartType): string => {
+const tickParser = (item: z.infer<typeof teamChartType>): string => {
   if (item.gold) return 'SM-Guld'
   else if (item.final) return 'Final'
   else if (item.semi) return 'Semi'
@@ -21,7 +22,7 @@ const tickParser = (item: TeamChartType): string => {
   return ''
 }
 
-const dataPointParser = (item: TeamChartType): number => {
+const dataPointParser = (item: z.infer<typeof teamChartType>): number => {
   if (item.gold) return 7
   else if (item.final) return 6
   else if (item.semi) return 5
@@ -33,7 +34,9 @@ const dataPointParser = (item: TeamChartType): number => {
   return 0
 }
 
-const lineArray = (chartData: TeamChartType[]): LineChartType[] => {
+const lineArray = (
+  chartData: z.infer<typeof singleTeam>['chartData']
+): LineChartType[] => {
   const array = chartData.map((item) => {
     return {
       year: item.year.slice(-4),
@@ -44,7 +47,11 @@ const lineArray = (chartData: TeamChartType[]): LineChartType[] => {
   return array
 }
 
-const TeamLineChart = ({ chartData }: { chartData: TeamChartType[] }) => {
+const TeamLineChart = ({
+  chartData,
+}: {
+  chartData: z.infer<typeof singleTeam>['chartData']
+}) => {
   if (chartData.length === 0) {
     return (
       <div className="flex flex-row justify-center mt-4">

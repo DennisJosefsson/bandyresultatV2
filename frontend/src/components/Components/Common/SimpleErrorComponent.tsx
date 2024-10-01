@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { useLocation, useNavigate } from '@tanstack/react-router'
 
 type ErrorComponentProps = {
   id: string
@@ -8,10 +7,6 @@ type ErrorComponentProps = {
 }
 
 const SimpleErrorComponent = ({ id, error, reset }: ErrorComponentProps) => {
-  const location = useLocation().pathname
-
-  const navigate = useNavigate()
-
   return (
     <div className="mx-auto mt-10 flex items-center justify-center font-inter text-foreground">
       <div className="mx-2 max-w-3xl">
@@ -27,7 +22,6 @@ const SimpleErrorComponent = ({ id, error, reset }: ErrorComponentProps) => {
           <Button
             onClick={() => {
               reset()
-              navigate({ to: location, search: (prev) => ({ ...prev }) })
             }}
           >
             Ladda om

@@ -1,8 +1,8 @@
 import { getSeasons, getSingleSeason } from '@/lib/requests/seasons'
-import { SeasonObjectType } from '@/lib/types/season/seasons'
+import { season } from '@/lib/types/season/seasons'
 import { queryOptions } from '@tanstack/react-query'
-
-const selectFirstAndLast = (data: SeasonObjectType[]) => {
+import { z } from 'zod'
+const selectFirstAndLast = (data: z.infer<typeof season>[]) => {
   const firstSeasonObject = data.filter((season) => season.women === false)[
     data.filter((season) => season.women === false).length - 1
   ]

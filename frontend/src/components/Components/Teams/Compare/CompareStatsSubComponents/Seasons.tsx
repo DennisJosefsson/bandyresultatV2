@@ -1,11 +1,15 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CompareFormState } from '@/lib/types/teams/teams'
+
+import { z } from 'zod'
 type SeasonProps = {
-  seasons: CompareResponseObjectType['seasons']
-  allSeasons: CompareResponseObjectType['allSeasons']
-  searchObject: CompareFormState
+  seasons: z.infer<typeof compareResponseObject>['seasons']
+  allSeasons: z.infer<typeof compareResponseObject>['allSeasons']
+  searchObject: z.infer<typeof compareFormState>
 }
 
 const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {

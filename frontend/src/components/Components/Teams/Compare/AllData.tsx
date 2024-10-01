@@ -1,16 +1,18 @@
 import { Table, TableBody } from '@/components/ui/table'
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
-import { CompareFormState } from '@/lib/types/teams/teams'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 import AllDataTableHeader from './AllDataTableHeader'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
+import { z } from 'zod'
 import DataTableRow from './DataTableRow'
 
 type AllDataProps = {
-  allData: CompareResponseObjectType['allData']
-  sortedData: CompareResponseObjectType['sortedData']
-  searchObject: CompareFormState
+  allData: z.infer<typeof compareResponseObject>['allData']
+  sortedData: z.infer<typeof compareResponseObject>['sortedData']
+  searchObject: z.infer<typeof compareFormState>
 }
 
 const AllData = ({ allData, sortedData, searchObject }: AllDataProps) => {

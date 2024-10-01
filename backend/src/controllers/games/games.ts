@@ -179,7 +179,7 @@ gameRouter.post('/', authControl, (async (
   if (!currChamp) {
     currInoffChamp = null
   } else {
-    currInoffChamp = parseNumber(currChamp.team)
+    currInoffChamp = parseNumber(currChamp.teamId)
   }
 
   const newGameObject = newGameEntry(req.body, serieId)

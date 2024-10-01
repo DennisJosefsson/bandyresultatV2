@@ -40,8 +40,8 @@ searchRouter.post('/search', (async (
   let goalsConceded
   let inputDate
   let homeGame
-  let team
-  let opponent
+  let teamId
+  let opponentId
   let win
   let draw
   let lost
@@ -54,12 +54,12 @@ searchRouter.post('/search', (async (
     {
       model: Team,
       attributes: ['name', 'casualName', 'shortName'],
-      as: 'lag',
+      as: 'team',
     },
     {
       model: Team,
       attributes: ['name', 'casualName', 'shortName'],
-      as: 'opp',
+      as: 'opponent',
     },
     { model: Game, attributes: ['result'] },
     {
@@ -78,12 +78,12 @@ searchRouter.post('/search', (async (
 
   const order: Order = [['date', searchParams.order]]
 
-  if (searchParams.team && searchParams.team) {
-    team = searchParams.team
+  if (searchParams.teamId && searchParams.teamId) {
+    teamId = searchParams.teamId
   }
 
-  if (searchParams.opponent && searchParams.opponent) {
-    opponent = searchParams.opponent
+  if (searchParams.opponentId && searchParams.opponentId) {
+    opponentId = searchParams.opponentId
   }
 
   if (searchParams.inputDate) {
@@ -193,15 +193,15 @@ searchRouter.post('/search', (async (
     lost = true
   }
 
-  if (searchParams.selectedGender === 'men' && !searchParams.team) {
+  if (searchParams.selectedGender === 'men' && !searchParams.teamId) {
     women = false
   }
 
-  if (searchParams.selectedGender === 'women' && !searchParams.team) {
+  if (searchParams.selectedGender === 'women' && !searchParams.teamId) {
     women = true
   }
   let resultGame
-  if (searchParams.result && searchParams.team) {
+  if (searchParams.result && searchParams.teamId) {
     goalsScored = Number(searchParams.result.split('-')[0])
     goalsConceded = Number(searchParams.result.split('-')[1])
   } else if (searchParams.result) {
@@ -217,12 +217,12 @@ searchRouter.post('/search', (async (
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
-          as: 'lag',
+          as: 'team',
         },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
-          as: 'opp',
+          as: 'opponent',
         },
         resultGame,
         {
@@ -244,8 +244,8 @@ searchRouter.post('/search', (async (
     category: searchParams.categoryArray,
     played: true,
     ...(inputDate && { [Op.and]: inputDate }),
-    ...(team && { team: team }),
-    ...(opponent && { opponent: opponent }),
+    ...(teamId && { teamId: teamId }),
+    ...(opponentId && { opponentId: opponentId }),
     ...(goalDifference && { goalDifference: goalDifference }),
     ...(goalsScored && { goalsScored: goalsScored }),
     ...(goalsConceded && { goalsConceded: goalsConceded }),

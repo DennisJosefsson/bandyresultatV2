@@ -1,15 +1,17 @@
 import { Button } from '@/components/ui/button'
-import { CompareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
+
 import {
   getOrigin,
   resetOrigin,
 } from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { useNavigate } from '@tanstack/react-router'
 import { useCopyToClipboard, useMediaQuery } from 'usehooks-ts'
+import { z } from 'zod'
 
 type CompareHeaderProps = {
   length: number
-  searchObject: CompareFormState | null
+  searchObject: z.infer<typeof compareFormState> | null
   link: string
   compareHeaderText: string
 }

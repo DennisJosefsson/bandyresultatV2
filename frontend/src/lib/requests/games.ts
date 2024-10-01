@@ -1,11 +1,13 @@
 import axios, { AxiosError } from 'axios'
+import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { Game } from '../types/games/addGames'
-import { AnimationObject } from '../types/games/animation'
-import { EditGame, NewGame, SeasonGames } from '../types/games/games'
-import { SearchParamsObject, SearchResponseObject } from '../types/games/search'
-import { SeasonStatsObjectType } from '../types/games/stats'
-import { StreakObjectTypes, StreakParams } from '../types/games/streaks'
+import { developmentData } from '../types/games/development'
+import { seasonGames } from '../types/games/gameObject'
+import { bulkGame, game } from '../types/games/games'
+import { editGame as editGameType, newGame } from '../types/games/newGame'
+import { searchParams, searchResponse } from '../types/games/search'
+import { statsObject } from '../types/games/stats'
+import { streakParams, streakReturn } from '../types/games/streaks'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -14,27 +16,18 @@ const gamesApi = axios.create({
   headers: header,
 })
 
-export const getGames = async () => {
-  const response = await gamesApi.get('/')
-
-  if (response instanceof AxiosError) {
-    return response
-  }
-  return response.data
-}
-
 export const getStreaks = async (
-  params: StreakParams
-): Promise<StreakObjectTypes> => {
+  params: z.infer<typeof streakParams>
+): Promise<z.infer<typeof streakReturn>> => {
   const response = await gamesApi.post('/streaks', params)
 
   return response.data
 }
 
 export const getSearch = async (
-  searchParams: SearchParamsObject | null
-): Promise<SearchResponseObject> => {
-  const response = await gamesApi.post('/search', searchParams)
+  formState: z.infer<typeof searchParams>
+): Promise<z.infer<typeof searchResponse>> => {
+  const response = await gamesApi.post('/search', formState)
 
   return response.data
 }
@@ -45,7 +38,7 @@ export const getSeasonGames = async ({
 }: {
   seasonId: number
   women: boolean
-}): Promise<SeasonGames> => {
+}): Promise<z.infer<typeof seasonGames>> => {
   const response = await gamesApi.get(`/season/${seasonId}?women=${women}`)
 
   return response.data
@@ -57,7 +50,7 @@ export const getSeasonStats = async ({
 }: {
   seasonId: number
   women: boolean
-}): Promise<SeasonStatsObjectType> => {
+}): Promise<z.infer<typeof statsObject>> => {
   const response = await gamesApi.get(`/stats/${seasonId}?women=${women}`)
 
   return response.data
@@ -69,18 +62,26 @@ export const getAnimation = async ({
 }: {
   seasonId: number
   women: boolean
-}): Promise<AnimationObject> => {
+}): Promise<z.infer<typeof developmentData>> => {
   const response = await gamesApi.get(`/animation/${seasonId}?women=${women}`)
 
   return response.data
 }
 
-export const getSingleGame = async ({ gameId }: { gameId: number }) => {
+export const getSingleGame = async ({
+  gameId,
+}: {
+  gameId: number
+}): Promise<z.infer<typeof game>> => {
   const response = await gamesApi.get(`/${gameId}`)
   return response.data
 }
 
-export const addGame = async ({ formState }: { formState: NewGame }) => {
+export const addGame = async ({
+  formState,
+}: {
+  formState: z.infer<typeof newGame>
+}) => {
   const response = await gamesApi.post('/', formState)
   if (response instanceof AxiosError) {
     return response
@@ -88,7 +89,11 @@ export const addGame = async ({ formState }: { formState: NewGame }) => {
   return response.data
 }
 
-export const editGame = async ({ formState }: { formState: EditGame }) => {
+export const editGame = async ({
+  formState,
+}: {
+  formState: z.infer<typeof editGameType>
+}) => {
   const response = await gamesApi.post('/', formState)
   if (response instanceof AxiosError) {
     return response
@@ -96,15 +101,9 @@ export const editGame = async ({ formState }: { formState: EditGame }) => {
   return response.data
 }
 
-export const postGame = async (newGameData: EditGame | null) => {
-  const response = await gamesApi.post('/', newGameData)
-  if (response instanceof AxiosError) {
-    return response
-  }
-  return response.data
-}
-
-export const postBulkGames = async (games: Game[]) => {
+export const postBulkGames = async (
+  games: z.infer<typeof bulkGame>['games']
+) => {
   const promise = Promise.all(games.map((game) => gamesApi.post('/', game)))
 
   return promise

@@ -5,15 +5,22 @@ import {
   addToFavTeams,
   removeFromFavTeams,
 } from '@/lib/reducers/favteamsReducer'
-import { SingleTeam } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import {
   getOrigin,
   resetOrigin,
 } from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
+import { z } from 'zod'
 
-const TeamHeader = ({ team, teamId }: { team: SingleTeam; teamId: number }) => {
+const TeamHeader = ({
+  team,
+  teamId,
+}: {
+  team: z.infer<typeof singleTeam>
+  teamId: number
+}) => {
   const matches = useMediaQuery('(min-width: 430px)')
   const { favTeams, favTeamsDispatch } = useTeampreferenceContext()
   const { origin } = getOrigin()

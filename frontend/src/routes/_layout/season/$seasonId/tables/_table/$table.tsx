@@ -52,10 +52,10 @@ function Table() {
   const { seasonId, table } = Route.useParams()
   const women = Route.useSearch({ select: (search) => search.women })
   const tableArray = Route.useLoaderData({
-    select: (search) => search.tabeller,
+    select: (data) => data.tables,
   })
   const staticTableArray = Route.useLoaderData({
-    select: (search) => search.staticTables,
+    select: (data) => data.staticTables,
   })
 
   if (women && seasonId < 1973) {

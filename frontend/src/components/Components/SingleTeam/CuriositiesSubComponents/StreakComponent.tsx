@@ -1,7 +1,8 @@
 import Date from '@/components/Components/Common/Date'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { StreakType } from '@/lib/types/teams/teams'
+import { streakType } from '@/lib/types/teams/singleTeam'
 import { ReactNode } from 'react'
+import { z } from 'zod'
 
 const StreakComponent = ({ children }: { children: ReactNode }) => {
   return <Card className="mb-2">{children}</Card>
@@ -15,7 +16,13 @@ function Title({ children }: { children: ReactNode }) {
   )
 }
 
-function Content({ streak, limit }: { streak: StreakType[]; limit: number }) {
+function Content({
+  streak,
+  limit,
+}: {
+  streak: z.infer<typeof streakType>[]
+  limit: number
+}) {
   if (
     !streak ||
     streak.filter((streak) => streak.game_count > limit).length === 0

@@ -1,4 +1,7 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 import { groupConstant } from '@/lib/utils/constants'
 import { filterOpposition } from '@/lib/utils/sortFunction'
 
@@ -8,10 +11,10 @@ import AllDataTableHeader from './AllDataTableHeader'
 
 import DataTableRow from './DataTableRow'
 
-import { CompareFormState } from '@/lib/types/teams/teams'
+import { z } from 'zod'
 type DetailedDataProps = {
-  categoryData: CompareResponseObjectType['categoryData']
-  searchObject: CompareFormState
+  categoryData: z.infer<typeof compareResponseObject>['categoryData']
+  searchObject: z.infer<typeof compareFormState>
 }
 
 const DetailedData = ({ categoryData, searchObject }: DetailedDataProps) => {

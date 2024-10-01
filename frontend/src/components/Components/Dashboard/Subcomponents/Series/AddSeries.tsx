@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
 import { addSerie } from '@/lib/requests/series'
-import { NewSerie, newSerie } from '@/lib/types/series/series'
+import { newSerie, serie } from '@/lib/types/series/series'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { getRouteApi, useRouter } from '@tanstack/react-router'
@@ -61,7 +61,7 @@ const AddSeries = () => {
     }
   }
 
-  const onSuccessSubmit = (data: NewSerie) => {
+  const onSuccessSubmit = (data: z.infer<typeof serie>) => {
     router.invalidate()
     toast({
       duration: 5000,

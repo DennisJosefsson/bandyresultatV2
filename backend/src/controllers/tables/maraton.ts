@@ -9,7 +9,7 @@ import { sequelize } from '../../utils/db.js'
 
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
-import { maratonTable } from '../../utils/responseTypes/tableTypes.js'
+import { maratonTableSchema } from '../../utils/responseTypes/tableTypes.js'
 
 const maratonRouter = Router()
 
@@ -35,10 +35,10 @@ maratonRouter.get('/maraton', (async (
     where = { ...where, homeGame: false }
   }
 
-  const getMaratonTabell = await TeamGame.findAll({
+  const getMaratonTable = await TeamGame.findAll({
     where: where,
     attributes: [
-      'team',
+      ['team', 'teamId'],
       'women',
       [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
       [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
@@ -59,15 +59,15 @@ maratonRouter.get('/maraton', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName', 'women'],
-        as: 'lag',
+        as: 'team',
       },
     ],
     group: [
-      'team',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
+      'teamId',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
       'teamgame.women',
     ],
     order: [
@@ -79,100 +79,9 @@ maratonRouter.get('/maraton', (async (
     nest: true,
   })
 
-  const maratonTabell = maratonTable.parse(getMaratonTabell)
+  const maratonTable = maratonTableSchema.parse(getMaratonTable)
 
-  // const getMaratonHemmaTabell = await TeamGame.findAll({
-  //   where: { category: 'regular', played: true, homeGame: true },
-  //   attributes: [
-  //     'team',
-  //     'women',
-  //     [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
-  //     [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
-  //     [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
-  //     [
-  //       sequelize.fn('sum', sequelize.col('goals_conceded')),
-  //       'totalGoalsConceded',
-  //     ],
-  //     [
-  //       sequelize.fn('sum', sequelize.col('goal_difference')),
-  //       'totalGoalDifference',
-  //     ],
-  //     [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-  //     [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-  //     [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
-  //   ],
-  //   include: [
-  //     {
-  //       model: Team,
-  //       attributes: ['name', 'teamId', 'casualName', 'shortName', 'women'],
-  //       as: 'lag',
-  //     },
-  //   ],
-  //   group: [
-  //     'team',
-  //     'lag.name',
-  //     'lag.team_id',
-  //     'lag.casual_name',
-  //     'lag.short_name',
-  //     'teamgame.women',
-  //   ],
-  //   order: [
-  //     ['totalPoints', 'DESC'],
-  //     ['totalGoalDifference', 'DESC'],
-  //     ['totalGoalsScored', 'DESC'],
-  //   ],
-  //   raw: true,
-  //   nest: true,
-  // })
-
-  // const maratonHemmaTabell = maratonTable.parse(getMaratonHemmaTabell)
-
-  // const getMaratonBortaTabell = await TeamGame.findAll({
-  //   where: { category: 'regular', played: true, homeGame: false },
-  //   attributes: [
-  //     'team',
-  //     'women',
-  //     [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
-  //     [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
-  //     [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
-  //     [
-  //       sequelize.fn('sum', sequelize.col('goals_conceded')),
-  //       'totalGoalsConceded',
-  //     ],
-  //     [
-  //       sequelize.fn('sum', sequelize.col('goal_difference')),
-  //       'totalGoalDifference',
-  //     ],
-  //     [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-  //     [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-  //     [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
-  //   ],
-  //   include: [
-  //     {
-  //       model: Team,
-  //       attributes: ['name', 'teamId', 'casualName', 'shortName', 'women'],
-  //       as: 'lag',
-  //     },
-  //   ],
-  //   group: [
-  //     'team',
-  //     'lag.name',
-  //     'lag.team_id',
-  //     'lag.casual_name',
-  //     'lag.short_name',
-  //     'teamgame.women',
-  //   ],
-  //   order: [
-  //     ['totalPoints', 'DESC'],
-  //     ['totalGoalDifference', 'DESC'],
-  //     ['totalGoalsScored', 'DESC'],
-  //   ],
-  //   raw: true,
-  //   nest: true,
-  // })
-
-  // const maratonBortaTabell = maratonTable.parse(getMaratonBortaTabell)
-  res.status(200).json(maratonTabell)
+  res.status(200).json(maratonTable)
 }) as RequestHandler)
 
 export default maratonRouter

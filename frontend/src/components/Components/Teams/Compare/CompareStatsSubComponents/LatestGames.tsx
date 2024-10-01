@@ -1,10 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
+import { compareResponseObject } from '@/lib/types/teams/compare'
 
 import Date from '@/components/Components/Common/Date'
+import { z } from 'zod'
 
 type LatestGamesProps = {
-  latestGames: CompareResponseObjectType['latestGames']
+  latestGames: z.infer<typeof compareResponseObject>['latestGames']
 }
 
 const LatestGames = ({ latestGames }: LatestGamesProps) => {

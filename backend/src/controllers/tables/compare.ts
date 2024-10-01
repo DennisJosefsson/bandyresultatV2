@@ -12,10 +12,16 @@ import TeamGame from '../../models/TeamGame.js'
 import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import { parseCompareRequest } from '../../utils/postFunctions/compareRequest.js'
+import {
+  compareAllTeamData,
+  compareSortFunction,
+  getLatestGames,
+} from '../../utils/postFunctions/compareSortFunctions.js'
 import getCompareHeaderText from '../../utils/postFunctions/getCompareHeaderText.js'
 import {
   compareAllTeamTables,
   compareCategoryTeamTables,
+  parseFirstLast,
 } from '../../utils/responseTypes/tableTypes.js'
 
 const compareRouter = Router()
@@ -55,10 +61,10 @@ compareRouter.post('/compare', (async (
 
   const getCatTables = await TeamGame.findAll({
     where: {
-      team: {
+      teamId: {
         [Op.in]: teamArray,
       },
-      opponent: {
+      opponentId: {
         [Op.in]: teamArray,
       },
       category: {
@@ -71,8 +77,8 @@ compareRouter.post('/compare', (async (
       played: true,
     },
     attributes: [
-      'team',
-      'opponent',
+      'teamId',
+      'opponentId',
       'category',
       [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
       [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
@@ -93,29 +99,28 @@ compareRouter.post('/compare', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'opp',
+        as: 'opponent',
       },
     ],
     group: [
-      'team',
-      'opponent',
+      'teamId',
+      'opponentId',
       'category',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
-      'opp.name',
-      'opp.team_id',
-      'opp.casual_name',
-      'opp.short_name',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
+      'opponent.name',
+      'opponent.team_id',
+      'opponent.casual_name',
+      'opponent.short_name',
     ],
     order: [
-      ['team', 'DESC'],
       ['totalPoints', 'DESC'],
       ['totalGoalDifference', 'DESC'],
       ['totalGoalsScored', 'DESC'],
@@ -127,20 +132,21 @@ compareRouter.post('/compare', (async (
   if (!getCatTables || getCatTables.length === 0) {
     throw new NotFoundError({
       code: 404,
-      message: 'Lagen har inte spelat mot varandra.',
+      message: 'Teamen har inte spelat mot varandra.',
       logging: false,
       context: { origin: 'Compare teams Router' },
     })
   }
 
-  const tabeller = compareCategoryTeamTables.parse(getCatTables)
+  const tables = compareCategoryTeamTables.parse(getCatTables)
+  const categoryData = compareSortFunction(tables)
 
   const getCompareAllGames = await TeamGame.findAll({
     where: {
-      team: {
+      teamId: {
         [Op.in]: teamArray,
       },
-      opponent: {
+      opponentId: {
         [Op.in]: teamArray,
       },
       category: {
@@ -153,8 +159,8 @@ compareRouter.post('/compare', (async (
       played: true,
     },
     attributes: [
-      'team',
-      'opponent',
+      'teamId',
+      'opponentId',
       [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
       [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
       [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
@@ -174,28 +180,27 @@ compareRouter.post('/compare', (async (
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'lag',
+        as: 'team',
       },
       {
         model: Team,
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'opp',
+        as: 'opponent',
       },
     ],
     group: [
-      'team',
-      'opponent',
-      'lag.name',
-      'lag.team_id',
-      'lag.casual_name',
-      'lag.short_name',
-      'opp.name',
-      'opp.team_id',
-      'opp.casual_name',
-      'opp.short_name',
+      'teamId',
+      'opponentId',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
+      'opponent.name',
+      'opponent.team_id',
+      'opponent.casual_name',
+      'opponent.short_name',
     ],
     order: [
-      ['team', 'DESC'],
       ['totalPoints', 'DESC'],
       ['totalGoalDifference', 'DESC'],
       ['totalGoalsScored', 'DESC'],
@@ -204,9 +209,11 @@ compareRouter.post('/compare', (async (
     nest: true,
   })
 
-  const compareAllGames = compareAllTeamTables.parse(getCompareAllGames)
+  const allData = compareAllTeamTables.parse(getCompareAllGames)
 
-  const gameCount = compareAllGames.length
+  const sortedData = compareAllTeamData(allData)
+
+  const gameCount = allData.length
 
   const golds = await sequelize.query(
     `
@@ -280,6 +287,14 @@ order by "date" asc;
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
   )
 
+  const parsedFirstLastGames = parseFirstLast.parse(firstAndLatestGames)
+
+  const firstGames = parsedFirstLastGames.filter(
+    (game) => game.ranked_first_games === '1'
+  )
+
+  const latestGames = getLatestGames(teamArray, parsedFirstLastGames)
+
   const compareHeaderText = getCompareHeaderText({
     seasonNames,
     teams,
@@ -288,14 +303,18 @@ order by "date" asc;
   })
 
   res.status(200).json({
-    tabeller,
-    compareAllGames,
+    tables,
+    allData,
+    categoryData,
+    sortedData,
     golds,
     playoffs,
     seasons,
     allPlayoffs,
     allSeasons,
     firstAndLatestGames,
+    firstGames,
+    latestGames,
     seasonNames,
     compareHeaderText,
   })

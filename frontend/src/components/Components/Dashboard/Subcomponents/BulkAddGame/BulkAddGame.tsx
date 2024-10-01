@@ -1,4 +1,3 @@
-import { useDashboardStore } from '@/lib/zustand/dashboard/dashboardStore'
 import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 import BulkGameForm from './BulkGameForm'
@@ -28,7 +27,7 @@ const route = getRouteApi(
 )
 
 const BulkAddGame = () => {
-  const women = useDashboardStore((state) => state.dashboard.women)
+  const women = route.useSearch({ select: (search) => search.women })
   const { serie, teams } = route.useLoaderData()
   const { seasonId, serieId } = route.useParams()
   const [gamesList, setGamesList] = useState<GameArrayType[]>([])

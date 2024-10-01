@@ -1,8 +1,9 @@
-import { MetadataType, metadata } from '@/lib/types/metadata/metadata'
+import { metadata } from '@/lib/types/metadata/metadata'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getRouteApi } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const route = getRouteApi('/_layout/dashboard/season/$seasonId/metadata/')
 
@@ -11,7 +12,7 @@ const useMetadataForm = () => {
     select: (search) => search.metadata,
   })
 
-  const form = useForm<MetadataType>({
+  const form = useForm<z.infer<typeof metadata>>({
     resolver: zodResolver(metadata),
     criteriaMode: 'all',
     mode: 'onChange',

@@ -1,21 +1,21 @@
-import { SingleTeamTable } from '@/lib/types/tables/tables'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody } from '@/components/ui/table'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { groupConstant, sortOrder } from '@/lib/utils/constants'
+import { z } from 'zod'
 import TeamTableHeader from './TableComponents/TableHeader'
 import TeamTableRow from './TableComponents/TeamTableDataRow'
 
-type TeamTableProps = SingleTeamTable
+type TeamTableProps = z.infer<typeof singleTeam>['tables']
 
 const TeamTable = ({
-  tabeller,
+  tables,
   season = '',
 }: {
-  tabeller: TeamTableProps[]
+  tables: TeamTableProps
   season?: string
 }) => {
-  const sortedTables = tabeller.sort((a, b) => {
+  const sortedTables = tables.sort((a, b) => {
     if (sortOrder.indexOf(a.category) > sortOrder.indexOf(b.category)) {
       return 1
     }

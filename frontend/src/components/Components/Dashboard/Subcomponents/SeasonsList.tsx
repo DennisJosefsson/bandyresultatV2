@@ -1,9 +1,6 @@
-import { SeasonObjectType } from '@/lib/types/season/seasons'
-import {
-  setDashboard,
-  useDashboardStore,
-} from '@/lib/zustand/dashboard/dashboardStore'
+import { season } from '@/lib/types/season/seasons'
 import { useNavigate } from '@tanstack/react-router'
+import { z } from 'zod'
 
 export type FormContent =
   | 'teamseason'
@@ -12,9 +9,8 @@ export type FormContent =
   | 'bulkAddGame'
   | null
 
-const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
+const SeasonsList = ({ seasons }: { seasons: z.infer<typeof season>[] }) => {
   const navigate = useNavigate({ from: '/dashboard/seasons' })
-  const dashboardData = useDashboardStore((state) => state.dashboard)
 
   return (
     <>
@@ -38,13 +34,6 @@ const SeasonsList = ({ seasons }: { seasons: SeasonObjectType[] }) => {
                 <div
                   className="cursor-pointer font-semibold"
                   onClick={() => {
-                    setDashboard({
-                      ...dashboardData,
-                      year: season.year,
-                      women: season.women,
-                      teamSeasonData: undefined,
-                      seriesData: undefined,
-                    })
                     navigate({
                       to: '/dashboard/season/$seasonId',
                       params: { seasonId: season.seasonId },

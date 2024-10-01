@@ -1,4 +1,7 @@
-import { CompareResponseObjectType } from '@/lib/types/teams/compare'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '@/lib/types/teams/compare'
 
 import Date from '@/components/Components/Common/Date'
 import {
@@ -8,11 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { CompareFormState } from '@/lib/types/teams/teams'
+
+import { z } from 'zod'
 
 type FirstGamesProps = {
-  firstGames: CompareResponseObjectType['firstGames']
-  searchObject: CompareFormState
+  firstGames: z.infer<typeof compareResponseObject>['firstGames']
+  searchObject: z.infer<typeof compareFormState>
 }
 
 const FirstGames = ({ firstGames, searchObject }: FirstGamesProps) => {

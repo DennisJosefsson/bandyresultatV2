@@ -1,12 +1,9 @@
-import { SortedGamesType } from '@/lib/types/games/games'
+import { groupRecord } from '@/lib/types/games/gameObject'
+import { z } from 'zod'
 import GamesList from './GamesList'
 
-type GameListObject = {
-  [key: string]: SortedGamesType
-}
-
 type GamesProps = {
-  games: GameListObject
+  games: z.infer<typeof groupRecord>
   title: string
 }
 

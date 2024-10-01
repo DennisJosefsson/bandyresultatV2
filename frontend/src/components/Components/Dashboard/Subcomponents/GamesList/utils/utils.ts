@@ -1,7 +1,10 @@
-import { GameFormData } from '@/lib/requests/dashboard'
+import { gameFormData } from '@/lib/types/games/gameForm'
 import { sortOrder } from '@/lib/utils/constants'
+import { z } from 'zod'
 
-export const getGroupArray = (series: GameFormData['series']) => {
+export const getGroupArray = (
+  series: z.infer<typeof gameFormData>['series']
+) => {
   return series
     .map((serie) => {
       return { value: serie.serieGroupCode, label: serie.serieName }
@@ -17,7 +20,9 @@ export const getGroupArray = (series: GameFormData['series']) => {
     })
 }
 
-export const getTeamSelection = (teams: GameFormData['teams']) => {
+export const getTeamSelection = (
+  teams: z.infer<typeof gameFormData>['teams']
+) => {
   const teamSelection = teams.map((team) => {
     return { value: team.teamId, label: team.name }
   })

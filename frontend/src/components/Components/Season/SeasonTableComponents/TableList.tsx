@@ -1,11 +1,12 @@
-import { SingleSeasonTableType } from '@/lib/types/tables/tables'
+import { groupTable } from '@/lib/types/tables/seasonTable'
 import { Link } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
+import { z } from 'zod'
 import DataTable from './DataTable'
 import { columns } from './columns'
 
 type TableListProps = {
-  tableArray: SingleSeasonTableType['tabeller']
+  tableArray: z.infer<typeof groupTable>[]
   table: 'all' | 'away' | 'home'
   seasonId: number
 }
@@ -24,7 +25,7 @@ const TableList = ({ tableArray, table }: TableListProps) => {
     <div className="mb-6">
       {tableArray.map((group) => {
         const teamObject = group.tables.reduce(
-          (o, key) => ({ ...o, [key.lag.casualName]: key.team }),
+          (o, key) => ({ ...o, [key.team.casualName]: key.teamId }),
           {}
         )
 

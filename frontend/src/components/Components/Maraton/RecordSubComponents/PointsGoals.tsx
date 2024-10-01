@@ -1,7 +1,12 @@
-import { StreakObjectTypes } from '@/lib/types/games/streaks'
+import { pointsGoalsResponse } from '@/lib/types/games/streaks'
+import { z } from 'zod'
 import PointsGoalsCard from './PointsGoalsCard'
 
-const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
+const PointsGoals = ({
+  data,
+}: {
+  data: z.infer<typeof pointsGoalsResponse>
+}) => {
   return (
     <>
       {data ? (
@@ -20,7 +25,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -38,7 +43,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -56,7 +61,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -79,7 +84,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -97,7 +102,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -115,7 +120,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -138,7 +143,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -156,7 +161,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -174,7 +179,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -197,7 +202,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -215,7 +220,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />
@@ -233,7 +238,7 @@ const PointsGoals = ({ data }: { data: StreakObjectTypes }) => {
                     <PointsGoalsCard
                       key={`${team.data}-${Math.random()}`}
                       pos={index + 1}
-                      name={team.lag.name}
+                      name={team.team.name}
                       data={team.data}
                       year={team.season.year}
                     />

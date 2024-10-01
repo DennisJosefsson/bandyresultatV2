@@ -50,9 +50,9 @@ const Team = () => {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="tables">
-                {team.tabeller.length > 0 ? (
+                {team.tables.length > 0 ? (
                   <>
-                    <TeamTable tabeller={team.tabeller} />
+                    <TeamTable tables={team.tables} />
                   </>
                 ) : (
                   <>

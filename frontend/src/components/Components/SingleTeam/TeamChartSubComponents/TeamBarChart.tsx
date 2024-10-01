@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TeamChartType } from '@/lib/types/teams/teams'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { useSearch } from '@tanstack/react-router'
 import {
   Bar,
@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
+import { z } from 'zod'
 
 type PositionType = {
   year: string
@@ -18,7 +19,11 @@ type PositionType = {
   points: number | undefined | null
 }
 
-const TeamBarChart = ({ chartData }: { chartData: TeamChartType[] }) => {
+const TeamBarChart = ({
+  chartData,
+}: {
+  chartData: z.infer<typeof singleTeam>['chartData']
+}) => {
   const matches1240 = useMediaQuery('(min-width: 1240px)')
   const matches768 = useMediaQuery('(min-width: 768px)')
   const { women } = useSearch({ from: '/_layout' })

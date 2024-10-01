@@ -1,8 +1,9 @@
-import { StaticGroupTable } from '@/lib/types/tables/tables'
+import { staticGroupTable } from '@/lib/types/tables/seasonTable'
+import { z } from 'zod'
 import StaticTableList from './StaticTableList'
 
 type StaticTableListProps = {
-  tableArray: StaticGroupTable[]
+  tableArray: z.infer<typeof staticGroupTable>[]
 }
 
 const StaticTables = ({ tableArray }: StaticTableListProps) => {

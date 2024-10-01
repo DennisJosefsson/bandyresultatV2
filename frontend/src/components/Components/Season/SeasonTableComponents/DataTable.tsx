@@ -39,7 +39,7 @@ const DataTable = <TData, TValue>({
     { id: 'totalPoints', desc: true },
     { id: 'totalGoalDifference', desc: true },
     { id: 'totalGoalsScored', desc: true },
-    { id: 'lag_casualName', desc: false },
+    { id: 'team_casualName', desc: false },
   ])
   const [columnVisibility, setColumnVisibility] = useState({})
   const table = useReactTable({
@@ -108,7 +108,7 @@ const DataTable = <TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}
                 className={`${
                   favTeams.includes(
-                    teamObject[getString(row.getValue('lag_casualName'))]
+                    teamObject[getString(row.getValue('team_casualName'))]
                   )
                     ? 'font-bold'
                     : null

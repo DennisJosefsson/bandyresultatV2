@@ -1,33 +1,33 @@
 import { z } from 'zod'
 
 import {
-  Table,
-  Model,
-  PrimaryKey,
-  ForeignKey,
-  Column,
+  AllowNull,
   BelongsTo,
   BelongsToMany,
-  AllowNull,
+  Column,
   Default,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
 } from 'sequelize-typescript'
-import Team from './Team.js'
 import Season from './Season.js'
 import TableSeason from './TableSeason.js'
+import Team from './Team.js'
 
 export const teamTableAttributes = z.object({
   tableId: z.number().optional(),
   teamId: z.number(),
   seasonId: z.number(),
   position: z.number(),
-  games: z.number(),
-  won: z.number(),
-  draw: z.number(),
-  lost: z.number(),
-  scoredGoals: z.number(),
-  concededGoals: z.number(),
-  goalDifference: z.number(),
-  points: z.number(),
+  totalGames: z.number(),
+  totalWins: z.number(),
+  totalDraws: z.number(),
+  totalLost: z.number(),
+  totalGoalsScored: z.number(),
+  totalGoalsConceded: z.number(),
+  totalGoalDifference: z.number(),
+  totalPoints: z.number(),
   qualification: z.boolean(),
   group: z.string(),
   women: z.boolean(),
@@ -65,36 +65,36 @@ class TeamTable extends Model<TeamTableAttributes, TeamTableInput> {
   declare position: number
 
   @AllowNull(false)
-  @Column
-  declare games: number
+  @Column({ field: 'games' })
+  declare totalGames: number
 
   @AllowNull(false)
-  @Column
-  declare won: number
+  @Column({ field: 'won' })
+  declare totalWins: number
 
   @AllowNull(false)
-  @Column
-  declare draw: number
+  @Column({ field: 'draw' })
+  declare totalDraws: number
 
   @AllowNull(false)
-  @Column
-  declare lost: number
+  @Column({ field: 'lost' })
+  declare totalLost: number
 
   @AllowNull(false)
-  @Column
-  declare scoredGoals: number
+  @Column({ field: 'scored_goals' })
+  declare totalGoalsScored: number
 
   @AllowNull(false)
-  @Column
-  declare concededGoals: number
+  @Column({ field: 'conceded_goals' })
+  declare totalGoalsConceded: number
 
   @AllowNull(false)
-  @Column
-  declare goalDifference: number
+  @Column({ field: 'goal_difference' })
+  declare totalGoalDifference: number
 
   @AllowNull(false)
-  @Column
-  declare points: number
+  @Column({ field: 'points' })
+  declare totalPoints: number
 
   @Default(false)
   @Column

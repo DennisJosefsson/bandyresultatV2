@@ -1,12 +1,12 @@
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
 import SearchTabBar from '@/components/Components/Search/SearchTabBar'
 import { Card, CardContent } from '@/components/ui/card'
-import { searchParamsObject } from '@/lib/types/games/search'
+import { searchParams } from '@/lib/types/games/search'
 import { CatchBoundary, Outlet, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/search')({
   component: SearchHeader,
-  validateSearch: searchParamsObject,
+  validateSearch: searchParams,
   errorComponent: () => <p>Error</p>,
 })
 

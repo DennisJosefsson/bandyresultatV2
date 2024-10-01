@@ -1,14 +1,16 @@
 import { compareTeams } from '@/lib/requests/tables'
 import { getMapTeams, getSingleTeam, getTeams } from '@/lib/requests/teams'
-import { CompareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
+
 import { queryOptions } from '@tanstack/react-query'
+import { z } from 'zod'
 
 const teamKeys = {
   all: () => ['teams'] as const,
   map: (women: boolean) =>
     ['mapTeams', { women: women ? 'women' : 'men' }] as const,
   singleTeam: (teamId: string) => ['singleTeam', teamId] as const,
-  compare: (compareObject: CompareFormState) =>
+  compare: (compareObject: z.infer<typeof compareFormState>) =>
     ['compare', compareObject] as const,
 }
 
@@ -29,7 +31,7 @@ export const teamQueries = {
       queryKey: teamKeys.singleTeam(teamId),
       queryFn: () => getSingleTeam(teamId),
     }),
-  compare: (compareObject: CompareFormState) =>
+  compare: (compareObject: z.infer<typeof compareFormState>) =>
     queryOptions({
       queryKey: teamKeys.compare(compareObject),
       queryFn: () => compareTeams(compareObject),

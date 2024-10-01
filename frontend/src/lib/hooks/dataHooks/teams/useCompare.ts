@@ -1,12 +1,15 @@
 import { teamQueries } from '@/lib/queries/teams/queries'
-import { CompareFormState } from '@/lib/types/teams/teams'
+import { compareFormState } from '@/lib/types/teams/compare'
 import { getBaseUrl } from '@/lib/utils/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useLoaderData, useLocation, useSearch } from '@tanstack/react-router'
+import { z } from 'zod'
 
 const { serverBaseUrl: baseUrl } = getBaseUrl()
 
-export const useCompareResults = (compareObject: CompareFormState) => {
+export const useCompareResults = (
+  compareObject: z.infer<typeof compareFormState>
+) => {
   const { data } = useSuspenseQuery(teamQueries['compare'](compareObject))
   const href = useLocation().href
   const compareLink = `${baseUrl}${href}`
