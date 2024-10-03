@@ -5,7 +5,7 @@ import express, { Application, NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { connectToDb } from './index.js'
+//import { connectToDb } from './index.js'
 import { errorHandler } from './middleware/errors/errorhandler.js'
 import NotFoundError from './middleware/errors/NotFoundError.js'
 import { routeArray } from './routes.js'
@@ -46,12 +46,12 @@ app.use((_req, res, _next) => {
 })
 app.use(errorHandler)
 
-const startDB: () => Promise<void> = async () => {
-  await connectToDb()
-}
+// const startDB: () => Promise<void> = async () => {
+//   await connectToDb()
+// }
 
-startDB()
-  .then(() => {})
-  .catch((err) => console.error(err))
+// startDB()
+//   .then(() => {})
+//   .catch((err) => console.error(err))
 
 export default app

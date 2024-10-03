@@ -8,9 +8,7 @@
     "dev": "pnpm run database:dev && pnpm run backend:dev",
     "tsc": "tsc -w",
     "emit": "time -p tsc",
-    "pretest": "pnpm run emit && pnpm run database:test",
     "test": "cross-env NODE_ENV=test vitest run",
-    "posttest": "pnpm run database:alldown",
     "backend:dev": "cross-env NODE_ENV=development tsc-watch --onSuccess \"nodemon ./backend/index.js\"",
     "database:dev": "docker compose --profile dev down && docker compose --profile dev up -d",
     "database:test": "docker compose --profile test down && docker compose --profile test up -d",
@@ -28,6 +26,7 @@
     "deploydev": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopdev && pnpm run compressdev && pnpm run restartdev"
   },
   "devDependencies": {
+    "@testcontainers/postgresql": "^10.13.1",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
@@ -42,6 +41,7 @@
     "eslint": "^8.54.0",
     "nodemon": "^3.1.4",
     "supertest": "^6.3.4",
+    "testcontainers": "^10.13.1",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.2.0",
     "typescript": "^5.5.3",

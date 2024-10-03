@@ -95,6 +95,15 @@ seasonRouter.post('/', authControl, (async (
   _next: NextFunction
 ) => {
   const { newSeasonArray, oldSeason, seasonYear } = newSeasonEntry(req.body)
+  const seasonExist = await Season.count({ where: { year: seasonYear } })
+  if (seasonExist > 0) {
+    throw new BadRequestError({
+      code: 400,
+      message: 'Säsong finns redan.',
+      logging: true,
+      context: { origin: 'NewSeasonEntry' },
+    })
+  }
   const [[womenSeason, womenCreated], [menSeason, menCreated]] =
     await Promise.all(newSeasonArray)
   if (!womenCreated && !menCreated) {

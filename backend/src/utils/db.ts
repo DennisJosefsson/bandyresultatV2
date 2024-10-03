@@ -25,52 +25,37 @@ const pemPath = path.join(__dirname, '/pem/ca.pem')
 const caString = `&sslrootcert=${pemPath}`
 
 let dbUrl: string
-let mode: string
+
 switch (process.env.NODE_ENV) {
   case 'development':
     dbUrl = process.env.DEVELOPMENT_URL as string
-    mode = 'development'
     break
   case 'test':
-    dbUrl = process.env.TESTING_URL as string
-    mode = 'test'
+    dbUrl = process.env.TESTDBURL as string
+
     break
   default:
     dbUrl = process.env.PRODUCTION_URL + caString
-    mode = 'production'
 }
 
 export const sequelize = new Sequelize(dbUrl, {
   omitNull: true,
   attributeBehavior: 'escape',
   logging: false,
+  models: [
+    BandyError,
+    Season,
+    Game,
+    County,
+    Municipality,
+    Team,
+    TeamGame,
+    TeamSeason,
+    TeamTable,
+    TableSeason,
+    Serie,
+    Metadata,
+    User,
+    Link,
+  ],
 })
-
-export const connectToDb = async () => {
-  try {
-    sequelize.addModels([
-      BandyError,
-      Season,
-      Game,
-      County,
-      Municipality,
-      Team,
-      TeamGame,
-      TeamSeason,
-      TeamTable,
-      TableSeason,
-      Serie,
-      Metadata,
-      User,
-      Link,
-    ])
-    await sequelize.authenticate()
-
-    console.log(`Connected to the ${mode} database.`)
-  } catch (error) {
-    console.log(error)
-    console.log(`Unable to connect to the ${mode} database.`)
-    return process.exit(1)
-  }
-  return null
-}

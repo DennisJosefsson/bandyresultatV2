@@ -4,10 +4,18 @@ import { app } from '../utils'
 
 const api = supertest(app)
 
+describe('Testing DB connection', async () => {
+  const response = await api.get('/api/seasons/2024')
+  test('Status code', () => {
+    expect(response.statusCode).toBe(200)
+  })
+  test('Body length', () => {
+    expect(response.body).toHaveLength(2)
+  })
+})
+
 describe('Testing default health check', async () => {
   const response = await api.get('/healthcheck')
-  console.log(response.headers)
-
   test('Status code', () => {
     expect(response.statusCode).toBe(200)
   })

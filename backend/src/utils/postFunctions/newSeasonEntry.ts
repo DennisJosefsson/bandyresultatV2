@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 const yearString = z
   .string()
-  .regex(/^\d{4}\/\d{4}$/)
+  .regex(/^\d{4}\/\d{4}$/, 'Fel format, ny säsong')
   .refine((arg) => {
     const yearArray = arg.split('/')
     const yearOne = yearArray[0]
@@ -19,9 +19,9 @@ const yearString = z
 
 const numberParse = z.number()
 
-import BadRequestError from '../middleware/errors/BadRequestError.js'
 import Metadata from '../../models/Metadata.js'
 import TeamSeason from '../../models/TeamSeason.js'
+import BadRequestError from '../middleware/errors/BadRequestError.js'
 
 type NewTeamSeason = {
   teamId: number
