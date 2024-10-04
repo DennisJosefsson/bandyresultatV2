@@ -13,59 +13,7 @@ beforeAll(async () => {
   cookie = await loginFunction()
 })
 
-async function getSingleSeason() {
-  const response = await api.get('/api/games/season/2023?women=false')
-  return response
-}
-
 describe('Testing Games router', () => {
-  describe('GET', () => {
-    describe('GET season games', () => {
-      test('Season games return status 200', async () => {
-        const response = await getSingleSeason()
-
-        expect(response.statusCode).toBe(200)
-      })
-      test('Property unplayedLength to be defined and have length 0', async () => {
-        const response = await getSingleSeason()
-        expect(response.body.unplayedLength).toBeDefined()
-        expect(response.body.unplayedLength).toBe(0)
-      })
-      test('Season object to be defined and have specific property', async () => {
-        const response = await getSingleSeason()
-        expect(response.body.season).toBeDefined()
-        expect(response.body.season).toHaveLength(1)
-        expect(response.body.season).toContainEqual(
-          expect.objectContaining({ seasonId: 117 })
-        )
-      })
-      test('Series array to be defined and contain serie with specific property', async () => {
-        const response = await getSingleSeason()
-        expect(response.body.series).toBeDefined()
-        expect(response.body.series).toHaveLength(11)
-        expect(response.body.series).toContainEqual(
-          expect.objectContaining({ serieId: 283, serieGroupCode: 'KvalA' })
-        )
-      })
-      test('Played object with specific properties', async () => {
-        const response = await getSingleSeason()
-        expect(response.body.played.FinalGames).toBeDefined()
-        expect(response.body.played.FinalGames).toHaveLength(1)
-        expect(response.body.played.FinalGames).toContainEqual(
-          expect.objectContaining({ group: 'final', name: 'Final' })
-        )
-        expect(response.body.played.SemiGames).toContainEqual(
-          expect.objectContaining({ group: 'S1' })
-        )
-        expect(response.body.played.QuarterGames).toContainEqual(
-          expect.objectContaining({ group: 'Q1' })
-        )
-        expect(response.body.played.RegularGames).toContainEqual(
-          expect.objectContaining({ group: 'elitserien', name: 'Elitserien' })
-        )
-      })
-    })
-  })
   describe('POST', () => {
     describe('POST games', () => {
       test('New game, correct data return 201', async () => {

@@ -110,7 +110,7 @@ teamSeasonRouter.delete('/:teamseasonId', authControl, (async (
     res.status(404).json({ message: 'TeamSeason finns inte.' })
   } else {
     await teamseason.destroy()
-    res.status(204).json({ message: 'TeamSeason borttagen.' })
+    res.status(200).json({ message: 'TeamSeason borttagen.' })
   }
 }) as RequestHandler)
 

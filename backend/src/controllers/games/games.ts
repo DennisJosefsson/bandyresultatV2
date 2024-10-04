@@ -266,7 +266,7 @@ gameRouter.delete('/:gameId', authControl, (async (
     })
   } else {
     await game.destroy()
-    res.json({ message: 'Game deleted' })
+    res.status(200).json({ message: 'Game deleted' })
   }
 }) as RequestHandler)
 

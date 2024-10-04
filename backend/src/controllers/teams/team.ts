@@ -97,7 +97,7 @@ teamRouter.post('/', authControl, (async (
   return res.status(201).json(newTeam)
 }) as RequestHandler)
 
-teamRouter.delete('/:teamId', (async (
+teamRouter.delete('/:teamId', authControl, (async (
   req: Request,
   res: Response,
   _next: NextFunction
@@ -113,7 +113,7 @@ teamRouter.delete('/:teamId', (async (
     })
   } else {
     await team.destroy()
-    res.status(200).json({ message: 'team deleted' })
+    res.status(200).json({ message: 'Lag borttaget' })
   }
 }) as RequestHandler)
 
