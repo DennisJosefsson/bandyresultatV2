@@ -10,7 +10,13 @@ export const seasonTable = table.extend({
 
 export const staticTable = seasonTable
   .omit({ season: true, category: true })
-  .extend({ tableId: z.number(), position: z.number() })
+  .extend({
+    tableId: z.number(),
+    position: z.coerce.number(),
+    serieId: z.number(),
+    seasonId: z.number(),
+    qualification: z.boolean(),
+  })
 
 const group = z.object({
   group: z.string(),
@@ -35,3 +41,6 @@ export const singleSeasonTable = z.object({
   tables: z.array(groupTable),
   staticTables: z.array(staticGroupTable),
 })
+
+export const newStaticTable = staticTable.omit({ tableId: true, team: true })
+export const editStaticTable = staticTable.omit({ team: true })

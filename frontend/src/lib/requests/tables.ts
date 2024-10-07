@@ -1,7 +1,11 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { singleSeasonTable } from '../types/tables/seasonTable'
+import {
+  editStaticTable,
+  newStaticTable,
+  singleSeasonTable,
+} from '../types/tables/seasonTable'
 import { maratonTable, singleSeasonPlayoff } from '../types/tables/tables'
 import { compareFormState, compareResponseObject } from '../types/teams/compare'
 
@@ -70,6 +74,33 @@ export const getSingleSeasonPlayoff = async ({
 
 export const deleteTable = async ({ tableId }: { tableId: number }) => {
   return await tablesApi.delete(`/${tableId}`)
+}
+
+export const newStaticTableFunction = async ({
+  formState,
+}: {
+  formState: z.infer<typeof newStaticTable>
+}) => {
+  const response = await tablesApi.put('/', formState)
+  return response.data
+}
+
+export const editStaticTableFunction = async ({
+  formState,
+}: {
+  formState: z.infer<typeof editStaticTable>
+}) => {
+  const response = await tablesApi.put(`/${formState.tableId}`, formState)
+  return response.data
+}
+
+export const getStaticTable = async ({
+  tableId,
+}: {
+  tableId: number
+}): Promise<z.infer<typeof editStaticTable>> => {
+  const response = await tablesApi.get(`/statictable/${tableId}`)
+  return response.data
 }
 
 export default tablesApi

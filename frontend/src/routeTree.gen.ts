@@ -58,11 +58,14 @@ import { Route as LayoutDashboardSeasonSeasonIdTeamseasonIndexImport } from './r
 import { Route as LayoutDashboardSeasonSeasonIdNewseriesIndexImport } from './routes/_layout/dashboard/season/$seasonId/newseries/index'
 import { Route as LayoutDashboardSeasonSeasonIdMetadataIndexImport } from './routes/_layout/dashboard/season/$seasonId/metadata/index'
 import { Route as LayoutSeasonSeasonIdTablesTableTableImport } from './routes/_layout/season/$seasonId/tables/_table/$table'
+import { Route as LayoutDashboardSeasonSeasonIdInfoSerieIdImport } from './routes/_layout/dashboard/season/$seasonId/info_/$serieId'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdImport } from './routes/_layout/dashboard/season/$seasonId/games/$serieId'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdAddGameImport } from './routes/_layout/dashboard/season/$seasonId/games/$serieId/addGame'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdImport } from './routes/_layout/dashboard/season/$seasonId/games/$serieId/$gameId'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexImport } from './routes/_layout/dashboard/season/$seasonId/games_/$serieId/edit/index'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexImport } from './routes/_layout/dashboard/season/$seasonId/games_/$serieId/bulkGames/index'
+import { Route as LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableImport } from './routes/_layout/dashboard/season/$seasonId/info_/$serieId_/$teamId/newTable'
+import { Route as LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableImport } from './routes/_layout/dashboard/season/$seasonId/info_/$serieId_/$tableId/editTable'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditImport } from './routes/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
 import { Route as LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteImport } from './routes/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
 
@@ -348,6 +351,12 @@ const LayoutSeasonSeasonIdTablesTableTableRoute =
     getParentRoute: () => LayoutSeasonSeasonIdRoute,
   } as any)
 
+const LayoutDashboardSeasonSeasonIdInfoSerieIdRoute =
+  LayoutDashboardSeasonSeasonIdInfoSerieIdImport.update({
+    path: '/info/$serieId',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
 const LayoutDashboardSeasonSeasonIdGamesSerieIdRoute =
   LayoutDashboardSeasonSeasonIdGamesSerieIdImport.update({
     path: '/games/$serieId',
@@ -375,6 +384,18 @@ const LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute =
 const LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute =
   LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexImport.update({
     path: '/games/$serieId/bulkGames/',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute =
+  LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableImport.update({
+    path: '/info/$serieId/$teamId/newTable',
+    getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
+  } as any)
+
+const LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute =
+  LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableImport.update({
+    path: '/info/$serieId/$tableId/editTable',
     getParentRoute: () => LayoutDashboardSeasonSeasonIdRoute,
   } as any)
 
@@ -716,6 +737,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdImport
       parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
     }
+    '/_layout/dashboard/season/$seasonId/info/$serieId': {
+      id: '/_layout/dashboard/season/$seasonId/info/$serieId'
+      path: '/info/$serieId'
+      fullPath: '/dashboard/season/$seasonId/info/$serieId'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
     '/_layout/season/$seasonId/tables/_table/$table': {
       id: '/_layout/season/$seasonId/tables/_table/$table'
       path: '/tables/$table'
@@ -771,6 +799,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
       preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditImport
       parentRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdImport
+    }
+    '/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable': {
+      id: '/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+      path: '/info/$serieId/$tableId/editTable'
+      fullPath: '/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
+    }
+    '/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable': {
+      id: '/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable'
+      path: '/info/$serieId/$teamId/newTable'
+      fullPath: '/dashboard/season/$seasonId/info/$serieId/$teamId/newTable'
+      preLoaderRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableImport
+      parentRoute: typeof LayoutDashboardSeasonSeasonIdImport
     }
     '/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/': {
       id: '/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/'
@@ -830,9 +872,12 @@ const LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren =
 interface LayoutDashboardSeasonSeasonIdRouteChildren {
   LayoutDashboardSeasonSeasonIdIndexRoute: typeof LayoutDashboardSeasonSeasonIdIndexRoute
   LayoutDashboardSeasonSeasonIdGamesSerieIdRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  LayoutDashboardSeasonSeasonIdInfoSerieIdRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdRoute
   LayoutDashboardSeasonSeasonIdMetadataIndexRoute: typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
   LayoutDashboardSeasonSeasonIdNewseriesIndexRoute: typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
   LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute: typeof LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute
+  LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute
+  LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute: typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute
   LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute
   LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute: typeof LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute
 }
@@ -843,12 +888,18 @@ const LayoutDashboardSeasonSeasonIdRouteChildren: LayoutDashboardSeasonSeasonIdR
       LayoutDashboardSeasonSeasonIdIndexRoute,
     LayoutDashboardSeasonSeasonIdGamesSerieIdRoute:
       LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren,
+    LayoutDashboardSeasonSeasonIdInfoSerieIdRoute:
+      LayoutDashboardSeasonSeasonIdInfoSerieIdRoute,
     LayoutDashboardSeasonSeasonIdMetadataIndexRoute:
       LayoutDashboardSeasonSeasonIdMetadataIndexRoute,
     LayoutDashboardSeasonSeasonIdNewseriesIndexRoute:
       LayoutDashboardSeasonSeasonIdNewseriesIndexRoute,
     LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute:
       LayoutDashboardSeasonSeasonIdTeamseasonIndexRoute,
+    LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute:
+      LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute,
+    LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute:
+      LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute,
     LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute:
       LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute,
     LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute:
@@ -1106,6 +1157,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/season/$seasonId/': typeof LayoutDashboardSeasonSeasonIdIndexRoute
   '/season/$seasonId/tables': typeof LayoutSeasonSeasonIdTablesIndexRoute
   '/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/dashboard/season/$seasonId/info/$serieId': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdRoute
   '/season/$seasonId/tables/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
   '/dashboard/season/$seasonId/metadata': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
   '/dashboard/season/$seasonId/newseries': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
@@ -1114,6 +1166,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/season/$seasonId/games/$serieId/addGame': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdAddGameRoute
   '/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
   '/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+  '/dashboard/season/$seasonId/info/$serieId/$tableId/editTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute
+  '/dashboard/season/$seasonId/info/$serieId/$teamId/newTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute
   '/dashboard/season/$seasonId/games/$serieId/bulkGames': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute
   '/dashboard/season/$seasonId/games/$serieId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute
 }
@@ -1159,6 +1213,7 @@ export interface FileRoutesByTo {
   '/dashboard/season/$seasonId': typeof LayoutDashboardSeasonSeasonIdIndexRoute
   '/season/$seasonId/tables': typeof LayoutSeasonSeasonIdTablesIndexRoute
   '/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/dashboard/season/$seasonId/info/$serieId': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdRoute
   '/season/$seasonId/tables/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
   '/dashboard/season/$seasonId/metadata': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
   '/dashboard/season/$seasonId/newseries': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
@@ -1167,6 +1222,8 @@ export interface FileRoutesByTo {
   '/dashboard/season/$seasonId/games/$serieId/addGame': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdAddGameRoute
   '/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
   '/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+  '/dashboard/season/$seasonId/info/$serieId/$tableId/editTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute
+  '/dashboard/season/$seasonId/info/$serieId/$teamId/newTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute
   '/dashboard/season/$seasonId/games/$serieId/bulkGames': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute
   '/dashboard/season/$seasonId/games/$serieId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute
 }
@@ -1219,6 +1276,7 @@ export interface FileRoutesById {
   '/_layout/dashboard/season/$seasonId/': typeof LayoutDashboardSeasonSeasonIdIndexRoute
   '/_layout/season/$seasonId/tables/': typeof LayoutSeasonSeasonIdTablesIndexRoute
   '/_layout/dashboard/season/$seasonId/games/$serieId': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdRouteWithChildren
+  '/_layout/dashboard/season/$seasonId/info/$serieId': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdRoute
   '/_layout/season/$seasonId/tables/_table/$table': typeof LayoutSeasonSeasonIdTablesTableTableRoute
   '/_layout/dashboard/season/$seasonId/metadata/': typeof LayoutDashboardSeasonSeasonIdMetadataIndexRoute
   '/_layout/dashboard/season/$seasonId/newseries/': typeof LayoutDashboardSeasonSeasonIdNewseriesIndexRoute
@@ -1227,6 +1285,8 @@ export interface FileRoutesById {
   '/_layout/dashboard/season/$seasonId/games/$serieId/addGame': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdAddGameRoute
   '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/delete': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdDeleteRoute
   '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdGameIdEditRoute
+  '/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTableIdEditTableRoute
+  '/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable': typeof LayoutDashboardSeasonSeasonIdInfoSerieIdTeamIdNewTableRoute
   '/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdBulkGamesIndexRoute
   '/_layout/dashboard/season/$seasonId/games/$serieId/edit/': typeof LayoutDashboardSeasonSeasonIdGamesSerieIdEditIndexRoute
 }
@@ -1280,6 +1340,7 @@ export interface FileRouteTypes {
     | '/dashboard/season/$seasonId/'
     | '/season/$seasonId/tables'
     | '/dashboard/season/$seasonId/games/$serieId'
+    | '/dashboard/season/$seasonId/info/$serieId'
     | '/season/$seasonId/tables/$table'
     | '/dashboard/season/$seasonId/metadata'
     | '/dashboard/season/$seasonId/newseries'
@@ -1288,6 +1349,8 @@ export interface FileRouteTypes {
     | '/dashboard/season/$seasonId/games/$serieId/addGame'
     | '/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
     | '/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+    | '/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+    | '/dashboard/season/$seasonId/info/$serieId/$teamId/newTable'
     | '/dashboard/season/$seasonId/games/$serieId/bulkGames'
     | '/dashboard/season/$seasonId/games/$serieId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -1332,6 +1395,7 @@ export interface FileRouteTypes {
     | '/dashboard/season/$seasonId'
     | '/season/$seasonId/tables'
     | '/dashboard/season/$seasonId/games/$serieId'
+    | '/dashboard/season/$seasonId/info/$serieId'
     | '/season/$seasonId/tables/$table'
     | '/dashboard/season/$seasonId/metadata'
     | '/dashboard/season/$seasonId/newseries'
@@ -1340,6 +1404,8 @@ export interface FileRouteTypes {
     | '/dashboard/season/$seasonId/games/$serieId/addGame'
     | '/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
     | '/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+    | '/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+    | '/dashboard/season/$seasonId/info/$serieId/$teamId/newTable'
     | '/dashboard/season/$seasonId/games/$serieId/bulkGames'
     | '/dashboard/season/$seasonId/games/$serieId/edit'
   id:
@@ -1390,6 +1456,7 @@ export interface FileRouteTypes {
     | '/_layout/dashboard/season/$seasonId/'
     | '/_layout/season/$seasonId/tables/'
     | '/_layout/dashboard/season/$seasonId/games/$serieId'
+    | '/_layout/dashboard/season/$seasonId/info/$serieId'
     | '/_layout/season/$seasonId/tables/_table/$table'
     | '/_layout/dashboard/season/$seasonId/metadata/'
     | '/_layout/dashboard/season/$seasonId/newseries/'
@@ -1398,6 +1465,8 @@ export interface FileRouteTypes {
     | '/_layout/dashboard/season/$seasonId/games/$serieId/addGame'
     | '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/delete'
     | '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
+    | '/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+    | '/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable'
     | '/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/'
     | '/_layout/dashboard/season/$seasonId/games/$serieId/edit/'
   fileRoutesById: FileRoutesById
@@ -1601,9 +1670,12 @@ export const routeTree = rootRoute
       "children": [
         "/_layout/dashboard/season/$seasonId/",
         "/_layout/dashboard/season/$seasonId/games/$serieId",
+        "/_layout/dashboard/season/$seasonId/info/$serieId",
         "/_layout/dashboard/season/$seasonId/metadata/",
         "/_layout/dashboard/season/$seasonId/newseries/",
         "/_layout/dashboard/season/$seasonId/teamseason/",
+        "/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable",
+        "/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable",
         "/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/",
         "/_layout/dashboard/season/$seasonId/games/$serieId/edit/"
       ]
@@ -1688,6 +1760,10 @@ export const routeTree = rootRoute
         "/_layout/dashboard/season/$seasonId/games/$serieId/addGame"
       ]
     },
+    "/_layout/dashboard/season/$seasonId/info/$serieId": {
+      "filePath": "_layout/dashboard/season/$seasonId/info_/$serieId.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
     "/_layout/season/$seasonId/tables/_table/$table": {
       "filePath": "_layout/season/$seasonId/tables/_table/$table.tsx",
       "parent": "/_layout/season/$seasonId"
@@ -1723,6 +1799,14 @@ export const routeTree = rootRoute
     "/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit": {
       "filePath": "_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit.tsx",
       "parent": "/_layout/dashboard/season/$seasonId/games/$serieId/$gameId"
+    },
+    "/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable": {
+      "filePath": "_layout/dashboard/season/$seasonId/info_/$serieId_/$tableId/editTable.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
+    },
+    "/_layout/dashboard/season/$seasonId/info/$serieId/$teamId/newTable": {
+      "filePath": "_layout/dashboard/season/$seasonId/info_/$serieId_/$teamId/newTable.tsx",
+      "parent": "/_layout/dashboard/season/$seasonId"
     },
     "/_layout/dashboard/season/$seasonId/games/$serieId/bulkGames/": {
       "filePath": "_layout/dashboard/season/$seasonId/games_/$serieId/bulkGames/index.tsx",

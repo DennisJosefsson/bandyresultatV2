@@ -1,81 +1,78 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
-import { addSerie } from '@/lib/requests/series'
-import { newSerie, serie } from '@/lib/types/series/series'
+import { editStaticTableFunction } from '@/lib/requests/tables'
+import { editStaticTable } from '@/lib/types/tables/seasonTable'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { getRouteApi, useRouter } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import SeriesForm from './SeriesForm'
+import TableForm from './TableForm'
 
-const route = getRouteApi('/_layout/dashboard/season/$seasonId/newseries/')
+const route = getRouteApi(
+  '/_layout/dashboard/season/$seasonId/info/$serieId/$tableId/editTable'
+)
 
 const AddSeries = () => {
   const { toast } = useToast()
+  const data = route.useLoaderData()
   const women = route.useSearch({ select: (search) => search.women })
   const navigate = route.useNavigate()
-  const { seasonId } = route.useParams()
+  const { seasonId, serieId } = route.useParams()
   const router = useRouter()
   const mutation = useMutation({
-    mutationFn: addSerie,
-    onSuccess: (data) => onSuccessSubmit(data),
+    mutationFn: editStaticTableFunction,
+    onSuccess: () => onSuccessSubmit(),
     onError: (error) => onSubmitError(error),
   })
 
-  const form = useForm<z.infer<typeof newSerie>>({
-    defaultValues: {
-      serieCategory: '',
-      serieGroupCode: '',
-      serieName: '',
-      serieStructure: [],
-      comment: '',
-      seasonId: seasonId,
-      bonusPoints: undefined,
-      level: 1,
-    },
+  const form = useForm<z.infer<typeof editStaticTable>>({
+    defaultValues: data.staticTable,
     criteriaMode: 'all',
     mode: 'onBlur',
-    resolver: zodResolver(newSerie),
+    resolver: zodResolver(editStaticTable),
   })
 
-  const onSubmit = (serieFormData: z.infer<typeof newSerie>) => {
+  const onSubmit = (serieFormData: z.infer<typeof editStaticTable>) => {
     mutation.mutate({ formState: serieFormData })
   }
 
   const onSubmitError = (error: unknown) => {
     if (error instanceof AxiosError) {
       toast({
-        duration: 5000,
+        duration: 2500,
         title: 'Fel',
         description: error.response?.data.errors,
         variant: 'destructive',
       })
     } else {
       toast({
-        duration: 5000,
+        duration: 2500,
         title: 'Något gick fel',
         variant: 'destructive',
       })
     }
   }
 
-  const onSuccessSubmit = (data: z.infer<typeof serie>) => {
+  const onSuccessSubmit = () => {
     router.invalidate()
     toast({
-      duration: 5000,
-      title: 'Ny serie',
-      description: data.serieName,
+      duration: 2500,
+      title: 'Tabell uppdaterad',
     })
 
     navigate({
-      to: '/dashboard/season/$seasonId',
-      params: { seasonId: seasonId },
+      to: '/dashboard/season/$seasonId/info/$serieId',
+      params: { seasonId: seasonId, serieId: serieId },
       search: { women },
     })
   }
+
+  const teamName = data.seriesData.teams.find(
+    (team) => team.teamId === data.staticTable.teamId
+  )?.name
 
   return (
     <Card className="mt-2">
@@ -86,8 +83,12 @@ const AddSeries = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} id="seriedataForm">
-            <SeriesForm seasonId={seasonId} />
+          <form onSubmit={form.handleSubmit(onSubmit)} id="staticTableForm">
+            <TableForm
+              teamName={teamName}
+              seasonId={seasonId}
+              serieId={serieId}
+            />
           </form>
         </Form>
       </CardContent>

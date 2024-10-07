@@ -9,6 +9,7 @@ export const serie = z.object({
   seasonId: z.number(),
   bonusPoints: z.string().nullable().optional(),
   comment: z.string().nullable().optional(),
+  level: z.coerce.number(),
 })
 
 export const newSerie = serie.omit({ serieId: true })

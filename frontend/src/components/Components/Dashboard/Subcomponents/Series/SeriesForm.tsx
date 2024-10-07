@@ -29,6 +29,7 @@ const SeriesForm = ({ seasonId }: { seasonId: number }) => {
               search: { women },
             })
           }
+          type="button"
         >
           Tillbaka
         </Button>
@@ -58,6 +59,10 @@ const SeriesForm = ({ seasonId }: { seasonId: number }) => {
             className="grid grid-cols-1 gap-y-1 lg:grid-cols-3 lg:gap-x-16"
             checkboxArray={serieStructureArray}
           />
+        </FormComponent>
+        <FormComponent name="level" methods={form}>
+          <FormComponent.Label>Level</FormComponent.Label>
+          <FormComponent.Input />
         </FormComponent>
 
         <FormComponent name="comment" methods={form}>
