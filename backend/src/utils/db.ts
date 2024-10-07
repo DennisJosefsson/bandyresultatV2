@@ -14,6 +14,7 @@ import TableSeason from '../models/TableSeason.js'
 import Team from '../models/Team.js'
 import TeamGame from '../models/TeamGame.js'
 import TeamSeason from '../models/TeamSeason.js'
+import TeamSerie from '../models/TeamSerie.js'
 import TeamTable from '../models/TeamTable.js'
 import User from '../models/User.js'
 
@@ -63,6 +64,7 @@ export const connectToDb = async () => {
       Metadata,
       User,
       Link,
+      TeamSerie,
     ])
     await sequelize.authenticate()
 

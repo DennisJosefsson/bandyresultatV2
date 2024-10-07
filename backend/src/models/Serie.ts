@@ -1,19 +1,23 @@
 import { z } from 'zod'
 
 import {
-  Table,
-  Column,
-  ForeignKey,
-  PrimaryKey,
-  Model,
-  BelongsTo,
-  HasMany,
   AllowNull,
+  BelongsTo,
+  BelongsToMany,
+  Column,
   DataType,
+  ForeignKey,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
 } from 'sequelize-typescript'
-import Season from './Season.js'
 import Game from './Game.js'
+import Season from './Season.js'
+import Team from './Team.js'
 import TeamGame from './TeamGame.js'
+import TeamSerie from './TeamSerie.js'
+import TeamTable from './TeamTable.js'
 
 export const serieAttributes = z.object({
   serieId: z.number().optional().nullable(),
@@ -24,6 +28,7 @@ export const serieAttributes = z.object({
   seasonId: z.number(),
   bonusPoints: z.string().nullable().optional(),
   comment: z.string().nullable().optional(),
+  level: z.number(),
 })
 
 export const serieInput = serieAttributes.partial({ serieId: true })
@@ -67,6 +72,9 @@ class Serie extends Model<SerieAttributes, SerieInput> {
   @Column
   declare comment: string
 
+  @Column
+  declare level: number
+
   @BelongsTo(() => Season, 'seasonId')
   declare season: ReturnType<() => Season>
 
@@ -75,6 +83,12 @@ class Serie extends Model<SerieAttributes, SerieInput> {
 
   @HasMany(() => TeamGame, 'serieId')
   declare teamgames: TeamGame[]
+
+  @HasMany(() => TeamTable, 'serieId')
+  declare tables: TeamTable[]
+
+  @BelongsToMany(() => Team, () => TeamSerie, 'serieId')
+  declare teams: Team[]
 }
 
 export default Serie

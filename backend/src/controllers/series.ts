@@ -35,11 +35,11 @@ seriesRouter.get('/:serieId', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  res.locals.origin = 'GET Single Game router'
+  res.locals.origin = 'GET Single Serie router'
   const serieId = IDCheck.parse(req.params.serieId)
 
-  const game = await Serie.findByPk(serieId)
-  if (!game) {
+  const serie = await Serie.findByPk(serieId)
+  if (!serie) {
     throw new NotFoundError({
       code: 404,
       message: 'No such serie',
@@ -47,7 +47,7 @@ seriesRouter.get('/:serieId', (async (
       context: { origin: 'Single Serie Router' },
     })
   }
-  res.status(200).json(game)
+  res.status(200).json(serie)
 }) as RequestHandler)
 
 seriesRouter.post('/', authControl, (async (

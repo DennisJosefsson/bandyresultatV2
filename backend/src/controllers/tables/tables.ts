@@ -1,20 +1,49 @@
 import {
-  Router,
-  Request,
-  Response,
   NextFunction,
+  Request,
   RequestHandler,
+  Response,
+  Router,
 } from 'express'
 
 import TeamTable from '../../models/TeamTable.js'
 import authControl from '../../utils/middleware/authControl.js'
+import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import IDCheck from '../../utils/postFunctions/IDCheck.js'
 import newTableEntry, {
   updateTableEntry,
 } from '../../utils/postFunctions/tableEntry.js'
-import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 
 const tableRouter = Router()
+
+tableRouter.post('/', authControl, (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  res.locals.origin = 'POST Tables router'
+  const tableEntry = newTableEntry(req.body)
+  const table = await TeamTable.create(tableEntry)
+  res.status(201).json(table)
+}) as RequestHandler)
+
+tableRouter.get('/statictable/:tableId', authControl, (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const tableId = IDCheck.parse(req.params.tableId)
+  const table = await TeamTable.findByPk(tableId)
+  if (!table) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No such table',
+      logging: false,
+      context: { origin: 'DELETE Table Router' },
+    })
+  }
+  res.status(200).json(table)
+}) as RequestHandler)
 
 tableRouter.post('/', authControl, (async (
   req: Request,
