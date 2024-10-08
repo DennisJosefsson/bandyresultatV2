@@ -1,5 +1,5 @@
 import Loading from '@/components/Components/Common/Loading'
-import TeamSeasonForm from '@/components/Components/Dashboard/Subcomponents/TeamSeasonForm'
+import TeamSeasonForm from '@/components/Components/Dashboard/Subcomponents/TeamSeason/AddTeamSeasons'
 import { getTeams } from '@/lib/requests/teams'
 import { getSingleSeasonTeamSeasons } from '@/lib/requests/teamSeason'
 

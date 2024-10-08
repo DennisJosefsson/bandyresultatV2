@@ -42,7 +42,22 @@ const Teams = () => {
                   className="flex flex-row justify-between mb-1"
                 >
                   <div>{team.team.casualName}</div>
-                  <div>
+                  <div className="flex flex-row gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() =>
+                        navigate({
+                          to: '/dashboard/season/$seasonId/teamseason/$teamseasonId/edit',
+                          params: (prev) => ({
+                            ...prev,
+                            teamseasonId: team.teamseasonId!,
+                          }),
+                          search: (prev) => ({ ...prev }),
+                        })
+                      }
+                    >
+                      Ändra
+                    </Button>
                     <Button
                       onClick={() =>
                         team.teamseasonId &&

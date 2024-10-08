@@ -1,5 +1,6 @@
 import { staticGroupTable } from '@/lib/types/tables/seasonTable'
 import { z } from 'zod'
+import LowerDivisionLink from './LowerDivisionLink'
 import StaticTableList from './StaticTableList'
 
 type StaticTableListProps = {
@@ -9,11 +10,18 @@ type StaticTableListProps = {
 const StaticTables = ({ tableArray }: StaticTableListProps) => {
   return (
     <div>
-      {tableArray.map((tableObject) => {
-        return (
-          <StaticTableList key={tableObject.group} tableObject={tableObject} />
-        )
-      })}
+      <LowerDivisionLink />
+
+      <div>
+        {tableArray.map((tableObject) => {
+          return (
+            <StaticTableList
+              key={tableObject.group}
+              tableObject={tableObject}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }

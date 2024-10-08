@@ -12,6 +12,15 @@ const teamseasonsApi = axios.create({
   headers: header,
 })
 
+export const getSingleTeamseason = async ({
+  teamseasonId,
+}: {
+  teamseasonId: number
+}): Promise<z.infer<typeof dashboardTeamSeason>> => {
+  const response = await teamseasonsApi.get(`/single/${teamseasonId}`)
+  return response.data
+}
+
 export const getSingleSeasonTeamSeasons = async ({
   seasonId,
 }: {
@@ -23,14 +32,13 @@ export const getSingleSeasonTeamSeasons = async ({
 }
 
 export const postTeamSeason = async ({
-  teamSeasons,
+  formState,
 }: {
-  teamSeasons: z.infer<typeof teamSeason>[]
+  formState: z.infer<typeof teamSeason>
 }) => {
-  const promise = await Promise.all(
-    teamSeasons.map((teamSeason) => teamseasonsApi.post('/', teamSeason))
-  )
-  return promise
+  const response = await teamseasonsApi.post('/', formState)
+
+  return response.data
 }
 
 export const deleteTeamSeason = async ({

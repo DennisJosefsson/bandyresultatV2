@@ -2,6 +2,7 @@ import { FormComponent } from '@/components/Components/Common/ReactHookFormCompo
 import { Button } from '@/components/ui/button'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useFormContext } from 'react-hook-form'
+import ParseData from './ParseData'
 
 const TableForm = ({
   teamName,
@@ -20,7 +21,7 @@ const TableForm = ({
   })
 
   return (
-    <div className="flex flex-auto flex-col p-5 px-16">
+    <div className="flex flex-auto flex-col p-5 px-16 gap-2">
       <div className="flex flex-row gap-2 justify-between">
         <h4 className="text-lg font-semibold">{teamName}</h4>
         <div className="flex flex-row gap-2">
@@ -41,6 +42,7 @@ const TableForm = ({
           </Button>
         </div>
       </div>
+      <ParseData />
       <div className="grid grid-cols-3 gap-x-20 gap-y-4">
         <FormComponent name="position" methods={form}>
           <FormComponent.Label>Position</FormComponent.Label>

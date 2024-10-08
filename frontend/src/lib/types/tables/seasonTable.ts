@@ -38,6 +38,7 @@ export const staticGroupTable = group.and(
 )
 
 export const singleSeasonTable = z.object({
+  hasLowerLevel: z.boolean(),
   tables: z.array(groupTable),
   staticTables: z.array(staticGroupTable),
 })

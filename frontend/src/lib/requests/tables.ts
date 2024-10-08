@@ -81,7 +81,7 @@ export const newStaticTableFunction = async ({
 }: {
   formState: z.infer<typeof newStaticTable>
 }) => {
-  const response = await tablesApi.put('/', formState)
+  const response = await tablesApi.post('/', formState)
   return response.data
 }
 

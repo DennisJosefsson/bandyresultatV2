@@ -1,19 +1,20 @@
 import {
+  FormDescription,
   FormField,
+  FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
-  FormItem,
 } from '@/components/ui/form'
 import { useFormField } from '@/components/ui/useFormField'
-import { ReactNode, HTMLAttributes } from 'react'
-import { FieldValues, UseFormReturn, Path } from 'react-hook-form'
+import { HTMLAttributes, ReactNode } from 'react'
+import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 import Input from './Input'
-import Textarea from './Textarea'
 import MultiCheckbox from './MultiCheckbox'
-import SingleCheckbox from './SingleCheckbox'
-import Select from './Select'
 import RadioGroup from './RadioGroup'
+import Select from './Select'
+import SingleCheckbox from './SingleCheckbox'
+import Switch from './Switch'
+import Textarea from './Textarea'
 
 interface FormComponentProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -58,6 +59,7 @@ FormComponent.MultiCheckbox = MultiCheckbox
 FormComponent.SingleCheckbox = SingleCheckbox
 FormComponent.Select = Select
 FormComponent.RadioGroup = RadioGroup
+FormComponent.Switch = Switch
 
 function Label({ children, ...otherProps }: { children: ReactNode }) {
   const { name } = useFormField()
