@@ -51,6 +51,20 @@ leagueTableRouter.get('/league/:seasonId', (async (
 
   const { table, women } = parseParam.parse(req.query)
 
+  const lowerLevel = await Serie.findAll({
+    where: { level: [2, 3, 4], serieCategory: 'regular' },
+    include: {
+      model: Season,
+      where: {
+        year: { [Op.eq]: seasonYear },
+        women: women === 'true' ? true : false,
+      },
+      attributes: ['year', 'seasonId'],
+    },
+  })
+
+  const hasLowerLevel = lowerLevel.length > 0 ? true : false
+
   if (
     women === 'true' &&
     seasonYear &&
@@ -83,7 +97,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       }
     })
     const staticTables = staticTableSortFunction(tables, seriesData)
-    return res.status(200).json({ staticTables })
+    return res.status(200).json({ hasLowerLevel, staticTables })
   }
 
   const getTeamArray = await TeamGame.findAll({
@@ -233,7 +247,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
 
     const tables = tableSortFunction(updatedTable, seriesData)
 
-    return res.status(200).json({ tables })
+    return res.status(200).json({ hasLowerLevel, tables })
   }
 
   if (seasonYear && ['1933', '1937'].includes(seasonYear)) {
@@ -285,14 +299,12 @@ leagueTableRouter.get('/league/:seasonId', (async (
 
     const tables = tableSortFunction(tabell, seriesData)
 
-    return res.status(200).json({
-      tables,
-    })
+    return res.status(200).json({ hasLowerLevel, tables })
   }
 
   const tables = tableSortFunction(tabell, seriesData)
 
-  res.status(200).json({ tables })
+  res.status(200).json({ hasLowerLevel, tables })
 }) as RequestHandler)
 
 export default leagueTableRouter
