@@ -6,6 +6,7 @@ const parseRoute = z
     'tables/all',
     'tables/home',
     'tables/away',
+    'tables/sub',
     'development',
     'playoff',
     'stats',

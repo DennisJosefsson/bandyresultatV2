@@ -11,11 +11,11 @@ const LowerDivisionLink = () => {
       {hasLowerLevel ? (
         <Link
           from="/season/$seasonId/tables/$table"
-          to="/season/$seasonId/lowertables"
-          params={(prev) => ({ ...prev })}
+          to="/season/$seasonId/tables/sub"
+          params={(prev) => ({ seasonId: prev.seasonId })}
           search={(prev) => ({ ...prev })}
         >
-          Lägre divisioner
+          <span className="text-[10px] md:text-sm">Lägre divisioner</span>
         </Link>
       ) : null}
     </div>

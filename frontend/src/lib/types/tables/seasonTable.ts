@@ -23,6 +23,7 @@ const group = z.object({
   name: z.string(),
   comment: z.string(),
   serieStructure: z.array(z.number()),
+  level: z.number(),
 })
 
 export const groupTable = group.and(
@@ -42,6 +43,8 @@ export const singleSeasonTable = z.object({
   tables: z.array(groupTable),
   staticTables: z.array(staticGroupTable),
 })
+
+export const singleSeasonSubTables = z.array(staticGroupTable)
 
 export const newStaticTable = staticTable.omit({ tableId: true, team: true })
 export const editStaticTable = staticTable.omit({ team: true })

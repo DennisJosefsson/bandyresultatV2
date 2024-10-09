@@ -4,6 +4,7 @@ import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import {
   editStaticTable,
   newStaticTable,
+  singleSeasonSubTables,
   singleSeasonTable,
 } from '../types/tables/seasonTable'
 import { maratonTable, singleSeasonPlayoff } from '../types/tables/tables'
@@ -58,6 +59,17 @@ export const getSingleSeasonTable = async ({
   const response = await tablesApi.get(
     `/league/${seasonId}?table=${table}&women=${women}`
   )
+  return response.data
+}
+
+export const getSingleSeasonSubTable = async ({
+  seasonId,
+  women,
+}: {
+  seasonId: number
+  women: boolean
+}): Promise<z.infer<typeof singleSeasonSubTables>> => {
+  const response = await tablesApi.get(`/sub/${seasonId}?women=${women}`)
   return response.data
 }
 
