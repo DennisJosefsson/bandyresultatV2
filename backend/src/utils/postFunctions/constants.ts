@@ -35,6 +35,7 @@ export const sortOrder = [
   'AvdD',
   'KvalA',
   'KvalB',
+  'kval',
   'Div1NorrA',
   'Div1NorrB',
   'Div1SydA',

@@ -116,6 +116,9 @@ class TeamTable extends Model<TeamTableAttributes, TeamTableInput> {
   @BelongsTo(() => Team, 'teamId')
   declare team: ReturnType<() => Team>
 
+  @BelongsTo(() => Serie, 'serieId')
+  declare serie: ReturnType<() => Serie>
+
   @BelongsToMany(() => Season, () => TableSeason, 'tableId')
   declare seasontable: ReturnType<() => Season>
 }

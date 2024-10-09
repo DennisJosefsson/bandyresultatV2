@@ -29,6 +29,10 @@ const parseParam = z.object({
   women: z.enum(['true', 'false']).catch('false'),
 })
 
+const parseSubParam = z.object({
+  women: z.enum(['true', 'false']).catch('false'),
+})
+
 type BonusPoints = {
   [key: string]: number
 }
@@ -52,7 +56,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const { table, women } = parseParam.parse(req.query)
 
   const lowerLevel = await Serie.findAll({
-    where: { level: [2, 3, 4], serieCategory: 'regular' },
+    where: { level: [2, 3, 4, 5], serieCategory: 'regular' },
     include: {
       model: Season,
       where: {
@@ -78,6 +82,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
           attributes: ['year', 'seasonId'],
         },
         Team,
+        Serie,
       ],
       raw: true,
       nest: true,
@@ -94,6 +99,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
         name: serie.serieName,
         group: serie.serieGroupCode,
         serieStructure: serie.serieStructure,
+        level: serie.level,
       }
     })
     const staticTables = staticTableSortFunction(tables, seriesData)
@@ -113,6 +119,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
         as: 'team',
       },
+      { model: Serie, where: { level: 1 }, attributes: ['level'] },
     ],
     attributes: [
       [sequelize.literal('DISTINCT (team)'), 'teamId'],
@@ -131,6 +138,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       'season.season_id',
       'season.year',
       'teamgame.women',
+      'serie.level',
     ],
     raw: true,
     nest: true,
@@ -182,6 +190,11 @@ leagueTableRouter.get('/league/:seasonId', (async (
         attributes: ['seasonId', 'year'],
         where: { year: { [Op.eq]: seasonYear } },
       },
+      {
+        model: Serie,
+        where: { level: 1 },
+        attributes: ['level'],
+      },
     ],
     group: [
       'group',
@@ -194,6 +207,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       'season.season_id',
       'season.year',
       'teamgame.women',
+      'serie.level',
     ],
     order: [
       ['group', 'DESC'],
@@ -210,7 +224,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const tabell = leagueTableParser(teamArray, parsedTable)
 
   const series = await Serie.findAll({
-    where: { serieCategory: ['regular', 'qualification'] },
+    where: { serieCategory: ['regular', 'qualification'], level: 1 },
     include: [{ model: Season, where: { year: seasonYear } }],
     raw: true,
     nest: true,
@@ -222,6 +236,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       comment: serie.comment,
       name: serie.serieName,
       serieStructure: serie.serieStructure,
+      level: serie.level,
     }
   })
 
@@ -267,6 +282,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
           attributes: ['seasonId', 'year'],
           where: { year: { [Op.eq]: seasonYear } },
         },
+        { model: Serie, where: { level: 1 } },
       ],
       raw: true,
       nest: true,
@@ -305,6 +321,57 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const tables = tableSortFunction(tabell, seriesData)
 
   res.status(200).json({ hasLowerLevel, tables })
+}) as RequestHandler)
+
+leagueTableRouter.get('/sub/:seasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const { women } = parseSubParam.parse(req.query)
+
+  const tables = await TeamTable.findAll({
+    include: [
+      {
+        model: Season,
+        where: {
+          year: { [Op.eq]: seasonYear },
+          women: women === 'true' ? true : false,
+        },
+      },
+      Team,
+      { model: Serie, where: { level: [2, 3, 4] } },
+    ],
+    order: [['position', 'asc']],
+    raw: true,
+    nest: true,
+  })
+  const series = await Serie.findAll({
+    where: { serieCategory: 'regular', level: [2, 3, 4] },
+    include: [
+      {
+        model: Season,
+        where: { year: seasonYear, women: women === 'true' ? true : false },
+      },
+    ],
+    raw: true,
+    nest: true,
+  })
+  const seriesData = series.map((serie) => {
+    return {
+      comment: serie.comment,
+      name: serie.serieName,
+      group: serie.serieGroupCode,
+      serieStructure: serie.serieStructure,
+      level: serie.level,
+    }
+  })
+  const subTables = staticTableSortFunction(tables, seriesData).sort(
+    (a, b) => a.level - b.level
+  )
+
+  res.status(200).json(subTables)
 }) as RequestHandler)
 
 export default leagueTableRouter

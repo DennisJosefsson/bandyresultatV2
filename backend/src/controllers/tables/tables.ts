@@ -6,6 +6,7 @@ import {
   Router,
 } from 'express'
 
+import TableSeason from '../../models/TableSeason.js'
 import TeamTable from '../../models/TeamTable.js'
 import authControl from '../../utils/middleware/authControl.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
@@ -24,6 +25,11 @@ tableRouter.post('/', authControl, (async (
   res.locals.origin = 'POST Tables router'
   const tableEntry = newTableEntry(req.body)
   const table = await TeamTable.create(tableEntry)
+  table.tableId &&
+    (await TableSeason.create({
+      seasonId: table.seasonId,
+      tableId: table.tableId,
+    }))
   res.status(201).json(table)
 }) as RequestHandler)
 
@@ -43,17 +49,6 @@ tableRouter.get('/statictable/:tableId', authControl, (async (
     })
   }
   res.status(200).json(table)
-}) as RequestHandler)
-
-tableRouter.post('/', authControl, (async (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
-  res.locals.origin = 'POST Tables router'
-  const tableEntry = newTableEntry(req.body)
-  const table = await TeamTable.create(tableEntry)
-  res.status(201).json(table)
 }) as RequestHandler)
 
 tableRouter.delete('/:tableId', authControl, (async (
