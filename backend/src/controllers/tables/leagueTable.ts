@@ -323,15 +323,19 @@ leagueTableRouter.get('/league/:seasonId', (async (
   res.status(200).json({ hasLowerLevel, tables })
 }) as RequestHandler)
 
-leagueTableRouter.get('/sub/:seasonId', (async (
+const parseGroupCode = z.string()
+
+leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const groupCode = parseGroupCode.parse(req.params.groupCode)
   const { women } = parseSubParam.parse(req.query)
 
   const tables = await TeamTable.findAll({
+    where: { group: { [Op.eq]: groupCode } },
     include: [
       {
         model: Season,
@@ -348,7 +352,11 @@ leagueTableRouter.get('/sub/:seasonId', (async (
     nest: true,
   })
   const series = await Serie.findAll({
-    where: { serieCategory: 'regular', level: [2, 3, 4] },
+    where: {
+      serieCategory: 'regular',
+      level: [2, 3, 4],
+      serieGroupCode: { [Op.eq]: groupCode },
+    },
     include: [
       {
         model: Season,
