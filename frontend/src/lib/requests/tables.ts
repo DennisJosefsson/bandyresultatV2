@@ -65,11 +65,15 @@ export const getSingleSeasonTable = async ({
 export const getSingleSeasonSubTable = async ({
   seasonId,
   women,
+  group,
 }: {
   seasonId: number
   women: boolean
+  group: string
 }): Promise<z.infer<typeof singleSeasonSubTables>> => {
-  const response = await tablesApi.get(`/sub/${seasonId}?women=${women}`)
+  const response = await tablesApi.get(
+    `/sub/${seasonId}/${group}?women=${women}`
+  )
   return response.data
 }
 

@@ -25,7 +25,14 @@ export const getSubSeries = async ({
   seasonId: number
   women: boolean
 }): Promise<z.infer<typeof subSeries>> => {
-  const response = await seriesApi.get(`/subseason/${seasonId}?women=${women}`)
+  const response = await seriesApi.get(
+    `/subseason/${seasonId}?women=${women}`,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
+  )
   return response.data
 }
 

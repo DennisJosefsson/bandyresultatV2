@@ -10,7 +10,7 @@ import {
   ScrollRestoration,
 } from '@tanstack/react-router'
 import { AxiosError } from 'axios'
-import { lazy, Suspense } from 'react'
+//import { lazy, Suspense } from 'react'
 
 interface RouterContext {
   genderContext: ReturnType<typeof useGenderContext>
@@ -18,14 +18,14 @@ interface RouterContext {
   user: UserType
 }
 
-const TanStackRouterDevtools =
-  process.env.NODE_ENV === 'production'
-    ? () => null
-    : lazy(() =>
-        import('@tanstack/router-devtools').then((res) => ({
-          default: res.TanStackRouterDevtools,
-        }))
-      )
+// const TanStackRouterDevtools =
+//   process.env.NODE_ENV === 'production'
+//     ? () => null
+//     : lazy(() =>
+//         import('@tanstack/router-devtools').then((res) => ({
+//           default: res.TanStackRouterDevtools,
+//         }))
+//       )
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   notFoundComponent: DefaultNotFound,
@@ -34,9 +34,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     <>
       <Outlet />
       <ScrollRestoration />
-      <Suspense>
+      {/* <Suspense>
         <TanStackRouterDevtools />
-      </Suspense>
+      </Suspense> */}
     </>
   ),
 })

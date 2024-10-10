@@ -3,6 +3,7 @@ import { z } from 'zod'
 const parseRoute = z
   .enum([
     'games',
+    'games/sub',
     'tables/all',
     'tables/home',
     'tables/away',

@@ -38,6 +38,7 @@ export const groupArray = z.array(
 export const groupRecord = z.record(z.string(), groupArray)
 
 export const seasonGames = z.object({
+  hasLowerLevel: z.boolean(),
   played: groupRecord,
   unplayed: groupRecord,
   playedLength: z.number(),

@@ -1,9 +1,15 @@
 import Loading from '@/components/Components/Common/Loading'
 import { Button } from '@/components/ui/button'
 import { getSubSeries } from '@/lib/requests/series'
-import { createFileRoute, Link, notFound, Outlet } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  Navigate,
+  notFound,
+  Outlet,
+} from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_layout/season/$seasonId/tables/sub')({
+export const Route = createFileRoute('/_layout/season/$seasonId/games/sub')({
   loaderDeps: ({ search: { women } }) => ({ women }),
   loader: async ({ params, deps }) => {
     const series = await getSubSeries({
@@ -16,9 +22,9 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables/sub')({
       'errors' in series &&
       series.errors === 'No sub series'
     ) {
-      console.log(series)
       throw notFound()
     }
+
     return series
   },
 
@@ -28,16 +34,17 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables/sub')({
 })
 
 function Subs() {
-  const allSeries = Route.useLoaderData({ select: (data) => data.allSeries })
-  if (allSeries.length === 0) {
+  const gameSeries = Route.useLoaderData({ select: (data) => data.gameSeries })
+
+  if (gameSeries.length === 0) {
     return (
       <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-[10px] font-bold text-foreground md:text-base">
         <p className="mx-10 text-center">
-          Serietabeller för lägre divisioner saknas för denna säsong. Gå till{' '}
+          Matcher för lägre divisioner saknas för denna säsong. Gå till{' '}
           <Link
             from={Route.fullPath}
-            to="/season/$seasonId/tables/$table"
-            params={(prev) => ({ seasonId: prev.seasonId, table: 'all' })}
+            to="/season/$seasonId/games"
+            params={(prev) => ({ seasonId: prev.seasonId })}
             search={(prev) => ({ ...prev })}
             className="underline"
           >
@@ -49,10 +56,24 @@ function Subs() {
     )
   }
 
+  if (gameSeries.length === 1) {
+    return (
+      <div className="mt-2">
+        <Navigate
+          from={Route.fullPath}
+          to="/season/$seasonId/games/sub/$group"
+          params={(prev) => ({ ...prev, group: gameSeries[0].serieGroupCode })}
+          search={(prev) => ({ ...prev })}
+        />
+        <Outlet />
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="flex flex-row gap-1 justify-center mt-2">
-        {allSeries.map((serie) => {
+        {gameSeries.map((serie) => {
           return (
             <Link
               from={Route.fullPath}
@@ -84,12 +105,12 @@ function NotFound() {
   return (
     <div className="mt-2 flex flex-row justify-center">
       <p>
-        Inga lägre divisioner finns inlagda för {women ? 'damer' : 'herrar'}{' '}
-        denna säsong. Gå till{' '}
+        Inga matcher från lägre divisioner finns inlagda för{' '}
+        {women ? 'damer' : 'herrar'} denna säsong. Gå till{' '}
         <Link
           from={Route.fullPath}
-          to="/season/$seasonId/tables/$table"
-          params={(prev) => ({ seasonId: prev.seasonId, table: 'all' })}
+          to="/season/$seasonId/games"
+          params={(prev) => ({ seasonId: prev.seasonId })}
           search={(prev) => ({ ...prev })}
           className="underline"
         >
