@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { developmentData } from '../types/games/development'
+import { developmentData, subDevelopmentData } from '../types/games/development'
 import { seasonGames } from '../types/games/gameObject'
 import { bulkGame, game } from '../types/games/games'
 import { editGame as editGameType, newGame } from '../types/games/newGame'
@@ -44,6 +44,22 @@ export const getSeasonGames = async ({
   return response.data
 }
 
+export const getSeasonSubGames = async ({
+  seasonId,
+  women,
+  group,
+}: {
+  seasonId: number
+  women: boolean
+  group: string
+}): Promise<z.infer<typeof seasonGames>> => {
+  const response = await gamesApi.get(
+    `/subseason/${seasonId}/${group}?women=${women}`
+  )
+
+  return response.data
+}
+
 export const getSeasonStats = async ({
   seasonId,
   women,
@@ -52,6 +68,22 @@ export const getSeasonStats = async ({
   women: boolean
 }): Promise<z.infer<typeof statsObject>> => {
   const response = await gamesApi.get(`/stats/${seasonId}?women=${women}`)
+
+  return response.data
+}
+
+export const getSubAnimation = async ({
+  seasonId,
+  women,
+  group,
+}: {
+  seasonId: number
+  women: boolean
+  group: string
+}): Promise<z.infer<typeof subDevelopmentData>> => {
+  const response = await gamesApi.get(
+    `/subanimation/${seasonId}/${group}?women=${women}`
+  )
 
   return response.data
 }

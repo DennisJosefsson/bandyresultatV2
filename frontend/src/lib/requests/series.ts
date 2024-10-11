@@ -2,7 +2,7 @@ import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { newSerie, serie } from '../types/series/series'
-import { subSeries } from '../types/series/subseries'
+import { developmentSeries, subSeries } from '../types/series/subseries'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -15,6 +15,24 @@ export const getSeasonSeries = async (
   seasonId: number
 ): Promise<z.infer<typeof serie>[]> => {
   const response = await seriesApi.get(`/serie/${seasonId}`)
+  return response.data
+}
+
+export const getDevelopmentSeries = async ({
+  seasonId,
+  women,
+}: {
+  seasonId: number
+  women: boolean
+}): Promise<z.infer<typeof developmentSeries>> => {
+  const response = await seriesApi.get(
+    `/development/${seasonId}?women=${women}`,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
+  )
   return response.data
 }
 

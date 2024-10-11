@@ -1,25 +1,20 @@
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 
-import {
-  Link,
-  useLoaderData,
-  useParams,
-  useSearch,
-} from '@tanstack/react-router'
+import { getRouteApi, Link } from '@tanstack/react-router'
 
 import { NoWomenSeason } from '../../Common/NoWomenSeason'
-import Games from './Games'
+import SubGames from './SubGames'
 
-const SeasonGames = () => {
-  const seasonId = useParams({
-    from: '/_layout/season/$seasonId/games',
+const route = getRouteApi('/_layout/season/$seasonId/games/sub/$group')
+
+const SubSeasonGames = () => {
+  const seasonId = route.useParams({
     select: (param) => param.seasonId,
   })
-  const women = useSearch({
-    from: '/_layout',
+  const women = route.useSearch({
     select: (search) => search.women,
   })
-  const games = useLoaderData({ from: '/_layout/season/$seasonId/games' })
+  const games = route.useLoaderData()
 
   const { lastSeason } = useGetFirstAndLastSeason()
 
@@ -37,24 +32,22 @@ const SeasonGames = () => {
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
       <div className="mb-2">
-        {games.hasLowerLevel ? (
-          <Link
-            from="/season/$seasonId/games"
-            to="/season/$seasonId/games/sub"
-            params={(prev) => ({ seasonId: prev.seasonId })}
-            search={(prev) => ({ ...prev })}
-          >
-            <span className="text-[10px] md:text-sm">Lägre divisioner</span>
-          </Link>
-        ) : null}
+        <Link
+          from="/season/$seasonId/games/sub/$group"
+          to="/season/$seasonId/games"
+          params={(prev) => ({ seasonId: prev.seasonId })}
+          search={(prev) => ({ ...prev })}
+        >
+          <span className="text-[10px] md:text-sm">Högsta divisionen</span>
+        </Link>
       </div>
       {seasonId <= lastSeason && (
         <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0 lg:gap-1">
           {games['playedLength'] > 0 ? (
-            <Games games={games['played']} title="Spelade" />
+            <SubGames games={games['played']} title="Spelade" />
           ) : null}
           {games['unplayedLength'] > 0 ? (
-            <Games games={games['unplayed']} title="Kommande" />
+            <SubGames games={games['unplayed']} title="Kommande" />
           ) : null}
         </div>
       )}
@@ -62,4 +55,4 @@ const SeasonGames = () => {
   )
 }
 
-export default SeasonGames
+export default SubSeasonGames

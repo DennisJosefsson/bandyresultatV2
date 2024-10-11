@@ -16,7 +16,6 @@ export const Route = createFileRoute('/_layout/season/$seasonId/tables/sub')({
       'errors' in series &&
       series.errors === 'No sub series'
     ) {
-      console.log(series)
       throw notFound()
     }
     return series

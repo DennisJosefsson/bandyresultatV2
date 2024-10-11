@@ -36,3 +36,15 @@ export const developmentData = z.object({
   ),
   series: z.array(serie),
 })
+
+export const subDevelopmentData = z.object({
+  length: z.number(),
+  games: z.array(
+    z.object({
+      group: z.string(),
+      serieName: z.string(),
+      dates: developmentDates,
+    })
+  ),
+  series: serie,
+})

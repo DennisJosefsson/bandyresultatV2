@@ -1,15 +1,18 @@
 import Loading from '@/components/Components/Common/Loading'
+import SubSeasonGames from '@/components/Components/Season/SeasonGamesComponents/SubSeasonGames'
+import { getSeasonSubGames } from '@/lib/requests/games'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
   '/_layout/season/$seasonId/games/sub/$group'
 )({
-  pendingComponent: Loading,
-  component: GroupGames,
+  loaderDeps: ({ search: { women } }) => ({ women }),
+  loader: ({ params, deps }) =>
+    getSeasonSubGames({
+      seasonId: params.seasonId,
+      women: deps.women,
+      group: params.group,
+    }),
+  pendingComponent: () => <Loading page="seasonGamesList" />,
+  component: SubSeasonGames,
 })
-
-function GroupGames() {
-  const group = Route.useParams({ select: (params) => params.group })
-
-  return <div>Hello, {group}!</div>
-}

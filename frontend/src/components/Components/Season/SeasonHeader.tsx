@@ -21,13 +21,11 @@ const SeasonHeader = () => {
   })
     .split('/')
     .slice(3)
-  console.log(pathnameEnd)
+
   const pathName =
     pathnameEnd.length > 2
       ? pathnameEnd.slice(0, 2).join('/')
       : pathnameEnd.join('/')
-
-  console.log(pathName)
 
   const parsedRoute = getParsedRoute(pathName)
 
