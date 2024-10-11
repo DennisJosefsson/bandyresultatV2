@@ -1,6 +1,7 @@
 import {
   Column,
   ForeignKey,
+  HasOne,
   Model,
   PrimaryKey,
   Table,
@@ -41,6 +42,12 @@ class TeamSerie extends Model<TeamSeries, TeamSeriesInput> {
   @ForeignKey(() => Serie)
   @Column
   declare serieId: number
+
+  @HasOne(() => Team, { sourceKey: 'teamId', foreignKey: 'teamId' })
+  declare team: ReturnType<() => Team>
+
+  @HasOne(() => Serie, { foreignKey: 'serieId' })
+  declare serie: ReturnType<() => Serie>
 }
 
 export default TeamSerie

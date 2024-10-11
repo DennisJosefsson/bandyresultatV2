@@ -14,6 +14,7 @@ import { maratonTableSchema } from '../../utils/responseTypes/tableTypes.js'
 const maratonRouter = Router()
 
 import { z } from 'zod'
+import Serie from '../../models/Serie.js'
 
 const parseParam = z.enum(['all', 'home', 'away']).catch('all')
 
@@ -61,6 +62,7 @@ maratonRouter.get('/maraton', (async (
         attributes: ['name', 'teamId', 'casualName', 'shortName', 'women'],
         as: 'team',
       },
+      { model: Serie, where: { level: 1 } },
     ],
     group: [
       'teamId',

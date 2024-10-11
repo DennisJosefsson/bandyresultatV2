@@ -39,6 +39,55 @@ const parseSubParam = z.object({
   women: z.enum(['true', 'false']).catch('false'),
 })
 
+seriesRouter.get('/development/:seasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  res.locals.origin = 'GET Single Serie router'
+  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const { women } = parseSubParam.parse(req.query)
+
+  const series = await Serie.findAll({
+    where: { serieCategory: ['regular', 'qualification'] },
+    include: [
+      {
+        model: Season,
+        where: {
+          year: { [Op.eq]: seasonYear },
+          women: women === 'true' ? true : false,
+        },
+      },
+    ],
+    raw: true,
+    nest: true,
+  })
+  if (!series || series.length === 0) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No sub series',
+      logging: false,
+      context: { origin: 'Single Sub Serie Router' },
+    })
+  }
+
+  const seriesIdArray = series.map((serie) => serie.serieId!)
+
+  const games = await Game.findAll({
+    where: { serieId: seriesIdArray },
+    raw: true,
+    nest: true,
+  })
+
+  const gameSerieIdArray = games.map((game) => game.serieId)
+
+  const gameSeries = series.filter((serie) =>
+    gameSerieIdArray.includes(serie.serieId!)
+  )
+
+  res.status(200).json({ gameSeries })
+}) as RequestHandler)
+
 seriesRouter.get('/subseason/:seasonId', (async (
   req: Request,
   res: Response,

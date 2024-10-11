@@ -65,6 +65,70 @@ gameRouter.get('/', (async (
 
 const parseWomen = z.enum(['true', 'false']).catch('false')
 
+const parseGroupCode = z.string()
+
+gameRouter.get('/subseason/:seasonId/:group', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const groupCode = parseGroupCode.parse(req.params.group)
+  const women = parseWomen.parse(req.query.women)
+
+  const games = await Game.findAll({
+    where: {
+      women: women === 'true' ? true : false,
+      group: { [Op.eq]: groupCode },
+    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+      },
+      {
+        model: Team,
+        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        as: 'homeTeam',
+      },
+      {
+        model: Team,
+        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        as: 'awayTeam',
+      },
+    ],
+    order: [
+      ['group', 'ASC'],
+      ['date', 'ASC'],
+    ],
+    raw: true,
+    nest: true,
+  })
+
+  const season = await Season.findAll({
+    where: { year: seasonYear, women: women === 'true' ? true : false },
+    raw: true,
+    nest: true,
+  })
+
+  const series = await Serie.findAll({
+    where: { serieGroupCode: { [Op.eq]: groupCode } },
+    include: [
+      {
+        model: Season,
+        where: {
+          year: { [Op.eq]: seasonYear },
+          women: women === 'true' ? true : false,
+        },
+      },
+    ],
+  })
+
+  const returnGames = getSeasonGames(games, season, series, true)
+
+  res.status(200).json({ ...returnGames })
+}) as RequestHandler)
+
 gameRouter.get('/season/:seasonId', (async (
   req: Request,
   res: Response,
