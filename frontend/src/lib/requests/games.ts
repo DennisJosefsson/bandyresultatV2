@@ -82,8 +82,14 @@ export const getSubAnimation = async ({
   group: string
 }): Promise<z.infer<typeof subDevelopmentData>> => {
   const response = await gamesApi.get(
-    `/subanimation/${seasonId}/${group}?women=${women}`
+    `/subanimation/${seasonId}/${group}?women=${women}`,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
   )
+  console.log(response)
 
   return response.data
 }
