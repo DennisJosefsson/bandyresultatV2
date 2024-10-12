@@ -74,7 +74,7 @@ seriesRouter.get('/development/:seasonId', (async (
   const seriesIdArray = series.map((serie) => serie.serieId!)
 
   const games = await Game.findAll({
-    where: { serieId: seriesIdArray },
+    where: { serieId: seriesIdArray, played: true },
     raw: true,
     nest: true,
   })
