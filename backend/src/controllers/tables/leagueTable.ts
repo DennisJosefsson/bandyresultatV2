@@ -13,6 +13,7 @@ import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
 import TeamTable from '../../models/TeamTable.js'
 import { sequelize } from '../../utils/db.js'
+import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import { leagueTableParser } from '../../utils/postFunctions/leagueTableParser.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 import {
@@ -334,23 +335,181 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
   const groupCode = parseGroupCode.parse(req.params.groupCode)
   const { women } = parseSubParam.parse(req.query)
 
-  const tables = await TeamTable.findAll({
-    where: { group: { [Op.eq]: groupCode } },
+  const hasGames = await TeamGame.findOne({
+    where: { group: groupCode, women: women },
     include: [
       {
         model: Season,
-        where: {
-          year: { [Op.eq]: seasonYear },
-          women: women === 'true' ? true : false,
-        },
+        attributes: ['seasonId', 'year'],
+        where: { year: { [Op.eq]: seasonYear } },
       },
-      Team,
-      { model: Serie, where: { level: [2, 3, 4] } },
+      {
+        model: Serie,
+        where: { level: [2, 3, 4] },
+        attributes: ['level'],
+      },
     ],
-    order: [['position', 'asc']],
+  })
+
+  if (!hasGames) {
+    const tables = await TeamTable.findAll({
+      where: { group: { [Op.eq]: groupCode } },
+      include: [
+        {
+          model: Season,
+          where: {
+            year: { [Op.eq]: seasonYear },
+            women: women === 'true' ? true : false,
+          },
+        },
+        Team,
+        { model: Serie, where: { level: [2, 3, 4] } },
+      ],
+      order: [['position', 'asc']],
+      raw: true,
+      nest: true,
+    })
+
+    if (tables.length === 0) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Inga tabeller',
+        logging: false,
+        context: { origin: 'GET Sub league tables' },
+      })
+    }
+
+    const series = await Serie.findAll({
+      where: {
+        serieCategory: 'regular',
+        level: [2, 3, 4],
+        serieGroupCode: { [Op.eq]: groupCode },
+      },
+      include: [
+        {
+          model: Season,
+          where: { year: seasonYear, women: women === 'true' ? true : false },
+        },
+      ],
+      raw: true,
+      nest: true,
+    })
+    const seriesData = series.map((serie) => {
+      return {
+        comment: serie.comment,
+        name: serie.serieName,
+        group: serie.serieGroupCode,
+        serieStructure: serie.serieStructure,
+        level: serie.level,
+      }
+    })
+    const subTables = staticTableSortFunction(tables, seriesData).sort(
+      (a, b) => a.level - b.level
+    )
+
+    return res.status(200).json({ staticTables: subTables })
+  }
+
+  const getTable = await TeamGame.findAll({
+    where: { group: groupCode, women: women, played: true },
+    attributes: [
+      'teamId',
+      'group',
+      'women',
+      'category',
+      [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
+      [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
+      [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
+      [
+        sequelize.fn('sum', sequelize.col('goals_conceded')),
+        'totalGoalsConceded',
+      ],
+      [
+        sequelize.fn('sum', sequelize.col('goal_difference')),
+        'totalGoalDifference',
+      ],
+      [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
+      [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
+      [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
+    ],
+    include: [
+      {
+        model: Team,
+        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        as: 'team',
+      },
+      {
+        model: Season,
+        attributes: ['seasonId', 'year'],
+        where: { year: { [Op.eq]: seasonYear } },
+      },
+      {
+        model: Serie,
+        where: { level: [2, 3, 4] },
+        attributes: ['level'],
+      },
+    ],
+    group: [
+      'group',
+      'teamId',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
+      'category',
+      'season.season_id',
+      'season.year',
+      'teamgame.women',
+      'serie.level',
+    ],
+    order: [
+      ['group', 'DESC'],
+      ['totalPoints', 'DESC'],
+      ['totalGoalDifference', 'DESC'],
+      ['totalGoalsScored', 'DESC'],
+    ],
     raw: true,
     nest: true,
   })
+
+  const getTeamArray = await TeamGame.findAll({
+    where: { group: groupCode, women: women },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      {
+        model: Team,
+        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        as: 'team',
+      },
+      { model: Serie, where: { level: [2, 3, 4] }, attributes: ['level'] },
+    ],
+    attributes: [
+      [sequelize.literal('DISTINCT (team)'), 'teamId'],
+      'group',
+      'category',
+      'women',
+    ],
+    group: [
+      'group',
+      'teamId',
+      'category',
+      'team.name',
+      'team.team_id',
+      'team.casual_name',
+      'team.short_name',
+      'season.season_id',
+      'season.year',
+      'teamgame.women',
+      'serie.level',
+    ],
+    raw: true,
+    nest: true,
+  })
+
   const series = await Serie.findAll({
     where: {
       serieCategory: 'regular',
@@ -375,11 +534,16 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       level: serie.level,
     }
   })
-  const subTables = staticTableSortFunction(tables, seriesData).sort(
-    (a, b) => a.level - b.level
-  )
 
-  res.status(200).json(subTables)
+  const teamArray = miniTableItemArray.parse(getTeamArray)
+
+  const parsedTable = leagueTable.parse(getTable)
+
+  const tabell = leagueTableParser(teamArray, parsedTable)
+
+  const tables = tableSortFunction(tabell, seriesData)
+
+  res.status(200).json({ tables })
 }) as RequestHandler)
 
 export default leagueTableRouter

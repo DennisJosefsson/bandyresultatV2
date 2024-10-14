@@ -6,13 +6,26 @@ import {
   Router,
 } from 'express'
 
+import Team from '../models/Team.js'
 import TeamSerie from '../models/TeamSerie.js'
 import authControl from '../utils/middleware/authControl.js'
+import IDCheck from '../utils/postFunctions/IDCheck.js'
 import teamSeriesUpsertPromise, {
   teamSeriesIdParser,
 } from '../utils/postFunctions/newTeamSeriesEntry.js'
 
 const teamSeriesRouter = Router()
+
+teamSeriesRouter.get('/teams/:serieId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const serieId = IDCheck.parse(req.params.serieId)
+  const teams = await TeamSerie.findAll({ where: { serieId }, include: Team })
+
+  res.status(200).json(teams)
+}) as RequestHandler)
 
 teamSeriesRouter.post('/', authControl, (async (
   req: Request,

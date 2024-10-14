@@ -17,6 +17,7 @@ const newGameEntry = (object: unknown, serieId: number): GameAttributes => {
   let played = false
   let halftimeHomeGoal = undefined
   let halftimeAwayGoal = undefined
+  let result = undefined
 
   if (
     'result' in object &&
@@ -26,6 +27,7 @@ const newGameEntry = (object: unknown, serieId: number): GameAttributes => {
     homeGoal = object.result.split('-')[0]
     awayGoal = object.result.split('-')[1]
     played = true
+    result = object['result']
   }
 
   if (
@@ -45,6 +47,7 @@ const newGameEntry = (object: unknown, serieId: number): GameAttributes => {
     halftimeAwayGoal,
     halftimeHomeGoal,
     played,
+    result,
   }
   const gameEntry = gameAttributes.parse(newGameObject)
 

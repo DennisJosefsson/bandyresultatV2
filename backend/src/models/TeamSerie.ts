@@ -46,7 +46,7 @@ class TeamSerie extends Model<TeamSeries, TeamSeriesInput> {
   @HasOne(() => Team, { sourceKey: 'teamId', foreignKey: 'teamId' })
   declare team: ReturnType<() => Team>
 
-  @HasOne(() => Serie, { foreignKey: 'serieId' })
+  @HasOne(() => Serie, { sourceKey: 'serieId', foreignKey: 'serieId' })
   declare serie: ReturnType<() => Serie>
 }
 

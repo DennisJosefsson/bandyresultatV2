@@ -224,7 +224,7 @@ where s.season_id = $seasonId;
       parsedSeasonId
     )
 
-    const gameArray = regularGames
+    const gameObject = regularGames
       .filter((gameGroup) => gameGroup.group === group)
       .map((group) => {
         const animationObject = animationArray.find(
@@ -255,16 +255,28 @@ where s.season_id = $seasonId;
           }),
         }
       })
+      .find((gameGroup) => gameGroup.group === group)
+
+    if (!gameObject) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Inga matcher i gruppen',
+        logging: false,
+        context: { origin: 'GET Group Animation Data' },
+      })
+    }
+
+    const length = gameObject.dates.length
 
     return res.status(200).json({
-      games: gameArray,
-      length: gameArray.length,
+      games: gameObject,
+      length: length,
       serie: serie,
     })
   }
 
   const regularGames = gameSortFunction(
-    games.filter((game) => game.result !== null)
+    games.filter((game) => game.played === true)
   )
 
   const animationArray = subGroupAnimationData(

@@ -168,6 +168,7 @@ gameRouter.get('/season/:seasonId', (async (
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
         as: 'awayTeam',
       },
+      { model: Serie, where: { level: 1 } },
     ],
     order: [
       ['group', 'ASC'],

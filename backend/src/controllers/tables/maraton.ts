@@ -62,7 +62,7 @@ maratonRouter.get('/maraton', (async (
         attributes: ['name', 'teamId', 'casualName', 'shortName', 'women'],
         as: 'team',
       },
-      { model: Serie, where: { level: 1 } },
+      { model: Serie, where: { level: 1 }, attributes: [] },
     ],
     group: [
       'teamId',

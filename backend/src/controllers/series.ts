@@ -12,6 +12,7 @@ import Season from '../models/Season.js'
 import Serie from '../models/Serie.js'
 import authControl from '../utils/middleware/authControl.js'
 import NotFoundError from '../utils/middleware/errors/NotFoundError.js'
+import { sortOrder } from '../utils/postFunctions/constants.js'
 import IDCheck from '../utils/postFunctions/IDCheck.js'
 import newSeriesEntry from '../utils/postFunctions/newSeriesEntry.js'
 import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
@@ -44,7 +45,7 @@ seriesRouter.get('/development/:seasonId', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  res.locals.origin = 'GET Single Serie router'
+  res.locals.origin = 'GET Development Serie router'
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const { women } = parseSubParam.parse(req.query)
 
@@ -81,9 +82,17 @@ seriesRouter.get('/development/:seasonId', (async (
 
   const gameSerieIdArray = games.map((game) => game.serieId)
 
-  const gameSeries = series.filter((serie) =>
-    gameSerieIdArray.includes(serie.serieId!)
-  )
+  const gameSeries = series
+    .filter((serie) => gameSerieIdArray.includes(serie.serieId!))
+    .sort((a, b) => {
+      if (a.level === b.level) {
+        return (
+          sortOrder.indexOf(a.serieGroupCode) -
+          sortOrder.indexOf(b.serieGroupCode)
+        )
+      }
+      return a.level - b.level
+    })
 
   res.status(200).json({ gameSeries })
 }) as RequestHandler)
