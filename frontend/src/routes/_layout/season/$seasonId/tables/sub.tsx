@@ -1,7 +1,13 @@
 import Loading from '@/components/Components/Common/Loading'
 import { Button } from '@/components/ui/button'
 import { getSubSeries } from '@/lib/requests/series'
-import { createFileRoute, Link, notFound, Outlet } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  Navigate,
+  notFound,
+  Outlet,
+} from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/tables/sub')({
   loaderDeps: ({ search: { women } }) => ({ women }),
@@ -48,6 +54,20 @@ function Subs() {
     )
   }
 
+  if (allSeries.length === 1) {
+    return (
+      <div className="mt-2">
+        <Navigate
+          from={Route.fullPath}
+          to="/season/$seasonId/tables/sub/$group"
+          params={(prev) => ({ ...prev, group: allSeries[0].serieGroupCode })}
+          search={(prev) => ({ ...prev })}
+        />
+        <Outlet />
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="flex flex-row gap-1 justify-center mt-2">
@@ -55,7 +75,7 @@ function Subs() {
           return (
             <Link
               from={Route.fullPath}
-              to="$group"
+              to="/season/$seasonId/tables/sub/$group"
               params={{ group: serie.serieGroupCode }}
               search={(prev) => ({ ...prev })}
               key={serie.serieId}

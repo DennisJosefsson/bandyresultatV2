@@ -1,10 +1,9 @@
 import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
-import { Button } from '@/components/ui/button'
+import DevelopmentHeader from '@/components/Components/Season/SeasonDevelopmentComponents/DevelopmentHeader'
 import { getDevelopmentSeries } from '@/lib/requests/series'
 import {
   createFileRoute,
-  Link,
   Navigate,
   notFound,
   Outlet,
@@ -63,27 +62,7 @@ function Subs() {
 
   return (
     <div>
-      <div className="flex flex-row gap-1 justify-center mt-2">
-        {gameSeries.map((serie) => {
-          return (
-            <Link
-              from={Route.fullPath}
-              to="$group"
-              params={{ group: serie.serieGroupCode }}
-              search={(prev) => ({ ...prev })}
-              key={serie.serieId}
-            >
-              {({ isActive }) => {
-                return (
-                  <Button variant={isActive ? 'default' : 'outline'} size="sm">
-                    {serie.serieName}
-                  </Button>
-                )
-              }}
-            </Link>
-          )
-        })}
-      </div>
+      <DevelopmentHeader />
       <div className="mt-2">
         <Outlet />
       </div>

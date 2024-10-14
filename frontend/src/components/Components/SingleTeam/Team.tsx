@@ -85,7 +85,7 @@ const Team = () => {
                 <TeamCuriosities team={team} />
               </TabsContent>
               <TabsContent value="chart">
-                <TeamChart chartData={team.chartData} />
+                <TeamChart team={team} />
               </TabsContent>
             </Tabs>
           </CardContent>

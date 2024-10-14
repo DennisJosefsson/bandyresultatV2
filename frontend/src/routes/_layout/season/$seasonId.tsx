@@ -47,7 +47,7 @@ function Season() {
   if (matches.length === 0) {
     return (
       <Navigate
-        from="/season/$seasonId"
+        from={Route.fullPath}
         to="/season/$seasonId/tables/$table"
         params={(prev) => ({ ...prev, table: 'all' })}
         search={(prev) => ({ ...prev })}

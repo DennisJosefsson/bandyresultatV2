@@ -89,7 +89,6 @@ export const getSubAnimation = async ({
       },
     }
   )
-  console.log(response)
 
   return response.data
 }

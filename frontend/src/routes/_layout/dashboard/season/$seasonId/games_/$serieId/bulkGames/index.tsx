@@ -1,7 +1,7 @@
 import Loading from '@/components/Components/Common/Loading'
 import BulkAddGame from '@/components/Components/Dashboard/Subcomponents/BulkAddGame/BulkAddGame'
 import { getSingleSeries } from '@/lib/requests/series'
-import { getSingleSeasonTeamSeasons } from '@/lib/requests/teamSeason'
+import { getTeamsFromSeries } from '@/lib/requests/teamSeries'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 
@@ -16,8 +16,8 @@ export const Route = createFileRoute(
   },
   loader: async ({ params }) => {
     const serie = await getSingleSeries({ serieId: params.serieId })
-    const teams = await getSingleSeasonTeamSeasons({
-      seasonId: params.seasonId,
+    const teams = await getTeamsFromSeries({
+      serieId: params.serieId,
     })
     return { serie, teams }
   },

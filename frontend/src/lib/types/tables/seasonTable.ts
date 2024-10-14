@@ -44,7 +44,9 @@ export const singleSeasonTable = z.object({
   staticTables: z.array(staticGroupTable),
 })
 
-export const singleSeasonSubTables = z.array(staticGroupTable)
+export const singleSeasonSubTables = singleSeasonTable.omit({
+  hasLowerLevel: true,
+})
 
 export const newStaticTable = staticTable.omit({ tableId: true, team: true })
 export const editStaticTable = staticTable.omit({ team: true })

@@ -1,32 +1,33 @@
 import { Button } from '@/components/ui/button'
+import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
-import { LineChartType } from './TeamLineChart'
+import { z } from 'zod'
 type TeamLineProps = {
-  renderData: LineChartType[][]
+  renderData: z.infer<typeof singleTeam>['renderData']
   renderLength: number
   chunk?: number
 }
 
 const yAxisFormatter = (value: number) => {
   switch (value) {
-    case 0:
-      return 'Lägre division'
-    case 1:
-      return 'Kval'
     case 2:
-      return 'Grundserie'
+      return 'Lägre division'
     case 3:
-      return 'Åttondel'
+      return 'Kval'
     case 4:
-      return 'Kvart'
+      return 'Grundserie'
     case 5:
-      return 'Semi'
+      return 'Åttondel'
     case 6:
-      return 'Final'
+      return 'Kvart'
     case 7:
+      return 'Semi'
+    case 8:
+      return 'Final'
+    case 9:
       return 'SM-guld'
     default:
       return ''
@@ -118,7 +119,7 @@ const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
           />
           <YAxis
             dataKey="dataPoint"
-            domain={[-1, 8]}
+            domain={[0, 10]}
             interval={0}
             fontSize={matches768 ? 12 : 8}
             tickFormatter={yAxisFormatter}

@@ -38,7 +38,7 @@ function Stats() {
     )
   }
 
-  return <>{<StatsComponent />}</>
+  return <StatsComponent />
 }
 
 function ErrorComponent({

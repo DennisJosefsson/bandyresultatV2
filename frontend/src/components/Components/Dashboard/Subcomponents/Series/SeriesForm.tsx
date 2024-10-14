@@ -4,7 +4,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useFormContext } from 'react-hook-form'
 
 const serieStructureArray = Array.from(
-  { length: 14 },
+  { length: 16 },
   (_, index) => index + 1
 ).map((_, index) => {
   return { value: index + 1, label: `${index + 1}` }

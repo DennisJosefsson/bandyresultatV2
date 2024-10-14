@@ -113,6 +113,20 @@ const BulkGameForm = ({ gameArray }: BulkGameFormProps) => {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name={`games.${index}.result`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Resultat</FormLabel>
+
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               )
             })}

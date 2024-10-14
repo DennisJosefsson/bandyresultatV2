@@ -72,8 +72,14 @@ export const getSingleSeasonSubTable = async ({
   group: string
 }): Promise<z.infer<typeof singleSeasonSubTables>> => {
   const response = await tablesApi.get(
-    `/sub/${seasonId}/${group}?women=${women}`
+    `/sub/${seasonId}/${group}?women=${women}`,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
   )
+
   return response.data
 }
 

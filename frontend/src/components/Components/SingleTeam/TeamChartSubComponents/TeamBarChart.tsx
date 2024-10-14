@@ -12,37 +12,16 @@ import {
 import { useMediaQuery } from 'usehooks-ts'
 import { z } from 'zod'
 
-type PositionType = {
-  year: string
-  dataPoint: number | undefined | null
-  position: number | undefined | null
-  points: number | undefined | null
-}
-
 const TeamBarChart = ({
-  chartData,
+  barChartData,
 }: {
-  chartData: z.infer<typeof singleTeam>['chartData']
+  barChartData: z.infer<typeof singleTeam>['barChartData']
 }) => {
   const matches1240 = useMediaQuery('(min-width: 1240px)')
   const matches768 = useMediaQuery('(min-width: 768px)')
   const { women } = useSearch({ from: '/_layout' })
-  const baseLinePosition = women ? 10 : 17
-  const baseLineSeasonId = women ? 161 : 101
 
-  const positionChart: PositionType[] = chartData
-    .filter((year) => year.seasonId > baseLineSeasonId)
-    .filter((year) => year.position !== null)
-    .map((year) => {
-      return {
-        year: year.year.slice(-4),
-        dataPoint: year.position ? baseLinePosition - year.position : 0,
-        position: year.position,
-        points: year.points,
-      }
-    })
-
-  if (positionChart.length === 0) return null
+  if (barChartData.length === 0) return null
 
   return (
     <>
@@ -55,13 +34,11 @@ const TeamBarChart = ({
         <CardContent className="p-1 md:p-6">
           <ResponsiveContainer
             width={
-              positionChart.length > 5
-                ? '100%'
-                : positionChart.length * 40 + 100
+              barChartData.length > 5 ? '100%' : barChartData.length * 40 + 100
             }
             height={350}
           >
-            <BarChart data={positionChart}>
+            <BarChart data={barChartData}>
               <XAxis
                 dataKey="year"
                 stroke="#888888"

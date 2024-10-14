@@ -10,6 +10,7 @@ const gameArray = z.array(
     date: z.string(),
     home: z.string(),
     away: z.string(),
+    result: z.string().optional(),
   })
 )
 
