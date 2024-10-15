@@ -107,33 +107,34 @@ export const singleTeamTable = z.array(
   })
 )
 
-export const compareCategoryTeamTables = z.array(
-  z.object({
-    team: z.object({
-      casualName: z.string(),
-      name: z.string(),
-      shortName: z.string(),
-      teamId: z.number(),
-    }),
-    opponent: z.object({
-      casualName: z.string(),
-      name: z.string(),
-      shortName: z.string(),
-      teamId: z.number(),
-    }),
-    category: z.string(),
+export const compareTable = z.object({
+  team: z.object({
+    casualName: z.string(),
+    name: z.string(),
+    shortName: z.string(),
     teamId: z.number(),
-    opponentId: z.number(),
-    totalDraws: z.coerce.number(),
-    totalGames: z.coerce.number(),
-    totalGoalDifference: z.coerce.number(),
-    totalGoalsConceded: z.coerce.number(),
-    totalGoalsScored: z.coerce.number(),
-    totalLost: z.coerce.number(),
-    totalPoints: z.coerce.number(),
-    totalWins: z.coerce.number(),
-  })
-)
+  }),
+  opponent: z.object({
+    casualName: z.string(),
+    name: z.string(),
+    shortName: z.string(),
+    teamId: z.number(),
+  }),
+  category: z.string(),
+  teamId: z.number(),
+  opponentId: z.number(),
+  totalDraws: z.coerce.number(),
+  totalGames: z.coerce.number(),
+  totalGoalDifference: z.coerce.number(),
+  totalGoalsConceded: z.coerce.number(),
+  totalGoalsScored: z.coerce.number(),
+  totalLost: z.coerce.number(),
+  totalPoints: z.coerce.number(),
+  totalWins: z.coerce.number(),
+  serie: z.object({ level: z.number() }),
+})
+
+export const compareCategoryTeamTables = z.array(compareTable)
 
 export const compareAllTeamTables = z.array(
   z.object({

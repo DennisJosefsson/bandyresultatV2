@@ -1,19 +1,12 @@
 import { z } from 'zod'
 import Season from '../../models/Season'
 
-const womenObject = z.object({ women: z.boolean().catch(false) })
-
-export const parseCompareRequest = (
-  object: unknown,
-  menSeason: Season | null,
-  womenSeason: Season | null
-) => {
-  if (!menSeason || !womenSeason) {
+export const parseCompareRequest = (object: unknown, season: Season | null) => {
+  if (!season) {
     throw new Error('Missing season')
   }
-  const { women } = womenObject.parse(object)
 
-  const maxId = women ? womenSeason.seasonId : menSeason.seasonId
+  const maxId = season.seasonId
 
   const compareObject = z.object({
     teamArray: z
