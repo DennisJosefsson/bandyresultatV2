@@ -14,6 +14,7 @@ export const initialData = [
     group: '',
     women: false,
     serieId: 0,
+    result: '',
   },
 ]
 
@@ -35,7 +36,8 @@ const bulkGameSchema = z.object({
       category: z.string(),
       group: z.string(),
       women: z.boolean(),
-      serieId: z.number().optional().nullable(),
+      serieId: z.number(),
+      result: z.string().optional(),
     })
   ),
 })

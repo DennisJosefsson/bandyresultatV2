@@ -14,12 +14,14 @@ type Games = {
   group: string
   women: boolean
   serieId: number
+  result: string | undefined
 }
 
 type GameArrayType = {
   date: string
   home: string
   away: string
+  result?: string | undefined
 }
 
 const route = getRouteApi(
@@ -53,6 +55,7 @@ const BulkAddGame = () => {
             category,
             women,
             serieId,
+            result: game.result,
           }
         })
       : []

@@ -33,12 +33,33 @@ teamSeasonRouter.get('/dashboard/:seasonId', (async (
   if (!teamSeasons || teamSeasons.length === 0) {
     throw new NotFoundError({
       code: 404,
-      message: 'No teamseasons',
+      message: 'No teamseason',
       logging: false,
       context: { origin: 'Get Single Season Teamseasons' },
     })
   }
   res.status(200).json(teamSeasons)
+}) as RequestHandler)
+
+teamSeasonRouter.get('/single/:teamseasonId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const teamseasonId = z.coerce.number().parse(req.params.teamseasonId)
+
+  const teamSeason = await TeamSeason.findByPk(teamseasonId, {
+    include: Team,
+  })
+  if (!teamSeason) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'No teamseasons',
+      logging: false,
+      context: { origin: 'Get Single Season Teamseasons' },
+    })
+  }
+  res.status(200).json(teamSeason)
 }) as RequestHandler)
 
 teamSeasonRouter.get('/:id', (async (

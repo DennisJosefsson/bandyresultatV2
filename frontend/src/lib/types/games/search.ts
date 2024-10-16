@@ -24,8 +24,8 @@ export const searchParams = z.object({
     .number({ message: 'Sista säsong måste vara ett årtal.' })
     .optional()
     .catch(undefined),
-  team: z.number().optional().catch(undefined),
-  opponent: z.number().optional().catch(undefined),
+  teamId: z.number().optional().catch(undefined),
+  opponentId: z.number().optional().catch(undefined),
   inputDate: z.string().optional().catch(undefined),
   selectedGender: z.string().optional().catch(undefined),
   homeGame: z.string().optional().catch(undefined),

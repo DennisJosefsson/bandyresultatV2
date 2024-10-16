@@ -17,8 +17,14 @@ const rankedGames = z.array(
 export const compareResponseObject = z.object({
   categoryData: z.array(
     z.object({
-      category: z.string(),
-      teams: z.array(compareCategoryTeamTable),
+      level: z.string(),
+      levelName: z.string(),
+      tables: z.array(
+        z.object({
+          category: z.string(),
+          tables: z.array(compareCategoryTeamTable),
+        })
+      ),
     })
   ),
   allData: z.array(compareCategoryTeamTable),

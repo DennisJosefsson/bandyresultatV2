@@ -10,18 +10,25 @@ type SortedDates = {
   [key: string]: Game[]
 }
 
-type SeriesData = { group: string; comment: string; name: string }
+type SeriesData = {
+  group: string
+  comment: string
+  name: string
+  level: number
+}
 
 export const getSeasonGames = (
   games: Game[],
   season: Season[],
-  series: Serie[]
+  series: Serie[],
+  subDivision = false
 ) => {
   const seriesData = series.map((serie) => {
     return {
       group: serie.serieGroupCode,
       comment: serie.comment,
       name: serie.serieName,
+      level: serie.level,
     }
   }) as SeriesData[]
 
@@ -133,27 +140,45 @@ export const getSeasonGames = (
     seriesData
   )
 
-  const returnObject = {
-    played: {
-      FinalGames: playedFinalGames,
-      SemiGames: playedSemiGames,
-      QuarterGames: playedQuarterGames,
-      EightGames: playedEightGames,
-      RegularGames: playedRegularGames,
-      QualificationGames: playedQualificationGames,
-    },
-    unplayed: {
-      FinalGames: unplayedFinalGames,
-      SemiGames: unplayedSemiGames,
-      QuarterGames: unplayedQuarterGames,
-      EightGames: unplayedEightGames,
-      RegularGames: unplayedRegularGames,
-      QualificationGames: unplayedQualificationGames,
-    },
-    unplayedLength: unplayedGamesLength,
-    playedLength: playedGamesLength,
-    season: season ?? [],
-    series: series ?? [],
+  let returnObject
+  if (subDivision) {
+    returnObject = {
+      played: {
+        RegularGames: playedRegularGames,
+        QualificationGames: playedQualificationGames,
+      },
+      unplayed: {
+        RegularGames: unplayedRegularGames,
+        QualificationGames: unplayedQualificationGames,
+      },
+      unplayedLength: unplayedGamesLength,
+      playedLength: playedGamesLength,
+      season: season ?? [],
+      series: series ?? [],
+    }
+  } else {
+    returnObject = {
+      played: {
+        FinalGames: playedFinalGames,
+        SemiGames: playedSemiGames,
+        QuarterGames: playedQuarterGames,
+        EightGames: playedEightGames,
+        RegularGames: playedRegularGames,
+        QualificationGames: playedQualificationGames,
+      },
+      unplayed: {
+        FinalGames: unplayedFinalGames,
+        SemiGames: unplayedSemiGames,
+        QuarterGames: unplayedQuarterGames,
+        EightGames: unplayedEightGames,
+        RegularGames: unplayedRegularGames,
+        QualificationGames: unplayedQualificationGames,
+      },
+      unplayedLength: unplayedGamesLength,
+      playedLength: playedGamesLength,
+      season: season ?? [],
+      series: series ?? [],
+    }
   }
 
   return returnObject
@@ -179,6 +204,7 @@ export function gameSortFunction(
       group,
       name: seriesObject?.name ?? '',
       comment: seriesObject?.comment ?? '',
+      level: seriesObject?.level ?? 2,
       games: sortGroups[group],
     }
   })
@@ -202,11 +228,12 @@ export function gameSortFunction(
       group: groupObject['group'],
       name: groupObject['name'],
       comment: groupObject['comment'],
+      level: groupObject['level'],
       dates: played ? sortedGameDates.reverse() : sortedGameDates,
     }
   })
 
-  return sortGroupsAndDates
+  return sortGroupsAndDates.sort((a, b) => a.level - b.level)
 }
 
 export type SortedGames = ReturnType<typeof gameSortFunction>

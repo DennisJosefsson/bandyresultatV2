@@ -13,6 +13,7 @@ import Season from '../../models/Season.js'
 import TeamGame from '../../models/TeamGame.js'
 
 import { z } from 'zod'
+import Serie from '../../models/Serie.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 import {
   goalStatsByCatObject,
@@ -34,11 +35,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const gamesCountTotal = await Game.count({
     where: { women: women === 'true' ? true : false, played: true },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 } },
+    ],
   })
 
   if (gamesCountTotal === 0) {
@@ -47,11 +51,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredTotalRaw = await TeamGame.findOne({
     where: { homeGame: true, women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [[sequelize.fn('SUM', sequelize.col('total_goals')), 'data']],
     group: ['season.year', 'season.season_id'],
     raw: true,
@@ -60,11 +67,14 @@ statsRouter.get('/stats/:seasonId', (async (
   const goalsScoredTotal = goalStatsObject.parse(goalsScoredTotalRaw)
   const goalsScoredTotalCatRaw = await TeamGame.findAll({
     where: { homeGame: true, women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [sequelize.fn('SUM', sequelize.col('total_goals')), 'data'],
@@ -76,11 +86,15 @@ statsRouter.get('/stats/:seasonId', (async (
   const goalsScoredTotalCat = goalStatsByCatObject.parse(goalsScoredTotalCatRaw)
   const goalsScoredHomeTotalRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [[sequelize.fn('SUM', sequelize.col('home_goal')), 'data']],
     group: ['season.year', 'season.season_id'],
     raw: true,
@@ -91,11 +105,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredHomeTotalCatRaw = await Game.findAll({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [sequelize.fn('SUM', sequelize.col('home_goal')), 'data'],
@@ -111,11 +128,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAwayTotalRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [[sequelize.fn('SUM', sequelize.col('away_goal')), 'data']],
     group: ['season.year', 'season.season_id'],
     raw: true,
@@ -126,11 +146,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAwayTotalCatRaw = await Game.findAll({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [sequelize.fn('SUM', sequelize.col('away_goal')), 'data'],
@@ -146,11 +169,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAverageRaw = await TeamGame.findOne({
     where: { played: true, women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       [
         sequelize.fn(
@@ -170,11 +196,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAverageCatRaw = await TeamGame.findAll({
     where: { played: true, women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [
@@ -197,11 +226,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredHomeAverageRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       [
         sequelize.fn(
@@ -223,11 +255,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredHomeAverageCatRaw = await Game.findAll({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [
@@ -250,11 +285,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAwayAverageRaw = await Game.findOne({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       [
         sequelize.fn(
@@ -276,11 +314,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const goalsScoredAwayAverageCatRaw = await Game.findAll({
     where: { women: women === 'true' ? true : false },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     attributes: [
       'category',
       [
@@ -303,11 +344,14 @@ statsRouter.get('/stats/:seasonId', (async (
 
   const gamesCountTotalCat = await Game.count({
     where: { women: women === 'true' ? true : false, played: true },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     group: ['category', 'season.year', 'season.season_id'],
   })
 
@@ -317,19 +361,25 @@ statsRouter.get('/stats/:seasonId', (async (
       homeGame: true,
       win: true,
     },
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
   })
 
   const winCountAwayTeam = await TeamGame.count({
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     where: {
       women: women === 'true' ? true : false,
       homeGame: false,
@@ -338,11 +388,14 @@ statsRouter.get('/stats/:seasonId', (async (
   })
 
   const drawCount = await TeamGame.count({
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     where: {
       women: women === 'true' ? true : false,
       draw: true,
@@ -351,11 +404,14 @@ statsRouter.get('/stats/:seasonId', (async (
   })
 
   const winCountHomeTeamCat = await TeamGame.count({
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     where: {
       women: women === 'true' ? true : false,
       homeGame: true,
@@ -365,11 +421,14 @@ statsRouter.get('/stats/:seasonId', (async (
   })
 
   const winCountAwayTeamCat = await TeamGame.count({
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     where: {
       women: women === 'true' ? true : false,
       homeGame: false,
@@ -379,11 +438,14 @@ statsRouter.get('/stats/:seasonId', (async (
   })
 
   const drawCountCat = await TeamGame.count({
-    include: {
-      model: Season,
-      where: { year: { [Op.eq]: seasonYear } },
-      attributes: ['year', 'seasonId'],
-    },
+    include: [
+      {
+        model: Season,
+        where: { year: { [Op.eq]: seasonYear } },
+        attributes: ['year', 'seasonId'],
+      },
+      { model: Serie, where: { level: 1 }, attributes: [] },
+    ],
     where: {
       women: women === 'true' ? true : false,
       draw: true,
@@ -402,7 +464,8 @@ statsRouter.get('/stats/:seasonId', (async (
   	case when lost = true then 1 else 0 end lost_value
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
-  where teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
+  join series on series.serie_id = teamgames.serie_id
+  where series.level = 1 and teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
 
   summed_lost_values as (
   select
@@ -459,7 +522,8 @@ statsRouter.get('/stats/:seasonId', (async (
   	case when draw = true then 1 else 0 end draw_value
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
-  where teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
+  join series on series.serie_id = teamgames.serie_id
+  where series.level = 1 and teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
 
   summed_draw_values as (
   select
@@ -516,7 +580,8 @@ statsRouter.get('/stats/:seasonId', (async (
   	case when win = true then 1 else 0 end win_value
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
-  where teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
+  join series on series.serie_id = teamgames.serie_id
+  where series.level = 1 and teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
 
   summed_win_values as (
   select
@@ -573,7 +638,8 @@ statsRouter.get('/stats/:seasonId', (async (
   	case when win = false then 1 else 0 end win_value
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
-  where teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
+  join series on series.serie_id = teamgames.serie_id
+  where series.level = 1 and teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
 
   summed_win_values as (
   select
@@ -630,7 +696,8 @@ statsRouter.get('/stats/:seasonId', (async (
   	case when lost = false then 1 else 0 end win_value
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
-  where teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
+  join series on series.serie_id = teamgames.serie_id
+  where series.level = 1 and teamgames.women = $women and category != 'qualification' and played = true and "year" = $season_name),
 
   summed_win_values as (
   select
@@ -686,6 +753,7 @@ statsRouter.get('/stats/:seasonId', (async (
   	(home_goal + away_goal) as sum_goals
   from games
   join seasons on seasons.season_id = games.season_id
+  join series on series.serie_id = games.serie_id
 
   where (home_goal + away_goal) =
   		(
@@ -693,11 +761,10 @@ statsRouter.get('/stats/:seasonId', (async (
   		 	max(away_goal + home_goal)
   		 	from games
   		 	join seasons on games.season_id = seasons.season_id
-  		 	where "year" = $season_name
-  				and games.women = $women
-
+        join series on series.serie_id = games.serie_id
+  		 	where "year" = $season_name	and games.women = $women and series.level = 1
   		)
-  and "year" = $season_name and games.women = $women)
+  and "year" = $season_name and games.women = $women and series.level = 1)
 
   select
   	home_team."casual_name" as home_name,
@@ -725,6 +792,7 @@ statsRouter.get('/stats/:seasonId', (async (
   	(home_goal + away_goal) as sum_goals
   from games
   join seasons on seasons.season_id = games.season_id
+  join series on series.serie_id = games.serie_id
 
   where (home_goal + away_goal) =
   		(
@@ -732,11 +800,10 @@ statsRouter.get('/stats/:seasonId', (async (
   		 	min(away_goal + home_goal)
   		 	from games
   		 	join seasons on games.season_id = seasons.season_id
-  		 	where "year" = $season_name
-  				and games.women = $women
-
+        join series on series.serie_id = games.serie_id
+  		 	where "year" = $season_name and games.women = $women and series.level = 1
   		)
-  and "year" = $season_name and games.women = $women)
+  and "year" = $season_name and games.women = $women and series.level = 1)
 
   select
   	home_team."casual_name" as home_name,
@@ -765,6 +832,7 @@ statsRouter.get('/stats/:seasonId', (async (
   from teamgames
   join seasons on seasons.season_id = teamgames.season_id
   join games on teamgames.game_id = games.game_id
+  join series on series.serie_id = teamgames.serie_id
 
   where goal_difference =
   		(
@@ -772,11 +840,11 @@ statsRouter.get('/stats/:seasonId', (async (
   		 	max(goal_difference)
   		 	from teamgames
   		 	join seasons on teamgames.season_id = seasons.season_id
-  		 	where "year" = $season_name
-  				and teamgames.women = $women
+        join series on series.serie_id = teamgames.serie_id
+  		 	where "year" = $season_name	and teamgames.women = $women and series.level = 1
 
   		)
-  and "year" = $season_name and teamgames.women = $women and teamgames.played = true)
+  and "year" = $season_name and teamgames.women = $women and teamgames.played = true and series.level = 1)
 
   select
   	home_team."casual_name" as home_name,

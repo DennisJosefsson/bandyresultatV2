@@ -34,6 +34,7 @@ const AddSeries = () => {
       comment: '',
       seasonId: seasonId,
       bonusPoints: undefined,
+      level: 1,
     },
     criteriaMode: 'all',
     mode: 'onBlur',

@@ -4,13 +4,13 @@ import { teamGame } from './teamGame'
 
 export const searchResult = teamGame.and(
   z.object({
-    lag: team.pick({
+    team: team.pick({
       teamId: true,
       name: true,
       casualName: true,
       shortName: true,
     }),
-    opp: team.pick({
+    opponent: team.pick({
       teamId: true,
       name: true,
       casualName: true,

@@ -69,6 +69,18 @@ const Series = () => {
                           Matcher
                         </Button>
                       </Link>
+                      <Link
+                        to="/dashboard/season/$seasonId/info/$serieId"
+                        search={{ women: women }}
+                        params={{
+                          seasonId: seasonId,
+                          serieId: serie.serieId,
+                        }}
+                      >
+                        <Button size="sm" variant="outline">
+                          Info
+                        </Button>
+                      </Link>
                       <Button
                         onClick={() => {
                           navigate({

@@ -10,7 +10,7 @@ import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 
 export const Route = createFileRoute(
-  '/_layout/season/$seasonId/tables/_table/$table'
+  '/_layout/season/$seasonId/tables/$table'
 )({
   params: {
     parse: (params) => ({

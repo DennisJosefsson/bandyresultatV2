@@ -2,8 +2,9 @@ import { groupTable } from '@/lib/types/tables/seasonTable'
 import { Link } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
 import { z } from 'zod'
-import DataTable from './DataTable'
 import { columns } from './columns'
+import DataTable from './DataTable'
+import LowerDivisionLink from './LowerDivisionLink'
 
 type TableListProps = {
   tableArray: z.infer<typeof groupTable>[]
@@ -23,6 +24,7 @@ const TableList = ({ tableArray, table }: TableListProps) => {
   }
   return (
     <div className="mb-6">
+      <LowerDivisionLink />
       {tableArray.map((group) => {
         const teamObject = group.tables.reduce(
           (o, key) => ({ ...o, [key.team.casualName]: key.teamId }),

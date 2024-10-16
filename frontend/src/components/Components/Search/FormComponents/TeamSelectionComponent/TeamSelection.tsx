@@ -15,7 +15,7 @@ import { FixedSizeList } from 'react-window'
 import RenderItem from './RenderItem'
 
 type TeamSelectionProps = {
-  field: Extract<SearchParamsFields, 'team' | 'opponent'>
+  field: Extract<SearchParamsFields, 'teamId' | 'opponentId'>
   label: string
 }
 

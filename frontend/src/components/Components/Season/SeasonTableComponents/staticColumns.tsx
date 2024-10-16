@@ -37,7 +37,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
   },
   {
-    accessorKey: 'games',
+    accessorKey: 'totalGames',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -59,13 +59,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('games')}
+        {row.getValue('totalGames')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'won',
+    accessorKey: 'totalWins',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -87,13 +87,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('won')}
+        {row.getValue('totalWins')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'draw',
+    accessorKey: 'totalDraws',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -115,13 +115,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('draw')}
+        {row.getValue('totalDraws')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'lost',
+    accessorKey: 'totalLost',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -143,13 +143,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('lost')}
+        {row.getValue('totalLost')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'scoredGoals',
+    accessorKey: 'totalGoalsScored',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -171,13 +171,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('scoredGoals')}
+        {row.getValue('totalGoalsScored')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'concededGoals',
+    accessorKey: 'totalGoalsConceded',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -199,13 +199,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('concededGoals')}
+        {row.getValue('totalGoalsConceded')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'goalDifference',
+    accessorKey: 'totalGoalDifference',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -227,13 +227,13 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('goalDifference')}
+        {row.getValue('totalGoalDifference')}
       </div>
     ),
     maxSize: 16,
   },
   {
-    accessorKey: 'points',
+    accessorKey: 'totalPoints',
     header: ({ column }) => (
       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
         <Button
@@ -255,7 +255,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
     ),
     cell: ({ row }) => (
       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
-        {row.getValue('points')}
+        {row.getValue('totalPoints')}
       </div>
     ),
     maxSize: 16,

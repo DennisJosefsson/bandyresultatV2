@@ -19,16 +19,10 @@ import { z } from 'zod'
 type AnimationTableProps = {
   dateArray: z.infer<typeof developmentDates>
   round: number
-  seriesArray: z.infer<typeof serie>[]
-  group: string | null
+  serie: z.infer<typeof serie>
 }
 
-const AnimationTable = ({
-  dateArray,
-  round,
-  seriesArray,
-  group,
-}: AnimationTableProps) => {
+const AnimationTable = ({ dateArray, round, serie }: AnimationTableProps) => {
   const { favTeams } = useTeampreferenceContext()
   const displayArrow = (teamId: number) => {
     const prevPosObject = dateArray[round - 1].table.find(
@@ -58,14 +52,10 @@ const AnimationTable = ({
     }
   }
 
-  const serieObject = seriesArray.find(
-    (serie) => serie.serieGroupCode === group
-  )
-
   return (
     <div className="mx-2 xl:mt-7 lg:mt-5 text-[8px] sm:text-[10px] lg:text-sm xl:mx-0">
       <Table>
-        <TableCaption>{serieObject?.comment}</TableCaption>
+        <TableCaption>{serie.comment}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead
@@ -137,7 +127,7 @@ const AnimationTable = ({
               <TableRow
                 key={`${team.teamId}-${index}`}
                 className={`${
-                  serieObject?.serieStructure?.includes(index + 1)
+                  serie.serieStructure?.includes(index + 1)
                     ? 'border-b-2 border-foreground'
                     : null
                 } ${favTeams.includes(team.teamId) ? 'font-bold' : null}`}

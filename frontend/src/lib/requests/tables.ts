@@ -1,7 +1,12 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { singleSeasonTable } from '../types/tables/seasonTable'
+import {
+  editStaticTable,
+  newStaticTable,
+  singleSeasonSubTables,
+  singleSeasonTable,
+} from '../types/tables/seasonTable'
 import { maratonTable, singleSeasonPlayoff } from '../types/tables/tables'
 import { compareFormState, compareResponseObject } from '../types/teams/compare'
 
@@ -57,6 +62,27 @@ export const getSingleSeasonTable = async ({
   return response.data
 }
 
+export const getSingleSeasonSubTable = async ({
+  seasonId,
+  women,
+  group,
+}: {
+  seasonId: number
+  women: boolean
+  group: string
+}): Promise<z.infer<typeof singleSeasonSubTables>> => {
+  const response = await tablesApi.get(
+    `/sub/${seasonId}/${group}?women=${women}`,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
+  )
+
+  return response.data
+}
+
 export const getSingleSeasonPlayoff = async ({
   seasonId,
   women,
@@ -70,6 +96,33 @@ export const getSingleSeasonPlayoff = async ({
 
 export const deleteTable = async ({ tableId }: { tableId: number }) => {
   return await tablesApi.delete(`/${tableId}`)
+}
+
+export const newStaticTableFunction = async ({
+  formState,
+}: {
+  formState: z.infer<typeof newStaticTable>
+}) => {
+  const response = await tablesApi.post('/', formState)
+  return response.data
+}
+
+export const editStaticTableFunction = async ({
+  formState,
+}: {
+  formState: z.infer<typeof editStaticTable>
+}) => {
+  const response = await tablesApi.put(`/${formState.tableId}`, formState)
+  return response.data
+}
+
+export const getStaticTable = async ({
+  tableId,
+}: {
+  tableId: number
+}): Promise<z.infer<typeof editStaticTable>> => {
+  const response = await tablesApi.get(`/statictable/${tableId}`)
+  return response.data
 }
 
 export default tablesApi

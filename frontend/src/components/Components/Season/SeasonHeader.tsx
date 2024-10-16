@@ -21,9 +21,13 @@ const SeasonHeader = () => {
   })
     .split('/')
     .slice(3)
-    .join('/')
 
-  const parsedRoute = getParsedRoute(pathnameEnd)
+  const pathName =
+    pathnameEnd.length > 2
+      ? pathnameEnd.slice(0, 2).join('/')
+      : pathnameEnd.join('/')
+
+  const parsedRoute = getParsedRoute(pathName)
 
   return (
     <div className="pt-2 mb-1 flex gap-10 items-center justify-center sm:mb-2 xl:mb-4">

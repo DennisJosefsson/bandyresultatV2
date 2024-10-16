@@ -8,14 +8,14 @@ export const table = z.object({
   group: z.string(),
   teamId: z.number(),
   women: z.boolean(),
-  totalGames: z.number(),
-  totalWins: z.number(),
-  totalDraws: z.number(),
-  totalLost: z.number(),
-  totalGoalsScored: z.number(),
-  totalGoalsConceded: z.number(),
-  totalGoalDifference: z.number(),
-  totalPoints: z.number(),
+  totalGames: z.coerce.number(),
+  totalWins: z.coerce.number(),
+  totalDraws: z.coerce.number(),
+  totalLost: z.coerce.number(),
+  totalGoalsScored: z.coerce.number(),
+  totalGoalsConceded: z.coerce.number(),
+  totalGoalDifference: z.coerce.number(),
+  totalPoints: z.coerce.number(),
 })
 
 export const result = z.object({

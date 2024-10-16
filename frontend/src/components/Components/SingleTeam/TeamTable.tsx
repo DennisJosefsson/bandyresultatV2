@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody } from '@/components/ui/table'
 import { singleTeam } from '@/lib/types/teams/singleTeam'
-import { groupConstant, sortOrder } from '@/lib/utils/constants'
+import { groupConstant } from '@/lib/utils/constants'
 import { z } from 'zod'
 import TeamTableHeader from './TableComponents/TableHeader'
 import TeamTableRow from './TableComponents/TeamTableDataRow'
@@ -15,19 +15,9 @@ const TeamTable = ({
   tables: TeamTableProps
   season?: string
 }) => {
-  const sortedTables = tables.sort((a, b) => {
-    if (sortOrder.indexOf(a.category) > sortOrder.indexOf(b.category)) {
-      return 1
-    }
-    if (sortOrder.indexOf(a.category) < sortOrder.indexOf(b.category)) {
-      return -1
-    } else {
-      return 0
-    }
-  })
   return (
     <div className="mb-6">
-      {sortedTables.map((category, index) => {
+      {tables.map((category, index) => {
         return (
           <Card
             key={category.category}
@@ -42,7 +32,7 @@ const TeamTable = ({
               <Table className="w-full table-fixed">
                 <TeamTableHeader />
                 <TableBody>
-                  <TeamTableRow category={category} key={index} />
+                  <TeamTableRow table={category} key={index} />
                 </TableBody>
               </Table>
             </CardContent>

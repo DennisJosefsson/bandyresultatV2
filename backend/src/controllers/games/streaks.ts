@@ -7,6 +7,7 @@ import {
 } from 'express'
 import { Op, QueryTypes } from 'sequelize'
 import Season from '../../models/Season.js'
+import Serie from '../../models/Serie.js'
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
 import { sequelize } from '../../utils/db.js'
@@ -49,7 +50,8 @@ select
 	"date",
   case when lost = true then 1 else 0 end lost_value
 from teamgames
-where category != 'qualification' and played = true and women = true),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = true and series.level = 1),
 
 summed_lost_values as (
 select 
@@ -100,7 +102,8 @@ select
 	"date",
   case when draw = true then 1 else 0 end draw_value
 from teamgames
-where category != 'qualification' and played = true and women = true),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = true and series.level = 1),
 
 summed_draw_values as (
 select 
@@ -151,7 +154,8 @@ select
 	"date",
   case when win = true then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = true),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = true and series.level = 1),
 
 summed_win_values as (
 select 
@@ -202,7 +206,8 @@ select
 	"date",
   case when win = false then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = true),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = true and series.level = 1),
 
 summed_win_values as (
 select 
@@ -253,7 +258,8 @@ select
 	"date",
   case when lost = false then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = true),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = true and series.level = 1),
 
 summed_win_values as (
 select 
@@ -334,7 +340,8 @@ select
 	"date",
   case when lost = true then 1 else 0 end lost_value
 from teamgames
-where category != 'qualification' and played = true and women = false),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = false and series.level = 1),
 
 summed_lost_values as (
 select 
@@ -385,7 +392,8 @@ select
 	"date",
   case when draw = true then 1 else 0 end draw_value
 from teamgames
-where category != 'qualification' and played = true and women = false),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = false and series.level = 1),
 
 summed_draw_values as (
 select 
@@ -436,7 +444,8 @@ select
 	"date",
   case when win = true then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = false),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = false and series.level = 1),
 
 summed_win_values as (
 select 
@@ -487,7 +496,8 @@ select
 	"date",
   case when win = false then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = false),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = false and series.level = 1),
 
 summed_win_values as (
 select 
@@ -538,7 +548,8 @@ select
 	"date",
   case when lost = false then 1 else 0 end win_value
 from teamgames
-where category != 'qualification' and played = true and women = false),
+join series on series.serie_id = teamgames.serie_id
+where category != 'qualification' and played = true and women = false and series.level = 1),
 
 summed_win_values as (
 select 
@@ -607,6 +618,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -639,6 +651,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -671,6 +684,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -702,6 +716,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -734,6 +749,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -766,6 +782,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -788,6 +805,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -810,6 +828,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -832,6 +851,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -853,6 +873,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -876,6 +897,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -899,6 +921,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -945,6 +968,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -977,6 +1001,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1009,6 +1034,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1040,6 +1066,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1072,6 +1099,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1104,6 +1132,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1126,6 +1155,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1148,6 +1178,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1170,6 +1201,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1191,6 +1223,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1214,6 +1247,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1237,6 +1271,7 @@ limit 10;
       },
       attributes: [[sequelize.fn('SUM', sequelize.col('points')), 'data']],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1276,6 +1311,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1300,6 +1336,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1324,6 +1361,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1347,6 +1385,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1372,6 +1411,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1397,6 +1437,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1428,6 +1469,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1460,6 +1502,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1492,6 +1535,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1523,6 +1567,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1555,6 +1600,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1587,6 +1633,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1626,6 +1673,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1650,6 +1698,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1674,6 +1723,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1697,6 +1747,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1722,6 +1773,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1747,6 +1799,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_scored')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1778,6 +1831,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1810,6 +1864,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1842,6 +1897,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1873,6 +1929,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1905,6 +1962,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1937,6 +1995,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -1979,6 +2038,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2003,6 +2063,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2027,6 +2088,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2050,6 +2112,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2075,6 +2138,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2100,6 +2164,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2131,6 +2196,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2163,6 +2229,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2195,6 +2262,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2226,6 +2294,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2258,6 +2327,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2290,6 +2360,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2332,6 +2403,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2356,6 +2428,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2380,6 +2453,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2410,6 +2484,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2442,6 +2517,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2474,6 +2550,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2498,6 +2575,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2523,6 +2601,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2548,6 +2627,7 @@ limit 10;
         [sequelize.fn('SUM', sequelize.col('goals_conceded')), 'data'],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2579,6 +2659,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2611,6 +2692,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],
@@ -2643,6 +2725,7 @@ limit 10;
         ],
       ],
       include: [
+        { model: Serie, where: { level: 1 }, attributes: [] },
         {
           model: Team,
           attributes: ['name', 'casualName', 'shortName'],

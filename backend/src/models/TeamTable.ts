@@ -12,6 +12,7 @@ import {
   Table,
 } from 'sequelize-typescript'
 import Season from './Season.js'
+import Serie from './Serie.js'
 import TableSeason from './TableSeason.js'
 import Team from './Team.js'
 
@@ -31,6 +32,7 @@ export const teamTableAttributes = z.object({
   qualification: z.boolean(),
   group: z.string(),
   women: z.boolean(),
+  serieId: z.number(),
 })
 
 export const teamTableInput = teamTableAttributes.partial({ tableId: true })
@@ -107,11 +109,18 @@ class TeamTable extends Model<TeamTableAttributes, TeamTableInput> {
   @Column
   declare group: string
 
+  @Column
+  @ForeignKey(() => Serie)
+  declare serieId: number
+
   @BelongsTo(() => Team, 'teamId')
   declare team: ReturnType<() => Team>
 
+  @BelongsTo(() => Serie, 'serieId')
+  declare serie: ReturnType<() => Serie>
+
   @BelongsToMany(() => Season, () => TableSeason, 'tableId')
-  declare seasontable: ReturnType<() => Season>
+  declare season: ReturnType<() => Season>
 }
 
 export default TeamTable

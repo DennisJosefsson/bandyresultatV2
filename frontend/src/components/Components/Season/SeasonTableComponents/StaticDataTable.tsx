@@ -1,12 +1,3 @@
-import { useState, useEffect } from 'react'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table'
 import {
   Table,
   TableBody,
@@ -16,8 +7,17 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { showColumns, hideColumns } from './staticColumns'
+import { hideColumns, showColumns } from './staticColumns'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

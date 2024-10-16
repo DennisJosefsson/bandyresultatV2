@@ -1,6 +1,11 @@
 import { useGetFirstAndLastSeason } from '@/lib/hooks/dataHooks/season/useGetFirstAndLastSeason'
 
-import { useLoaderData, useParams, useSearch } from '@tanstack/react-router'
+import {
+  Link,
+  useLoaderData,
+  useParams,
+  useSearch,
+} from '@tanstack/react-router'
 
 import { NoWomenSeason } from '../../Common/NoWomenSeason'
 import Games from './Games'
@@ -14,9 +19,7 @@ const SeasonGames = () => {
     from: '/_layout',
     select: (search) => search.women,
   })
-  const games = useLoaderData({
-    from: '/_layout/season/$seasonId/games',
-  })
+  const games = useLoaderData({ from: '/_layout/season/$seasonId/games' })
 
   const { lastSeason } = useGetFirstAndLastSeason()
 
@@ -33,6 +36,18 @@ const SeasonGames = () => {
   }
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
+      <div className="mb-2">
+        {games.hasLowerLevel ? (
+          <Link
+            from="/season/$seasonId/games"
+            to="/season/$seasonId/games/sub"
+            params={(prev) => ({ seasonId: prev.seasonId })}
+            search={(prev) => ({ ...prev })}
+          >
+            <span className="text-[10px] md:text-sm">Lägre divisioner</span>
+          </Link>
+        ) : null}
+      </div>
       {seasonId <= lastSeason && (
         <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0 lg:gap-1">
           {games['playedLength'] > 0 ? (

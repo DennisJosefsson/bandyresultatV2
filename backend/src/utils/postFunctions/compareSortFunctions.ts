@@ -11,6 +11,67 @@ type SortedCompareCategoryTables = {
   [key: string]: z.infer<typeof compareCategoryTeamTables>
 }
 
+type SortedTables = {
+  [key: string]: z.infer<typeof compareCategoryTeamTables>
+}
+
+type LevelName = {
+  [key: string]: string
+}
+
+const levelName: LevelName = {
+  '1': 'Högsta divisionen',
+  '2': 'Näst högsta divisionen',
+  '3': 'Tredje divisionen',
+  '4': 'Fjärde divisionen',
+  '5': 'Femte divisionen',
+}
+
+export const compareSortLevelFunction = (
+  gamesArray: z.infer<typeof compareCategoryTeamTables>
+) => {
+  const sortLevels = gamesArray.reduce((levels, table) => {
+    if (!levels[table.serie.level]) {
+      levels[table.serie.level] = []
+    }
+    levels[table.serie.level].push(table)
+    return levels
+  }, {} as SortedCompareCategoryTables)
+
+  const sortedLevels = Object.keys(sortLevels).map((level) => {
+    return {
+      level,
+      categories: sortLevels[level],
+    }
+  })
+
+  const sortLevelsAndTables = sortedLevels.map((levelObject) => {
+    const sortCats = levelObject.categories.reduce((category, table) => {
+      if (!category[table.category]) {
+        category[table.category] = []
+      }
+      category[table.category].push(table)
+      return category
+    }, {} as SortedTables)
+
+    const sortedTables = Object.keys(sortCats).map((cat) => {
+      return {
+        category: cat,
+        tables: sortCats[cat],
+      }
+    })
+    return {
+      level: levelObject['level'],
+      levelName: levelName[levelObject['level']],
+      tables: sortedTables,
+    }
+  })
+
+  return sortLevelsAndTables.sort(
+    (a, b) => parseInt(a.level) - parseInt(b.level)
+  )
+}
+
 export const compareSortFunction = (
   compareArray: z.infer<typeof compareCategoryTeamTables>
 ) => {
@@ -44,7 +105,6 @@ export const compareAllTeamData = (
   allDataArray: z.infer<typeof compareAllTeamTables>
 ) => {
   const newArray: z.infer<typeof newCompareObject> = []
-
 
   allDataArray.forEach((team) => {
     if (!newArray.find((teamItem) => team.teamId === teamItem.teamId)) {

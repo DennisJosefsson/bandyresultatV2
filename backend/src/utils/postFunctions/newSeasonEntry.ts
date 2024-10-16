@@ -19,9 +19,9 @@ const yearString = z
 
 const numberParse = z.number()
 
-import BadRequestError from '../middleware/errors/BadRequestError.js'
 import Metadata from '../../models/Metadata.js'
 import TeamSeason from '../../models/TeamSeason.js'
+import BadRequestError from '../middleware/errors/BadRequestError.js'
 
 type NewTeamSeason = {
   teamId: number
@@ -141,120 +141,140 @@ export const fullNewSeason = (object: unknown) => {
       serieGroupCode: 'final',
       serieCategory: 'final',
       serieName: 'Final',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'final',
       serieCategory: 'final',
       serieName: 'Final',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'S1',
       serieCategory: 'semi',
       serieName: 'Semifinal 1',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'S1',
       serieCategory: 'semi',
       serieName: 'Semifinal 1',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'S2',
       serieCategory: 'semi',
       serieName: 'Semifinal 2',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'S2',
       serieCategory: 'semi',
       serieName: 'Semifinal 2',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'Q1',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 1',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'Q1',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 1',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'Q2',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 2',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'Q2',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 2',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'Q3',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 3',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'Q3',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 3',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'Q4',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 4',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'Q4',
       serieCategory: 'quarter',
       serieName: 'Kvartsfinal 4',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'E1',
       serieCategory: 'eight',
       serieName: 'Åttondel 1',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'E2',
       serieCategory: 'eight',
       serieName: 'Åttondel 2',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'elitserien',
       serieCategory: 'regular',
       serieName: 'Elitserien',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'elitserien',
       serieCategory: 'regular',
       serieName: 'Elitserien',
+      level: 1,
     },
     {
       seasonId: womenId,
       serieGroupCode: 'kval',
       serieCategory: 'qualification',
       serieName: 'Kvalgrupp',
+      level: 1,
     },
     {
       seasonId: menId,
       serieGroupCode: 'kval',
       serieCategory: 'qualification',
       serieName: 'Kvalgrupp',
+      level: 1,
     },
   ].map((serie) => Serie.create(serie))
 }

@@ -6,7 +6,9 @@ import {
   Router,
 } from 'express'
 import { Op, QueryTypes } from 'sequelize'
+import { z } from 'zod'
 import Season from '../../models/Season.js'
+import Serie from '../../models/Serie.js'
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
 import { sequelize } from '../../utils/db.js'
@@ -14,7 +16,7 @@ import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import { parseCompareRequest } from '../../utils/postFunctions/compareRequest.js'
 import {
   compareAllTeamData,
-  compareSortFunction,
+  compareSortLevelFunction,
   getLatestGames,
 } from '../../utils/postFunctions/compareSortFunctions.js'
 import getCompareHeaderText from '../../utils/postFunctions/getCompareHeaderText.js'
@@ -26,21 +28,17 @@ import {
 
 const compareRouter = Router()
 
+const parseWomen = z.enum(['true', 'false']).catch('false')
+
 compareRouter.post('/compare', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   res.locals.origin = 'POST Compare router'
-  const menSeason = await Season.findOne({
-    where: { women: false },
-    order: [['seasonId', 'desc']],
-    limit: 1,
-    raw: true,
-    nest: true,
-  })
-  const womenSeason = await Season.findOne({
-    where: { women: true },
+  const women = parseWomen.parse(req.query.women)
+  const season = await Season.findOne({
+    where: { women: women === 'true' },
     order: [['seasonId', 'desc']],
     limit: 1,
     raw: true,
@@ -48,7 +46,7 @@ compareRouter.post('/compare', (async (
   })
 
   const { teamArray, categoryArray, startSeason, endSeason } =
-    parseCompareRequest(req.body, menSeason, womenSeason)
+    parseCompareRequest(req.body, season)
 
   const seasonNames = await Season.findAll({
     where: { seasonId: { [Op.in]: [startSeason, endSeason] } },
@@ -106,10 +104,12 @@ compareRouter.post('/compare', (async (
         attributes: ['name', 'teamId', 'casualName', 'shortName'],
         as: 'opponent',
       },
+      { model: Serie, attributes: ['level'] },
     ],
     group: [
       'teamId',
       'opponentId',
+      'serie.level',
       'category',
       'team.name',
       'team.team_id',
@@ -132,14 +132,14 @@ compareRouter.post('/compare', (async (
   if (!getCatTables || getCatTables.length === 0) {
     throw new NotFoundError({
       code: 404,
-      message: 'Teamen har inte spelat mot varandra.',
+      message: 'Lagen har inga inbördes matcher inlagda i databasen.',
       logging: false,
       context: { origin: 'Compare teams Router' },
     })
   }
 
   const tables = compareCategoryTeamTables.parse(getCatTables)
-  const categoryData = compareSortFunction(tables)
+  const categoryData = compareSortLevelFunction(tables)
 
   const getCompareAllGames = await TeamGame.findAll({
     where: {

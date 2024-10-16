@@ -17,8 +17,10 @@ import County from './County.js'
 import Game from './Game.js'
 import Municipality from './Municipality.js'
 import Season from './Season.js'
+import Serie from './Serie.js'
 import TeamGame from './TeamGame.js'
 import TeamSeason from './TeamSeason.js'
+import TeamSerie from './TeamSerie.js'
 import TeamTable from './TeamTable.js'
 
 export const teamAttributes = z.object({
@@ -89,6 +91,9 @@ class Team extends Model<TeamAttributes, TeamInput> {
 
   @BelongsToMany(() => Season, () => TeamSeason, 'teamId')
   declare seasonteam: Season[]
+
+  @BelongsToMany(() => Serie, () => TeamSerie, 'teamId')
+  declare series: Serie[]
 
   @HasMany(() => Game, 'gameId')
   declare games: Game[]

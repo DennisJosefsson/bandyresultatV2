@@ -1,7 +1,6 @@
 import { z } from 'zod'
-
-import { teamGame } from '../games/teamGame'
 import { season } from '../season/seasons'
+import { serie } from '../series/series'
 import { table } from '../tables/tables'
 import { team, teamAttributes } from './teams'
 
@@ -32,13 +31,29 @@ export const teamChartType = z.object({
   gold: z.boolean().nullable(),
 })
 
+export const lineChartType = z.object({
+  year: z.string(),
+  tick: z.string(),
+  dataPoint: z.number(),
+})
+
+export const barChartType = z.object({
+  year: z.string(),
+  position: z.number(),
+  points: z.number(),
+  dataPoint: z.number(),
+})
+
 export const fiveSeason = z.object({
   season: z.string(),
   tables: z.array(
-    table.extend({
-      team: team,
-      season: season,
-    })
+    table
+      .extend({
+        team: team,
+        season: season,
+        serie: serie,
+      })
+      .omit({ category: true })
   ),
 })
 
@@ -48,10 +63,11 @@ export const singleTeam = z.object({
     table.extend({
       team: team,
       season: season,
+      serie: serie,
     })
   ),
   sortedFiveSeasons: z.array(fiveSeason),
-  finalsAndWins: z.array(teamGame),
+  finalsAndWinsString: z.string(),
   noWinStreak: z.array(streakType),
   unbeatenStreak: z.array(streakType),
   winStreak: z.array(streakType),
@@ -64,6 +80,9 @@ export const singleTeam = z.object({
       end_year: z.string(),
     })
   ),
-  playoffCount: z.array(z.object({ playoff_count: z.string() })),
-  chartData: z.array(teamChartType),
+  playoffCountString: z.string(),
+  seasonString: z.string(),
+  chartDataLength: z.number(),
+  barChartData: z.array(barChartType),
+  renderData: z.array(z.array(lineChartType)),
 })

@@ -1,6 +1,6 @@
 import Date from '@/components/Components/Common/Date'
 import { groupArray } from '@/lib/types/games/gameObject'
-import { Link, useParams } from '@tanstack/react-router'
+import { getRouteApi, Link } from '@tanstack/react-router'
 import { Link as LinkIcon } from 'lucide-react'
 import { z } from 'zod'
 import GamesListItem from './GamesListSubComponents/GamesListItem'
@@ -10,9 +10,10 @@ type GameListProps = {
   title: string
 }
 
+const route = getRouteApi('/_layout/season/$seasonId/games')
+
 const GamesList = ({ gamesArray, title }: GameListProps) => {
-  const seasonId = useParams({
-    from: '/_layout/season/$seasonId/games',
+  const seasonId = route.useParams({
     select: (params) => params.seasonId,
   })
   if (gamesArray.length === 0) return null

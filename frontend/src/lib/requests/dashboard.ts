@@ -4,6 +4,7 @@ import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import {
   dashboardDataObjects,
   dashboardSingleSeason,
+  dashboardSingleSeries,
 } from '../types/dashboard/dashboard'
 import { gameFormData } from '../types/games/gameForm'
 import { gameObject } from '../types/games/gameObject'
@@ -49,5 +50,14 @@ export const getDashBoardSingleSeason = async ({
   seasonId: number
 }): Promise<z.infer<typeof dashboardSingleSeason>> => {
   const response = await dashboardApi.get(`/season/${seasonId}`)
+  return response.data
+}
+
+export const getDashboardSerieInfo = async ({
+  serieId,
+}: {
+  serieId: number
+}): Promise<z.infer<typeof dashboardSingleSeries>> => {
+  const response = await dashboardApi.get(`/serieinfo?serieId=${serieId}`)
   return response.data
 }

@@ -35,6 +35,7 @@ type SeriesData = {
   comment: string
   name: string
   serieStructure: number[]
+  level: number
 }
 
 export const tableSortFunction = (
@@ -56,6 +57,7 @@ export const tableSortFunction = (
       name: seriesObject?.name ?? '',
       comment: seriesObject?.comment ?? '',
       serieStructure: seriesObject?.serieStructure ?? [],
+      level: seriesObject?.level,
       tables: groupArray[group],
     }
   })
@@ -169,6 +171,7 @@ export const staticTableSortFunction = (
       name: seriesObject?.name ?? '',
       comment: seriesObject?.comment ?? '',
       serieStructure: seriesObject?.serieStructure ?? [],
+      level: seriesObject?.level ?? 2,
       tables: groupArray[group],
     }
   })

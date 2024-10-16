@@ -177,6 +177,7 @@ playoffRouter.get('/playoff/:seasonId', (async (
       comment: serie.comment,
       name: serie.serieName,
       serieStructure: serie.serieStructure,
+      level: serie.level,
     }
   })
 

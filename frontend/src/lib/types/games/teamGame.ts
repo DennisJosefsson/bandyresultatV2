@@ -3,8 +3,8 @@ import { z } from 'zod'
 export const teamGame = z.object({
   gameId: z.number(),
   teamGameId: z.number(),
-  team: z.number(),
-  opponent: z.number(),
+  teamId: z.number(),
+  opponentId: z.number(),
   date: z.string(),
   scoredGoals: z.number(),
   concededGoals: z.number(),

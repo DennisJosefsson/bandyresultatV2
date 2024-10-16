@@ -117,7 +117,7 @@ class TeamSeason extends Model<TeamSeasonAttributes, TeamSeasonInput> {
   @HasOne(() => Team, { sourceKey: 'teamId', foreignKey: 'teamId' })
   declare team: ReturnType<() => Team>
 
-  @HasOne(() => Season, { foreignKey: 'seasonId' })
+  @HasOne(() => Season, { sourceKey: 'seasonId', foreignKey: 'seasonId' })
   declare season: ReturnType<() => Season>
 }
 

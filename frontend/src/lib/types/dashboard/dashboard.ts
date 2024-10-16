@@ -2,6 +2,8 @@ import { z } from 'zod'
 import { metadata } from '../metadata/metadata'
 import { season } from '../season/seasons'
 import { serie } from '../series/series'
+import { staticTable } from '../tables/seasonTable'
+import { team } from '../teams/teams'
 import { dashboardTeamSeason } from './dashboardTeamseason'
 
 export const dashboardSingleSeason = z.object({
@@ -21,4 +23,9 @@ export const dashboardDataObjects = z.object({
   seasonCount: z.array(dashboardData),
   teamCount: z.array(dashboardData),
   goalCount: z.array(dashboardData),
+})
+
+export const dashboardSingleSeries = serie.extend({
+  teams: z.array(team),
+  tables: z.array(staticTable),
 })
