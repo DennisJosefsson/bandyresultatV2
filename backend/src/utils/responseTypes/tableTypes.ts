@@ -94,19 +94,20 @@ export const maratonTableSchema = z.array(
   })
 )
 
-export const singleTeamTable = z.array(
-  z.object({
-    category: z.string(),
-    totalDraws: z.coerce.number(),
-    totalGames: z.coerce.number(),
-    totalGoalDifference: z.coerce.number(),
-    totalGoalsConceded: z.coerce.number(),
-    totalGoalsScored: z.coerce.number(),
-    totalLost: z.coerce.number(),
-    totalPoints: z.coerce.number(),
-    totalWins: z.coerce.number(),
-  })
-)
+export const singleTeamTableItem = z.object({
+  category: z.string(),
+  totalDraws: z.coerce.number(),
+  totalGames: z.coerce.number(),
+  totalGoalDifference: z.coerce.number(),
+  totalGoalsConceded: z.coerce.number(),
+  totalGoalsScored: z.coerce.number(),
+  totalLost: z.coerce.number(),
+  totalPoints: z.coerce.number(),
+  totalWins: z.coerce.number(),
+  serie: z.object({ level: z.number() }),
+})
+
+export const singleTeamTable = z.array(singleTeamTableItem)
 
 export const compareTable = z.object({
   team: z.object({

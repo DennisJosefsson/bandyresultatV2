@@ -33,6 +33,7 @@ export const teamTableAttributes = z.object({
   group: z.string(),
   women: z.boolean(),
   serieId: z.number(),
+  category: z.string(),
 })
 
 export const teamTableInput = teamTableAttributes.partial({ tableId: true })
@@ -108,6 +109,9 @@ class TeamTable extends Model<TeamTableAttributes, TeamTableInput> {
 
   @Column
   declare group: string
+
+  @Column
+  declare category: string
 
   @Column
   @ForeignKey(() => Serie)
