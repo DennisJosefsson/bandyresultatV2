@@ -17,10 +17,11 @@ import TeamSeason from '../../models/TeamSeason.js'
 import TeamSerie from '../../models/TeamSerie.js'
 import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
-import { sortOrder } from '../../utils/postFunctions/constants.js'
+//import { sortOrder } from '../../utils/postFunctions/constants.js'
 import { teamIdChecker } from '../../utils/postFunctions/teamRequest.js'
-import { singleTeamTable } from '../../utils/responseTypes/tableTypes.js'
+//import { singleTeamTable } from '../../utils/responseTypes/tableTypes.js'
 import { getLatestFiveSeasons } from './singleTeam/getLatestFiveSeasons.js'
+import { getTables } from './singleTeam/getTables.js'
 
 const singleTeamRouter = Router()
 
@@ -162,6 +163,8 @@ limit 1
     order: [['seasonId', 'asc']],
   })
 
+  const allSeasonIds = allSeasons.rows.map((season) => season.seasonId)
+
   const seasonString = getSeasonStrings({
     teamCity: team.get('city'),
     teamName: team.get('casualName'),
@@ -171,41 +174,42 @@ limit 1
     firstFirstDivSeason,
     latestFirstDivSeason,
   })
+  const tables = await getTables({ teamId, seasonIdArray: allSeasonIds })
+  // const getTables = await TeamGame.findAll({
+  //   where: {
+  //     teamId: teamId,
+  //     played: true,
+  //   },
+  //   include: [{ model: Serie, attributes: ['level'] }],
+  //   attributes: [
+  //     'category',
+  //     [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
+  //     [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
+  //     [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
+  //     [
+  //       sequelize.fn('sum', sequelize.col('goals_conceded')),
+  //       'totalGoalsConceded',
+  //     ],
+  //     [
+  //       sequelize.fn('sum', sequelize.col('goal_difference')),
+  //       'totalGoalDifference',
+  //     ],
+  //     [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
+  //     [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
+  //     [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
+  //   ],
+  //   group: ['serie.level', 'category'],
+  //   order: [
+  //     ['category', 'DESC'],
+  //     ['totalPoints', 'DESC'],
+  //     ['totalGoalDifference', 'DESC'],
+  //     ['totalGoalsScored', 'DESC'],
+  //   ],
+  //   raw: true,
+  //   nest: true,
+  // })
 
-  const getTables = await TeamGame.findAll({
-    where: {
-      teamId: teamId,
-      played: true,
-    },
-    attributes: [
-      'category',
-      [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
-      [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
-      [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
-      [
-        sequelize.fn('sum', sequelize.col('goals_conceded')),
-        'totalGoalsConceded',
-      ],
-      [
-        sequelize.fn('sum', sequelize.col('goal_difference')),
-        'totalGoalDifference',
-      ],
-      [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-      [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-      [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
-    ],
-    group: ['category'],
-    order: [
-      ['category', 'DESC'],
-      ['totalPoints', 'DESC'],
-      ['totalGoalDifference', 'DESC'],
-      ['totalGoalsScored', 'DESC'],
-    ],
-    raw: true,
-    nest: true,
-  })
-
-  const tables = singleTeamTable.parse(getTables)
+  // const tables = singleTeamTable.parse(getTables)
 
   const finalsAndWins = await TeamGame.findAll({
     where: { teamId: teamId, category: 'final' },
@@ -564,44 +568,6 @@ where team = $teamId and ("category" = any(array['quarter', 'semi', 'final']) or
     (season) => season.seasonId
   )
 
-  // const latestFiveSeasons = await TeamGame.findAll({
-  //   where: {
-  //     teamId: teamId,
-  //     played: true,
-  //   },
-  //   attributes: [
-  //     'seasonId',
-  //     'category',
-
-  //     [sequelize.literal('count(*)'), 'totalGames'],
-  //     [sequelize.literal('sum (points)'), 'totalPoints'],
-  //     [sequelize.literal('sum(goals_scored)'), 'totalGoalsScored'],
-  //     [sequelize.literal('sum(goals_conceded)'), 'totalGoalsConceded'],
-  //     [sequelize.literal('sum(goal_difference)'), 'totalGoalDifference'],
-  //     [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-  //     [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-  //     [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
-  //   ],
-  //   include: [Season, { model: Serie, attributes: ['serieName'] }],
-  //   group: [
-  //     'teamgame.season_id',
-  //     'category',
-  //     'season.season_id',
-  //     'serie.serie_name',
-  //   ],
-  //   order: [
-  //     ['seasonId', 'DESC'],
-  //     ['category', 'ASC'],
-  //   ],
-  //   limit: 20,
-  //   raw: true,
-  //   nest: true,
-  // })
-
-  // const sortedFiveSeasons = tableSortFunction(
-  //   fiveSeasonsLeagueTable.parse(latestFiveSeasons)
-  // )
-
   const sortedFiveSeasons = await getLatestFiveSeasons({
     teamId,
     seasonIdArray: fiveSeasonIdArray,
@@ -655,9 +621,7 @@ where "seasonId" >= (
   res.json({
     seasonString,
     team,
-    tables: tables.sort(
-      (a, b) => sortOrder.indexOf(a.category) - sortOrder.indexOf(b.category)
-    ),
+    tables,
     noWinStreak,
     unbeatenStreak,
     winStreak,
@@ -674,36 +638,6 @@ where "seasonId" >= (
 }) as RequestHandler)
 
 export default singleTeamRouter
-
-// type SortedTables = {
-//   [key: string]: FiveSeasonsLeagueTableType
-// }
-
-// const tableSortFunction = (tableArray: FiveSeasonsLeagueTableType) => {
-//   const seasonArray = tableArray.reduce((seasons, table) => {
-//     if (!seasons[table.season.year]) {
-//       seasons[table.season.year] = []
-//     }
-//     seasons[table.season.year].push(table)
-//     return seasons
-//   }, {} as SortedTables)
-
-//   const sortedTables = Object.keys(seasonArray).map((season) => {
-//     return {
-//       season,
-//       tables: seasonArray[season],
-//     }
-//   })
-//   return sortedTables
-//     .sort((a, b) => {
-//       if (a.season > b.season) {
-//         return 1
-//       } else if (a.season < b.season) {
-//         return -1
-//       } else return 0
-//     })
-//     .slice(-5)
-// }
 
 function getFinalsAndWinsString(
   teamName: string,
