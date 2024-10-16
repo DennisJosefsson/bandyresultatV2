@@ -1,6 +1,6 @@
-import { TableRow, TableCell } from '@/components/ui/table'
+import { TableCell, TableRow } from '@/components/ui/table'
 
-type Category = {
+type Table = {
   totalGames: number
   totalWins: number
   totalDraws: number
@@ -9,35 +9,34 @@ type Category = {
   totalGoalsConceded: number
   totalGoalDifference: number
   totalPoints: number
-  category: string
 }
 
-const TeamTableRow = ({ category }: { category: Category }) => {
+const TeamTableRow = ({ table }: { table: Table }) => {
   return (
     <TableRow>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalGames}
+        {table.totalGames}
       </TableCell>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalWins}
+        {table.totalWins}
       </TableCell>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalDraws}
+        {table.totalDraws}
       </TableCell>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalLost}
+        {table.totalLost}
       </TableCell>
       <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalGoalsScored}
+        {table.totalGoalsScored}
       </TableCell>
       <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalGoalsConceded}
+        {table.totalGoalsConceded}
       </TableCell>
       <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalGoalDifference}
+        {table.totalGoalDifference}
       </TableCell>
       <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
-        {category.totalPoints}
+        {table.totalPoints}
       </TableCell>
     </TableRow>
   )

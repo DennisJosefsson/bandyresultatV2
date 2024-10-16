@@ -74,7 +74,7 @@ const CompareHeader = ({
               <Buttons link={link} length={length} />
             </div>
 
-            <span className="text-[10px] md:text-sm text-muted-foreground">
+            <span className="text-[10px] md:text-sm text-foreground">
               {compareHeaderText}
             </span>
           </div>

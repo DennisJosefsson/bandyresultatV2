@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { season } from '../season/seasons'
+import { serie } from '../series/series'
 import { table } from '../tables/tables'
 import { team, teamAttributes } from './teams'
 
@@ -46,10 +47,13 @@ export const barChartType = z.object({
 export const fiveSeason = z.object({
   season: z.string(),
   tables: z.array(
-    table.extend({
-      team: team,
-      season: season,
-    })
+    table
+      .extend({
+        team: team,
+        season: season,
+        serie: serie,
+      })
+      .omit({ category: true })
   ),
 })
 
@@ -59,6 +63,7 @@ export const singleTeam = z.object({
     table.extend({
       team: team,
       season: season,
+      serie: serie,
     })
   ),
   sortedFiveSeasons: z.array(fiveSeason),

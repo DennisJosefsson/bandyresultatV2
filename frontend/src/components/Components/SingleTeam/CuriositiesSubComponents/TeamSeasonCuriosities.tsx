@@ -15,6 +15,7 @@ const TeamSeasonCuriosities = ({
         <CardTitle className="text-[10px] md:text-sm">Kuriosa</CardTitle>
       </CardHeader>
       <CardContent className="text-[10px] xxs:text-xs p-1 md:p-6 lg:mr-0 lg:text-sm">
+        {/* <div className="mb-1"><span className="whitespace-pre-line">{team.seasonString}</span></div> */}
         <div className="mb-1">{team.seasonString}</div>
 
         <div className="mb-1">{team.finalsAndWinsString}</div>

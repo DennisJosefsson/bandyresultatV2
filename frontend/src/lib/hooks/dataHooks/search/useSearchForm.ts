@@ -77,10 +77,10 @@ export const useSearchResults = () => {
         })
         .map((game) => {
           return {
-            homeTeam: game.homeGame ? game.lag : game.opp,
-            awayTeam: game.homeGame ? game.opp : game.lag,
-            homeTeamId: game.homeGame ? game.team : game.opponent,
-            awayTeamId: game.homeGame ? game.opponent : game.team,
+            homeTeam: game.homeGame ? game.team : game.opponent,
+            awayTeam: game.homeGame ? game.opponent : game.team,
+            homeTeamId: game.homeGame ? game.teamId : game.opponentId,
+            awayTeamId: game.homeGame ? game.opponentId : game.teamId,
             result: game.game.result,
             date: game.date,
             qualification: game.qualificationGame,

@@ -21,30 +21,51 @@ const DetailedData = ({ categoryData, searchObject }: DetailedDataProps) => {
   if (!searchObject) return null
   return (
     <div>
-      {categoryData.map((category) => {
+      {categoryData.map((level) => {
         return (
-          <Card key={category.category} className="mb-2">
+          <Card key={level.level} className="mb-2">
             <CardHeader className="p-2">
               <CardTitle className="text-[10px] md:text-sm">
-                {groupConstant[category.category]}
+                {level.levelName}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-2 pt-0">
-              <Table className="w-full table-fixed">
-                <AllDataTableHeader />
-                <TableBody>
-                  {searchObject.teamArray &&
-                    searchObject.teamArray.length > 2 &&
-                    filterOpposition(category.teams).map((team, index) => {
-                      return <DataTableRow key={index} team={team} />
-                    })}
-                  {searchObject.teamArray &&
-                    searchObject.teamArray.length === 2 &&
-                    category.teams.slice(1).map((team, index) => {
-                      return <DataTableRow key={index} team={team} />
-                    })}
-                </TableBody>
-              </Table>
+              {level.tables.map((category) => {
+                return (
+                  <div key={category.category} className="mb-2">
+                    <h6 className="text-[10px] md:text-sm">
+                      {groupConstant[category.category]}
+                    </h6>
+                    <Table className="w-full table-fixed">
+                      <AllDataTableHeader />
+                      <TableBody>
+                        {searchObject.teamArray &&
+                          searchObject.teamArray.length > 2 &&
+                          filterOpposition(category.tables).map(
+                            (team, index) => {
+                              return (
+                                <DataTableRow
+                                  key={`${team.teamId}-${index}`}
+                                  team={team}
+                                />
+                              )
+                            }
+                          )}
+                        {searchObject.teamArray &&
+                          searchObject.teamArray.length === 2 &&
+                          category.tables.slice(1).map((team, index) => {
+                            return (
+                              <DataTableRow
+                                key={`${team.teamId}-${index}`}
+                                team={team}
+                              />
+                            )
+                          })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )
+              })}
             </CardContent>
           </Card>
         )

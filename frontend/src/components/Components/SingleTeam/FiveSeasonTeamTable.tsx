@@ -1,38 +1,34 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody } from '@/components/ui/table'
-import { singleTeam } from '@/lib/types/teams/singleTeam'
-import { groupConstant } from '@/lib/utils/constants'
+import { fiveSeason } from '@/lib/types/teams/singleTeam'
 import { z } from 'zod'
 import TeamTableHeader from './TableComponents/TableHeader'
 import TeamTableRow from './TableComponents/TeamTableDataRow'
 
-type TeamTableProps = z.infer<typeof singleTeam>['tables']
+type FiveSeasonTeamTableProps = z.infer<typeof fiveSeason>['tables']
 
-const TeamTable = ({
+const FiveSeasonTeamTable = ({
   tables,
   season = '',
 }: {
-  tables: TeamTableProps
+  tables: FiveSeasonTeamTableProps
   season?: string
 }) => {
   return (
     <div className="mb-6">
-      {tables.map((category, index) => {
+      {tables.map((table, index) => {
         return (
-          <Card
-            key={category.category}
-            className="mb-2 sm:mb-4 md:mb-6 p-1 md:p-2"
-          >
+          <Card key={table.group} className="mb-2 sm:mb-4 md:mb-6 p-1 md:p-2">
             <CardHeader className="p-1 md:p-2">
               <CardTitle className="text-[10px] md:text-sm">
-                {`${groupConstant[category.category]} ${season}`}
+                {`${table.serie.serieName} ${season}`}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-1 md:p-2">
               <Table className="w-full table-fixed">
                 <TeamTableHeader />
                 <TableBody>
-                  <TeamTableRow table={category} key={index} />
+                  <TeamTableRow table={table} key={index} />
                 </TableBody>
               </Table>
             </CardContent>
@@ -43,4 +39,4 @@ const TeamTable = ({
   )
 }
 
-export default TeamTable
+export default FiveSeasonTeamTable

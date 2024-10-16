@@ -18,7 +18,9 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
     <>
       <Card className="mt-2 w-full">
         <CardHeader className="p-2">
-          <CardTitle className="text-[10px] md:text-sm">Säsonger</CardTitle>
+          <CardTitle className="text-[10px] md:text-sm">
+            Säsonger i högsta serien totalt
+          </CardTitle>
         </CardHeader>
         <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
@@ -43,7 +45,7 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
           <Card className="mt-2 w-full">
             <CardHeader className="p-2">
               <CardTitle className="text-[10px] md:text-sm">
-                Säsonger sedan 1931
+                Säsonger i högsta serien sedan 1931
               </CardTitle>
             </CardHeader>
             <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
