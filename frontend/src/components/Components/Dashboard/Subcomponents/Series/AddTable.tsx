@@ -45,6 +45,7 @@ const AddSeries = () => {
       totalPoints: 0,
       women: women,
       qualification: data.serieCategory === 'qualification' ? true : false,
+      category: data.serieCategory,
     },
     criteriaMode: 'all',
     mode: 'onBlur',

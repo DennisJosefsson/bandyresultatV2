@@ -8,15 +8,13 @@ export const seasonTable = table.extend({
   season: season,
 })
 
-export const staticTable = seasonTable
-  .omit({ season: true, category: true })
-  .extend({
-    tableId: z.number(),
-    position: z.coerce.number(),
-    serieId: z.number(),
-    seasonId: z.number(),
-    qualification: z.boolean(),
-  })
+export const staticTable = seasonTable.omit({ season: true }).extend({
+  tableId: z.number(),
+  position: z.coerce.number(),
+  serieId: z.number(),
+  seasonId: z.number(),
+  qualification: z.boolean(),
+})
 
 const group = z.object({
   group: z.string(),
