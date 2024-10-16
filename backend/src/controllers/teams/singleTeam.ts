@@ -17,12 +17,10 @@ import TeamSeason from '../../models/TeamSeason.js'
 import TeamSerie from '../../models/TeamSerie.js'
 import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
+import { sortOrder } from '../../utils/postFunctions/constants.js'
 import { teamIdChecker } from '../../utils/postFunctions/teamRequest.js'
-import {
-  fiveSeasonsLeagueTable,
-  FiveSeasonsLeagueTableType,
-  singleTeamTable,
-} from '../../utils/responseTypes/tableTypes.js'
+import { singleTeamTable } from '../../utils/responseTypes/tableTypes.js'
+import { getLatestFiveSeasons } from './singleTeam/getLatestFiveSeasons.js'
 
 const singleTeamRouter = Router()
 
@@ -128,7 +126,7 @@ where t.team_id = $teamId and level = 1 and s.serie_category = 'regular'`,
     `select s2."year", s2.season_id from teamseries t 
 join series s on s.serie_id = t.serie_id
 join seasons s2 on s.season_id = s2.season_id 
-where t.team_id = $teamId and level = 1 and s.serie_category = 'regular'
+where t.team_id = $teamId and level = 1 and (s.serie_category = any(array['regular','eight','quarter', 'semi', 'final']) or s.serie_group_code = any(array['SlutspelA', 'SlutspelB']))
 order by s2.season_id asc
 limit 1
 `,
@@ -143,7 +141,7 @@ limit 1
     `select s2."year", s2.season_id from teamseries t
   join series s on s.serie_id = t.serie_id
   join seasons s2 on s.season_id = s2.season_id
-  where t.team_id = $teamId and level = 1 and s.serie_category = 'regular'
+  where t.team_id = $teamId and level = 1 and (s.serie_category = any(array['regular','eight','quarter', 'semi', 'final']) or s.serie_group_code = any(array['SlutspelA', 'SlutspelB']))
   order by s2.season_id desc
   limit 1`,
     { bind: { teamId: teamId }, type: QueryTypes.SELECT }
@@ -554,38 +552,60 @@ where team = $teamId and ("category" = any(array['quarter', 'semi', 'final']) or
 
   const playoffCountString = getPlayoffCountString(playoffCount)
 
-  const latestFiveSeasons = await TeamGame.findAll({
-    where: {
-      teamId: req.params.teamId,
-      played: true,
-    },
-    attributes: [
-      'seasonId',
-      'category',
-
-      [sequelize.literal('count(*)'), 'totalGames'],
-      [sequelize.literal('sum (points)'), 'totalPoints'],
-      [sequelize.literal('sum(goals_scored)'), 'totalGoalsScored'],
-      [sequelize.literal('sum(goals_conceded)'), 'totalGoalsConceded'],
-      [sequelize.literal('sum(goal_difference)'), 'totalGoalDifference'],
-      [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-      [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-      [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
-    ],
-    include: Season,
-    group: ['teamgame.season_id', 'category', 'season.season_id'],
-    order: [
-      ['seasonId', 'DESC'],
-      ['category', 'ASC'],
-    ],
-    limit: 20,
+  const latestFiveSeasonArray = await TeamSeason.findAll({
+    where: { teamId },
+    order: [['seasonId', 'desc']],
+    limit: 5,
     raw: true,
     nest: true,
   })
 
-  const sortedFiveSeasons = tableSortFunction(
-    fiveSeasonsLeagueTable.parse(latestFiveSeasons)
+  const fiveSeasonIdArray = latestFiveSeasonArray.map(
+    (season) => season.seasonId
   )
+
+  // const latestFiveSeasons = await TeamGame.findAll({
+  //   where: {
+  //     teamId: teamId,
+  //     played: true,
+  //   },
+  //   attributes: [
+  //     'seasonId',
+  //     'category',
+
+  //     [sequelize.literal('count(*)'), 'totalGames'],
+  //     [sequelize.literal('sum (points)'), 'totalPoints'],
+  //     [sequelize.literal('sum(goals_scored)'), 'totalGoalsScored'],
+  //     [sequelize.literal('sum(goals_conceded)'), 'totalGoalsConceded'],
+  //     [sequelize.literal('sum(goal_difference)'), 'totalGoalDifference'],
+  //     [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
+  //     [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
+  //     [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
+  //   ],
+  //   include: [Season, { model: Serie, attributes: ['serieName'] }],
+  //   group: [
+  //     'teamgame.season_id',
+  //     'category',
+  //     'season.season_id',
+  //     'serie.serie_name',
+  //   ],
+  //   order: [
+  //     ['seasonId', 'DESC'],
+  //     ['category', 'ASC'],
+  //   ],
+  //   limit: 20,
+  //   raw: true,
+  //   nest: true,
+  // })
+
+  // const sortedFiveSeasons = tableSortFunction(
+  //   fiveSeasonsLeagueTable.parse(latestFiveSeasons)
+  // )
+
+  const sortedFiveSeasons = await getLatestFiveSeasons({
+    teamId,
+    seasonIdArray: fiveSeasonIdArray,
+  })
 
   const womensTeam = team.get().women ? true : false
 
@@ -635,7 +655,9 @@ where "seasonId" >= (
   res.json({
     seasonString,
     team,
-    tables,
+    tables: tables.sort(
+      (a, b) => sortOrder.indexOf(a.category) - sortOrder.indexOf(b.category)
+    ),
     noWinStreak,
     unbeatenStreak,
     winStreak,
@@ -653,35 +675,35 @@ where "seasonId" >= (
 
 export default singleTeamRouter
 
-type SortedTables = {
-  [key: string]: FiveSeasonsLeagueTableType
-}
+// type SortedTables = {
+//   [key: string]: FiveSeasonsLeagueTableType
+// }
 
-const tableSortFunction = (tableArray: FiveSeasonsLeagueTableType) => {
-  const seasonArray = tableArray.reduce((seasons, table) => {
-    if (!seasons[table.season.year]) {
-      seasons[table.season.year] = []
-    }
-    seasons[table.season.year].push(table)
-    return seasons
-  }, {} as SortedTables)
+// const tableSortFunction = (tableArray: FiveSeasonsLeagueTableType) => {
+//   const seasonArray = tableArray.reduce((seasons, table) => {
+//     if (!seasons[table.season.year]) {
+//       seasons[table.season.year] = []
+//     }
+//     seasons[table.season.year].push(table)
+//     return seasons
+//   }, {} as SortedTables)
 
-  const sortedTables = Object.keys(seasonArray).map((season) => {
-    return {
-      season,
-      tables: seasonArray[season],
-    }
-  })
-  return sortedTables
-    .sort((a, b) => {
-      if (a.season > b.season) {
-        return 1
-      } else if (a.season < b.season) {
-        return -1
-      } else return 0
-    })
-    .slice(-5)
-}
+//   const sortedTables = Object.keys(seasonArray).map((season) => {
+//     return {
+//       season,
+//       tables: seasonArray[season],
+//     }
+//   })
+//   return sortedTables
+//     .sort((a, b) => {
+//       if (a.season > b.season) {
+//         return 1
+//       } else if (a.season < b.season) {
+//         return -1
+//       } else return 0
+//     })
+//     .slice(-5)
+// }
 
 function getFinalsAndWinsString(
   teamName: string,
@@ -757,9 +779,9 @@ function getSeasonStrings({
     qualificationString = ''
   } else if (qualificationSeasons === 1) {
     qualificationString =
-      'Laget har kvalat mot motstånd från högsta serien vid ett tillfälle.'
+      'Laget har kvalat mot motstånd från högsta serien vid ett tillfälle.\n'
   } else {
-    qualificationString = `Laget har kvalat mot motstånd från högsta serien vid ${qualificationSeasons} tillfällen.`
+    qualificationString = `Laget har kvalat mot motstånd från högsta serien vid ${qualificationSeasons} tillfällen.\n`
   }
 
   const firstDbSeason = allSeasons.rows[0]
@@ -768,43 +790,45 @@ function getSeasonStrings({
   let allSeasonsString
   if (allSeasons.count === firstDivSeasons) {
     if (allSeasons.count === 1) {
-      allSeasonsString = `Den säsongen spelades ${firstDbSeason.season.year}.`
+      allSeasonsString = `Den säsongen spelades ${firstDbSeason.season.year}.\n`
     } else {
       allSeasonsString = `Första säsongen var ${
         firstFirstDivSeason && firstFirstDivSeason.year
-      }, och den senaste ${latestFirstDivSeason && latestFirstDivSeason.year}.`
+      }, och den senaste ${
+        latestFirstDivSeason && latestFirstDivSeason.year
+      }.\n`
     }
   } else if (allSeasons.count === 1) {
-    allSeasonsString = `Totalt har laget en säsong i databasen, den spelades ${firstDbSeason.season.year}.`
+    allSeasonsString = `Totalt har laget en säsong i databasen, den spelades ${firstDbSeason.season.year}.\n`
   } else {
     allSeasonsString = `Totalt har laget ${allSeasons.count} säsonger i databasen, `
     if (firstDivSeasons === 1) {
       allSeasonsString += `säsongen ${
         firstFirstDivSeason && firstFirstDivSeason.year
-      } i högsta serien.`
+      } i högsta serien.\n`
     } else if (
       firstDivSeasons > 1 &&
       firstFirstDivSeason &&
       latestFirstDivSeason
     ) {
       if (firstDbSeason.season.seasonId === firstFirstDivSeason.seasonId) {
-        allSeasonsString += `första säsongen i högsta serien spelades ${firstDbSeason.season.year} `
+        allSeasonsString += `första säsongen i högsta serien spelades ${firstDbSeason.season.year}.\n `
       } else if (firstDbSeason.season.seasonId < firstFirstDivSeason.seasonId) {
-        allSeasonsString += `första säsongen i databasen är ${firstDbSeason.season.year} (medan laget debuterade i högsta serien ${firstFirstDivSeason.year}) `
+        allSeasonsString += `första säsongen är ${firstDbSeason.season.year} (medan laget debuterade i högsta serien ${firstFirstDivSeason.year}).\n `
       }
       if (latestDbSeason.season.seasonId === latestFirstDivSeason.seasonId) {
-        allSeasonsString += `och senast säsongen ${latestDbSeason.season.year}.`
+        allSeasonsString += `Senaste säsongen i högsta serien är ${latestDbSeason.season.year}.\n`
       } else if (
         latestDbSeason.season.seasonId > latestFirstDivSeason.seasonId
       ) {
-        allSeasonsString += `och senaste säsongen i databasen är ${firstDbSeason.season.year}. Senast laget var i högsta serien är säsongen ${latestFirstDivSeason.year}.`
+        allSeasonsString += `Senaste säsongen i databasen är ${latestDbSeason.season.year}, och senast laget var i högsta serien är säsongen ${latestFirstDivSeason.year}.\n`
       }
     } else if (firstDivSeasons === 0) {
-      allSeasonsString += `från säsong ${firstDbSeason.season.year} till ${latestDbSeason.season.year}.`
+      allSeasonsString += `mellan ${firstDbSeason.season.year} och ${latestDbSeason.season.year}.\n`
     }
   }
 
-  const returnString = `${teamName} från ${teamCity} har ${firstDivString} i högsta divisionen. ${allSeasonsString} ${qualificationString}`
+  const returnString = `${teamName} från ${teamCity} har ${firstDivString} i högsta divisionen.\n ${allSeasonsString} ${qualificationString}`
   return returnString
 }
 

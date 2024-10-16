@@ -15,6 +15,18 @@ type SortedTables = {
   [key: string]: z.infer<typeof compareCategoryTeamTables>
 }
 
+type LevelName = {
+  [key: string]: string
+}
+
+const levelName: LevelName = {
+  '1': 'Högsta divisionen',
+  '2': 'Näst högsta divisionen',
+  '3': 'Tredje divisionen',
+  '4': 'Fjärde divisionen',
+  '5': 'Femte divisionen',
+}
+
 export const compareSortLevelFunction = (
   gamesArray: z.infer<typeof compareCategoryTeamTables>
 ) => {
@@ -44,17 +56,20 @@ export const compareSortLevelFunction = (
 
     const sortedTables = Object.keys(sortCats).map((cat) => {
       return {
-        cat,
+        category: cat,
         tables: sortCats[cat],
       }
     })
     return {
       level: levelObject['level'],
+      levelName: levelName[levelObject['level']],
       tables: sortedTables,
     }
   })
 
-  return sortLevelsAndTables
+  return sortLevelsAndTables.sort(
+    (a, b) => parseInt(a.level) - parseInt(b.level)
+  )
 }
 
 export const compareSortFunction = (

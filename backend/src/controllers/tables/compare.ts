@@ -132,7 +132,7 @@ compareRouter.post('/compare', (async (
   if (!getCatTables || getCatTables.length === 0) {
     throw new NotFoundError({
       code: 404,
-      message: 'Teamen har inte spelat mot varandra.',
+      message: 'Lagen har inga inbördes matcher inlagda i databasen.',
       logging: false,
       context: { origin: 'Compare teams Router' },
     })

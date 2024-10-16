@@ -120,7 +120,7 @@ class TeamTable extends Model<TeamTableAttributes, TeamTableInput> {
   declare serie: ReturnType<() => Serie>
 
   @BelongsToMany(() => Season, () => TableSeason, 'tableId')
-  declare seasontable: ReturnType<() => Season>
+  declare season: ReturnType<() => Season>
 }
 
 export default TeamTable

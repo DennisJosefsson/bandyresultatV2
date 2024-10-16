@@ -51,12 +51,13 @@ export type LeagueTableType = z.infer<typeof leagueTable>
 
 export const fiveSeasonsLeagueTable = z.array(
   z.object({
-    category: z.string(),
+    group: z.string(),
     season: z.object({
       seasonId: z.number(),
       year: z.string(),
     }),
-
+    serie: z.object({ serieName: z.string() }),
+    seasonId: z.number(),
     totalDraws: z.coerce.number(),
     totalGames: z.coerce.number(),
     totalGoalDifference: z.coerce.number(),
