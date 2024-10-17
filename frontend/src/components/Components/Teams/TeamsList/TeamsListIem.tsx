@@ -41,7 +41,7 @@ const TeamsListItem = ({
         <Link
           from="/teams"
           to="/team/$teamId"
-          params={{ teamId: team.teamId.toString() }}
+          params={{ teamId: team.teamId }}
           search={(prev) => ({ ...prev })}
           onClick={() => setOrigin(`${pathName}?women=${women}`)}
         >

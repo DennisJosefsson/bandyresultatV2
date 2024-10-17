@@ -37,7 +37,7 @@ const MapItem = ({
           <Link
             to="/team/$teamId"
             params={{
-              teamId: team.teamId.toString(),
+              teamId: team.teamId,
             }}
             search={{ women }}
             onClick={() => setOrigin(`${pathName}?women=${women}`)}

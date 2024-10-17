@@ -9,7 +9,7 @@ const teamKeys = {
   all: () => ['teams'] as const,
   map: (women: boolean) =>
     ['mapTeams', { women: women ? 'women' : 'men' }] as const,
-  singleTeam: (teamId: string) => ['singleTeam', teamId] as const,
+  singleTeam: (teamId: number) => ['singleTeam', teamId] as const,
   compare: (compareObject: z.infer<typeof compareFormState>) =>
     ['compare', compareObject] as const,
 }
@@ -26,7 +26,7 @@ export const teamQueries = {
       queryFn: () => getMapTeams(women),
       staleTime: 100,
     }),
-  singleTeam: (teamId: string) =>
+  singleTeam: (teamId: number) =>
     queryOptions({
       queryKey: teamKeys.singleTeam(teamId),
       queryFn: () => getSingleTeam(teamId),
