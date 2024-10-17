@@ -5,22 +5,19 @@ import {
   addToFavTeams,
   removeFromFavTeams,
 } from '@/lib/reducers/favteamsReducer'
-import { singleTeam } from '@/lib/types/teams/singleTeam'
+
 import {
   getOrigin,
   resetOrigin,
 } from '@/lib/zustand/linkOrigin/linkOriginStore'
-import { useNavigate } from '@tanstack/react-router'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
-import { z } from 'zod'
 
-const TeamHeader = ({
-  team,
-  teamId,
-}: {
-  team: z.infer<typeof singleTeam>
-  teamId: number
-}) => {
+const route = getRouteApi('/_layout/team/$teamId')
+
+const TeamHeader = () => {
+  const team = route.useLoaderData({ select: (data) => data.team })
+  const teamId = route.useParams({ select: (params) => params.teamId })
   const matches = useMediaQuery('(min-width: 430px)')
   const { favTeams, favTeamsDispatch } = useTeampreferenceContext()
   const { origin } = getOrigin()
@@ -42,7 +39,7 @@ const TeamHeader = ({
   return (
     <CardHeader className="p-1 md:p-6">
       <div className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm md:text-lg">{team.team.name}</CardTitle>
+        <CardTitle className="text-sm md:text-lg">{team.name}</CardTitle>
 
         <div className="flex flex-row gap-1">
           <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>

@@ -1,16 +1,24 @@
-import { fiveSeason } from '@/lib/types/teams/singleTeam'
-import { z } from 'zod'
-
+import { getRouteApi } from '@tanstack/react-router'
 import FiveSeasonTeamTable from './FiveSeasonTeamTable'
 
-type FiveSeason = z.infer<typeof fiveSeason>
+const route = getRouteApi('/_layout/team/$teamId')
 
-type TeamFiveSeasonsTablesProps = { tableArray: FiveSeason[] }
-
-const TeamFiveSeasonsTables = ({ tableArray }: TeamFiveSeasonsTablesProps) => {
+const TeamFiveSeasonsTables = () => {
+  const fiveSeasonArray = route.useLoaderData({
+    select: (data) => data.sortedFiveSeasons,
+  })
+  if (fiveSeasonArray.length === 0) {
+    return (
+      <div className="flex flex-row justify-center mt-4">
+        <h2 className="text-xs font-bold md:text-sm">
+          Tyvärr saknas tabelldata för detta lag.
+        </h2>
+      </div>
+    )
+  }
   return (
     <div className="mb-6">
-      {tableArray.map((season) => {
+      {fiveSeasonArray.map((season) => {
         return (
           <div key={season.season}>
             <FiveSeasonTeamTable

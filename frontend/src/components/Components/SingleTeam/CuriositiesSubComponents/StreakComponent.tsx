@@ -16,35 +16,22 @@ function Title({ children }: { children: ReactNode }) {
   )
 }
 
-function Content({
-  streak,
-  limit,
-}: {
-  streak: z.infer<typeof streakType>[]
-  limit: number
-}) {
-  if (
-    !streak ||
-    streak.filter((streak) => streak.game_count > limit).length === 0
-  )
-    return null
-
-  const renderStreak = streak.filter((streak) => streak.game_count > limit)
+function Content({ streak }: { streak: z.infer<typeof streakType>[] }) {
+  if (!streak || streak.length === 0) return null
 
   return (
     <CardContent className="text-[10px] xxs:text-xs p-1 md:p-6 lg:mr-0 lg:text-sm">
       <div>
-        {renderStreak.map((streak, index) => {
+        {streak.map((streak, index) => {
           return (
             <div
-              key={`${streak.start_date}-${index}`}
+              key={`${streak.startDate}-${index}`}
               className="mb-1 flex flex-row justify-between rounded bg-muted-foreground/20 px-3 py-1"
             >
               <div>
-                <Date>{streak.start_date}</Date> -{' '}
-                <Date>{streak.end_date}</Date>
+                <Date>{streak.startDate}</Date> - <Date>{streak.endDate}</Date>
               </div>
-              <div>{streak.game_count} matcher</div>
+              <div>{streak.gameCount} matcher</div>
             </div>
           )
         })}

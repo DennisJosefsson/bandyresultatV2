@@ -33,7 +33,14 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <Outlet />
-      <ScrollRestoration />
+      <ScrollRestoration
+        getKey={(location) => {
+          const paths = ['/', '/search']
+          return paths.includes(location.pathname)
+            ? location.pathname
+            : location.state.key!
+        }}
+      />
       {/* <Suspense>
         <TanStackRouterDevtools />
       </Suspense> */}

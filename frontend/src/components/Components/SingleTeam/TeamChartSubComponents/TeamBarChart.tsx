@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { singleTeam } from '@/lib/types/teams/singleTeam'
-import { useSearch } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import {
   Bar,
   BarChart,
@@ -10,16 +9,16 @@ import {
   YAxis,
 } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
-import { z } from 'zod'
 
-const TeamBarChart = ({
-  barChartData,
-}: {
-  barChartData: z.infer<typeof singleTeam>['barChartData']
-}) => {
+const route = getRouteApi('/_layout/team/$teamId')
+
+const TeamBarChart = () => {
+  const barChartData = route.useLoaderData({
+    select: (data) => data.barChartData,
+  })
   const matches1240 = useMediaQuery('(min-width: 1240px)')
   const matches768 = useMediaQuery('(min-width: 768px)')
-  const { women } = useSearch({ from: '/_layout' })
+  const women = route.useSearch({ select: (s) => s.women })
 
   if (barChartData.length === 0) return null
 
