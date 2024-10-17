@@ -2,12 +2,7 @@ import Loading from '@/components/Components/Common/Loading'
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
 import DevelopmentHeader from '@/components/Components/Season/SeasonDevelopmentComponents/DevelopmentHeader'
 import { getDevelopmentSeries } from '@/lib/requests/series'
-import {
-  createFileRoute,
-  Navigate,
-  notFound,
-  Outlet,
-} from '@tanstack/react-router'
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/season/$seasonId/development')({
   loaderDeps: ({ search: { women } }) => ({ women }),
@@ -42,20 +37,6 @@ function Subs() {
         <p className="mx-10 text-center">
           Inga spelade seriematcher denna säsong.
         </p>
-      </div>
-    )
-  }
-
-  if (gameSeries.length === 1) {
-    return (
-      <div className="mt-2">
-        <Navigate
-          from={Route.fullPath}
-          to="/season/$seasonId/development/$group"
-          params={(prev) => ({ ...prev, group: gameSeries[0].serieGroupCode })}
-          search={(prev) => ({ ...prev })}
-        />
-        <Outlet />
       </div>
     )
   }
