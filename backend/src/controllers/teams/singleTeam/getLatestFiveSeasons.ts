@@ -1,6 +1,7 @@
 import Season from '../../../models/Season.js'
 import Serie from '../../../models/Serie.js'
 import TeamGame from '../../../models/TeamGame.js'
+import TeamSeason from '../../../models/TeamSeason.js'
 import TeamTable from '../../../models/TeamTable.js'
 import { sequelize } from '../../../utils/db.js'
 import { sortOrder } from '../../../utils/postFunctions/constants.js'
@@ -9,13 +10,16 @@ import {
   FiveSeasonsLeagueTableType,
 } from '../../../utils/responseTypes/tableTypes.js'
 
-export const getLatestFiveSeasons = async ({
-  seasonIdArray,
-  teamId,
-}: {
-  seasonIdArray: number[]
-  teamId: number
-}) => {
+export const getLatestFiveSeasons = async ({ teamId }: { teamId: number }) => {
+  const latestFiveSeasonArray = await TeamSeason.findAll({
+    where: { teamId },
+    order: [['seasonId', 'desc']],
+    limit: 5,
+    raw: true,
+    nest: true,
+  })
+
+  const seasonIdArray = latestFiveSeasonArray.map((season) => season.seasonId)
   const tables = await TeamGame.findAll({
     where: {
       teamId: teamId,

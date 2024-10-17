@@ -25,7 +25,7 @@ export const getMapTeams = async (
 }
 
 export const getSingleTeam = async (
-  teamId: string
+  teamId: number
 ): Promise<z.infer<typeof singleTeam>> => {
   const response = await teamsApi.get(`/${teamId}`, {
     validateStatus: (status) => {

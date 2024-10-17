@@ -7,10 +7,26 @@ import { team, teamAttributes } from './teams'
 export const streakType = z.object({
   team: z.number(),
   name: z.string(),
-  game_count: z.number(),
-  start_date: z.string(),
-  end_date: z.string(),
+  gameCount: z.number(),
+  startDate: z.string(),
+  endDate: z.string(),
   women: z.boolean(),
+})
+
+const streaks = z.object({
+  streakObjectsLength: z.number(),
+  noWinStreak: z.array(streakType),
+  unbeatenStreak: z.array(streakType),
+  winStreak: z.array(streakType),
+  drawStreak: z.array(streakType),
+  losingStreak: z.array(streakType),
+  playoffStreak: z.array(
+    z.object({
+      streakLength: z.number(),
+      startYear: z.string(),
+      endYear: z.string(),
+    })
+  ),
 })
 
 export const teamChartType = z.object({
@@ -60,26 +76,25 @@ export const fiveSeason = z.object({
 export const singleTeam = z.object({
   team: teamAttributes,
   tables: z.array(
-    table.extend({
-      team: team,
-      season: season,
-      serie: serie,
+    z.object({
+      level: z.string(),
+      levelName: z.string(),
+      tables: z.array(
+        z.object({
+          category: z.string(),
+          categoryName: z.string(),
+          tables: table.extend({
+            team: team,
+            season: season,
+            serie: serie,
+          }),
+        })
+      ),
     })
   ),
   sortedFiveSeasons: z.array(fiveSeason),
   finalsAndWinsString: z.string(),
-  noWinStreak: z.array(streakType),
-  unbeatenStreak: z.array(streakType),
-  winStreak: z.array(streakType),
-  drawStreak: z.array(streakType),
-  losingStreak: z.array(streakType),
-  playoffStreak: z.array(
-    z.object({
-      streak_length: z.number(),
-      start_year: z.string(),
-      end_year: z.string(),
-    })
-  ),
+  streaks,
   playoffCountString: z.string(),
   seasonString: z.string(),
   chartDataLength: z.number(),

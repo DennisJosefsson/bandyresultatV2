@@ -1,10 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { singleTeam } from '@/lib/types/teams/singleTeam'
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
+import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { useMediaQuery } from 'usehooks-ts'
 import { z } from 'zod'
+
+const route = getRouteApi('/_layout/team/$teamId')
 type TeamLineProps = {
   renderData: z.infer<typeof singleTeam>['renderData']
   renderLength: number
@@ -54,7 +57,9 @@ function NextChartLable({ renderData, renderLength, chunk }: TeamLineProps) {
   return lable
 }
 
-const TeamLine = ({ renderData, renderLength }: TeamLineProps) => {
+const TeamLine = () => {
+  const renderData = route.useLoaderData({ select: (data) => data.renderData })
+  const renderLength = renderData.length
   const [chunk, setChunk] = useState<number>(renderLength - 1)
 
   const matches768 = useMediaQuery('(min-width: 768px)')
