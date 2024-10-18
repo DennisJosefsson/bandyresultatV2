@@ -61,7 +61,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
 
         {game.halftimeResult && (
           <>
-            <span className="w-10 text-right text-[8px] tabular-nums md:text-xs">
+            <span className="w-10 md:w-16 text-right text-[8px] tabular-nums md:text-xs">
               ({game.halftimeResult})
             </span>
           </>

@@ -10,7 +10,13 @@ import {
 } from '@/components/Components/Common/Icons/icons'
 import { TabBarInline } from '@/components/Components/Common/TabBar'
 import { Button } from '@/components/ui/button'
-import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router'
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearch,
+} from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTabBar = () => {
@@ -21,11 +27,23 @@ const SeasonTabBar = () => {
     select: (search) => search.women,
   })
   const { seasonId } = useParams({ from: '/_layout/season/$seasonId' })
+  const pathname = useLocation({
+    select: (location) => location.pathname,
+  })
 
   const seasonTabBarObject = {
     gender: (
       <Button
-        onClick={() => navigate({ search: { women: !women } })}
+        onClick={() =>
+          navigate({
+            to: pathname.includes('/tables/sub/')
+              ? '/season/$seasonId/tables/sub'
+              : pathname.includes('/games/sub/')
+                ? '/season/$seasonId/games/sub'
+                : undefined,
+            search: { women: !women },
+          })
+        }
         size={matches ? 'default' : 'xs'}
       >
         {women ? (

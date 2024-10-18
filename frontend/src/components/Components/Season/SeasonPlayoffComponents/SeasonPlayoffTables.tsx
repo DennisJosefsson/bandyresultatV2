@@ -40,7 +40,7 @@ const SeasonPlayoffTables = ({
   const nilEightGroups = ['E1', 'E2']
 
   return (
-    <div className="m-0 mt-4 lg:justify-self-center">
+    <div className="w-full m-0 mt-4 lg:justify-self-center">
       <div className="grid gap-2">
         {data['final'].length === 0 && <NilFinalComponent />}
         {data['final'].length > 0 && (
