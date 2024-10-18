@@ -25,7 +25,8 @@
     "compressPRODUCTION": "bash ./scripts/compressPRODUCTION.sh",
     "restartPRODUCTION": "bash ./scripts/restartPRODUCTION.sh",
     "stopPRODUCTION": "bash ./scripts/stopPRODUCTION.sh",
-    "deploydev": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopdev && pnpm run compressdev && pnpm run restartdev"
+    "deploydev": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopdev && pnpm run compressdev && pnpm run restartdev",
+    "deployPRODUCTION": "time -p pnpm --dir ../frontend run build && pnpm --dir ../frontend run copy && pnpm run stopPRODUCTION && pnpm run compressPRODUCTION && pnpm run restartPRODUCTION"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
