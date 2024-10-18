@@ -33,10 +33,14 @@ export const teamAttributes = z.object({
   lat: z.coerce.number().optional().nullable(),
   long: z.coerce.number().optional().nullable(),
   countyId: z.coerce.number(),
-  municipalityId: z.coerce.number().transform((val) => {
-    if (val === 0) return null
-    return val
-  }),
+  municipalityId: z.coerce
+    .number()
+    .optional()
+    .nullable()
+    .transform((val) => {
+      if (val === 0) return null
+      return val
+    }),
 })
 
 export const teamInput = teamAttributes.partial({ teamId: true })

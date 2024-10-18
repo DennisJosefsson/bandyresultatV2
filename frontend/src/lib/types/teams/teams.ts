@@ -13,7 +13,7 @@ export const team = z.object({
   lat: z.coerce.number().nullable(),
   long: z.coerce.number().nullable(),
   countyId: z.coerce.number(),
-  municipalityId: z.coerce.number().nullable(),
+  municipalityId: z.coerce.number().nullable().optional(),
 })
 
 export const newTeam = team.omit({ teamId: true })
