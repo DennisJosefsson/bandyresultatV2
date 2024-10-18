@@ -238,6 +238,12 @@ const mixedAnimationData = (
           teamsTables
             .sort((teamA, teamB) => {
               if (teamA.table.points === teamB.table.points) {
+                if (
+                  teamB.table.scoredGoals - teamB.table.concededGoals ===
+                  teamA.table.scoredGoals - teamA.table.concededGoals
+                ) {
+                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
@@ -256,6 +262,12 @@ const mixedAnimationData = (
             date: date.date,
             table: table.sort((teamA, teamB) => {
               if (teamA.table.points === teamB.table.points) {
+                if (
+                  teamB.table.scoredGoals - teamB.table.concededGoals ===
+                  teamA.table.scoredGoals - teamA.table.concededGoals
+                ) {
+                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
@@ -416,6 +428,12 @@ export const animationData = (
         teamsTables
           .sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
+              if (
+                teamB.table.scoredGoals - teamB.table.concededGoals ===
+                teamA.table.scoredGoals - teamA.table.concededGoals
+              ) {
+                return teamB.table.scoredGoals - teamA.table.scoredGoals
+              }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
@@ -434,6 +452,12 @@ export const animationData = (
           date: date.date,
           table: table.sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
+              if (
+                teamB.table.scoredGoals - teamB.table.concededGoals ===
+                teamA.table.scoredGoals - teamA.table.concededGoals
+              ) {
+                return teamB.table.scoredGoals - teamA.table.scoredGoals
+              }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
@@ -580,6 +604,12 @@ const mixedSubGroupAnimationData = (
           teamsTables
             .sort((teamA, teamB) => {
               if (teamA.table.points === teamB.table.points) {
+                if (
+                  teamB.table.scoredGoals - teamB.table.concededGoals ===
+                  teamA.table.scoredGoals - teamA.table.concededGoals
+                ) {
+                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
@@ -598,6 +628,12 @@ const mixedSubGroupAnimationData = (
             date: date.date,
             table: table.sort((teamA, teamB) => {
               if (teamA.table.points === teamB.table.points) {
+                if (
+                  teamB.table.scoredGoals - teamB.table.concededGoals ===
+                  teamA.table.scoredGoals - teamA.table.concededGoals
+                ) {
+                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
@@ -742,6 +778,12 @@ export const subGroupAnimationData = (
         teamsTables
           .sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
+              if (
+                teamB.table.scoredGoals - teamB.table.concededGoals ===
+                teamA.table.scoredGoals - teamA.table.concededGoals
+              ) {
+                return teamB.table.scoredGoals - teamA.table.scoredGoals
+              }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
@@ -760,6 +802,12 @@ export const subGroupAnimationData = (
           date: date.date,
           table: table.sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
+              if (
+                teamB.table.scoredGoals - teamB.table.concededGoals ===
+                teamA.table.scoredGoals - teamA.table.concededGoals
+              ) {
+                return teamB.table.scoredGoals - teamA.table.scoredGoals
+              }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
