@@ -60,8 +60,8 @@ function NotFound() {
   }
 
   return (
-    <div className="mt-2 flex flex-row justify-center">
-      <p>
+    <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-[10px] font-bold text-foreground md:text-base">
+      <p className="mx-10 text-center">
         Inga matcher finns inlagda för {women ? 'damer' : 'herrar'} denna
         säsong.
       </p>
