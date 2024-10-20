@@ -139,11 +139,30 @@ seriesRouter.get('/subseason/:seasonId', (async (
 
   const gameSerieIdArray = games.map((game) => game.serieId)
 
-  const gameSeries = series.filter((serie) =>
-    gameSerieIdArray.includes(serie.serieId!)
-  )
+  const gameSeries = series
+    .filter((serie) => gameSerieIdArray.includes(serie.serieId!))
+    .sort((a, b) => {
+      if (a.level === b.level) {
+        return (
+          sortOrder.indexOf(a.serieGroupCode) -
+          sortOrder.indexOf(b.serieGroupCode)
+        )
+      }
+      return a.level - b.level
+    })
 
-  res.status(200).json({ gameSeries, allSeries: series })
+  res.status(200).json({
+    gameSeries,
+    allSeries: series.sort((a, b) => {
+      if (a.level === b.level) {
+        return (
+          sortOrder.indexOf(a.serieGroupCode) -
+          sortOrder.indexOf(b.serieGroupCode)
+        )
+      }
+      return a.level - b.level
+    }),
+  })
 }) as RequestHandler)
 
 seriesRouter.get('/:serieId', (async (

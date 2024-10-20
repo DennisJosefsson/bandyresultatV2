@@ -381,7 +381,6 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
 
     const series = await Serie.findAll({
       where: {
-        serieCategory: 'regular',
         level: [2, 3, 4],
         serieGroupCode: { [Op.eq]: groupCode },
       },
@@ -512,7 +511,6 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
 
   const series = await Serie.findAll({
     where: {
-      serieCategory: 'regular',
       level: [2, 3, 4],
       serieGroupCode: { [Op.eq]: groupCode },
     },
