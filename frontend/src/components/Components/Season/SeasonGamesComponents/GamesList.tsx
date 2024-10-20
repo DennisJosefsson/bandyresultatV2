@@ -19,7 +19,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
   if (gamesArray.length === 0) return null
   return (
     <div className="mb-6 w-full font-inter">
-      <h1 className="text-xs font-semibold text-primary md:text-base">
+      <h1 className="text-xs font-semibold text-primary md:text-base tracking-wider">
         {title}
       </h1>
       <div>
@@ -30,7 +30,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                 id={group.group}
                 className="flex flex-row gap-1 items-center mb-0.5 group"
               >
-                <h3 className="text-[10px] font-semibold text-primary md:text-xs">
+                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide">
                   {group.name}
                 </h3>
                 <Link
@@ -54,7 +54,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                       {date.date !== 'null' && (
                         <div className="flex flex-row gap-1 items-center mb-0.5 group">
                           <h3
-                            className="text-[0.75rem] md:text-sm"
+                            className="text-[0.75rem] md:text-sm tracking-wide"
                             id={`${group.group}-${date.date}`}
                           >
                             <Date>{date.date}</Date>

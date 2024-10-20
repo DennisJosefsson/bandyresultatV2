@@ -33,47 +33,23 @@ const TableList = ({ tableArray, table }: TableListProps) => {
 
         return (
           <div key={group.group} className="mb-6">
-            {group.group.includes('Kval') &&
-            tableArray.filter((item) => item.group.includes('Kval')).length ===
-              1 ? (
-              <>
-                <div
-                  id={group.group}
-                  className="flex flex-row gap-1 items-center mb-0.5 group"
-                >
-                  <h2 className="text-sm font-bold lg:text-base xl:text-xl">
-                    Kvalgrupp
-                  </h2>
-                  <Link
-                    from="/season/$seasonId/tables/$table"
-                    params={(prev) => ({ ...prev, table: table })}
-                    hash={group.group}
-                    search={(prev) => ({ ...prev })}
-                  >
-                    <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                <div
-                  id={group.group}
-                  className="flex flex-row gap-1 items-center mb-0.5 group"
-                >
-                  <h2 className="text-sm font-bold lg:text-base xl:text-xl">
-                    {group.name}
-                  </h2>
-                  <Link
-                    from="/season/$seasonId/tables/$table"
-                    params={(prev) => ({ ...prev, table: table })}
-                    hash={group.group}
-                    search={(prev) => ({ ...prev })}
-                  >
-                    <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
-                  </Link>
-                </div>
-              </>
-            )}
+            <div
+              id={group.group}
+              className="flex flex-row gap-1 items-center mb-0.5 group"
+            >
+              <h2 className="text-sm font-bold lg:text-base xl:text-xl tracking-wide">
+                {group.name}
+              </h2>
+              <Link
+                from="/season/$seasonId/tables/$table"
+                params={(prev) => ({ ...prev, table: table })}
+                hash={group.group}
+                search={(prev) => ({ ...prev })}
+              >
+                <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
+              </Link>
+            </div>
+
             <div>
               <DataTable
                 columns={columns}

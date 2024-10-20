@@ -58,7 +58,19 @@ function SubTables() {
   }
 
   if (tables.tables) {
-    return <SubTableList tableArray={tables.tables} />
+    return (
+      <div>
+        <Link
+          from={Route.fullPath}
+          to="/season/$seasonId/tables/$table"
+          params={(prev) => ({ seasonId: prev.seasonId, table: 'all' })}
+          search={(prev) => ({ ...prev })}
+        >
+          <span className="text-[10px] md:text-sm">Högsta divisionen</span>
+        </Link>
+        <SubTableList tableArray={tables.tables} />
+      </div>
+    )
   }
 }
 

@@ -1,5 +1,5 @@
 import Loading from '@/components/Components/Common/Loading'
-import { Button } from '@/components/ui/button'
+import SubHeader from '@/components/Components/Season/SeasonTableComponents/SubHeader'
 import { getSubSeries } from '@/lib/requests/series'
 import {
   createFileRoute,
@@ -70,27 +70,7 @@ function Subs() {
 
   return (
     <div>
-      <div className="flex flex-row gap-1 justify-center mt-2">
-        {allSeries.map((serie) => {
-          return (
-            <Link
-              from={Route.fullPath}
-              to="/season/$seasonId/tables/sub/$group"
-              params={{ group: serie.serieGroupCode }}
-              search={(prev) => ({ ...prev })}
-              key={serie.serieId}
-            >
-              {({ isActive }) => {
-                return (
-                  <Button variant={isActive ? 'default' : 'outline'} size="sm">
-                    {serie.serieName}
-                  </Button>
-                )
-              }}
-            </Link>
-          )
-        })}
-      </div>
+      <SubHeader />
       <div className="mt-2">
         <Outlet />
       </div>

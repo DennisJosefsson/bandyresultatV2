@@ -9,7 +9,7 @@ type SubTableListProps = {
 
 const SubTableList = ({ tableArray }: SubTableListProps) => {
   return (
-    <div className="mb-6">
+    <div className="mb-6 mt-2">
       {tableArray.map((group) => {
         const teamObject = group.tables.reduce(
           (o, key) => ({ ...o, [key.team.casualName]: key.teamId }),
@@ -22,7 +22,7 @@ const SubTableList = ({ tableArray }: SubTableListProps) => {
               id={group.group}
               className="flex flex-row gap-1 items-center mb-0.5 group"
             >
-              <h2 className="text-sm font-bold lg:text-base xl:text-xl">
+              <h2 className="text-sm font-bold lg:text-base xl:text-xl tracking-wide">
                 {group.name}
               </h2>
             </div>

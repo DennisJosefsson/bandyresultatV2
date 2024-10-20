@@ -9,44 +9,44 @@ import { AxiosError } from 'axios'
 import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 
-export const Route = createFileRoute(
-  '/_layout/season/$seasonId/tables/$table'
-)({
-  params: {
-    parse: (params) => ({
-      table: z.enum(['all', 'away', 'home']).catch('all').parse(params.table),
+export const Route = createFileRoute('/_layout/season/$seasonId/tables/$table')(
+  {
+    params: {
+      parse: (params) => ({
+        table: z.enum(['all', 'away', 'home']).catch('all').parse(params.table),
+      }),
+      stringify: ({ table }) => ({ table: `${table}` }),
+    },
+    loaderDeps: ({ search: { women } }) => ({
+      women,
     }),
-    stringify: ({ table }) => ({ table: `${table}` }),
-  },
-  beforeLoad: ({ search, params }) => {
-    if (
-      search.women &&
-      [1973, 1974].includes(params.seasonId) &&
-      params.table !== 'all'
-    ) {
-      throw redirect({
-        to: '/season/$seasonId/tables/$table',
-        params: { table: 'all', seasonId: params.seasonId },
-        search: { women: search.women },
-      })
-    }
-  },
-  loaderDeps: ({ search: { women } }) => ({
-    women,
-  }),
-  component: Table,
-  pendingComponent: () => <Loading page="seasonTable" />,
-  loader: ({ deps, params }) =>
-    getSingleSeasonTable({
-      seasonId: params.seasonId,
-      table: params.table,
-      women: deps.women,
-    }),
+    beforeLoad: ({ search, params }) => {
+      if (
+        search.women &&
+        [1973, 1974].includes(params.seasonId) &&
+        params.table !== 'all'
+      ) {
+        throw redirect({
+          to: '/season/$seasonId/tables/$table',
+          params: { table: 'all', seasonId: params.seasonId },
+          search: { women: search.women },
+        })
+      }
+    },
+    component: Table,
+    pendingComponent: () => <Loading page="seasonTable" />,
+    loader: ({ deps, params }) =>
+      getSingleSeasonTable({
+        seasonId: params.seasonId,
+        table: params.table,
+        women: deps.women,
+      }),
 
-  errorComponent: ({ error, reset }) => (
-    <ErrorComponent error={error} reset={reset} />
-  ),
-})
+    errorComponent: ({ error, reset }) => (
+      <ErrorComponent error={error} reset={reset} />
+    ),
+  }
+)
 
 function Table() {
   const { seasonId, table } = Route.useParams()
