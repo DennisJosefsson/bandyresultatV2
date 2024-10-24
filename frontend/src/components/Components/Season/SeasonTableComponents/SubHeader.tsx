@@ -2,21 +2,28 @@ import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import { getRouteApi, Link } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 
 const route = getRouteApi('/_layout/season/$seasonId/tables/sub')
 
 const SubHeader = () => {
+  const [key, setKey] = useState(+new Date())
   const allSeries = route.useLoaderData({ select: (data) => data.allSeries })
   const navigate = route.useNavigate()
 
   const seriesArray = allSeries.map((serie) => {
     return { value: serie.serieGroupCode, label: serie.serieName }
   })
+
+  useEffect(() => {
+    setKey(+new Date())
+  }, [allSeries])
 
   const onGroupChange = (value: string) => {
     navigate({
@@ -30,18 +37,20 @@ const SubHeader = () => {
   if (seriesArray.length > 4) {
     return (
       <div className="flex flex-row gap-1 justify-center mt-2">
-        <Select onValueChange={onGroupChange}>
+        <Select key={key} onValueChange={onGroupChange}>
           <SelectTrigger className="w-[280px]">
             <SelectValue placeholder="Välj grupp" />
           </SelectTrigger>
           <SelectContent>
-            {seriesArray.map((serie) => {
-              return (
-                <SelectItem key={serie.value} value={serie.value}>
-                  {serie.label}
-                </SelectItem>
-              )
-            })}
+            <SelectGroup className="overflow-y-auto max-h-[12rem]">
+              {seriesArray.map((serie) => {
+                return (
+                  <SelectItem key={serie.value} value={serie.value}>
+                    {serie.label}
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
           </SelectContent>
         </Select>
       </div>

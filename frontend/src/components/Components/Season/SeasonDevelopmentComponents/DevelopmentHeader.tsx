@@ -2,10 +2,12 @@ import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
 import { getRouteApi, Link } from '@tanstack/react-router'
 
 const route = getRouteApi('/_layout/season/$seasonId/development')
@@ -35,13 +37,15 @@ const DevelopmentHeader = () => {
             <SelectValue placeholder="Välj grupp" />
           </SelectTrigger>
           <SelectContent>
-            {seriesArray.map((serie) => {
-              return (
-                <SelectItem key={serie.value} value={serie.value}>
-                  {serie.label}
-                </SelectItem>
-              )
-            })}
+            <SelectGroup className="overflow-y-auto max-h-[12rem]">
+              {seriesArray.map((serie) => {
+                return (
+                  <SelectItem key={serie.value} value={serie.value}>
+                    {serie.label}
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
           </SelectContent>
         </Select>
       </div>
