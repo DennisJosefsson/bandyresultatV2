@@ -16,8 +16,13 @@ type CompareStatsProps = {
   golds: z.infer<typeof compareResponseObject>['golds']
   playoffs: z.infer<typeof compareResponseObject>['playoffs']
   allPlayoffs: z.infer<typeof compareResponseObject>['allPlayoffs']
-  seasons: z.infer<typeof compareResponseObject>['seasons']
-  allSeasons: z.infer<typeof compareResponseObject>['allSeasons']
+  firstDivisionSeasonsSince1931: z.infer<
+    typeof compareResponseObject
+  >['firstDivisionSeasonsSince1931']
+  firstDivisionSeasons: z.infer<
+    typeof compareResponseObject
+  >['firstDivisionSeasons']
+  allDbSeasons: z.infer<typeof compareResponseObject>['allDbSeasons']
 }
 
 const CompareStats = ({
@@ -27,8 +32,9 @@ const CompareStats = ({
   golds,
   playoffs,
   allPlayoffs,
-  seasons,
-  allSeasons,
+  firstDivisionSeasonsSince1931,
+  firstDivisionSeasons,
+  allDbSeasons,
 }: CompareStatsProps) => {
   if (!searchObject) return null
   return (
@@ -40,10 +46,11 @@ const CompareStats = ({
         </div>
       </TabsContent>
       <TabsContent value="stats">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Seasons
-            seasons={seasons}
-            allSeasons={allSeasons}
+            firstDivisionSeasonsSince1931={firstDivisionSeasonsSince1931}
+            firstDivisionSeasons={firstDivisionSeasons}
+            allDbSeasons={allDbSeasons}
             searchObject={searchObject}
           />
           <Playoffs

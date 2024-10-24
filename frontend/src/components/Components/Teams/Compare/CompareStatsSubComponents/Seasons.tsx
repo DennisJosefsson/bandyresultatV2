@@ -7,24 +7,58 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { z } from 'zod'
 type SeasonProps = {
-  seasons: z.infer<typeof compareResponseObject>['seasons']
-  allSeasons: z.infer<typeof compareResponseObject>['allSeasons']
+  firstDivisionSeasonsSince1931: z.infer<
+    typeof compareResponseObject
+  >['firstDivisionSeasonsSince1931']
+  firstDivisionSeasons: z.infer<
+    typeof compareResponseObject
+  >['firstDivisionSeasons']
+  allDbSeasons: z.infer<typeof compareResponseObject>['allDbSeasons']
   searchObject: z.infer<typeof compareFormState>
 }
 
-const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
+const Seasons = ({
+  firstDivisionSeasonsSince1931,
+  firstDivisionSeasons,
+  allDbSeasons,
+  searchObject,
+}: SeasonProps) => {
   const women = searchObject['women']
   return (
     <>
       <Card className="mt-2 w-full">
         <CardHeader className="p-2">
           <CardTitle className="text-[10px] md:text-sm">
-            Säsonger i högsta serien totalt
+            Säsonger i databasen
           </CardTitle>
         </CardHeader>
         <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
-            {allSeasons.map((team) => {
+            {allDbSeasons.map((team) => {
+              return (
+                <div
+                  key={team.team}
+                  className="my-2 flex w-full flex-col rounded bg-muted-foreground/20 px-3 py-1"
+                >
+                  <div className="flex flex-row justify-between">
+                    <div>{team.casual_name}</div>
+                    <div className="text-right">{team.seasons}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="mt-2 w-full">
+        <CardHeader className="p-2">
+          <CardTitle className="text-[10px] md:text-sm">
+            Säsonger i högsta serien
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
+          <div className="mb-2">
+            {firstDivisionSeasons.map((team) => {
               return (
                 <div
                   key={team.team}
@@ -50,7 +84,7 @@ const Seasons = ({ seasons, allSeasons, searchObject }: SeasonProps) => {
             </CardHeader>
             <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
               <div className="mb-2">
-                {seasons.map((team) => {
+                {firstDivisionSeasonsSince1931.map((team) => {
                   return (
                     <div
                       key={team.team}

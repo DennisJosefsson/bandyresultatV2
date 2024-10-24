@@ -84,8 +84,11 @@ function Compare() {
                 golds={compareData.golds}
                 playoffs={compareData.playoffs}
                 allPlayoffs={compareData.allPlayoffs}
-                seasons={compareData.seasons}
-                allSeasons={compareData.allSeasons}
+                firstDivisionSeasonsSince1931={
+                  compareData.firstDivisionSeasonsSince1931
+                }
+                firstDivisionSeasons={compareData.firstDivisionSeasons}
+                allDbSeasons={compareData.allDbSeasons}
               />
             </Tabs>
           </div>

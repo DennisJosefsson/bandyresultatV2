@@ -43,7 +43,7 @@ export const compareResponseObject = z.object({
       casual_name: z.string(),
     })
   ),
-  seasons: z.array(
+  firstDivisionSeasonsSince1931: z.array(
     z.object({
       seasons: z.string(),
       team: z.number(),
@@ -57,7 +57,14 @@ export const compareResponseObject = z.object({
       casual_name: z.string(),
     })
   ),
-  allSeasons: z.array(
+  allDbSeasons: z.array(
+    z.object({
+      seasons: z.string(),
+      team: z.number(),
+      casual_name: z.string(),
+    })
+  ),
+  firstDivisionSeasons: z.array(
     z.object({
       seasons: z.string(),
       team: z.number(),
