@@ -226,7 +226,9 @@ leagueTableRouter.get('/league/:seasonId', (async (
 
   const series = await Serie.findAll({
     where: { serieCategory: ['regular', 'qualification'], level: 1 },
-    include: [{ model: Season, where: { year: seasonYear } }],
+    include: [
+      { model: Season, where: { year: seasonYear, women: women === 'true' } },
+    ],
     raw: true,
     nest: true,
   })
@@ -336,7 +338,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
   const { women } = parseSubParam.parse(req.query)
 
   const hasGames = await TeamGame.findOne({
-    where: { group: groupCode, women: women },
+    where: { group: groupCode, women: women === 'true' },
     include: [
       {
         model: Season,

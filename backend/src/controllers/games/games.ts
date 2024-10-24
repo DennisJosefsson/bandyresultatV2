@@ -137,19 +137,23 @@ gameRouter.get('/season/:seasonId', (async (
   const seasonYear = seasonIdCheck.parse(req.params.seasonId)
   const women = parseWomen.parse(req.query.women)
 
-  const lowerLevel = await Serie.findAll({
-    where: { level: [2, 3, 4, 5], serieCategory: 'regular' },
-    include: {
-      model: Season,
-      where: {
-        year: { [Op.eq]: seasonYear },
-        women: women === 'true' ? true : false,
+  const lowerLevel = await Game.findOne({
+    where: { women: women === 'true' },
+    include: [
+      {
+        model: Season,
+        attributes: ['seasonId', 'year'],
+        where: { year: { [Op.eq]: seasonYear } },
       },
-      attributes: ['year', 'seasonId'],
-    },
+      {
+        model: Serie,
+        where: { level: [2, 3, 4] },
+        attributes: ['level'],
+      },
+    ],
   })
 
-  const hasLowerLevel = lowerLevel.length > 0 ? true : false
+  const hasLowerLevel = lowerLevel ? true : false
 
   const games = await Game.findAll({
     where: { women: women === 'true' ? true : false },
