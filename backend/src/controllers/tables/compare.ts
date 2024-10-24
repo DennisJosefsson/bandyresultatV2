@@ -237,12 +237,13 @@ group by casual_name, team;
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
   )
 
-  const seasons = await sequelize.query(
+  const firstDivisionSeasonsSince1931 = await sequelize.query(
     `
-  select count(distinct season_id) as seasons, team, casual_name
+  select count(distinct teamgames.season_id) as seasons, team, casual_name
 from teamgames
 join teams on teamgames.team = teams.team_id
-where team = any($team_array) and season_id >= 25
+join series on teamgames.serie_id = series.serie_id
+where team = any($team_array) and teamgames.season_id >= 25 and series.level = 1
 group by casual_name, team;
   `,
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
@@ -259,12 +260,24 @@ group by casual_name, team;
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
   )
 
-  const allSeasons = await sequelize.query(
+  const allDbSeasons = await sequelize.query(
     `
   select count(distinct season_id) as seasons, team, casual_name
 from teamgames
 join teams on teamgames.team = teams.team_id
 where team = any($team_array)
+group by casual_name, team;
+  `,
+    { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
+  )
+
+  const firstDivisionSeasons = await sequelize.query(
+    `
+  select count(distinct teamgames.season_id) as seasons, team, casual_name
+from teamgames
+join teams on teamgames.team = teams.team_id
+join series on teamgames.serie_id = series.serie_id
+where team = any($team_array) and series.level = 1
 group by casual_name, team;
   `,
     { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
@@ -309,9 +322,10 @@ order by "date" asc;
     sortedData,
     golds,
     playoffs,
-    seasons,
+    firstDivisionSeasonsSince1931,
     allPlayoffs,
-    allSeasons,
+    allDbSeasons,
+    firstDivisionSeasons,
     firstAndLatestGames,
     firstGames,
     latestGames,
