@@ -12,17 +12,21 @@ function Home() {
         <div className="flex flex-col lg:flex-row gap-1 md:gap-4">
           <div>
             <p className="text-primary text-[10px] md:text-sm mb-2 font-semibold">
-              2024-09-16:
+              2024-10-26:
             </p>
           </div>
           <div>
             <p className="text-primary text-[10px] md:text-sm mb-2">
-              Det här är Bandyresultat version 2, ändringar under huven kan göra
-              att länkar utifrån inte fungerar längre.
+              Ny säsong, mer statistik. Jag har börjat arbetet med att lägga in
+              resultat också från lägre divisioner.
+            </p>
+            <p className="text-primary text-[10px] md:text-sm mb-2">
+              Till att börja med finns matchresultat från Allsvenskan och
+              Division 1 från och med säsong 2016/2017.
             </p>
             <p className="text-primary text-[10px] md:text-sm">
-              Dock ska samma funktioner finnas så länkarna behöver bara
-              uppdateras.
+              Målsättningen är att lägga in även tidigare matchresultat, men
+              inom det närmaste kommer det enbart finnas tabeller.
             </p>
           </div>
         </div>
