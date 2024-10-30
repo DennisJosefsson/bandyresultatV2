@@ -89,6 +89,8 @@ function Compare() {
                 }
                 firstDivisionSeasons={compareData.firstDivisionSeasons}
                 allDbSeasons={compareData.allDbSeasons}
+                latestHomeWin={compareData.latestHomeWin}
+                latestAwayWin={compareData.latestAwayWin}
               />
             </Tabs>
           </div>

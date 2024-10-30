@@ -1,32 +1,27 @@
-import {
-  compareFormState,
-  compareResponseObject,
-} from '@/lib/types/teams/compare'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { latestWin } from '@/lib/types/teams/compare'
 
 import Date from '@/components/Components/Common/Date'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
 import { z } from 'zod'
 
-type FirstGamesProps = {
-  firstGames: z.infer<typeof compareResponseObject>['firstGames']
-  searchObject: z.infer<typeof compareFormState>
+type LatestWinsProps = {
+  latestWins: z.infer<typeof latestWin>
+  title: string
 }
 
-const FirstGames = ({ firstGames }: FirstGamesProps) => {
+const LatestWins = ({ latestWins, title }: LatestWinsProps) => {
+  if (latestWins.length === 0) return null
   return (
     <Card className="mt-2 w-full">
       <CardHeader className="p-2">
-        <CardTitle className="text-[10px] md:text-sm">
-          Första matcherna
-        </CardTitle>
+        <CardTitle className="text-[10px] md:text-sm">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="w-full text-[8px] sm:text-xs xl:text-sm p-1 pt-0">
-        <div className="mb-2">
-          {firstGames.map((game) => {
+      <CardContent className="mb-3 w-full text-[8px] sm:text-xs xl:text-sm p-2 pt-0">
+        <div>
+          {latestWins.map((game) => {
             return (
               <div
-                key={game.game_id}
+                key={game.gameId}
                 className="my-2 flex w-full flex-col rounded bg-muted-foreground/20 px-3 py-1"
               >
                 <div className="mb-0.5 font-semibold">
@@ -34,7 +29,7 @@ const FirstGames = ({ firstGames }: FirstGamesProps) => {
                 </div>
                 <div className="flex flex-row justify-between">
                   <div>
-                    {game.home_name}-{game.away_name}
+                    {game.homeName}-{game.awayName}
                   </div>
                   <div className="tabular-nums">{game.result}</div>
                 </div>
@@ -47,4 +42,4 @@ const FirstGames = ({ firstGames }: FirstGamesProps) => {
   )
 }
 
-export default FirstGames
+export default LatestWins

@@ -14,6 +14,16 @@ const rankedGames = z.array(
   })
 )
 
+export const latestWin = z.array(
+  z.object({
+    gameId: z.number(),
+    date: z.string(),
+    result: z.string(),
+    homeName: z.string(),
+    awayName: z.string(),
+  })
+)
+
 export const compareResponseObject = z.object({
   categoryData: z.array(
     z.object({
@@ -75,6 +85,8 @@ export const compareResponseObject = z.object({
   latestGames: rankedGames,
   seasonNames: z.array(z.object({ seasonId: z.number(), year: z.string() })),
   compareHeaderText: z.string(),
+  latestHomeWin: latestWin,
+  latestAwayWin: latestWin,
 })
 
 export const compareFormState = z
