@@ -24,6 +24,7 @@ import {
   compareAllTeamTables,
   compareCategoryTeamTables,
   parseFirstLast,
+  parseLatestWin,
 } from '../../utils/responseTypes/tableTypes.js'
 
 const compareRouter = Router()
@@ -308,6 +309,48 @@ order by "date" asc;
 
   const latestGames = getLatestGames(teamArray, parsedFirstLastGames)
 
+  const latestHomeWin = await sequelize
+    .query(
+      `
+ with latest_win_games as (select game_id,
+rank() over (partition by team, opponent order by "date" desc) ranked_latest_games
+from teamgames
+where team = any($team_array) and opponent = any($team_array) and home_game = true and win = true and category != 'final'),
+
+selected_id as (select game_id from latest_win_games where ranked_latest_games = 1)
+
+select games.game_id, "date", result, home.casual_name as home_name, away.casual_name as away_name from games
+join selected_id on games.game_id = selected_id.game_id
+join teams as home on games.home_team_id = home.team_id
+join teams as away on games.away_team_id = away.team_id
+where games.game_id = selected_id.game_id
+order by "date" desc;
+ `,
+      { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
+    )
+    .then((res) => parseLatestWin.parse(res))
+
+  const latestAwayWin = await sequelize
+    .query(
+      `
+ with latest_win_games as (select game_id,
+rank() over (partition by team, opponent order by "date" desc) ranked_latest_games
+from teamgames
+where team = any($team_array) and opponent = any($team_array) and home_game = false and win = true and category != 'final'),
+
+selected_id as (select game_id from latest_win_games where ranked_latest_games = 1)
+
+select games.game_id, "date", result, home.casual_name as home_name, away.casual_name as away_name from games
+join selected_id on games.game_id = selected_id.game_id
+join teams as home on games.home_team_id = home.team_id
+join teams as away on games.away_team_id = away.team_id
+where games.game_id = selected_id.game_id
+order by "date" desc;
+ `,
+      { bind: { team_array: teamArray }, type: QueryTypes.SELECT }
+    )
+    .then((res) => parseLatestWin.parse(res))
+
   const compareHeaderText = getCompareHeaderText({
     seasonNames,
     teams,
@@ -331,6 +374,8 @@ order by "date" asc;
     latestGames,
     seasonNames,
     compareHeaderText,
+    latestHomeWin,
+    latestAwayWin,
   })
 }) as RequestHandler)
 

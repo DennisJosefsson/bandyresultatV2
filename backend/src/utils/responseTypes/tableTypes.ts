@@ -196,3 +196,23 @@ export const parseFirstLast = z.array(
     ranked_last_games: z.string(),
   })
 )
+
+export const parseLatestWin = z.array(
+  z
+    .object({
+      game_id: z.number(),
+      date: z.string(),
+      result: z.string(),
+      home_name: z.string(),
+      away_name: z.string(),
+    })
+    .transform((item) => {
+      return {
+        gameId: item.game_id,
+        date: item.date,
+        result: item.result,
+        homeName: item.home_name,
+        awayName: item.away_name,
+      }
+    })
+)
