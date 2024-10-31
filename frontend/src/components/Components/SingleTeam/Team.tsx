@@ -3,13 +3,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import TeamChart from './TeamChart'
 import TeamCuriosities from './TeamCuriosities'
 import TeamFiveSeasonsTables from './TeamFiveSeasons'
-import TeamHeader from './TeamHeader'
 import TeamTable from './TeamTable'
 
 const Team = () => {
   return (
-    <div className="mt-2 flex min-h-screen flex-col font-inter text-foreground">
-      <TeamHeader />
+    <div>
       <CardContent className="p-1 md:p-6">
         <Tabs defaultValue="tables">
           <TabsList>

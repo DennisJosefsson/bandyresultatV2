@@ -101,3 +101,12 @@ export const singleTeam = z.object({
   barChartData: z.array(barChartType),
   renderData: z.array(z.array(lineChartType)),
 })
+
+const singleTeamSeasonItem = z.object({
+  seasonId: z.number(),
+  year: z.string(),
+})
+export const singleTeamSeasons = z.object({
+  seasons: z.array(singleTeamSeasonItem),
+  rest: z.array(singleTeamSeasonItem),
+})

@@ -1,12 +1,13 @@
 import Loading from '@/components/Components/Common/Loading'
 import SimpleErrorComponent from '@/components/Components/Common/SimpleErrorComponent'
-import Team from '@/components/Components/SingleTeam/Team'
+import TeamHeader from '@/components/Components/SingleTeam/TeamHeader'
 import { getSingleTeam } from '@/lib/requests/teams'
 import {
   CatchBoundary,
   createFileRoute,
   Link,
   notFound,
+  Outlet,
 } from '@tanstack/react-router'
 import { z } from 'zod'
 
@@ -45,7 +46,10 @@ function SingleTeam() {
           <SimpleErrorComponent id="maraton" error={error} reset={reset} />
         )}
       >
-        <Team />
+        <div className="mt-2 flex min-h-screen flex-col font-inter text-foreground">
+          <TeamHeader />
+          <Outlet />
+        </div>
       </CatchBoundary>
     </div>
   )

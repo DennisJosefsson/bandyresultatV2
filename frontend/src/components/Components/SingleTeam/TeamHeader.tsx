@@ -10,7 +10,7 @@ import {
   getOrigin,
   resetOrigin,
 } from '@/lib/zustand/linkOrigin/linkOriginStore'
-import { getRouteApi, useNavigate } from '@tanstack/react-router'
+import { getRouteApi, Link, useNavigate } from '@tanstack/react-router'
 import { useMediaQuery } from 'usehooks-ts'
 
 const route = getRouteApi('/_layout/team/$teamId')
@@ -18,6 +18,7 @@ const route = getRouteApi('/_layout/team/$teamId')
 const TeamHeader = () => {
   const team = route.useLoaderData({ select: (data) => data.team })
   const teamId = route.useParams({ select: (params) => params.teamId })
+  const women = route.useSearch({ select: (s) => s.women })
   const matches = useMediaQuery('(min-width: 430px)')
   const { favTeams, favTeamsDispatch } = useTeampreferenceContext()
   const { origin } = getOrigin()
@@ -39,7 +40,23 @@ const TeamHeader = () => {
   return (
     <CardHeader className="p-1 md:p-6">
       <div className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm md:text-lg">{team.name}</CardTitle>
+        <CardTitle className="flex flex-row gap-2 text-sm md:text-lg">
+          <span>{team.name} -</span>{' '}
+          <Link
+            to="/team/$teamId"
+            params={{ teamId: team.teamId }}
+            search={{ women }}
+          >
+            Statistik
+          </Link>
+          <Link
+            to="/team/$teamId/seasons"
+            params={{ teamId: team.teamId }}
+            search={{ women }}
+          >
+            Säsonger
+          </Link>
+        </CardTitle>
 
         <div className="flex flex-row gap-1">
           <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>
