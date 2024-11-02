@@ -40,39 +40,46 @@ const TeamHeader = () => {
   return (
     <CardHeader className="p-1 md:p-6">
       <div className="flex flex-row items-center justify-between">
-        <CardTitle className="flex flex-row gap-2 text-sm md:text-lg">
-          <span>{team.name} -</span>{' '}
-          <Link
-            to="/team/$teamId"
-            params={{ teamId: team.teamId }}
-            search={{ women }}
-          >
-            Statistik
-          </Link>
-          <Link
-            to="/team/$teamId/seasons"
-            params={{ teamId: team.teamId }}
-            search={{ women }}
-          >
-            Säsonger
-          </Link>
+        <CardTitle className="flex flex-row flex-wrap gap-2 text-xs sm:text-sm md:text-base xl:text-lg">
+          <span>{team.name}</span>
+          <div className="flex flex-row gap-2">
+            <span>[ </span>
+            <Link
+              to="/team/$teamId"
+              params={{ teamId: team.teamId }}
+              search={{ women }}
+              activeOptions={{ exact: true }}
+              className="font-normal"
+            >
+              Statistik
+            </Link>
+            <span> | </span>
+            <Link
+              to="/team/$teamId/seasons"
+              params={{ teamId: team.teamId }}
+              search={{ women }}
+              className="font-normal"
+            >
+              Säsonger
+            </Link>
+            <span> ]</span>
+          </div>
         </CardTitle>
 
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-row gap-1 items-center">
           <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>
             Tillbaka
           </Button>
+
           {favTeams.includes(teamId) && (
             <Button onClick={remove} size={matches ? 'sm' : 'xxs'}>
               Ta bort favorit
             </Button>
           )}
           {!favTeams.includes(teamId) && (
-            <div>
-              <Button onClick={add} size={matches ? 'sm' : 'xxs'}>
-                Favoritlag
-              </Button>
-            </div>
+            <Button onClick={add} size={matches ? 'sm' : 'xxs'}>
+              Favoritlag
+            </Button>
           )}
         </div>
       </div>

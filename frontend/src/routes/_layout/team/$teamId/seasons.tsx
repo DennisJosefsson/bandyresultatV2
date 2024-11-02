@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { CardContent } from '@/components/ui/card'
 import { getSingleTeamTeamSeasons } from '@/lib/requests/teamSeason'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -19,7 +20,7 @@ function Seasons() {
   const rest = Route.useLoaderData({ select: (data) => data.rest })
 
   return (
-    <div className="p-2">
+    <CardContent className="p-1 md:p-2">
       <Accordion type="single" collapsible value={open} onValueChange={setOpen}>
         <AccordionItem
           value="seasons"
@@ -29,22 +30,20 @@ function Seasons() {
             Senaste säsongerna
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid grid-cols-8 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2">
               {seasons.map((season) => {
                 return (
-                  <div
+                  <Link
                     key={season.seasonId}
-                    className="flex items-center justify-center rounded bg-muted p-2 font-semibold text-sm dark:bg-muted/50 md:text-base"
+                    from="/team/$teamId/seasons"
+                    to="/team/$teamId/$seasonId"
+                    params={{ seasonId: season.seasonId }}
+                    search={(prev) => ({ ...prev })}
                   >
-                    <Link
-                      from="/team/$teamId/seasons"
-                      to="/team/$teamId/$seasonId"
-                      params={{ seasonId: season.seasonId }}
-                      search={(prev) => ({ ...prev })}
-                    >
+                    <div className="flex items-center justify-center rounded bg-muted p-2 font-semibold text-[10px] sm:text-sm dark:bg-muted/50 md:text-base">
                       {season.year}
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 )
               })}
             </div>
@@ -59,22 +58,20 @@ function Seasons() {
               Övriga
             </AccordionTrigger>
             <AccordionContent>
-              <div className="grid grid-cols-8 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2">
                 {rest.map((season) => {
                   return (
-                    <div
+                    <Link
                       key={season.seasonId}
-                      className="flex items-center justify-center rounded bg-muted p-2 font-semibold text-sm dark:bg-muted/50 md:text-base"
+                      from="/team/$teamId/seasons"
+                      to="/team/$teamId/$seasonId"
+                      params={{ seasonId: season.seasonId }}
+                      search={(prev) => ({ ...prev })}
                     >
-                      <Link
-                        from="/team/$teamId/seasons"
-                        to="/team/$teamId/$seasonId"
-                        params={{ seasonId: season.seasonId }}
-                        search={(prev) => ({ ...prev })}
-                      >
+                      <div className="flex items-center justify-center rounded bg-muted p-2 font-semibold text-[10px] sm:text-sm dark:bg-muted/50 md:text-base">
                         {season.year}
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                   )
                 })}
               </div>
@@ -82,6 +79,6 @@ function Seasons() {
           </AccordionItem>
         ) : null}
       </Accordion>
-    </div>
+    </CardContent>
   )
 }

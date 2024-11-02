@@ -43,7 +43,7 @@ function SingleTeam() {
           console.error(error)
         }}
         errorComponent={({ error, reset }) => (
-          <SimpleErrorComponent id="maraton" error={error} reset={reset} />
+          <SimpleErrorComponent id="singleteam" error={error} reset={reset} />
         )}
       >
         <div className="mt-2 flex min-h-screen flex-col font-inter text-foreground">

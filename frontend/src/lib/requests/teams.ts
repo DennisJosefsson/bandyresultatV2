@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { singleTeam } from '../types/teams/singleTeam'
+import { singleTeam, singleTeamTeamseason } from '../types/teams/singleTeam'
 import { newTeam, team } from '../types/teams/teams'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
@@ -10,6 +10,22 @@ const teamsApi = axios.create({
   baseURL: `${backendUrl}/api/teams`,
   headers: header,
 })
+
+export const getSingleTeamSeason = async ({
+  teamId,
+  seasonId,
+}: {
+  teamId: number
+  seasonId: number
+}): Promise<z.infer<typeof singleTeamTeamseason>> => {
+  const response = await teamsApi.get(`/${teamId}/${seasonId}`, {
+    validateStatus: (status) => {
+      return status < 500
+    },
+  })
+
+  return response.data
+}
 
 export const getTeams = async (): Promise<z.infer<typeof team>[]> => {
   const response = await teamsApi.get('/')
