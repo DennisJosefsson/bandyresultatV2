@@ -13,7 +13,9 @@ import SeasonStatsSkeleton from './Skeletons/SeasonStatsSkeleton'
 import SeasonTableSkeleton from './Skeletons/SeasonTableSkeleton'
 import SingleSeasonSkeleton from './Skeletons/SingleSeasonSkeleton'
 import SingleTeamSkeleton from './Skeletons/SingleTeamSkeleton'
+import SingleTeamTablesSkeleton from './Skeletons/SingleTeamTablesSkeleton'
 import StreaksSkeleton from './Skeletons/StreaksSkeleton'
+import SubSeasonTableSkeleton from './Skeletons/SubSeasonTableSkeleton'
 import TeamListSkeleton from './Skeletons/TeamListSkeleton'
 import Spinner from './Spinner'
 
@@ -23,6 +25,7 @@ type SkeletonType =
   | 'seasonMap'
   | 'seasonGamesList'
   | 'seasonTable'
+  | 'subseasonTable'
   | 'seasonPlayoff'
   | 'seasonDevelopment'
   | 'seasonStats'
@@ -35,6 +38,7 @@ type SkeletonType =
   | 'pointsgoals'
   | 'streaks'
   | 'search'
+  | 'singleTeamTable'
 
 type LoadingProps = {
   page?: SkeletonType
@@ -54,6 +58,9 @@ const Loading = ({ page }: LoadingProps) => {
       break
     case 'seasonTable':
       content = <SeasonTableSkeleton />
+      break
+    case 'subseasonTable':
+      content = <SubSeasonTableSkeleton />
       break
     case 'seasonPlayoff':
       content = <SeasonPlayoffSkeleton />
@@ -94,14 +101,13 @@ const Loading = ({ page }: LoadingProps) => {
     case 'search':
       content = <SearchSkeleton />
       break
+    case 'singleTeamTable':
+      content = <SingleTeamTablesSkeleton />
+      break
     default:
       content = <Spinner />
   }
-  return (
-    <div className="mx-auto grid place-items-center font-inter text-foreground">
-      {content}
-    </div>
-  )
+  return <div>{content}</div>
 }
 
 export default Loading

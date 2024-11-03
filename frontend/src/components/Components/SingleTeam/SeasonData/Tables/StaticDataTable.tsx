@@ -6,9 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+
+import { staticTable } from '@/lib/types/tables/seasonTable'
+import { cn } from '@/lib/utils/utils'
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -17,27 +18,20 @@ import {
 } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { hideColumns, showColumns } from './staticColumns'
+import { z } from 'zod'
+import { columns, hideColumns, showColumns } from './staticColumns'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  teamObject: {
-    [x: string]: number
-  }
+interface DataTableProps {
+  data: z.infer<typeof staticTable>[]
+  casualName: string
   serieStructure: number[] | null | undefined
 }
 
-const DataTable = <TData, TValue>({
-  columns,
-  data,
-  teamObject,
-  serieStructure,
-}: DataTableProps<TData, TValue>) => {
+const DataTable = ({ data, casualName, serieStructure }: DataTableProps) => {
   const matches = useMediaQuery('(min-width: 640px)')
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState({})
-  const table = useReactTable({
+  const table = useReactTable<z.infer<typeof staticTable>>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -55,8 +49,6 @@ const DataTable = <TData, TValue>({
       ? setColumnVisibility(showColumns)
       : setColumnVisibility(hideColumns)
   }, [matches])
-
-  const { favTeams } = useTeampreferenceContext()
 
   const getString = (x: unknown): string => {
     if (!x) throw new Error('Missing string')
@@ -101,17 +93,14 @@ const DataTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
-                className={`${
-                  favTeams.includes(
-                    teamObject[getString(row.getValue('team_casualName'))]
-                  )
-                    ? 'font-bold'
-                    : null
-                } ${
+                className={cn(
+                  casualName === getString(row.getValue('team_casualName'))
+                    ? 'font-bold border-dashed border-2'
+                    : null,
                   serieStructure?.includes(index + 1)
                     ? 'border-b-2 border-foreground'
                     : null
-                }`}
+                )}
               >
                 <TableCell
                   key={`index-${index}`}

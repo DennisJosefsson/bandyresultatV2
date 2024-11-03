@@ -67,9 +67,11 @@ const TeamHeader = () => {
         </CardTitle>
 
         <div className="flex flex-row gap-1 items-center">
-          <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>
-            Tillbaka
-          </Button>
+          {origin ? (
+            <Button onClick={goBack} size={matches ? 'sm' : 'xxs'}>
+              Tillbaka
+            </Button>
+          ) : null}
 
           {favTeams.includes(teamId) && (
             <Button onClick={remove} size={matches ? 'sm' : 'xxs'}>

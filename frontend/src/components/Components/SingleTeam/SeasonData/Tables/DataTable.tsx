@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/table'
 
 import { seasonTable } from '@/lib/types/tables/seasonTable'
+import { cn } from '@/lib/utils/utils'
 import {
   flexRender,
   getCoreRowModel,
@@ -97,15 +98,14 @@ const DataTable = ({ data, serieStructure, casualName }: DataTableProps) => {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
-                className={`${
+                className={cn(
                   casualName === getString(row.getValue('team_casualName'))
-                    ? 'font-bold border-dashed border-2'
-                    : null
-                } ${
+                    ? 'font-bold italic'
+                    : null,
                   serieStructure?.includes(index + 1)
                     ? 'border-b-2 border-foreground'
                     : null
-                }`}
+                )}
               >
                 <TableCell
                   key={`index-${index}`}
