@@ -111,6 +111,8 @@ singleTeamRouter.get('/:teamId/:seasonId', (async (
     order: [['date', 'desc']],
   })
 
+  const hasGames = games.length !== 0
+
   const series = await Serie.findAll({
     include: [
       { model: Team, where: { teamId } },
@@ -232,6 +234,7 @@ singleTeamRouter.get('/:teamId/:seasonId', (async (
     series,
     tables,
     staticTables,
+    hasGames,
   })
 }) as RequestHandler)
 

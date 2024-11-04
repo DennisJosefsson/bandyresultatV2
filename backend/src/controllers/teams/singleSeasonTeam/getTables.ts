@@ -41,7 +41,7 @@ export const getTeamSeasonStaticTables = async (
   })
   const series = await Serie.findAll({
     where: { serieGroupCode: groupArray },
-    include: [{ model: Season, where: { year: seasonYear, women: true } }],
+    include: [{ model: Season, where: { year: seasonYear, women } }],
     raw: true,
     nest: true,
   })
