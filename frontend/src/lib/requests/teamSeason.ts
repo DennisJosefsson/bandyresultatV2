@@ -4,6 +4,7 @@ import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
 import { z } from 'zod'
 import { dashboardTeamSeason } from '../types/dashboard/dashboardTeamseason'
 import { teamSeason } from '../types/teamSeason/teamSeason'
+import { singleTeamSeasons } from '../types/teams/singleTeam'
 
 const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
 
@@ -18,6 +19,16 @@ export const getSingleTeamseason = async ({
   teamseasonId: number
 }): Promise<z.infer<typeof dashboardTeamSeason>> => {
   const response = await teamseasonsApi.get(`/single/${teamseasonId}`)
+  return response.data
+}
+
+export const getSingleTeamTeamSeasons = async ({
+  teamId,
+}: {
+  teamId: number
+}): Promise<z.infer<typeof singleTeamSeasons>> => {
+  const response = await teamseasonsApi.get(`/team/${teamId}`)
+
   return response.data
 }
 

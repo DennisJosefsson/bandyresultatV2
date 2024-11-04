@@ -26,7 +26,7 @@ export const Route = createFileRoute(
 
     return tables
   },
-  pendingComponent: Loading,
+  pendingComponent: () => <Loading page="subseasonTable" />,
   component: SubTables,
   notFoundComponent: NotFound,
 })

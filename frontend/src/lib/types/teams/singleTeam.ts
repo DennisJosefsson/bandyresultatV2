@@ -1,6 +1,8 @@
 import { z } from 'zod'
+import { groupArray } from '../games/gameObject'
 import { season } from '../season/seasons'
 import { serie } from '../series/series'
+import { groupTable, staticGroupTable } from '../tables/seasonTable'
 import { table } from '../tables/tables'
 import { team, teamAttributes } from './teams'
 
@@ -100,4 +102,41 @@ export const singleTeam = z.object({
   chartDataLength: z.number(),
   barChartData: z.array(barChartType),
   renderData: z.array(z.array(lineChartType)),
+})
+
+const singleTeamSeasonItem = z.object({
+  seasonId: z.number(),
+  year: z.string(),
+})
+export const singleTeamSeasons = z.object({
+  seasons: z.array(singleTeamSeasonItem),
+  rest: z.array(singleTeamSeasonItem),
+})
+
+const seasonItem = z.object({
+  year: z.string(),
+  seasonId: z.number(),
+})
+
+const seasonItemOrUndefined = z
+  .object({
+    year: z.string(),
+    seasonId: z.number(),
+  })
+  .optional()
+
+export const singleTeamTeamseason = z.object({
+  firstSeason: seasonItem,
+  lastSeason: seasonItem,
+  previousSeason: seasonItemOrUndefined,
+  nextSeason: seasonItemOrUndefined,
+  team,
+  seasonYear: z.string(),
+  games: z.object({
+    playedGames: groupArray,
+    unplayedGames: groupArray,
+  }),
+  tables: z.array(groupTable),
+  staticTables: z.array(staticGroupTable),
+  hasGames: z.boolean(),
 })

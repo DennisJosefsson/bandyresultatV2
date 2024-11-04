@@ -19,6 +19,47 @@ import seasonIdCheck from '../utils/postFunctions/seasonIdCheck.js'
 
 const teamSeasonRouter = Router()
 
+teamSeasonRouter.get('/team/:teamId', (async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const teamId = z.coerce.number().parse(req.params.teamId)
+
+  const teamSeasons = await TeamSeason.findAll({
+    where: { teamId },
+    include: Season,
+    order: [['seasonId', 'desc']],
+  }).then((res) => {
+    return res.map((item) => {
+      return {
+        seasonId: item.season.year.includes('/')
+          ? parseInt(item.season.year.split('/')[1])
+          : parseInt(item.season.year),
+        year: item.season.year,
+      }
+    })
+  })
+  if (!teamSeasons || teamSeasons.length === 0) {
+    throw new NotFoundError({
+      code: 404,
+      message: 'Laget har inga säsonger, alt. laget finns inte.',
+      logging: false,
+      context: { origin: 'Get Single Team Teamseasons' },
+    })
+  }
+
+  if (teamSeasons.length > 10) {
+    const copy = [...teamSeasons]
+    const head = copy.splice(0, 8)
+    return res.status(200).json({
+      seasons: head,
+      rest: copy,
+    })
+  }
+  res.status(200).json({ seasons: teamSeasons, rest: [] })
+}) as RequestHandler)
+
 teamSeasonRouter.get('/dashboard/:seasonId', (async (
   req: Request,
   res: Response,
