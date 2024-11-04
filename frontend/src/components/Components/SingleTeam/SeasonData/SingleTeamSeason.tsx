@@ -79,11 +79,16 @@ const SingleTeamSeason = () => {
               <SeasonTables />
             </TabsContent>
             <TabsContent value="games">
-              <GamesList gamesArray={season.games.playedGames} tab="games" />
+              <GamesList
+                hasGames={season.hasGames}
+                gamesArray={season.games.playedGames}
+                tab="games"
+              />
             </TabsContent>
 
             <TabsContent value="upcoming">
               <GamesList
+                hasGames={season.hasGames}
                 gamesArray={season.games.unplayedGames}
                 tab="upcoming"
               />

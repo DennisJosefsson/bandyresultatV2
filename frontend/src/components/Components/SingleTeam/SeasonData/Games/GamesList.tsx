@@ -7,9 +7,17 @@ import GamesListItem from './GamesListItem'
 type GameListProps = {
   gamesArray: z.infer<typeof groupArray>
   tab: string
+  hasGames: boolean
 }
 
-const GamesList = ({ gamesArray, tab }: GameListProps) => {
+const GamesList = ({ gamesArray, tab, hasGames }: GameListProps) => {
+  if (!hasGames) {
+    return (
+      <div className="flex flex-row justify-center mt-2 font-semibold">
+        Inga inlagda matcher denna säsong, men tabell ska finnas.
+      </div>
+    )
+  }
   if (gamesArray.length === 0) {
     return (
       <div className="flex flex-row justify-center mt-2 font-semibold">

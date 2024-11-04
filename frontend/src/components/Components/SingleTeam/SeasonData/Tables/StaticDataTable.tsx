@@ -95,7 +95,7 @@ const DataTable = ({ data, casualName, serieStructure }: DataTableProps) => {
                 data-state={row.getIsSelected() && 'selected'}
                 className={cn(
                   casualName === getString(row.getValue('team_casualName'))
-                    ? 'font-bold border-dashed border-2'
+                    ? 'font-bold italic'
                     : null,
                   serieStructure?.includes(index + 1)
                     ? 'border-b-2 border-foreground'

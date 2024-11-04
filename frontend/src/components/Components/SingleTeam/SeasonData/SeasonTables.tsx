@@ -28,7 +28,6 @@ const SeasonTables = () => {
       ) : null}
       {staticTables.length > 0 ? (
         <div>
-          (
           {staticTables.map((tableObject) => {
             return (
               <StaticTableList
@@ -38,7 +37,6 @@ const SeasonTables = () => {
               />
             )
           })}
-          )
         </div>
       ) : null}
     </div>

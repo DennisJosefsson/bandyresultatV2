@@ -138,4 +138,5 @@ export const singleTeamTeamseason = z.object({
   }),
   tables: z.array(groupTable),
   staticTables: z.array(staticGroupTable),
+  hasGames: z.boolean(),
 })
