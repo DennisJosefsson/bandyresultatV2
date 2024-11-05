@@ -1,10 +1,10 @@
 import { NoWomenSeason } from '@/components/Components/Common/NoWomenSeason'
-import DevelopmentHeader from '@/components/Components/Season/SeasonDevelopmentComponents/DevelopmentHeader'
+import IntervalHeader from '@/components/Components/Season/SeasonIntervalComponents/IntervalHeader'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDevelopmentSeries } from '@/lib/requests/series'
 import { createFileRoute, notFound, Outlet } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_layout/season/$seasonId/development')({
+export const Route = createFileRoute('/_layout/season/$seasonId/interval')({
   loaderDeps: ({ search: { women } }) => ({ women }),
   loader: async ({ params, deps }) => {
     const series = await getDevelopmentSeries({
@@ -47,7 +47,7 @@ function Subs() {
 
   return (
     <div>
-      <DevelopmentHeader />
+      <IntervalHeader />
       <div className="mt-2">
         <Outlet />
       </div>

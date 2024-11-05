@@ -1,5 +1,6 @@
 import CompareSkeleton from './Skeletons/CompareSkeleton'
 import GeneralStatsSkeleton from './Skeletons/GeneralStatsSkeleton'
+import IntervalSkeleton from './Skeletons/IntervalSkeleton'
 import MaratonSkeleton from './Skeletons/MaratonSkeleton'
 import PointsGoalsSkeleton from './Skeletons/PointsGoalsSkeleton'
 import SearchSelectionSkeleton from './Skeletons/SearchSelectionSkeleton'
@@ -39,6 +40,7 @@ type SkeletonType =
   | 'streaks'
   | 'search'
   | 'singleTeamTable'
+  | 'interval'
 
 type LoadingProps = {
   page?: SkeletonType
@@ -103,6 +105,9 @@ const Loading = ({ page }: LoadingProps) => {
       break
     case 'singleTeamTable':
       content = <SingleTeamTablesSkeleton />
+      break
+    case 'interval':
+      content = <IntervalSkeleton />
       break
     default:
       content = <Spinner />

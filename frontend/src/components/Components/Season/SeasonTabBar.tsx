@@ -1,5 +1,6 @@
 import {
   CalendarIcon,
+  ChevronsLeftRightEllipsis,
   DevIcon,
   ListIcon,
   ManIcon,
@@ -17,10 +18,11 @@ import {
   useParams,
   useSearch,
 } from '@tanstack/react-router'
+
 import { useMediaQuery } from 'usehooks-ts'
 
 const SeasonTabBar = () => {
-  const matches = useMediaQuery('(min-width: 640px)')
+  const matches = useMediaQuery('(min-width: 840px)')
   const navigate = useNavigate({ from: '/season/$seasonId' })
   const women = useSearch({
     from: '/_layout',
@@ -155,6 +157,30 @@ const SeasonTabBar = () => {
         ),
 
         tabName: 'development',
+      },
+      {
+        tab: (
+          <Link
+            from="/season/$seasonId"
+            to="/season/$seasonId/interval"
+            params={{ seasonId: seasonId }}
+            search={(prev) => ({ ...prev })}
+            activeOptions={{ includeSearch: false }}
+          >
+            {({ isActive }) => {
+              return (
+                <Button
+                  variant={isActive ? 'default' : 'outline'}
+                  size={matches ? 'default' : 'xs'}
+                >
+                  {matches ? 'Intervall' : <ChevronsLeftRightEllipsis />}
+                </Button>
+              )
+            }}
+          </Link>
+        ),
+
+        tabName: 'interval',
       },
       {
         tab: (

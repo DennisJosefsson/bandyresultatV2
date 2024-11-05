@@ -9,6 +9,7 @@ const parseRoute = z
     'tables/away',
     'tables/sub',
     'development',
+    'interval',
     'playoff',
     'stats',
     'map',
@@ -19,7 +20,9 @@ export const getParsedRoute = (pathname: string | undefined) => {
   const route = pathname
     ? pathname.includes('development')
       ? 'development'
-      : pathname
+      : pathname.includes('interval')
+        ? 'interval'
+        : pathname
     : ''
 
   return parseRoute.parse(route)

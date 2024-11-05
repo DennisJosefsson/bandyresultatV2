@@ -1,16 +1,17 @@
 import Loading from '@/components/Components/Common/Loading'
-import DevelopmentData from '@/components/Components/Season/SeasonDevelopmentComponents/DevelopmentData'
+import RangeData from '@/components/Components/Season/SeasonIntervalComponents/RangeData'
 import { getSubAnimation } from '@/lib/requests/games'
 import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
+
 export const Route = createFileRoute(
-  '/_layout/season/$seasonId/development/$group'
+  '/_layout/season/$seasonId/interval/$group'
 )({
   loaderDeps: ({ search: { women } }) => ({ women }),
-  loader: async ({ params, deps }) => {
+  loader: async ({ params: { seasonId, group }, deps: { women } }) => {
     const data = await getSubAnimation({
-      seasonId: params.seasonId,
-      women: deps.women,
-      group: params.group,
+      seasonId,
+      women,
+      group,
     })
 
     if (
@@ -27,25 +28,25 @@ export const Route = createFileRoute(
       data.errors === 'Grupp finns ej'
     ) {
       throw redirect({
-        to: '/season/$seasonId/development',
-        params: { seasonId: params.seasonId },
-        search: { women: deps.women },
+        to: '/season/$seasonId/interval',
+        params: { seasonId },
+        search: { women },
       })
     }
 
     if (data['length'] === 0) {
       throw redirect({
-        to: '/season/$seasonId/development',
-        params: { seasonId: params.seasonId },
-        search: { women: deps.women },
+        to: '/season/$seasonId/interval',
+        params: { seasonId },
+        search: { women },
       })
     }
 
     return data
   },
 
-  pendingComponent: () => <Loading page="seasonDevelopment" />,
-  component: DevelopmentData,
+  pendingComponent: () => <Loading page="interval" />,
+  component: RangeData,
   notFoundComponent: NotFound,
 })
 

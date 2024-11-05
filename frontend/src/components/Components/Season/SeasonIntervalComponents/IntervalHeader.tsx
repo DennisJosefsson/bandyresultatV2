@@ -10,9 +10,9 @@ import {
 
 import { getRouteApi, Link } from '@tanstack/react-router'
 
-const route = getRouteApi('/_layout/season/$seasonId/development')
+const route = getRouteApi('/_layout/season/$seasonId/interval')
 
-const DevelopmentHeader = () => {
+const IntervalHeader = () => {
   const gameSeries = route.useLoaderData({ select: (data) => data.gameSeries })
   const navigate = route.useNavigate()
 
@@ -23,7 +23,7 @@ const DevelopmentHeader = () => {
   const onGroupChange = (value: string) => {
     navigate({
       resetScroll: false,
-      to: '/season/$seasonId/development/$group',
+      to: '/season/$seasonId/interval/$group',
       params: (prev) => ({ seasonId: prev.seasonId, group: value }),
       search: (prev) => ({ ...prev }),
     })
@@ -57,7 +57,7 @@ const DevelopmentHeader = () => {
       {seriesArray.map((serie) => {
         return (
           <Link
-            from="/season/$seasonId/development"
+            from="/season/$seasonId/interval"
             to="$group"
             params={{ group: serie.value }}
             search={(prev) => ({ ...prev })}
@@ -78,4 +78,4 @@ const DevelopmentHeader = () => {
   )
 }
 
-export default DevelopmentHeader
+export default IntervalHeader
