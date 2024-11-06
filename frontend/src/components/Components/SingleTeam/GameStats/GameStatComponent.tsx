@@ -26,20 +26,16 @@ function Content({ statArray }: { statArray: z.infer<typeof gameStat>[] }) {
           return (
             <div
               key={`${stat.gameId}-${index}`}
-              className="flex flex-col gap-1"
+              className="flex flex-col gap-1 rounded bg-muted-foreground/20 p-1 xs:p-2 mb-1"
             >
-              <div className="mb-1 flex flex-row justify-between rounded bg-muted-foreground/20 px-1 md:px-3 py-1">
-                <div className="flex flex-row gap-2">
-                  <div className="w-24 xxs:w-32">
-                    <Date>{stat.date}</Date>
-                  </div>
-                  <span className="w-24 lg:w-32">
-                    {stat.homeTeam}-{stat.awayTeam}
-                  </span>
-                </div>
-                <div>
-                  <span className="w-16">{stat.result}</span>
-                </div>
+              <div className="flex flex-row justify-between ">
+                <span>
+                  {stat.homeTeam}-{stat.awayTeam}
+                </span>
+                <span>{stat.result}</span>
+              </div>
+              <div>
+                <Date>{stat.date}</Date>
               </div>
             </div>
           )
