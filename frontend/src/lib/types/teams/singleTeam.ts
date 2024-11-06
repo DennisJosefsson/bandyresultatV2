@@ -75,6 +75,29 @@ export const fiveSeason = z.object({
   ),
 })
 
+export const gameStat = z.object({
+  gameId: z.number(),
+  date: z.string(),
+  homeTeam: z.string(),
+  awayTeam: z.string(),
+  result: z.string(),
+})
+
+export const gameStats = z.object({
+  maxScoredHomeGames: z.array(gameStat),
+  maxScoredAwayGames: z.array(gameStat),
+  maxGoalDifferenceHomeGames: z.array(gameStat),
+  maxGoalDifferenceAwayGames: z.array(gameStat),
+  minGoalDifferenceHomeGames: z.array(gameStat),
+  minGoalDifferenceAwayGames: z.array(gameStat),
+  maxConcededHomeGames: z.array(gameStat),
+  maxConcededAwayGames: z.array(gameStat),
+  maxTotalHomeGames: z.array(gameStat),
+  maxTotalAwayGames: z.array(gameStat),
+  minTotalHomeGames: z.array(gameStat),
+  minTotalAwayGames: z.array(gameStat),
+})
+
 export const singleTeam = z.object({
   team: teamAttributes,
   tables: z.array(
@@ -102,6 +125,7 @@ export const singleTeam = z.object({
   chartDataLength: z.number(),
   barChartData: z.array(barChartType),
   renderData: z.array(z.array(lineChartType)),
+  gameStats,
 })
 
 const singleTeamSeasonItem = z.object({

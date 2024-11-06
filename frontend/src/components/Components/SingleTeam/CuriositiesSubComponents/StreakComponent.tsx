@@ -10,7 +10,7 @@ const StreakComponent = ({ children }: { children: ReactNode }) => {
 
 function Title({ children }: { children: ReactNode }) {
   return (
-    <CardHeader className="p-1 md:p-6">
+    <CardHeader className="p-3">
       <CardTitle className="text-[10px] md:text-sm">{children}</CardTitle>
     </CardHeader>
   )
@@ -20,7 +20,7 @@ function Content({ streak }: { streak: z.infer<typeof streakType>[] }) {
   if (!streak || streak.length === 0) return null
 
   return (
-    <CardContent className="text-[10px] xxs:text-xs p-1 md:p-6 lg:mr-0 lg:text-sm">
+    <CardContent className="text-[10px] xxs:text-xs lg:mr-0 lg:text-sm">
       <div>
         {streak.map((streak, index) => {
           return (
