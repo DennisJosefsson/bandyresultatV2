@@ -27,6 +27,7 @@ import { getLatestFiveSeasons } from './singleTeam/getLatestFiveSeasons.js'
 import { getStreaks } from './singleTeam/getStreaks.js'
 import { getStrings } from './singleTeam/getStrings.js'
 import { getTables } from './singleTeam/getTables.js'
+import { getTeamStats } from './singleTeam/getTeamStats.js'
 
 const singleTeamRouter = Router()
 
@@ -293,10 +294,13 @@ singleTeamRouter.get('/:teamId', (async (
 
   const chartData = await getChartData({ team })
 
+  const gameStats = await getTeamStats({ teamId })
+
   res.json({
     seasonString: strings.seasonString,
     team,
     tables,
+    gameStats,
     streaks,
     finalsAndWinsString: strings.finalsAndWinsString,
     playoffCountString: strings.playoffCountString,
