@@ -20,6 +20,10 @@ type BonusPoints = {
   [key: string]: number
 }
 
+const getTime = (date?: Date): number => {
+  return date != null ? date.getTime() : 0
+}
+
 export const getTeamSeasonStaticTables = async (
   seasonYear: string | undefined,
   women: boolean,
@@ -341,8 +345,12 @@ export const getSeasonGames = (games: Game[], series: Serie[]) => {
     }
   }) as SeriesData[]
 
-  const unsortedPlayedGames = games.filter((game) => game.played === true)
-  const unsortedUnplayedGames = games.filter((game) => !game.played)
+  const unsortedPlayedGames = games
+    .filter((game) => game.played === true)
+    .sort((a, b) => getTime(new Date(a.date)) - getTime(new Date(b.date)))
+  const unsortedUnplayedGames = games
+    .filter((game) => !game.played)
+    .sort((a, b) => getTime(new Date(a.date)) - getTime(new Date(b.date)))
 
   const playedGames = gameSortFunction(unsortedPlayedGames, seriesData, true)
 
