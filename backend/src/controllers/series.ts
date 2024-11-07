@@ -50,7 +50,10 @@ seriesRouter.get('/development/:seasonId', (async (
   const { women } = parseSubParam.parse(req.query)
 
   const series = await Serie.findAll({
-    where: { serieCategory: ['regular', 'qualification'] },
+    where: {
+      serieCategory: ['regular', 'qualification'],
+      serieGroupCode: { [Op.not]: 'mix' },
+    },
     include: [
       {
         model: Season,
