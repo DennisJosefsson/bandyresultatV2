@@ -37,6 +37,7 @@ import { Route as LayoutDashboardSeasonsImport } from './routes/_layout/dashboar
 import { Route as LayoutDashboardNewSeasonImport } from './routes/_layout/dashboard/newSeason'
 import { Route as LayoutDashboardErrorsImport } from './routes/_layout/dashboard/errors'
 import { Route as LayoutDashboardAddTeamsImport } from './routes/_layout/dashboard/addTeams'
+import { Route as LayoutAboutChangelogImport } from './routes/_layout/about_/changelog'
 import { Route as LayoutTeamTeamIdIndexImport } from './routes/_layout/team/$teamId/index'
 import { Route as LayoutMaratonRecordsIndexImport } from './routes/_layout/maraton/records/index'
 import { Route as LayoutDashboardTeamsIndexImport } from './routes/_layout/dashboard/teams/index'
@@ -228,6 +229,11 @@ const LayoutDashboardErrorsRoute = LayoutDashboardErrorsImport.update({
 const LayoutDashboardAddTeamsRoute = LayoutDashboardAddTeamsImport.update({
   path: '/addTeams',
   getParentRoute: () => LayoutDashboardRoute,
+} as any)
+
+const LayoutAboutChangelogRoute = LayoutAboutChangelogImport.update({
+  path: '/about/changelog',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const LayoutTeamTeamIdIndexRoute = LayoutTeamTeamIdIndexImport.update({
@@ -564,6 +570,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/about/changelog': {
+      id: '/_layout/about/changelog'
+      path: '/about/changelog'
+      fullPath: '/about/changelog'
+      preLoaderRoute: typeof LayoutAboutChangelogImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/dashboard/addTeams': {
@@ -1330,6 +1343,7 @@ interface LayoutRouteChildren {
   LayoutAboutLazyRoute: typeof LayoutAboutLazyRoute
   LayoutUnauthorizedLazyRoute: typeof LayoutUnauthorizedLazyRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutAboutChangelogRoute: typeof LayoutAboutChangelogRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
@@ -1343,6 +1357,7 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutLazyRoute: LayoutAboutLazyRoute,
   LayoutUnauthorizedLazyRoute: LayoutUnauthorizedLazyRoute,
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutAboutChangelogRoute: LayoutAboutChangelogRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -1360,6 +1375,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof LayoutAboutLazyRoute
   '/unauthorized': typeof LayoutUnauthorizedLazyRoute
   '/': typeof LayoutIndexRoute
+  '/about/changelog': typeof LayoutAboutChangelogRoute
   '/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
   '/dashboard/errors': typeof LayoutDashboardErrorsRoute
   '/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
@@ -1429,6 +1445,7 @@ export interface FileRoutesByTo {
   '/about': typeof LayoutAboutLazyRoute
   '/unauthorized': typeof LayoutUnauthorizedLazyRoute
   '/': typeof LayoutIndexRoute
+  '/about/changelog': typeof LayoutAboutChangelogRoute
   '/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
   '/dashboard/errors': typeof LayoutDashboardErrorsRoute
   '/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
@@ -1500,6 +1517,7 @@ export interface FileRoutesById {
   '/_layout/about': typeof LayoutAboutLazyRoute
   '/_layout/unauthorized': typeof LayoutUnauthorizedLazyRoute
   '/_layout/': typeof LayoutIndexRoute
+  '/_layout/about/changelog': typeof LayoutAboutChangelogRoute
   '/_layout/dashboard/addTeams': typeof LayoutDashboardAddTeamsRoute
   '/_layout/dashboard/errors': typeof LayoutDashboardErrorsRoute
   '/_layout/dashboard/newSeason': typeof LayoutDashboardNewSeasonRoute
@@ -1575,6 +1593,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/unauthorized'
     | '/'
+    | '/about/changelog'
     | '/dashboard/addTeams'
     | '/dashboard/errors'
     | '/dashboard/newSeason'
@@ -1643,6 +1662,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/unauthorized'
     | '/'
+    | '/about/changelog'
     | '/dashboard/addTeams'
     | '/dashboard/errors'
     | '/dashboard/newSeason'
@@ -1712,6 +1732,7 @@ export interface FileRouteTypes {
     | '/_layout/about'
     | '/_layout/unauthorized'
     | '/_layout/'
+    | '/_layout/about/changelog'
     | '/_layout/dashboard/addTeams'
     | '/_layout/dashboard/errors'
     | '/_layout/dashboard/newSeason'
@@ -1809,7 +1830,8 @@ export const routeTree = rootRoute
         "/_layout/teams",
         "/_layout/about",
         "/_layout/unauthorized",
-        "/_layout/"
+        "/_layout/",
+        "/_layout/about/changelog"
       ]
     },
     "/_layout/dashboard": {
@@ -1881,6 +1903,10 @@ export const routeTree = rootRoute
     },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/about/changelog": {
+      "filePath": "_layout/about_/changelog.tsx",
       "parent": "/_layout"
     },
     "/_layout/dashboard/addTeams": {
