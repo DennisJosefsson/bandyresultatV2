@@ -115,6 +115,15 @@ function About() {
             kan man swisha till 0738137187. Märk kuvertet &quot;bandy, bandy,
             bandy&quot;.
           </p>
+          <p>
+            <Link
+              from="/about"
+              to="/about/changelog"
+              search={(prev) => ({ ...prev })}
+            >
+              Changelog
+            </Link>
+          </p>
         </div>
       </div>
     </div>
