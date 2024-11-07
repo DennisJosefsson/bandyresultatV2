@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/')({
   component: Home,
@@ -12,21 +12,16 @@ function Home() {
         <div className="flex flex-col lg:flex-row gap-1 md:gap-4">
           <div>
             <p className="text-primary text-[10px] md:text-sm mb-2 font-semibold">
-              2024-10-26:
-            </p>
-          </div>
-          <div>
-            <p className="text-primary text-[10px] md:text-sm mb-2">
-              Ny säsong, mer statistik. Jag har börjat arbetet med att lägga in
-              resultat också från lägre divisioner.
-            </p>
-            <p className="text-primary text-[10px] md:text-sm mb-2">
-              Till att börja med finns matchresultat från Allsvenskan och
-              Division 1 från och med säsong 2016/2017.
-            </p>
-            <p className="text-primary text-[10px] md:text-sm">
-              Målsättningen är att lägga in även tidigare matchresultat, men
-              inom det närmaste kommer det enbart finnas tabeller.
+              2024-11-07: Sammanfattning av förändringar finns{' '}
+              <Link
+                from="/"
+                to="/about/changelog"
+                search={(prev) => ({ ...prev })}
+                className="underline"
+              >
+                här
+              </Link>
+              .
             </p>
           </div>
         </div>
