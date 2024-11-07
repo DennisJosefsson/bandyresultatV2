@@ -15,7 +15,7 @@ function Changelog() {
           <CardTitle>Nyheter</CardTitle>
         </CardHeader>
         <CardContent>
-          <article className="prose text-foreground dark:prose-invert">
+          <article className="prose prose-xs sm:prose-sm md:prose-base text-foreground dark:prose-invert">
             <Markdown>{changelog}</Markdown>
           </article>
         </CardContent>
