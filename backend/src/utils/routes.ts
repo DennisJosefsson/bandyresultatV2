@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import changelogRouter from '../controllers/changelog.js'
 import countyRouter from '../controllers/county.js'
 import dashboardDataRouter from '../controllers/dashboard/data.js'
 import dashboardGameRouter from '../controllers/dashboard/games.js'
@@ -60,4 +61,5 @@ export const routeArray: RouteArray = [
   { path: '/api/county', router: countyRouter },
   { path: '/api/municipality', router: municipalityRouter },
   { path: '/api/teamseries', router: teamSeriesRouter },
+  { path: '/api/changelog', router: changelogRouter },
 ]
