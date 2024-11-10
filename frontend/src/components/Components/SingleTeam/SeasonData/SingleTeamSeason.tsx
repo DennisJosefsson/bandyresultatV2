@@ -11,7 +11,7 @@ const route = getRouteApi('/_layout/team/$teamId/$seasonId')
 const SingleTeamSeason = () => {
   const season = route.useLoaderData()
   return (
-    <CardContent>
+    <CardContent className="p-1 md:p-6">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between items-center">
           <Link

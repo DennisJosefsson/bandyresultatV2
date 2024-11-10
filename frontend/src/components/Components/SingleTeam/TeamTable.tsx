@@ -31,7 +31,7 @@ const TeamTable = () => {
               {level.tables.map((table) => {
                 return (
                   <div key={table.category}>
-                    <h6 className="text-[8px] md:text-xs">
+                    <h6 className="text-[10px] md:text-xs">
                       {table.categoryName}
                     </h6>
                     <Table className="w-full table-fixed">

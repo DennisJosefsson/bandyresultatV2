@@ -27,7 +27,7 @@ const columnHelper = createColumnHelper<z.infer<typeof staticTable>>()
 export const columns = [
   columnHelper.accessor('team.casualName' as const, {
     header: () => (
-      <div className="w-6 truncate text-left text-[8px] sm:w-24 sm:text-[10px] lg:w-32 lg:text-sm">
+      <div className="w-6 truncate text-left sm:w-24 text-[10px] lg:w-32 lg:text-sm">
         Lag
       </div>
     ),
@@ -39,12 +39,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalGames' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           M
           {column.getIsSorted() === 'desc' ? (
@@ -58,7 +58,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGames')}
       </div>
     ),
@@ -66,12 +66,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalWins' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           V
           {column.getIsSorted() === 'desc' ? (
@@ -85,7 +85,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalWins')}
       </div>
     ),
@@ -93,12 +93,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalDraws' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm ">
+      <div className="text-center text-[10px] lg:text-sm ">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           O
           {column.getIsSorted() === 'desc' ? (
@@ -112,7 +112,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalDraws')}
       </div>
     ),
@@ -120,12 +120,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalLost' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           F
           {column.getIsSorted() === 'desc' ? (
@@ -139,7 +139,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalLost')}
       </div>
     ),
@@ -147,12 +147,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalGoalsScored' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           GM
           {column.getIsSorted() === 'desc' ? (
@@ -166,7 +166,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsScored')}
       </div>
     ),
@@ -174,12 +174,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalGoalsConceded' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           IM
           {column.getIsSorted() === 'desc' ? (
@@ -193,7 +193,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsConceded')}
       </div>
     ),
@@ -201,12 +201,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalGoalDifference' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           MS
           {column.getIsSorted() === 'desc' ? (
@@ -220,7 +220,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalDifference')}
       </div>
     ),
@@ -228,12 +228,12 @@ export const columns = [
   }),
   columnHelper.accessor('totalPoints' as const, {
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           P
           {column.getIsSorted() === 'desc' ? (
@@ -247,7 +247,7 @@ export const columns = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalPoints')}
       </div>
     ),
@@ -259,7 +259,7 @@ export const columns = [
 //   {
 //     accessorKey: 'team.casualName',
 //     header: () => (
-//       <div className="w-6 truncate text-left text-[8px] sm:w-24 sm:text-[10px] lg:w-32 lg:text-sm">
+//       <div className="w-6 truncate text-left sm:w-24 text-[10px] lg:w-32 lg:text-sm">
 //         Lag
 //       </div>
 //     ),
@@ -272,12 +272,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalGames',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           M
 //           {column.getIsSorted() === 'desc' ? (
@@ -291,7 +291,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalGames')}
 //       </div>
 //     ),
@@ -300,12 +300,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalWins',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           V
 //           {column.getIsSorted() === 'desc' ? (
@@ -319,7 +319,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalWins')}
 //       </div>
 //     ),
@@ -328,12 +328,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalDraws',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           O
 //           {column.getIsSorted() === 'desc' ? (
@@ -347,7 +347,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalDraws')}
 //       </div>
 //     ),
@@ -356,12 +356,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalLost',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           F
 //           {column.getIsSorted() === 'desc' ? (
@@ -375,7 +375,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalLost')}
 //       </div>
 //     ),
@@ -384,12 +384,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalGoalsScored',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           GM
 //           {column.getIsSorted() === 'desc' ? (
@@ -403,7 +403,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalGoalsScored')}
 //       </div>
 //     ),
@@ -412,12 +412,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalGoalsConceded',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           IM
 //           {column.getIsSorted() === 'desc' ? (
@@ -431,7 +431,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalGoalsConceded')}
 //       </div>
 //     ),
@@ -440,12 +440,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalGoalDifference',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           MS
 //           {column.getIsSorted() === 'desc' ? (
@@ -459,7 +459,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalGoalDifference')}
 //       </div>
 //     ),
@@ -468,12 +468,12 @@ export const columns = [
 //   {
 //     accessorKey: 'totalPoints',
 //     header: ({ column }) => (
-//       <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+//       <div className="text-center text-[10px] lg:text-sm">
 //         <Button
 //           variant="ghost"
 //           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 //           size="icon"
-//           className="text-[8px] sm:text-[10px] lg:text-sm"
+//           className="text-[10px] lg:text-sm"
 //         >
 //           P
 //           {column.getIsSorted() === 'desc' ? (
@@ -487,7 +487,7 @@ export const columns = [
 //       </div>
 //     ),
 //     cell: ({ row }) => (
-//       <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+//       <div className=" text-center tabular-nums text-[10px] lg:text-sm">
 //         {row.getValue('totalPoints')}
 //       </div>
 //     ),

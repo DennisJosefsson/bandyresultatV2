@@ -21,10 +21,10 @@ interface TableRowData {
 }
 
 const DataTableRow = ({ team }: { team: TableRowData }) => {
-  const matches = useMediaQuery('(min-width: 430px)')
+  const matches = useMediaQuery('(min-width: 640px)')
   return (
     <TableRow>
-      <TableCell className="px-1 py-1 text-left text-[8px] sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-left text-[10px] md:py-2 lg:text-sm">
         {team.opponent && (
           <>
             {!matches
@@ -36,28 +36,28 @@ const DataTableRow = ({ team }: { team: TableRowData }) => {
           <>{!matches ? team.team.shortName : team.team.casualName}</>
         )}
       </TableCell>
-      <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-right tabular-nums text-[10px] md:py-2 lg:text-sm">
         {team.totalGames}
       </TableCell>
-      <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-right tabular-nums text-[10px] md:py-2 lg:text-sm">
         {team.totalWins}
       </TableCell>
-      <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-right tabular-nums text-[10px] md:py-2 lg:text-sm">
         {team.totalDraws}
       </TableCell>
-      <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-right tabular-nums text-[10px] md:py-2 lg:text-sm">
         {team.totalLost}
       </TableCell>
-      <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="hidden px-1 py-1 text-right tabular-nums xs:table-cell text-[10px] md:py-2 lg:text-sm">
         {team.totalGoalsScored}
       </TableCell>
-      <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="hidden px-1 py-1 text-right tabular-nums xs:table-cell text-[10px] md:py-2 lg:text-sm">
         {team.totalGoalsConceded}
       </TableCell>
-      <TableCell className="hidden px-1 py-1 text-right text-[8px] tabular-nums xs:table-cell sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="hidden px-1 py-1 text-right tabular-nums xs:table-cell text-[10px] md:py-2 lg:text-sm">
         {team.totalGoalDifference}
       </TableCell>
-      <TableCell className="px-1 py-1 text-right text-[8px] tabular-nums sm:text-[10px] md:py-2 lg:text-sm">
+      <TableCell className="px-1 py-1 text-right tabular-nums text-[10px] md:py-2 lg:text-sm">
         {team.totalPoints}
       </TableCell>
     </TableRow>

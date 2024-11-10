@@ -63,7 +63,7 @@ const DataTable = ({ data, serieStructure, casualName }: DataTableProps) => {
 
   return (
     <div>
-      <Table className="container text-[8px] sm:text-[10px] lg:text-sm">
+      <Table className="container text-[10px] lg:text-sm">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

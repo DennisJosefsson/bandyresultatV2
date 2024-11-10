@@ -20,7 +20,7 @@ const Playoffs = ({ playoffs, allPlayoffs, searchObject }: PlayoffProps) => {
         <CardHeader className="p-2">
           <CardTitle className="text-[10px] md:text-sm">Slutspel</CardTitle>
         </CardHeader>
-        <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
+        <CardContent className="w-full text-[10px] sm:text-sm  p-1 pt-0">
           <div className="mb-2">
             {allPlayoffs.map((team) => {
               return (
@@ -46,7 +46,7 @@ const Playoffs = ({ playoffs, allPlayoffs, searchObject }: PlayoffProps) => {
                 Slutspel sedan 1931
               </CardTitle>
             </CardHeader>
-            <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
+            <CardContent className="  w-full text-[10px] sm:text-sm  p-1 pt-0">
               <div className="mb-2">
                 {playoffs.map((team) => {
                   return (

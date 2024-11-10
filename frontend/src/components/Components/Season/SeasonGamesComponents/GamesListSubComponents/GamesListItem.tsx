@@ -35,7 +35,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
     <div className="flex w-full flex-row items-center gap-1">
       <div
         id={game.gameId?.toString()}
-        className="rounded-sm py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+        className="rounded-sm py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[10px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
       >
         <span
           className={
@@ -61,7 +61,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
 
         {game.halftimeResult && (
           <>
-            <span className="w-10 md:w-16 text-right text-[8px] tabular-nums md:text-xs">
+            <span className="w-10 md:w-16 text-right text-[10px] tabular-nums md:text-xs">
               ({game.halftimeResult})
             </span>
           </>
@@ -73,7 +73,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
           className="group hover:bg-muted/90"
           onClick={() => game.gameId && onClickHandler(game.gameId)}
         >
-          <span className="text-[8px] md:text-sm group-hover:font-semibold">
+          <span className="text-[10px] md:text-sm group-hover:font-semibold">
             H2H
           </span>
         </Button>

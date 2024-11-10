@@ -32,7 +32,7 @@ const Seasons = ({
             Säsonger i databasen
           </CardTitle>
         </CardHeader>
-        <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
+        <CardContent className="w-full text-[10px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
             {allDbSeasons.map((team) => {
               return (
@@ -56,7 +56,7 @@ const Seasons = ({
             Säsonger i högsta serien
           </CardTitle>
         </CardHeader>
-        <CardContent className="  w-full text-[8px] sm:text-sm p-1 pt-0">
+        <CardContent className="  w-full text-[10px] sm:text-sm p-1 pt-0">
           <div className="mb-2">
             {firstDivisionSeasons.map((team) => {
               return (
@@ -82,7 +82,7 @@ const Seasons = ({
                 Säsonger i högsta serien sedan 1931
               </CardTitle>
             </CardHeader>
-            <CardContent className="  w-full text-[8px] sm:text-sm  p-1 pt-0">
+            <CardContent className="  w-full text-[10px] sm:text-sm  p-1 pt-0">
               <div className="mb-2">
                 {firstDivisionSeasonsSince1931.map((team) => {
                   return (

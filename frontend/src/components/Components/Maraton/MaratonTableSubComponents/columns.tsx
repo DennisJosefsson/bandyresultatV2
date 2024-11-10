@@ -24,7 +24,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'team.casualName',
     header: () => (
-      <div className="max-w-6 truncate text-left text-[8px] sm:max-w-24 sm:text-[10px] lg:max-w-32 lg:text-sm">
+      <div className="max-w-6 truncate text-left  sm:max-w-24 text-[10px] lg:max-w-32 lg:text-sm">
         Lag
       </div>
     ),
@@ -37,9 +37,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalGames',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -56,7 +56,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGames')}
       </div>
     ),
@@ -64,9 +64,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalWins',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -83,7 +83,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalWins')}
       </div>
     ),
@@ -91,9 +91,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalDraws',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm ">
+      <div className="text-center  text-[10px] lg:text-sm ">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -110,7 +110,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalDraws')}
       </div>
     ),
@@ -118,9 +118,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalLost',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -137,7 +137,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalLost')}
       </div>
     ),
@@ -145,9 +145,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalGoalsScored',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -164,7 +164,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsScored')}
       </div>
     ),
@@ -172,9 +172,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalGoalsConceded',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -191,7 +191,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsConceded')}
       </div>
     ),
@@ -199,9 +199,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalGoalDifference',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -218,7 +218,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalDifference')}
       </div>
     ),
@@ -226,9 +226,9 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
   {
     accessorKey: 'totalPoints',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center  text-[10px] lg:text-sm">
         <Button
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className=" text-[10px] lg:text-sm"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
@@ -245,7 +245,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalPoints')}
       </div>
     ),

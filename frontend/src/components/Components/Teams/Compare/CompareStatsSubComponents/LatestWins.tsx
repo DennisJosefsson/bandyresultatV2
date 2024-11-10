@@ -16,7 +16,7 @@ const LatestWins = ({ latestWins, title }: LatestWinsProps) => {
       <CardHeader className="p-2">
         <CardTitle className="text-[10px] md:text-sm">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="mb-3 w-full text-[8px] sm:text-xs xl:text-sm p-2 pt-0">
+      <CardContent className="mb-3 w-full text-xs xl:text-sm p-2 pt-0">
         <div>
           {latestWins.map((game) => {
             return (

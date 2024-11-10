@@ -21,7 +21,7 @@ const FirstGames = ({ firstGames }: FirstGamesProps) => {
           Första matcherna
         </CardTitle>
       </CardHeader>
-      <CardContent className="w-full text-[8px] sm:text-xs xl:text-sm p-1 pt-0">
+      <CardContent className="w-full text-xs xl:text-sm p-1 pt-0">
         <div className="mb-2">
           {firstGames.map((game) => {
             return (
