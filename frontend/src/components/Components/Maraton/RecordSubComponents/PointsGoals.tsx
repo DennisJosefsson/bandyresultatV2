@@ -20,14 +20,14 @@ const PointsGoals = ({
                 Genomsnitt
               </h3>
               <div>
-                {data.avgMaxAll?.map((team, index) => {
+                {data.avgMaxAll?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -38,14 +38,14 @@ const PointsGoals = ({
                 Genomsnitt Hemma
               </h3>
               <div>
-                {data.avgMaxHome?.map((team, index) => {
+                {data.avgMaxHome?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -56,14 +56,14 @@ const PointsGoals = ({
                 Genomsnitt Borta
               </h3>
               <div>
-                {data.avgMaxAway?.map((team, index) => {
+                {data.avgMaxAway?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -79,14 +79,14 @@ const PointsGoals = ({
                 Genomsnitt
               </h3>
               <div>
-                {data.avgMinAll?.map((team, index) => {
+                {data.avgMinAll?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -97,14 +97,14 @@ const PointsGoals = ({
                 Genomsnitt Hemma
               </h3>
               <div>
-                {data.avgMinHome?.map((team, index) => {
+                {data.avgMinHome?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -115,14 +115,14 @@ const PointsGoals = ({
                 Genomsnitt Borta
               </h3>
               <div>
-                {data.avgMinAway?.map((team, index) => {
+                {data.avgMinAway?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -138,14 +138,14 @@ const PointsGoals = ({
                 Totalt
               </h3>
               <div>
-                {data.sumMaxAll?.map((team, index) => {
+                {data.sumMaxAll?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -156,14 +156,14 @@ const PointsGoals = ({
                 Totalt Hemma
               </h3>
               <div>
-                {data.sumMaxHome?.map((team, index) => {
+                {data.sumMaxHome?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -174,14 +174,14 @@ const PointsGoals = ({
                 Totalt Borta
               </h3>
               <div>
-                {data.sumMaxAway?.map((team, index) => {
+                {data.sumMaxAway?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -197,14 +197,14 @@ const PointsGoals = ({
                 Totalt
               </h3>
               <div>
-                {data.sumMinAll?.map((team, index) => {
+                {data.sumMinAll?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -215,14 +215,14 @@ const PointsGoals = ({
                 Totalt Hemma
               </h3>
               <div>
-                {data.sumMinHome?.map((team, index) => {
+                {data.sumMinHome?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}
@@ -233,14 +233,14 @@ const PointsGoals = ({
                 Totalt Borta
               </h3>
               <div>
-                {data.sumMinAway?.map((team, index) => {
+                {data.sumMinAway?.map((team) => {
                   return (
                     <PointsGoalsCard
-                      key={`${team.data}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.team.name}
+                      key={`${team.data}-${team.name}`}
+                      pos={team.position}
+                      name={team.name}
                       data={team.data}
-                      year={team.season.year}
+                      year={team.year}
                     />
                   )
                 })}

@@ -19,7 +19,9 @@ const gamesApi = axios.create({
 export const getStreaks = async (
   params: z.infer<typeof streakParams>
 ): Promise<z.infer<typeof streakReturn>> => {
-  const response = await gamesApi.post('/streaks', params)
+  const response = await gamesApi.get(
+    `/streaks?record=${params.record}&women=${params.women}`
+  )
 
   return response.data
 }
