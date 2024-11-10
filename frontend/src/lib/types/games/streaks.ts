@@ -1,36 +1,28 @@
 import { z } from 'zod'
 
-const seasons = z.object({
-  seasons: z.number(),
-  team: z.number(),
-  casual_name: z.string(),
-})
-
-const playoffs = z.object({
-  playoffs: z.number(),
-  team: z.number(),
-  casual_name: z.string(),
+const statsItem = z.object({
+  teamId: z.number(),
+  casualName: z.string(),
+  count: z.number(),
+  position: z.number(),
 })
 
 export const generalStatsResponse = z.object({
-  golds: z.array(
-    z.object({ guld: z.number(), team: z.number(), casual_name: z.string() })
-  ),
-  finals: z.array(
-    z.object({ finals: z.number(), team: z.number(), casual_name: z.string() })
-  ),
-  seasons: z.array(seasons),
-  allSeasons: z.array(seasons),
-  playoffs: z.array(playoffs),
-  allPlayoffs: z.array(playoffs),
+  golds: z.array(statsItem),
+  finals: z.array(statsItem),
+  seasons: z.array(statsItem),
+  allSeasons: z.array(statsItem),
+  playoffs: z.array(statsItem),
+  allPlayoffs: z.array(statsItem),
 })
 
 export const streak = z.object({
   team: z.number(),
   name: z.string(),
-  game_count: z.number(),
-  start_date: z.string(),
-  end_date: z.string(),
+  gameCount: z.number(),
+  startDate: z.string(),
+  endDate: z.string(),
+  position: z.number(),
 })
 
 export const streakResponse = z.object({
@@ -64,17 +56,10 @@ export const streakResponse = z.object({
 })
 
 const pointsGoals = z.object({
-  teamId: z.number(),
-  team: z.object({
-    name: z.string(),
-    casulName: z.string(),
-    shortName: z.string(),
-  }),
+  year: z.string(),
+  name: z.string(),
   data: z.number(),
-  season: z.object({
-    seasonId: z.number(),
-    year: z.string(),
-  }),
+  position: z.number(),
 })
 
 export const pointsGoalsResponse = z.object({

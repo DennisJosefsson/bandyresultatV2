@@ -3,8 +3,69 @@ import Season from '../../models/Season'
 
 export const streakRequest = z.object({
   record: z.enum(['streaks', 'points', 'scored', 'conceded', 'generalStats']),
-  women: z.boolean(),
+  women: z.enum(['true', 'false']),
 })
+
+export const parseGeneralStats = z
+  .array(
+    z.object({
+      team: z.number(),
+      casual_name: z.string(),
+      data_count: z.coerce.number(),
+    })
+  )
+  .transform((res) =>
+    res.map((item, index) => {
+      return {
+        teamId: item.team,
+        casualName: item.casual_name,
+        count: item.data_count,
+        position: index + 1,
+      }
+    })
+  )
+
+export const parseDataStats = z
+  .array(
+    z.object({
+      team: z.object({ name: z.string() }),
+      season: z.object({ year: z.string() }),
+      data: z.coerce.number(),
+    })
+  )
+  .transform((res) =>
+    res.map((item, index) => {
+      return {
+        year: item.season.year,
+        name: item.team.name,
+        data: item.data,
+        position: index + 1,
+      }
+    })
+  )
+
+export const parseStreak = z
+  .array(
+    z.object({
+      team: z.number(),
+      name: z.string(),
+      game_count: z.number(),
+      start_date: z.string(),
+      end_date: z.string(),
+    })
+  )
+  .transform((res) =>
+    res.map((item, index) => {
+      return {
+        teamId: item.team,
+        name: item.name,
+        gameCount: item.game_count,
+        startDate: item.start_date,
+        endDate: item.end_date,
+        position: index + 1,
+      }
+    })
+  )
 
 export const parseSearchRequest = (
   object: unknown,

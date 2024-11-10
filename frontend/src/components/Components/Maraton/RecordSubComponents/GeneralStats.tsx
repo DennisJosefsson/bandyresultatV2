@@ -18,13 +18,13 @@ const GeneralStats = () => {
                 Sedan 1931
               </h3>
               <div>
-                {data?.seasons.map((team, index) => {
+                {data?.seasons.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.seasons}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.seasons}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -36,13 +36,13 @@ const GeneralStats = () => {
                 Säsonger totalt
               </h3>
               <div>
-                {data?.allSeasons?.map((team, index) => {
+                {data?.allSeasons?.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.seasons}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.seasons}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -58,13 +58,13 @@ const GeneralStats = () => {
                 Sedan 1931
               </h3>
               <div>
-                {data?.playoffs.map((team, index) => {
+                {data?.playoffs.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.playoffs}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.playoffs}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -76,13 +76,13 @@ const GeneralStats = () => {
                 Slutspel totalt
               </h3>
               <div>
-                {data?.allPlayoffs?.map((team, index) => {
+                {data?.allPlayoffs?.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.playoffs}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.playoffs}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -98,13 +98,13 @@ const GeneralStats = () => {
                 Guld
               </h3>
               <div>
-                {data?.golds.map((team, index) => {
+                {data?.golds.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.guld}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.guld}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -115,13 +115,13 @@ const GeneralStats = () => {
                 Spelade
               </h3>
               <div>
-                {data?.finals.map((team, index) => {
+                {data?.finals.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.finals}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.finals}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -138,13 +138,13 @@ const GeneralStats = () => {
                 Säsonger
               </h2>
               <div>
-                {data?.seasons.map((team, index) => {
+                {data?.seasons.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.seasons}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.seasons}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -156,13 +156,13 @@ const GeneralStats = () => {
                 Slutspel
               </h2>
               <div>
-                {data?.playoffs.map((team, index) => {
+                {data?.playoffs.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.playoffs}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.playoffs}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -178,13 +178,13 @@ const GeneralStats = () => {
                 Guld
               </h3>
               <div>
-                {data?.golds.map((team, index) => {
+                {data?.golds.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.guld}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.guld}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
@@ -195,13 +195,13 @@ const GeneralStats = () => {
                 Spelade
               </h3>
               <div>
-                {data?.finals.map((team, index) => {
+                {data?.finals.map((team) => {
                   return (
                     <GeneralStatsCard
-                      key={`${team.finals}-${Math.random()}`}
-                      pos={index + 1}
-                      name={team.casual_name}
-                      count={team.finals}
+                      key={`${team.count}-${team.casualName}`}
+                      pos={team.position}
+                      name={team.casualName}
+                      count={team.count}
                     />
                   )
                 })}
