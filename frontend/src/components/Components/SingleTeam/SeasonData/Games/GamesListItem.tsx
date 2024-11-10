@@ -19,7 +19,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
     <div className="flex w-full flex-row items-center gap-1">
       <div
         id={game.gameId?.toString()}
-        className="rounded-sm h-6 md:h-8 py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+        className="rounded-sm h-6 md:h-8 py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[10px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
       >
         <span
           className={cn(
@@ -47,7 +47,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
 
         {game.halftimeResult && (
           <>
-            <span className="w-10 md:w-16 text-right text-[8px] tabular-nums md:text-xs">
+            <span className="w-10 md:w-16 text-right text-[10px] tabular-nums md:text-xs">
               ({game.halftimeResult})
             </span>
           </>

@@ -26,7 +26,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'team.casualName',
     header: () => (
-      <div className="w-6 truncate text-left text-[8px] sm:w-24 sm:text-[10px] lg:w-32 lg:text-sm">
+      <div className="w-6 truncate text-left sm:w-24 text-[10px] lg:w-32 lg:text-sm">
         Lag
       </div>
     ),
@@ -39,12 +39,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalGames',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           M
           {column.getIsSorted() === 'desc' ? (
@@ -58,7 +58,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGames')}
       </div>
     ),
@@ -67,12 +67,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalWins',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           V
           {column.getIsSorted() === 'desc' ? (
@@ -86,7 +86,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalWins')}
       </div>
     ),
@@ -95,12 +95,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalDraws',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           O
           {column.getIsSorted() === 'desc' ? (
@@ -114,7 +114,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalDraws')}
       </div>
     ),
@@ -123,12 +123,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalLost',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           F
           {column.getIsSorted() === 'desc' ? (
@@ -142,7 +142,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalLost')}
       </div>
     ),
@@ -151,12 +151,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalGoalsScored',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           GM
           {column.getIsSorted() === 'desc' ? (
@@ -170,7 +170,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsScored')}
       </div>
     ),
@@ -179,12 +179,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalGoalsConceded',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           IM
           {column.getIsSorted() === 'desc' ? (
@@ -198,7 +198,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalsConceded')}
       </div>
     ),
@@ -207,12 +207,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalGoalDifference',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           MS
           {column.getIsSorted() === 'desc' ? (
@@ -226,7 +226,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalGoalDifference')}
       </div>
     ),
@@ -235,12 +235,12 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
   {
     accessorKey: 'totalPoints',
     header: ({ column }) => (
-      <div className="text-center text-[8px] sm:text-[10px] lg:text-sm">
+      <div className="text-center text-[10px] lg:text-sm">
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           size="icon"
-          className="text-[8px] sm:text-[10px] lg:text-sm"
+          className="text-[10px] lg:text-sm"
         >
           P
           {column.getIsSorted() === 'desc' ? (
@@ -254,7 +254,7 @@ export const columns: ColumnDef<z.infer<typeof staticTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center text-[8px] tabular-nums sm:text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
         {row.getValue('totalPoints')}
       </div>
     ),
