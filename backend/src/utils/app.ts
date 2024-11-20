@@ -14,7 +14,12 @@ dotenv.config()
 const app: Application = express()
 
 app.use(express.json())
-app.use(cors({ credentials: true }))
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:5173', 'http://localhost:8081'],
+  })
+)
 app.use((_req: Request, res: Response, next: NextFunction) => {
   res.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
   next()
