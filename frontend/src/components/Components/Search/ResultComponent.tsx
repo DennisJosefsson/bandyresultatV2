@@ -13,7 +13,7 @@ const ResultComponent = ({ gameArray }: ResultComponentProps) => {
       {gameArray?.map((game, index) => {
         return (
           <Card
-            className="mb-1 p-1 flex flex-row items-center text-[10px] md:text-sm md:mb-2 md:p-2"
+            className="mb-1 p-1 flex flex-row items-center text-[10px] md:text-sm xl:text-base 2xl:text-lg md:mb-2 md:p-2"
             key={`${game.date}-${index}`}
           >
             <span className="mr-4 w-8 text-right text-base md:text-2xl font-bold tabular-nums">
@@ -49,7 +49,7 @@ const ResultComponent = ({ gameArray }: ResultComponentProps) => {
                   {game.result}
                 </span>
               </div>
-              <div className="flex flex-row items-center gap-1 text-[10px] md:text-xs">
+              <div className="flex flex-row items-center gap-1 text-[10px] md:text-xs xl:text-sm">
                 <span>
                   <Date>{game.date}</Date>
                 </span>

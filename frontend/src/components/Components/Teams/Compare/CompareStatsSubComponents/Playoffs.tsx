@@ -18,9 +18,9 @@ const Playoffs = ({ playoffs, allPlayoffs, searchObject }: PlayoffProps) => {
     <>
       <Card className="mt-2 w-full">
         <CardHeader className="p-2">
-          <CardTitle className="text-[10px] md:text-sm">Slutspel</CardTitle>
+          <CardTitle className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">Slutspel</CardTitle>
         </CardHeader>
-        <CardContent className="w-full text-[10px] sm:text-sm  p-1 pt-0">
+        <CardContent className="w-full text-xs xl:text-sm 2xl:text-base p-1 pt-0">
           <div className="mb-2">
             {allPlayoffs.map((team) => {
               return (
@@ -42,11 +42,11 @@ const Playoffs = ({ playoffs, allPlayoffs, searchObject }: PlayoffProps) => {
         <>
           <Card className="mt-2 w-full">
             <CardHeader className="p-2">
-              <CardTitle className="text-[10px] md:text-sm">
+              <CardTitle className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">
                 Slutspel sedan 1931
               </CardTitle>
             </CardHeader>
-            <CardContent className="  w-full text-[10px] sm:text-sm  p-1 pt-0">
+            <CardContent className=" w-full text-xs xl:text-sm 2xl:text-base p-1 pt-0">
               <div className="mb-2">
                 {playoffs.map((team) => {
                   return (
