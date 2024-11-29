@@ -27,11 +27,11 @@ export const getGamesBySerieId = async ({
 }
 
 export const getGameFormData = async ({
-  seasonId,
+  serieId,
 }: {
-  seasonId: number
+  serieId: number
 }): Promise<z.infer<typeof gameFormData>> => {
-  const response = await dashboardApi.get(`/gameform/${seasonId}`)
+  const response = await dashboardApi.get(`/gameform/${serieId}`)
 
   return response.data
 }
