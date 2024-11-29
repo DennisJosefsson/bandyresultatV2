@@ -3,8 +3,8 @@ services:
     container_name: devDatabase2
     image: postgres:alpine
     volumes:
-      - /home/dennisjosefsson/projekt/database/bandyresultat/devDatabase2:/var/lib/postgresql/data
-      - /home/dennisjosefsson/projekt/database/bandyresultat/init/dev-init2.sql:/docker-entrypoint-initdb.d/init.sql
+      - /home/dennis/projekt/database/bandyresultat/devDatabase2:/var/lib/postgresql/data
+      - /home/dennis/projekt/database/bandyresultat/init/dev-init2.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - '5555:5432'
     env_file:
@@ -17,7 +17,7 @@ services:
     container_name: test3Database
     image: postgres:alpine
     volumes:
-      - /home/dennisjosefsson/projekt/database/bandyresultat/init/test.sql:/docker-entrypoint-initdb.d/init.sql
+      - /home/dennis/projekt/database/bandyresultat/init/test.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - '6666:5432'
     env_file:
