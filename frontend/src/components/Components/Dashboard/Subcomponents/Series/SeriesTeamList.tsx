@@ -12,16 +12,16 @@ type SeriesTeamListProps = {
 const SeriesTeamList = ({ teams }: SeriesTeamListProps) => {
   const navigate = route.useNavigate()
 
-  if (teams.length === 0) return <h6 className="text-base">Lag saknas</h6>
+  if (teams.length === 0) return <h6 className="xl:text-lg">Lag saknas</h6>
   return (
     <div className="flex flex-col gap-2">
-      <h6 className="text-base">Lag</h6>
+      <h6 className="xl:text-lg">Lag</h6>
       <ul>
         {teams.map((team) => {
           return (
             <li
               key={team.teamId}
-              className="mb-1 text-sm flex flex-row justify-between"
+              className="flex flex-row justify-between gap-8 mb-1 text-sm xl:text-lg"
             >
               <span>{team.name}</span>
               <Button

@@ -10,7 +10,7 @@ type SeriesTablesProps = {
 
 const SeriesTables = ({ tables }: SeriesTablesProps) => {
   const navigate = route.useNavigate()
-  if (tables.length === 0) return <h6 className="text-base">Tabeller saknas</h6>
+  if (tables.length === 0) return <h6 className="text-base xl:text-lg">Tabeller saknas</h6>
   return (
     <div className="flex flex-col gap-2">
       <table>
@@ -21,7 +21,7 @@ const SeriesTables = ({ tables }: SeriesTablesProps) => {
               return (
                 <tr
                   key={table.position}
-                  className="cursor-pointer"
+                  className="cursor-pointer xl:text-lg"
                   onClick={() =>
                     navigate({
                       to: '$tableId/editTable',
@@ -30,32 +30,32 @@ const SeriesTables = ({ tables }: SeriesTablesProps) => {
                     })
                   }
                 >
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.position}
                   </td>
-                  <td className="mx-2 my-1 w-32">{table.team.casualName}</td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-32 mx-2 my-1">{table.team.casualName}</td>
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalGames}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalWins}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalDraws}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalLost}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalGoalsScored}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalGoalsConceded}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalGoalDifference}
                   </td>
-                  <td className="text-right tabular-nums mx-2 my-1 w-8">
+                  <td className="w-8 mx-2 my-1 text-right tabular-nums">
                     {table.totalPoints}
                   </td>
                 </tr>
