@@ -8,7 +8,7 @@ export const Route = createFileRoute(
   '/_layout/dashboard/season/$seasonId/games/$serieId/$gameId/edit'
 )({
   loader: async ({ params }) => {
-    const gameFormData = await getGameFormData({ seasonId: params.seasonId })
+    const gameFormData = await getGameFormData({ serieId: params.serieId })
     const gameData = await getSingleGame({ gameId: params.gameId })
     return { gameFormData, gameData }
   },

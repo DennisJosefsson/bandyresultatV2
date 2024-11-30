@@ -58,7 +58,7 @@ const TeamsList = () => {
   return (
     <div>
       <FilterComponent teamFilter={teamFilter} setTeamFilter={setTeamFilter} />
-      <div className="grid grid-cols-1 gap-x-8 gap-y-2 pt-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 pt-2 gap-x-8 gap-y-2 lg:grid-cols-3 2xl:grid-cols-4">
         {teams.map((team) => {
           return (
             <MemoListItem

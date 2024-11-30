@@ -29,7 +29,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="max-w-6 truncate text-left sm:max-w-24 lg:max-w-32">
+      <div className="max-w-6 truncate text-left sm:max-w-24 lg:max-w-32 xl:text-base 2xl:text-lg">
         {row.getValue('team_casualName')}
       </div>
     ),
@@ -56,7 +56,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className=" text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGames')}
       </div>
     ),
@@ -83,7 +83,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalWins')}
       </div>
     ),
@@ -110,7 +110,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalDraws')}
       </div>
     ),
@@ -137,7 +137,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalLost')}
       </div>
     ),
@@ -164,7 +164,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalsScored')}
       </div>
     ),
@@ -191,7 +191,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalsConceded')}
       </div>
     ),
@@ -218,7 +218,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalDifference')}
       </div>
     ),
@@ -245,7 +245,7 @@ export const columns: ColumnDef<z.infer<typeof maratonTable>>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center  tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center  tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalPoints')}
       </div>
     ),

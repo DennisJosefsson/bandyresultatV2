@@ -10,7 +10,7 @@ const SeasonsList = () => {
     select: (data) => data.rows,
   })
   return (
-    <div className="grid grid-cols-1 justify-between gap-x-8 gap-y-2 pt-2 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid justify-between grid-cols-1 pt-2 gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
       {seasons.map((season) => {
         const seasonYear =
           parseInt(season.year.split('/')[1]) >= 1964
@@ -20,10 +20,10 @@ const SeasonsList = () => {
         return (
           <div
             key={season.seasonId}
-            className="flex flex-row items-center justify-between bg-muted px-2  py-1 text-sm dark:bg-muted/50 lg:text-base"
+            className="flex flex-row items-center justify-between px-2 py-1 text-sm bg-muted dark:bg-muted/50 lg:text-base 2xl:text-lg"
           >
-            <div className="w-28 font-semibold">{season.year}</div>
-            <div className="rounded-md px-2 py-1 text-center  xl:p-0">
+            <div className="font-semibold w-28">{season.year}</div>
+            <div className="px-2 py-1 text-center rounded-md xl:p-0">
               <Link
                 to="/season/$seasonId/tables/$table"
                 params={{ seasonId: seasonYear, table: 'all' }}
@@ -33,7 +33,7 @@ const SeasonsList = () => {
                 Tabeller
               </Link>
             </div>
-            <div className="rounded-md px-2 py-1 text-center  xl:p-0">
+            <div className="px-2 py-1 text-center rounded-md xl:p-0">
               <Link
                 to="/season/$seasonId/games"
                 params={{ seasonId: seasonYear }}

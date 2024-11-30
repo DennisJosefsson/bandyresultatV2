@@ -16,25 +16,31 @@ import TeamSeason from '../../models/TeamSeason.js'
 const dashboardSeasonRouter = Router()
 
 const parsedSeasonId = z.coerce.number()
+const parsedSerieId = z.coerce.number()
 
-dashboardSeasonRouter.get('/gameform/:seasonId', (async (
+dashboardSeasonRouter.get('/gameform/:serieId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const seasonId = parsedSeasonId.parse(req.params.seasonId)
+  const serieId = parsedSerieId.parse(req.params.serieId)
   const teams = await Team.findAll({
     include: [
       {
-        model: Season,
-        where: { seasonId: seasonId },
-        attributes: { exclude: ['teamseason'] },
+        model: Serie,
+        where: { serieId: serieId },
+        
       },
     ],
 
     raw: true,
     nest: true,
   })
+
+  const getSeasonId = await Serie.findByPk(serieId).then(res => res?.seasonId)
+
+  const seasonId = parsedSeasonId.parse(getSeasonId)
+
   const series = await Serie.findAll({
     include: [{ model: Season, where: { seasonId: seasonId } }],
     raw: true,

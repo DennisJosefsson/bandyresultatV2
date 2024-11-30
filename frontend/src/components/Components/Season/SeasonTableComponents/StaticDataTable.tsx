@@ -66,7 +66,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <div>
-      <Table className="container text-[10px] lg:text-sm">
+      <Table className="text-[10px] lg:text-sm xl:text-base">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

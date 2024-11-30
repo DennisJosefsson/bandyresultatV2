@@ -80,7 +80,7 @@ const Map = () => {
   return (
     <div>
       <div>
-        <div className="mx-auto mb-2 min-h-screen px-1 font-inter text-foreground lg:px-0 flex flex-col md:flex-row-reverse md:justify-end gap-2 md:gap-8">
+        <div className="flex flex-col min-h-screen gap-2 px-1 mx-auto mb-2 font-inter text-foreground lg:px-0 md:flex-row-reverse md:justify-end md:gap-8">
           <div className="md:p-2">
             <CountyListContainer
               countyArray={countyArray}
@@ -91,13 +91,13 @@ const Map = () => {
           </div>
           <div
             id="map"
-            className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl"
+            className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl xl:max-w-4xl"
           >
             <MapContainer
               center={[62, 15]}
               zoom={4}
               scrollWheelZoom={true}
-              className="h-[400px]"
+              className="h-[400px] sm:h-[600px]"
               key={women ? 'women' : 'men'}
               ref={setMap}
               zoomSnap={0.5}

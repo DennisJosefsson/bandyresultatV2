@@ -10,7 +10,7 @@ type SubGamesProps = {
 const SubGames = ({ games, title }: SubGamesProps) => {
   return (
     <div>
-      <h1 className="text-sm font-bold md:text-base">{title}</h1>
+      <h1 className="text-sm font-bold md:text-base xl:text-lg 2xl:text-xl">{title}</h1>
       <div className="w-full xl:px-2">
         <SubGamesList
           gamesArray={games['RegularGames']}

@@ -23,7 +23,7 @@ const TeamTable = () => {
         return (
           <Card key={level.level} className="mb-2 sm:mb-4 md:mb-6 p-1 md:p-2">
             <CardHeader className="p-1 md:p-2">
-              <CardTitle className="text-[10px] md:text-sm">
+              <CardTitle className="text-[10px] md:text-sm lg:text-base xl:text-lg">
                 {level.levelName}
               </CardTitle>
             </CardHeader>
@@ -31,7 +31,7 @@ const TeamTable = () => {
               {level.tables.map((table) => {
                 return (
                   <div key={table.category}>
-                    <h6 className="text-[10px] md:text-xs">
+                    <h6 className="text-[10px] md:text-xs lg:text-sm xl:text-base">
                       {table.categoryName}
                     </h6>
                     <Table className="w-full table-fixed">
