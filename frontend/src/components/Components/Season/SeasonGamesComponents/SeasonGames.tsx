@@ -35,7 +35,7 @@ const SeasonGames = () => {
     )
   }
   return (
-    <div className="mx-auto flex min-h-screen w-full flex-col font-inter text-foreground">
+    <div className="flex flex-col w-full min-h-screen mx-auto font-inter text-foreground">
       <div className="mb-2">
         {games.hasLowerLevel ? (
           <Link
@@ -44,12 +44,12 @@ const SeasonGames = () => {
             params={(prev) => ({ seasonId: prev.seasonId })}
             search={(prev) => ({ ...prev })}
           >
-            <span className="text-[10px] md:text-sm">Lägre divisioner</span>
+            <span className="text-[10px] md:text-sm xl:text-lg 2xl:text-xl">Lägre divisioner</span>
           </Link>
         ) : null}
       </div>
       {seasonId <= lastSeason && (
-        <div className="mx-1 mt-2 grid grid-cols-1 lg:grid-cols-2 xl:mx-0 lg:gap-1">
+        <div className="grid grid-cols-1 mx-1 mt-2 lg:grid-cols-2 xl:mx-0 lg:gap-1">
           {games['playedLength'] > 0 ? (
             <Games games={games['played']} title="Spelade" />
           ) : null}

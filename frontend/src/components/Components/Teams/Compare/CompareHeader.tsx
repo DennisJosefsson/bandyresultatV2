@@ -19,6 +19,7 @@ type CompareHeaderProps = {
 const Buttons = ({ link, length }: { link: string; length: number }) => {
   const [copiedText, copy] = useCopyToClipboard()
   const matches = useMediaQuery('(min-width: 430px)')
+  const matches768 = useMediaQuery('(min-width: 768px)')
   const { origin } = getOrigin()
   const navigate = useNavigate()
 
@@ -28,14 +29,14 @@ const Buttons = ({ link, length }: { link: string; length: number }) => {
   }
 
   return (
-    <div className="mb-2 flex flex-row justify-end gap-2 xl:mb-6">
+    <div className="flex flex-row justify-end gap-2 mb-2 xl:mb-6">
       {origin ? (
-        <Button size={matches ? 'sm' : 'xxs'} onClick={goBack}>
+        <Button size={matches768 ? 'default' : matches ? 'sm' : 'xxs'} onClick={goBack}>
           Tillbaka
         </Button>
       ) : null}
       {length > 0 && (
-        <Button onClick={() => copy(link)} size={matches ? 'sm' : 'xxs'}>
+        <Button onClick={() => copy(link)} size={matches768 ? 'default' : matches ? 'sm' : 'xxs'}>
           {copiedText ? 'Kopierad!' : `Länk`}
         </Button>
       )}
@@ -55,8 +56,8 @@ const CompareHeader = ({
     <>
       {length === 0 && (
         <div className="p-1 md:p-2">
-          <div className="flex flex-row justify-between items-center">
-            <span className="text-xs md:text-base mb-2">
+          <div className="flex flex-row items-center justify-between">
+            <span className="mb-2 text-xs md:text-base xl:text-lg 2xl:text-xl">
               {compareHeaderText}
             </span>
 
@@ -67,14 +68,14 @@ const CompareHeader = ({
       {length > 0 && (
         <div className="md:p-2">
           <div className="w-full">
-            <div className="flex flex-row justify-between items-center">
-              <span className="text-xs md:text-base mb-2 font-semibold">
+            <div className="flex flex-row items-center justify-between">
+              <span className="mb-2 text-xs font-semibold md:text-base xl:text-lg 2xl:text-xl">
                 Inbördes möten
               </span>
               <Buttons link={link} length={length} />
             </div>
 
-            <span className="text-[10px] md:text-sm text-foreground">
+            <span className="text-[10px] md:text-sm xl:text-base 2xl:text-lg text-foreground">
               {compareHeaderText}
             </span>
           </div>
