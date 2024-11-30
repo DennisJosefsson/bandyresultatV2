@@ -14,8 +14,8 @@ const Teams = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-row justify-between items-center">
-          <CardTitle>Lag</CardTitle>
+        <div className="flex flex-row items-center justify-between">
+          <CardTitle className="xl:text-lg">Lag</CardTitle>
           <div className="flex flex-row gap-2">
             <Button
               onClick={() => {
@@ -41,7 +41,7 @@ const Teams = () => {
                   key={team.teamId}
                   className="flex flex-row justify-between mb-1"
                 >
-                  <div>{team.team.casualName}</div>
+                  <div className="xl:text-lg">{team.team.casualName}</div>
                   <div className="flex flex-row gap-2">
                     <Button
                       size="sm"

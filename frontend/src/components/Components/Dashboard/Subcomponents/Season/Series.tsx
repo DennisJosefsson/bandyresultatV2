@@ -13,8 +13,8 @@ const Series = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-row justify-between items-center">
-          <CardTitle>Serier</CardTitle>
+        <div className="flex flex-row items-center justify-between">
+          <CardTitle className="xl:text-lg">Serier</CardTitle>
           <Button
             onClick={() => {
               navigate({
@@ -55,7 +55,7 @@ const Series = () => {
                     key={serie.serieId}
                     className="flex flex-row justify-between mb-1"
                   >
-                    <div>{serie.serieName}</div>
+                    <div className="xl:text-lg">{serie.serieName}</div>
                     <div className="flex flex-row gap-1">
                       <Link
                         to="/dashboard/season/$seasonId/games/$serieId"
