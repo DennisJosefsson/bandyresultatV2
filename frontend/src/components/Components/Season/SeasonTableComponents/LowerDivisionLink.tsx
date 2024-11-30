@@ -15,7 +15,7 @@ const LowerDivisionLink = () => {
           params={(prev) => ({ seasonId: prev.seasonId })}
           search={(prev) => ({ ...prev })}
         >
-          <span className="text-[10px] md:text-sm">Lägre divisioner</span>
+          <span className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">Lägre divisioner</span>
         </Link>
       ) : null}
     </div>

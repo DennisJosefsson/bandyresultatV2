@@ -77,7 +77,7 @@ const DataTable = <TData, TValue>({
             <TableRow key={headerGroup.id}>
               <TableHead
                 key={'position'}
-                className="hidden px-0 py-1 sm:table-cell sm:w-12 sm:px-2"
+                className="hidden px-0 py-1 sm:table-cell sm:w-12 sm:px-2 xl:text-base 2xl:text-lg"
               >
                 P
               </TableHead>
@@ -120,7 +120,7 @@ const DataTable = <TData, TValue>({
               >
                 <TableCell
                   key={`index-${index}`}
-                  className="hidden tabular-nums sm:table-cell sm:w-12"
+                  className="hidden tabular-nums sm:table-cell sm:w-12 xl:text-base 2xl:text-lg"
                 >
                   {index + 1}
                 </TableCell>

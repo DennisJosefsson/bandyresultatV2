@@ -55,7 +55,7 @@ function Season() {
     )
   }
   return (
-    <div className="flex min-h-screen flex-col px-2 font-inter text-foreground">
+    <div className="flex flex-col min-h-screen px-2 font-inter text-foreground">
       <Card className="mb-2">
         <CardContent className="max-w-full">
           <SeasonHeader />
@@ -63,7 +63,7 @@ function Season() {
         </CardContent>
       </Card>
       <Card>
-        <CardContent className="mt-2 p-2">
+        <CardContent className="min-h-screen p-2 mt-2">
           <CatchBoundary
             getResetKey={() => 'reset'}
             onCatch={(error) => {

@@ -69,7 +69,7 @@ const DataTable = <TData, TValue>({
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              <TableHead key={'position'}>P</TableHead>
+              <TableHead key={'position'} className="hidden px-0 py-1 sm:table-cell sm:w-12 sm:px-2 xl:text-base 2xl:text-lg">P</TableHead>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id} className="px-0 py-1">
@@ -100,7 +100,7 @@ const DataTable = <TData, TValue>({
                     : null
                 } `}
               >
-                <TableCell key={`index-${index}`}>{index + 1}</TableCell>
+                <TableCell key={`index-${index}`} className="hidden tabular-nums sm:table-cell sm:w-12 xl:text-base 2xl:text-lg">{index + 1}</TableCell>
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <TableCell
