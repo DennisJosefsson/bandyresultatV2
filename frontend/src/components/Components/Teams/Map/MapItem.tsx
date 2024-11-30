@@ -33,7 +33,7 @@ const MapItem = ({
   return (
     <Marker key={team.teamId} position={position}>
       <Popup>
-        <div className="flex flex-row items-center justify-evenly gap-2 p-2">
+        <div className="flex flex-row items-center justify-between gap-2 p-2 font-semibold">
           <Link
             to="/team/$teamId"
             params={{
