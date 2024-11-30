@@ -14,12 +14,12 @@ const GamesListItem = ({
   deleteButtonOnClick,
 }: GamesListItemProps) => {
   return (
-    <div className="flex w-full flex-row items-center gap-1">
+    <div className="flex flex-row items-center w-full gap-1">
       <div
         id={game.gameId?.toString()}
-        className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+        className="py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[8px] transition-colors hover:bg-slate-100/50 dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:text-base 2xl:text-lg xl:mb-2 xl:w-[36rem] 2xl:w-[64rem]"
       >
-        <span className="w-24">{game.date}</span>
+        <span className="w-32">{game.date}</span>
         <span className="w-24 sm:w-40 lg:w-40 xl:w-52">
           {game.homeTeam.casualName}
         </span>
