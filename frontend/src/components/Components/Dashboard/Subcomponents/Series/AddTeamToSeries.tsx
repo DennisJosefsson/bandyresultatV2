@@ -44,13 +44,13 @@ const AddTeamToSeries = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h6 className="text-base">Lag från säsongen</h6>
-      <ul>
+      <h6 className="text-base xl:text-lg">Lag från säsongen</h6>
+      <ul >
         {seasonTeams.map((team) => {
           return (
             <li
               key={team.teamId}
-              className="cursor-pointer"
+              className="cursor-pointer xl:text-lg"
               onClick={() =>
                 mutation.mutate({ serieId: serieId, teamId: team.teamId })
               }

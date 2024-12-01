@@ -13,8 +13,8 @@ const Metadata = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-row justify-between items-center">
-          <CardTitle>Metadata</CardTitle>
+        <div className="flex flex-row items-center justify-between">
+          <CardTitle className="xl:text-lg">Metadata</CardTitle>
           <Button
             onClick={() => {
               navigate({
@@ -30,7 +30,7 @@ const Metadata = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="flex flex-col gap-2 text-sm xl:text-lg">
           <div></div>
           <div className="flex flex-col">
             <div className="flex flex-row items-center justify-between">

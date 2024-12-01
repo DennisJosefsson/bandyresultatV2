@@ -18,14 +18,14 @@ const AnimationGamesList = ({ dateArray, round }: AnimationGamesListProps) => {
 
   return (
     <div className="mt-2">
-      <div className="text-[10px] sm:text-sm lg:text-base">
+      <div className="text-[10px] sm:text-sm lg:text-base xl:text-lg 2xl:text-xl">
         <Date>{dateArray[round]?.date}</Date>
       </div>
       {dateArray[round]?.games.map((game) => {
         return (
           <div
             key={game.gameId}
-            className="flex flex-row justify-between border-b px-2 py-1 transition-colors hover:bg-muted/50 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800 text-[10px] lg:text-sm xl:py-2 "
+            className="flex flex-row justify-between border-b px-2 py-1 transition-colors hover:bg-muted/50 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800 text-[10px] lg:text-sm xl:text-base 2xl:text-lg xl:py-2 "
           >
             <div>
               <span

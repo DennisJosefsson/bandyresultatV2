@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute(
   '/_layout/dashboard/season/$seasonId/games/$serieId/addGame'
 )({
-  loader: ({ params }) => getGameFormData({ seasonId: params.seasonId }),
+  loader: ({ params }) => getGameFormData({ serieId: params.serieId }),
   pendingComponent: Loading,
   component: AddGame,
 })

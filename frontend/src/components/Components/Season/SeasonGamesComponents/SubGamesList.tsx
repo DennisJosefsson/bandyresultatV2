@@ -18,8 +18,8 @@ const SubGamesList = ({ gamesArray, title }: SubGameListProps) => {
   })
   if (gamesArray.length === 0) return null
   return (
-    <div className="mb-6 w-full font-inter">
-      <h1 className="text-xs font-semibold text-primary md:text-base">
+    <div className="w-full mb-6 font-inter">
+      <h1 className="text-xs font-semibold tracking-wider text-primary md:text-base xl:text-lg 2xl:text-xl">
         {title}
       </h1>
       <div>
@@ -30,7 +30,7 @@ const SubGamesList = ({ gamesArray, title }: SubGameListProps) => {
                 id={group.group}
                 className="flex flex-row gap-1 items-center mb-0.5 group"
               >
-                <h3 className="text-[10px] font-semibold text-primary md:text-xs">
+                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide xl:text-sm 2xl:text-base">
                   {group.name}
                 </h3>
                 <Link
@@ -39,11 +39,11 @@ const SubGamesList = ({ gamesArray, title }: SubGameListProps) => {
                   hash={group.group}
                   search={(prev) => ({ ...prev })}
                 >
-                  <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
+                  <LinkIcon className="hidden w-4 h-4 text-muted-foreground group-hover:block" />
                 </Link>
               </div>
               {group.comment && (
-                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold">
+                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold xl:text-sm 2xl:text-base">
                   {group.comment}
                 </p>
               )}
@@ -54,7 +54,7 @@ const SubGamesList = ({ gamesArray, title }: SubGameListProps) => {
                       {date.date !== 'null' && (
                         <div className="flex flex-row gap-1 items-center mb-0.5 group">
                           <h3
-                            className="text-[0.75rem] md:text-sm"
+                            className="text-[0.75rem] md:text-sm tracking-wide xl:text-base 2xl:text-lg"
                             id={`${group.group}-${date.date}`}
                           >
                             <Date>{date.date}</Date>
@@ -65,7 +65,7 @@ const SubGamesList = ({ gamesArray, title }: SubGameListProps) => {
                             hash={`${group.group}-${date.date}`}
                             search={(prev) => ({ ...prev })}
                           >
-                            <LinkIcon className="hidden h-4 w-4 text-muted-foreground group-hover:block" />
+                            <LinkIcon className="hidden w-4 h-4 text-muted-foreground group-hover:block" />
                           </Link>
                         </div>
                       )}

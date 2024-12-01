@@ -9,9 +9,9 @@ const Golds = ({ golds }: GoldsProps) => {
   return (
     <Card className="mt-2 w-full">
       <CardHeader className="p-2">
-        <CardTitle className="text-[10px] md:text-sm">SM-Guld</CardTitle>
+        <CardTitle className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">SM-Guld</CardTitle>
       </CardHeader>
-      <CardContent className="w-full text-[10px] sm:text-sm  p-1 pt-0">
+      <CardContent className="w-full text-xs xl:text-sm 2xl:text-base p-1 pt-0">
         <div className="mb-2">
           {golds.map((team) => {
             return (

@@ -25,12 +25,12 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
   {
     accessorKey: 'team.casualName',
     header: () => (
-      <div className="w-6 truncate text-left sm:w-24 text-[10px] lg:w-32 lg:text-sm">
+      <div className="w-6 truncate text-left sm:w-24 text-[10px] lg:w-32 lg:text-sm xl:text-base 2xl:text-lg">
         Lag
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-6 truncate text-left sm:w-24 lg:w-32">
+      <div className="w-6 text-left truncate sm:w-24 lg:w-32 xl:text-base 2xl:text-lg">
         {row.getValue('team_casualName')}
       </div>
     ),
@@ -47,17 +47,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           M
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" text-center tabular-nums text-[10px] lg:text-sm">
+      <div className=" text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGames')}
       </div>
     ),
@@ -75,17 +75,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           V
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalWins')}
       </div>
     ),
@@ -103,17 +103,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           O
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalDraws')}
       </div>
     ),
@@ -131,17 +131,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           F
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalLost')}
       </div>
     ),
@@ -159,17 +159,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           GM
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalsScored')}
       </div>
     ),
@@ -187,17 +187,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           IM
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalsConceded')}
       </div>
     ),
@@ -215,17 +215,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           MS
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalGoalDifference')}
       </div>
     ),
@@ -243,17 +243,17 @@ export const columns: ColumnDef<z.infer<typeof seasonTable>>[] = [
         >
           P
           {column.getIsSorted() === 'desc' ? (
-            <ArrowDownIcon className="ml-2 h-4 w-4" />
+            <ArrowDownIcon className="w-4 h-4 ml-2" />
           ) : column.getIsSorted() === 'asc' ? (
-            <ArrowUpIcon className="ml-2 h-4 w-4" />
+            <ArrowUpIcon className="w-4 h-4 ml-2" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
+            <CaretSortIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
     ),
     cell: ({ row }) => (
-      <div className="text-center tabular-nums text-[10px] lg:text-sm">
+      <div className="text-center tabular-nums text-[10px] lg:text-sm xl:text-base 2xl:text-lg">
         {row.getValue('totalPoints')}
       </div>
     ),

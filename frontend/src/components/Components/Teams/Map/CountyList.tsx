@@ -59,8 +59,8 @@ const CountyList = ({
   }
 
   return (
-    <div className="grid gap-2 md:gap-0 grid-cols-2 md:flex md:flex-col">
-      <div className="xs:max-w-48 md:max-w-96 flex flex-row justify-between mb-2 text-[10px] md:text-sm text-primary items-center">
+    <div className="grid grid-cols-2 gap-2 md:gap-0 md:flex md:flex-col">
+      <div className="xs:max-w-48 md:max-w-96 flex flex-row justify-between mb-2 text-[10px] md:text-sm xl:text-base 2xl:text-lg text-primary items-center">
         <span
           className="truncate cursor-pointer"
           onClick={() => onClick([62, 15] as LatLngTuple, 4)}
@@ -77,7 +77,7 @@ const CountyList = ({
         return (
           <div
             key={county.county}
-            className="xs:max-w-48 md:max-w-96 flex flex-row justify-between mb-2 text-primary items-center text-[10px] md:text-sm"
+            className="xs:max-w-48 md:max-w-96 flex flex-row justify-between mb-2 text-primary items-center text-[10px] md:text-sm xl:text-base 2xl:text-lg"
           >
             <span
               className="truncate cursor-pointer"

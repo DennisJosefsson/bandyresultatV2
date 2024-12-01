@@ -28,21 +28,21 @@ const GamesList = ({ gamesArray, tab, hasGames }: GameListProps) => {
     )
   }
   return (
-    <div className="mb-6 w-full font-inter">
+    <div className="w-full mt-2 mb-6 lg:mt-3 2xl:mt-4 font-inter">
       <div>
         {gamesArray.map((group) => {
           return (
             <div key={group.group} className="mb-6">
               <div
                 id={group.group}
-                className="flex flex-row gap-1 items-center mb-0.5 group"
+                className="flex flex-row gap-1 items-center mb-0.5 lg:mb-1 2xl:mb-2 group"
               >
-                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide">
+                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide xl:text-sm 2xl:text-base">
                   {group.name}
                 </h3>
               </div>
               {group.comment && (
-                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold">
+                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs xl:text-sm 2xl:text-base font-bold">
                   {group.comment}
                 </p>
               )}
@@ -51,9 +51,9 @@ const GamesList = ({ gamesArray, tab, hasGames }: GameListProps) => {
                   return (
                     <div key={date.date}>
                       {date.date !== 'null' && (
-                        <div className="flex flex-row gap-1 items-center mb-0.5 group">
+                        <div className="flex flex-row gap-1 items-center mb-0.5 lg:mb-1 2xl:mb-2 group">
                           <h3
-                            className="text-[0.75rem] md:text-sm tracking-wide"
+                            className="text-[0.75rem] md:text-sm tracking-wide xl:text-base 2xl:text-lg"
                             id={`${group.group}-${date.date}`}
                           >
                             <Date>{date.date}</Date>

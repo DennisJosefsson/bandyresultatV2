@@ -23,14 +23,14 @@ const Map = () => {
       {teams && qualificationTeams && (
         <div
           id="map"
-          className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl"
+          className="h-[400px] w-screen max-w-[280px] p-2 xs:max-w-[360px] sm:max-w-xl xl:max-w-4xl"
         >
           <MapContainer
             bounds={bounds}
             center={[62, 15]}
             zoom={4}
             scrollWheelZoom={true}
-            className="h-[400px]"
+            className="h-[400px] sm:h-[600px]"
             key={seasonId}
           >
             <TileLayer

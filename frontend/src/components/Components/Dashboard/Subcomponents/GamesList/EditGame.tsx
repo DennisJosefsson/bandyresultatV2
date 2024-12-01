@@ -38,6 +38,8 @@ const EditGame = () => {
   const { seasonId, serieId } = route.useParams()
   const teamSelection = getTeamSelection(data.gameFormData.teams)
 
+
+
   const groupArray = getGroupArray(data.gameFormData.series)
 
   const { toast } = useToast()

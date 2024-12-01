@@ -43,7 +43,7 @@ function SubTables() {
           params={(prev) => ({ seasonId: prev.seasonId, table: 'all' })}
           search={(prev) => ({ ...prev })}
         >
-          Högsta divisionen
+          <span className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">Högsta divisionen</span>
         </Link>
         {tables.staticTables.map((tableObject) => {
           return (
@@ -66,7 +66,7 @@ function SubTables() {
           params={(prev) => ({ seasonId: prev.seasonId, table: 'all' })}
           search={(prev) => ({ ...prev })}
         >
-          <span className="text-[10px] md:text-sm">Högsta divisionen</span>
+          <span className="text-[10px] md:text-sm xl:text-base 2xl:text-lg">Högsta divisionen</span>
         </Link>
         <SubTableList tableArray={tables.tables} />
       </div>
@@ -83,7 +83,7 @@ function NotFound() {
   }
 
   return (
-    <div className="mt-2 flex flex-row justify-center">
+    <div className="flex flex-row justify-center mt-2">
       <p>Tabell saknas fortfarande för aktuell grupp.</p>
     </div>
   )

@@ -24,8 +24,8 @@ export const Route = createFileRoute('/_layout/season/$seasonId/interval')({
   },
 
   pendingComponent: () => (
-    <div className="flex flex-row justiy-center mt-2 w-full">
-      <Skeleton className="h-9 w-32" />
+    <div className="flex flex-row w-full mt-2 justiy-center">
+      <Skeleton className="w-32 h-9" />
     </div>
   ),
   component: Subs,
@@ -37,7 +37,7 @@ function Subs() {
 
   if (gameSeries.length === 0) {
     return (
-      <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-[10px] font-bold text-foreground md:text-base">
+      <div className="mx-auto mt-4 grid place-items-center py-5 font-inter text-[10px] font-bold text-foreground md:text-base xl:text-lg">
         <p className="mx-10 text-center">
           Inga spelade seriematcher denna säsong.
         </p>

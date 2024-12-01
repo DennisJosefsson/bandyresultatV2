@@ -1,5 +1,6 @@
 import { Checkbox, CheckedState } from '@/components/ui/checkbox'
 import useTeampreferenceContext from '@/lib/hooks/contextHooks/useTeampreferenceContext'
+import { cn } from '@/lib/utils/utils'
 import { setOrigin } from '@/lib/zustand/linkOrigin/linkOriginStore'
 import { Link, useLocation, useSearch } from '@tanstack/react-router'
 import { memo } from 'react'
@@ -30,12 +31,12 @@ const TeamsListItem = ({
   if (team.teamId === null) return null
 
   return (
-    <div className="has-data-[state=checked]:font-bold flex flex-row items-center justify-between space-x-3 space-y-0 rounded bg-muted p-2 text-sm dark:bg-muted/50 md:text-base">
+    <div className="has-data-[state=checked]:font-bold flex flex-row items-center justify-between space-x-3 space-y-0 rounded bg-muted p-2 text-sm dark:bg-muted/50 md:text-base 2xl:text-lg">
       <span
-        className={
-          favTeams.includes(team.teamId)
-            ? 'w-32 font-bold md:text-base peer-data-[state=checked]:underline'
-            : 'w-32 md:text-base peer-data-[state=checked]:underline'
+        className={cn('w-32 peer-data-[state=checked]:underline',favTeams.includes(team.teamId)
+          ? 'font-bold'
+          : null)
+          
         }
       >
         <Link

@@ -19,7 +19,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
   if (gamesArray.length === 0) return null
   return (
     <div className="mb-6 w-full font-inter">
-      <h1 className="text-xs font-semibold text-primary md:text-base tracking-wider">
+      <h1 className="text-xs font-semibold text-primary md:text-base tracking-wider xl:text-lg 2xl:text-xl">
         {title}
       </h1>
       <div>
@@ -30,7 +30,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                 id={group.group}
                 className="flex flex-row gap-1 items-center mb-0.5 group"
               >
-                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide">
+                <h3 className="text-[10px] font-semibold text-primary md:text-xs tracking-wide xl:text-sm 2xl:text-base">
                   {group.name}
                 </h3>
                 <Link
@@ -43,7 +43,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                 </Link>
               </div>
               {group.comment && (
-                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold">
+                <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold xl:text-sm 2xl:text-base">
                   {group.comment}
                 </p>
               )}
@@ -54,7 +54,7 @@ const GamesList = ({ gamesArray, title }: GameListProps) => {
                       {date.date !== 'null' && (
                         <div className="flex flex-row gap-1 items-center mb-0.5 group">
                           <h3
-                            className="text-[0.75rem] md:text-sm tracking-wide"
+                            className="text-[0.75rem] md:text-sm tracking-wide xl:text-base 2xl:text-lg"
                             id={`${group.group}-${date.date}`}
                           >
                             <Date>{date.date}</Date>

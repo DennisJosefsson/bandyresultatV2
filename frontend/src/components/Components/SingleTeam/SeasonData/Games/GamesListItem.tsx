@@ -16,14 +16,14 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
   })
 
   return (
-    <div className="flex w-full flex-row items-center gap-1">
+    <div className="flex flex-row items-center w-full gap-1">
       <div
         id={game.gameId?.toString()}
-        className="rounded-sm h-6 md:h-8 py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[10px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:mb-2 xl:w-[36rem] "
+        className="xs:w-9/10 rounded-sm h-6 md:h-8 py-0.5 mb-1 flex w-full flex-row items-center justify-between gap-1 bg-muted px-1 md:px-2 text-[10px] transition-colors dark:bg-muted/50  dark:hover:bg-slate-800/50 md:text-sm xl:text-base 2xl:text-lg xl:mb-2 sm:w-[36rem] 2xl:w-[44rem]"
       >
         <span
           className={cn(
-            'w-24 sm:w-40 lg:w-40 xl:w-52',
+            'w-24 sm:w-40 lg:w-40 xl:w-52 2xl:w-60',
             casualName === game.homeTeam.casualName
               ? 'font-bold text-primary'
               : null
@@ -34,7 +34,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
         <span className="w-1 text-center xl:w-4"> - </span>
         <span
           className={cn(
-            'w-24 sm:w-40 lg:w-40 xl:w-52',
+            'w-24 sm:w-40 lg:w-40 xl:w-52 2xl:w-60',
             casualName === game.awayTeam.casualName
               ? 'font-bold text-primary'
               : null
@@ -47,7 +47,7 @@ const GamesListItem = ({ game }: GamesListItemProps) => {
 
         {game.halftimeResult && (
           <>
-            <span className="w-10 md:w-16 text-right text-[10px] tabular-nums md:text-xs">
+            <span className="w-10 text-right md:w-16 tabular-nums">
               ({game.halftimeResult})
             </span>
           </>

@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { hideColumns, showColumns } from './staticColumns'
+import { cn } from '@/lib/utils/utils'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -66,13 +67,13 @@ const DataTable = <TData, TValue>({
 
   return (
     <div>
-      <Table className="container text-[10px] lg:text-sm">
+      <Table className="text-[10px] lg:text-sm xl:text-base">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               <TableHead
                 key={'position'}
-                className="hidden px-0 py-1 sm:table-cell"
+                className="hidden px-0 py-1 sm:table-cell xl:text-base 2xl:text-lg"
               >
                 P
               </TableHead>
@@ -101,21 +102,18 @@ const DataTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
-                className={`${
-                  favTeams.includes(
-                    teamObject[getString(row.getValue('team_casualName'))]
-                  )
-                    ? 'font-bold'
-                    : null
-                } ${
-                  serieStructure?.includes(index + 1)
-                    ? 'border-b-2 border-foreground'
-                    : null
-                }`}
+                className={cn(favTeams.includes(
+                  teamObject[getString(row.getValue('team_casualName'))]
+                )
+                  ? 'font-bold'
+                  : null, serieStructure?.includes(index + 1)
+                  ? 'border-b-2 border-foreground'
+                  : null)}
+                
               >
                 <TableCell
                   key={`index-${index}`}
-                  className="hidden px-0 py-1 tabular-nums sm:table-cell"
+                  className="hidden px-0 py-1 tabular-nums sm:table-cell xl:text-base 2xl:text-lg"
                 >
                   {index + 1}
                 </TableCell>
