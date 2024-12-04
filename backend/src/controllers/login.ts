@@ -61,7 +61,7 @@ loginRouter.post('/', (async (
         expires: dayjs().add(1, 'days').toDate(),
       })
 
-      res.status(200).json({ success: true, message: 'Logged in' })
+      res.status(200).json({ success: true, message: 'Logged in', token })
     } else {
       throw new LoginError({
         code: 401,

@@ -14,6 +14,7 @@ dotenv.config()
 const app: Application = express()
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
@@ -25,7 +26,7 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   next()
 })
 
-app.use(cookieParser())
+
 const __filename = fileURLToPath(import.meta.url).replace('/utils', '')
 const __dirname = path.dirname(__filename)
 const frontend = path.join(__dirname, 'dist')

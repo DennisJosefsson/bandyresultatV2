@@ -48,10 +48,25 @@ nativeRouter.get('/native/serie/:serieId',  (async(
   const serieId = IDCheck.parse(req.params.serieId)  
   
 
-  const games = await Game.findAll({where:{serieId},attributes:['gameId','date','homeTeamId','awayTeamId','result','halftimeResult','played'],include:[{model:Team,as:'homeTeam',attributes:['casualName']},{model:Team,as:'awayTeam',attributes:['casualName']}],order:[['date','asc']]})
+  const games = await Game.findAll({where:{serieId},include:[{model:Team,as:'homeTeam',attributes:['casualName']},{model:Team,as:'awayTeam',attributes:['casualName']}],order:[['date','asc']]})
 
 
   res.status(200).json(games)
+}) as RequestHandler)
+
+nativeRouter.get('/native/game/:gameId',  (async(
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  
+  const gameId = IDCheck.parse(req.params.gameId)  
+  
+
+  const game = await Game.findByPk(gameId,{include:[{model:Team,as:'homeTeam',attributes:['casualName']},{model:Team,as:'awayTeam',attributes:['casualName']}]})
+
+
+  res.status(200).json(game)
 }) as RequestHandler)
 
 nativeRouter.get('/native/seasons',  (async(
