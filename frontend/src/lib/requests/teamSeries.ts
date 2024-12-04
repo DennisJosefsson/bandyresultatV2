@@ -1,14 +1,25 @@
 import axios from 'axios'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 
 import { z } from 'zod'
-import { newTeamSeries, teamSerieWithTeam } from '../types/series/teamSeries'
+import {
+  newTeamSeries,
+  teamSerieWithTeam,
+} from '../types/series/teamSeries'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const teamseriesApi = axios.create({
   baseURL: `${backendUrl}/api/teamseries`,
   headers: header,
+  withCredentials: true,
 })
 
 export const postTeamSerie = async (
@@ -23,6 +34,8 @@ export const getTeamsFromSeries = async ({
 }: {
   serieId: number
 }): Promise<z.infer<typeof teamSerieWithTeam>[]> => {
-  const response = await teamseriesApi.get(`/teams/${serieId}`)
+  const response = await teamseriesApi.get(
+    `/teams/${serieId}`
+  )
   return response.data
 }

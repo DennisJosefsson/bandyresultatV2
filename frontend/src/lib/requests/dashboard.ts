@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 import {
   dashboardDataObjects,
   dashboardSingleSeason,
@@ -9,11 +13,15 @@ import {
 import { gameFormData } from '../types/games/gameForm'
 import { gameObject } from '../types/games/gameObject'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const dashboardApi = axios.create({
   baseURL: `${backendUrl}/api/dashboard`,
   headers: header,
+  withCredentials: true,
 })
 
 export const getGamesBySerieId = async ({
@@ -21,7 +29,9 @@ export const getGamesBySerieId = async ({
 }: {
   serieId: number
 }): Promise<z.infer<typeof gameObject>[]> => {
-  const response = await dashboardApi.get(`/games?serieId=${serieId}`)
+  const response = await dashboardApi.get(
+    `/games?serieId=${serieId}`
+  )
 
   return response.data
 }
@@ -31,7 +41,9 @@ export const getGameFormData = async ({
 }: {
   serieId: number
 }): Promise<z.infer<typeof gameFormData>> => {
-  const response = await dashboardApi.get(`/gameform/${serieId}`)
+  const response = await dashboardApi.get(
+    `/gameform/${serieId}`
+  )
 
   return response.data
 }
@@ -49,7 +61,9 @@ export const getDashBoardSingleSeason = async ({
 }: {
   seasonId: number
 }): Promise<z.infer<typeof dashboardSingleSeason>> => {
-  const response = await dashboardApi.get(`/season/${seasonId}`)
+  const response = await dashboardApi.get(
+    `/season/${seasonId}`
+  )
   return response.data
 }
 
@@ -58,6 +72,8 @@ export const getDashboardSerieInfo = async ({
 }: {
   serieId: number
 }): Promise<z.infer<typeof dashboardSingleSeries>> => {
-  const response = await dashboardApi.get(`/serieinfo?serieId=${serieId}`)
+  const response = await dashboardApi.get(
+    `/serieinfo?serieId=${serieId}`
+  )
   return response.data
 }

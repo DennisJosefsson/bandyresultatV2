@@ -1,20 +1,34 @@
 import axios from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 import {
   editStaticTable,
   newStaticTable,
   singleSeasonSubTables,
   singleSeasonTable,
 } from '../types/tables/seasonTable'
-import { maratonTable, singleSeasonPlayoff } from '../types/tables/tables'
-import { compareFormState, compareResponseObject } from '../types/teams/compare'
+import {
+  maratonTable,
+  singleSeasonPlayoff,
+} from '../types/tables/tables'
+import {
+  compareFormState,
+  compareResponseObject,
+} from '../types/teams/compare'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const tablesApi = axios.create({
   baseURL: `${backendUrl}/api/tables`,
   headers: header,
+  withCredentials: true,
 })
 
 type MaratonQueryType = 'all' | 'home' | 'away'
@@ -22,23 +36,30 @@ type MaratonQueryType = 'all' | 'home' | 'away'
 export const maratonTabell = async (
   query: MaratonQueryType
 ): Promise<z.infer<typeof maratonTable>[]> => {
-  const response = await tablesApi.get(`/maraton?table=${query}`)
+  const response = await tablesApi.get(
+    `/maraton?table=${query}`
+  )
   return response.data
 }
 
 export const compareTeams = async (
   compObject: z.infer<typeof compareFormState>
 ): Promise<
-  z.infer<typeof compareResponseObject> | { status: number; error: string }
+  | z.infer<typeof compareResponseObject>
+  | { status: number; error: string }
 > => {
   if (compObject === null || compObject === undefined) {
     throw new Error('nullObject')
   }
-  const response = await tablesApi.post('/compare', compObject, {
-    validateStatus: (status) => {
-      return status < 500
-    },
-  })
+  const response = await tablesApi.post(
+    '/compare',
+    compObject,
+    {
+      validateStatus: (status) => {
+        return status < 500
+      },
+    }
+  )
 
   if (response.status === 404) {
     return { status: 404, error: response.data.errors }
@@ -90,11 +111,17 @@ export const getSingleSeasonPlayoff = async ({
   seasonId: number
   women: boolean
 }): Promise<z.infer<typeof singleSeasonPlayoff>> => {
-  const response = await tablesApi.get(`/playoff/${seasonId}?women=${women}`)
+  const response = await tablesApi.get(
+    `/playoff/${seasonId}?women=${women}`
+  )
   return response.data
 }
 
-export const deleteTable = async ({ tableId }: { tableId: number }) => {
+export const deleteTable = async ({
+  tableId,
+}: {
+  tableId: number
+}) => {
   return await tablesApi.delete(`/${tableId}`)
 }
 
@@ -112,7 +139,10 @@ export const editStaticTableFunction = async ({
 }: {
   formState: z.infer<typeof editStaticTable>
 }) => {
-  const response = await tablesApi.put(`/${formState.tableId}`, formState)
+  const response = await tablesApi.put(
+    `/${formState.tableId}`,
+    formState
+  )
   return response.data
 }
 
@@ -121,7 +151,9 @@ export const getStaticTable = async ({
 }: {
   tableId: number
 }): Promise<z.infer<typeof editStaticTable>> => {
-  const response = await tablesApi.get(`/statictable/${tableId}`)
+  const response = await tablesApi.get(
+    `/statictable/${tableId}`
+  )
   return response.data
 }
 
