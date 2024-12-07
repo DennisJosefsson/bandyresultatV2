@@ -23,69 +23,99 @@ nativeRouter.get('/nativeCookie', authControl, ((
   res.status(200).json({ message: 'Cookie works!' })
 }) as RequestHandler)
 
-
-
-nativeRouter.get('/native/season/:seasonId',  (async(
+nativeRouter.get('/native/season/:seasonId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const seasonId = IDCheck.parse(req.params.seasonId)  
-  
+  const seasonId = IDCheck.parse(req.params.seasonId)
 
-  const series = await Serie.findAll({where: {seasonId},attributes:['serieId','serieName'],order:[['level','asc'],['serieId','asc']]})
-
+  const series = await Serie.findAll({
+    where: { seasonId },
+    attributes: ['serieId', 'serieName'],
+    order: [
+      ['level', 'asc'],
+      ['serieId', 'asc'],
+    ],
+  })
 
   res.status(200).json(series)
 }) as RequestHandler)
 
-nativeRouter.get('/native/serie/:serieId',  (async(
+nativeRouter.get('/native/serie/:serieId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  
-  const serieId = IDCheck.parse(req.params.serieId)  
-  
+  const serieId = IDCheck.parse(req.params.serieId)
 
-  const games = await Game.findAll({where:{serieId},include:[{model:Team,as:'homeTeam',attributes:['casualName']},{model:Team,as:'awayTeam',attributes:['casualName']}],order:[['date','asc']]})
-
+  const games = await Game.findAll({
+    where: { serieId },
+    include: [
+      {
+        model: Team,
+        as: 'homeTeam',
+        attributes: ['shortName'],
+      },
+      {
+        model: Team,
+        as: 'awayTeam',
+        attributes: ['shortName'],
+      },
+    ],
+    order: [['date', 'asc']],
+  })
 
   res.status(200).json(games)
 }) as RequestHandler)
 
-nativeRouter.get('/native/game/:gameId',  (async(
+nativeRouter.get('/native/game/:gameId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  
-  const gameId = IDCheck.parse(req.params.gameId)  
-  
+  const gameId = IDCheck.parse(req.params.gameId)
 
-  const game = await Game.findByPk(gameId,{include:[{model:Team,as:'homeTeam',attributes:['casualName']},{model:Team,as:'awayTeam',attributes:['casualName']}]})
-
+  const game = await Game.findByPk(gameId, {
+    include: [
+      {
+        model: Team,
+        as: 'homeTeam',
+        attributes: ['casualName'],
+      },
+      {
+        model: Team,
+        as: 'awayTeam',
+        attributes: ['casualName'],
+      },
+    ],
+  })
 
   res.status(200).json(game)
 }) as RequestHandler)
 
-nativeRouter.get('/native/seasons',  (async(
+nativeRouter.get('/native/seasons', (async (
   _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const dev = process.env.NODE_ENV === 'production' ? false : true
+  const dev =
+    process.env.NODE_ENV === 'production' ? false : true
   const date = new Date()
   const year = date.getFullYear()
   const month = date.getMonth()
 
-  const seasonYear = month > 7 ? `${year}/${year + 1}` : `${year-1}/${year}`
+  const seasonYear =
+    month > 7
+      ? `${year}/${year + 1}`
+      : `${year - 1}/${year}`
 
-  const seasons = await Season.findAll({where: {year: dev ? '2023/2024' : seasonYear},attributes: ['seasonId','women','year']})
-
+  const seasons = await Season.findAll({
+    where: { year: dev ? '2023/2024' : seasonYear },
+    attributes: ['seasonId', 'women', 'year'],
+  })
 
   res.status(200).json(seasons)
 }) as RequestHandler)
-
 
 export default nativeRouter
