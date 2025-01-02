@@ -1,14 +1,22 @@
 import axios from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 
 import { metadata } from '../types/metadata/metadata'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const metadataApi = axios.create({
   baseURL: `${backendUrl}/api/metadata`,
   headers: header,
+  withCredentials: true,
 })
 
 export const getMetadata = async () => {
@@ -24,7 +32,9 @@ export const getSingleMetadata = async (
   return response.data
 }
 
-export const postMetadata = async (formData: z.infer<typeof metadata>) => {
+export const postMetadata = async (
+  formData: z.infer<typeof metadata>
+) => {
   return await metadataApi.post('/', formData)
 }
 

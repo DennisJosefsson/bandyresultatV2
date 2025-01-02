@@ -3,6 +3,7 @@ import changelogRouter from '../controllers/changelog.js'
 import countyRouter from '../controllers/county.js'
 import dashboardDataRouter from '../controllers/dashboard/data.js'
 import dashboardGameRouter from '../controllers/dashboard/games.js'
+import nativeRouter from '../controllers/dashboard/native.js'
 import dashboardSeasonRouter from '../controllers/dashboard/season.js'
 import dashboardSerieInfoRouter from '../controllers/dashboard/serieTeams.js'
 import errorRouter from '../controllers/error.js'
@@ -54,6 +55,7 @@ export const routeArray: RouteArray = [
   { path: '/api/teamgames', router: teamgameRouter },
   { path: '/api/links', router: linkRouter },
   { path: '/api/errors', router: errorRouter },
+  { path: '/api/dashboard', router: nativeRouter },
   { path: '/api/dashboard', router: dashboardGameRouter },
   { path: '/api/dashboard', router: dashboardSeasonRouter },
   { path: '/api/dashboard', router: dashboardDataRouter },

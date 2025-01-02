@@ -1,19 +1,39 @@
 import axios, { AxiosError } from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
-import { developmentData, subDevelopmentData } from '../types/games/development'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
+import {
+  developmentData,
+  subDevelopmentData,
+} from '../types/games/development'
 import { seasonGames } from '../types/games/gameObject'
 import { bulkGame, game } from '../types/games/games'
-import { editGame as editGameType, newGame } from '../types/games/newGame'
-import { searchParams, searchResponse } from '../types/games/search'
+import {
+  editGame as editGameType,
+  newGame,
+} from '../types/games/newGame'
+import {
+  searchParams,
+  searchResponse,
+} from '../types/games/search'
 import { statsObject } from '../types/games/stats'
-import { streakParams, streakReturn } from '../types/games/streaks'
+import {
+  streakParams,
+  streakReturn,
+} from '../types/games/streaks'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const gamesApi = axios.create({
   baseURL: `${backendUrl}/api/games`,
   headers: header,
+  withCredentials: true,
 })
 
 export const getStreaks = async (
@@ -41,7 +61,9 @@ export const getSeasonGames = async ({
   seasonId: number
   women: boolean
 }): Promise<z.infer<typeof seasonGames>> => {
-  const response = await gamesApi.get(`/season/${seasonId}?women=${women}`)
+  const response = await gamesApi.get(
+    `/season/${seasonId}?women=${women}`
+  )
 
   return response.data
 }
@@ -69,7 +91,9 @@ export const getSeasonStats = async ({
   seasonId: number
   women: boolean
 }): Promise<z.infer<typeof statsObject>> => {
-  const response = await gamesApi.get(`/stats/${seasonId}?women=${women}`)
+  const response = await gamesApi.get(
+    `/stats/${seasonId}?women=${women}`
+  )
 
   return response.data
 }
@@ -102,7 +126,9 @@ export const getAnimation = async ({
   seasonId: number
   women: boolean
 }): Promise<z.infer<typeof developmentData>> => {
-  const response = await gamesApi.get(`/animation/${seasonId}?women=${women}`)
+  const response = await gamesApi.get(
+    `/animation/${seasonId}?women=${women}`
+  )
 
   return response.data
 }
@@ -143,7 +169,9 @@ export const editGame = async ({
 export const postBulkGames = async (
   games: z.infer<typeof bulkGame>['games']
 ) => {
-  const promise = Promise.all(games.map((game) => gamesApi.post('/', game)))
+  const promise = Promise.all(
+    games.map((game) => gamesApi.post('/', game))
+  )
 
   return promise
 }

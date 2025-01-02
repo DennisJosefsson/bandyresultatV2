@@ -1,14 +1,25 @@
 import axios from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 import { newSerie, serie } from '../types/series/series'
-import { developmentSeries, subSeries } from '../types/series/subseries'
+import {
+  developmentSeries,
+  subSeries,
+} from '../types/series/subseries'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const seriesApi = axios.create({
   baseURL: `${backendUrl}/api/series`,
   headers: header,
+  withCredentials: true,
 })
 
 export const getSeasonSeries = async (

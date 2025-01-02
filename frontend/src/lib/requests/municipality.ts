@@ -1,13 +1,21 @@
 import axios from 'axios'
 import { z } from 'zod'
-import { baseUrl, header, mobileBaseUrl } from '../config/requestConfig'
+import {
+  baseUrl,
+  header,
+  mobileBaseUrl,
+} from '../config/requestConfig'
 import { municipality } from '../types/municipality/municipality'
 
-const backendUrl = import.meta.env.MODE === 'mobile' ? mobileBaseUrl : baseUrl
+const backendUrl =
+  import.meta.env.MODE === 'mobile'
+    ? mobileBaseUrl
+    : baseUrl
 
 const municipalityApi = axios.create({
   baseURL: `${backendUrl}/api/municipality`,
   headers: header,
+  withCredentials: true,
 })
 
 export const getMunicipalities = async ({
