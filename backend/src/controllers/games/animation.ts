@@ -11,6 +11,7 @@ import Game from '../../models/Game.js'
 import Season from '../../models/Season.js'
 import Serie from '../../models/Serie.js'
 import Team from '../../models/Team.js'
+import TeamGame from '../../models/TeamGame.js'
 import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
 import {
@@ -19,6 +20,7 @@ import {
   subGroupAnimationData,
 } from '../../utils/postFunctions/animationData.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
+import { leagueTable } from '../../utils/responseTypes/tableTypes.js'
 
 const animationRouter = Router()
 
@@ -42,108 +44,68 @@ const parseTeamArray = z.array(
     }))
 )
 
-animationRouter.get('/subanimation/:seasonId/:group', (async (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
-  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
-  const parsedSeasonId = parseInt(req.params.seasonId)
-  const group = parseGroup.parse(req.params.group)
-  const women = parseWomen.parse(req.query.women)
+animationRouter.get(
+  '/subanimation/:seasonId/:group',
+  (async (
+    req: Request,
+    res: Response,
+    _next: NextFunction
+  ) => {
+    const seasonYear = seasonIdCheck.parse(
+      req.params.seasonId
+    )
+    const parsedSeasonId = parseInt(req.params.seasonId)
+    const group = parseGroup.parse(req.params.group)
+    const women = parseWomen.parse(req.query.women)
 
-  const getSeason = await Season.findOne({
-    where: {
-      year: { [Op.eq]: seasonYear },
-      women: women === 'true' ? true : false,
-    },
-  })
-  const seasonId = getSeason?.get('seasonId')
-  if (!seasonId) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'Säsong finns ej',
-      logging: false,
-      context: { origin: 'GET Group Animation Data' },
-    })
-  }
-
-  const serie = await Serie.findOne({
-    where: {
-      serieCategory: ['regular', 'qualification'],
-      serieGroupCode: group,
-    },
-    include: [
-      {
-        model: Season,
-        where: { year: seasonYear, women: women === 'true' ? true : false },
+    const getSeason = await Season.findOne({
+      where: {
+        year: { [Op.eq]: seasonYear },
+        women: women === 'true' ? true : false,
       },
-    ],
-    raw: true,
-    nest: true,
-  })
-
-  if (!serie) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'Grupp finns ej',
-      logging: false,
-      context: { origin: 'GET Group Animation Data' },
     })
-  }
-
-  const getTeams = await sequelize.query(
-    `select distinct t2.team_id, casual_name from teamseries t
-join teams t2 on t2.team_id = t.team_id 
-join series s on s.serie_id = t.serie_id 
-where s.season_id = $seasonId and s.serie_group_code = any($group);
-  `,
-    {
-      bind: { seasonId: seasonId, group: [group, 'mix'] },
-      type: QueryTypes.SELECT,
+    const seasonId = getSeason?.get('seasonId')
+    if (!seasonId) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Säsong finns ej',
+        logging: false,
+        context: { origin: 'GET Group Animation Data' },
+      })
     }
-  )
 
-  const teams = parseTeamArray.parse(getTeams)
-
-  const games = await Game.findAll({
-    where: { seasonId, group: [group, 'mix'] },
-    include: [
-      {
-        model: Season,
+    const serie = await Serie.findOne({
+      where: {
+        serieCategory: ['regular', 'qualification'],
+        serieGroupCode: group,
       },
-      {
-        model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'homeTeam',
-      },
-      {
-        model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
-        as: 'awayTeam',
-      },
-    ],
-    order: [
-      ['group', 'ASC'],
-      ['date', 'ASC'],
-    ],
-    raw: true,
-    nest: true,
-  })
-  if (!games || games.length === 0) {
-    res.status(200).json({
-      games: [],
-      length: 0,
-      series: serie,
+      include: [
+        {
+          model: Season,
+          where: {
+            year: seasonYear,
+            women: women === 'true' ? true : false,
+          },
+        },
+      ],
+      raw: true,
+      nest: true,
     })
-  }
 
-  if (seasonYear && ['1933', '1937'].includes(seasonYear)) {
+    if (!serie) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Grupp finns ej',
+        logging: false,
+        context: { origin: 'GET Group Animation Data' },
+      })
+    }
+
     const getTeams = await sequelize.query(
       `select distinct t2.team_id, casual_name from teamseries t
 join teams t2 on t2.team_id = t.team_id 
 join series s on s.serie_id = t.serie_id 
-where s.season_id = $seasonId;
+where s.season_id = $seasonId and s.serie_group_code = any($group);
   `,
       {
         bind: { seasonId: seasonId, group: [group, 'mix'] },
@@ -152,23 +114,31 @@ where s.season_id = $seasonId;
     )
 
     const teams = parseTeamArray.parse(getTeams)
-    const excludeTeams =
-      seasonYear === '1933' ? [5, 31, 57, 29] : [5, 64, 57, 17]
-    const groupName = seasonYear === '1933' ? 'Div' : 'Avd'
+
     const games = await Game.findAll({
-      where: { seasonId, category: 'regular' },
+      where: { seasonId, group: [group, 'mix'] },
       include: [
         {
           model: Season,
         },
         {
           model: Team,
-          attributes: ['name', 'teamId', 'casualName', 'shortName'],
+          attributes: [
+            'name',
+            'teamId',
+            'casualName',
+            'shortName',
+          ],
           as: 'homeTeam',
         },
         {
           model: Team,
-          attributes: ['name', 'teamId', 'casualName', 'shortName'],
+          attributes: [
+            'name',
+            'teamId',
+            'casualName',
+            'shortName',
+          ],
           as: 'awayTeam',
         },
       ],
@@ -179,43 +149,363 @@ where s.season_id = $seasonId;
       raw: true,
       nest: true,
     })
-    const selectedGames = games.filter((game) => {
-      if (
-        game.group.includes(groupName) &&
-        !excludeTeams.includes(game.homeTeamId) &&
-        !excludeTeams.includes(game.awayTeamId)
-      )
-        return true
-      return false
-    })
+    if (!games || games.length === 0) {
+      res.status(200).json({
+        games: [],
+        length: 0,
+        series: serie,
+      })
+    }
 
-    const newGameArray = selectedGames.map((game) => {
-      let newGroup: string
-      switch (game.group) {
-        case 'AvdA':
-        case 'AvdB':
-        case 'Div1NorrA':
-        case 'Div1NorrB':
-          newGroup = 'NedflyttningNorr'
-          break
-        case 'AvdC':
-        case 'AvdD':
-        case 'Div1SydA':
-        case 'Div1SydB':
-          newGroup = 'NedflyttningSyd'
-          break
-        default:
-          newGroup = ''
+    if (
+      seasonYear &&
+      ['1933', '1937'].includes(seasonYear)
+    ) {
+      const getTeams = await sequelize.query(
+        `select distinct t2.team_id, casual_name from teamseries t
+join teams t2 on t2.team_id = t.team_id 
+join series s on s.serie_id = t.serie_id 
+where s.season_id = $seasonId;
+  `,
+        {
+          bind: {
+            seasonId: seasonId,
+            group: [group, 'mix'],
+          },
+          type: QueryTypes.SELECT,
+        }
+      )
+
+      const teams = parseTeamArray.parse(getTeams)
+      const excludeTeams =
+        seasonYear === '1933'
+          ? [5, 31, 57, 29]
+          : [5, 64, 57, 17]
+      const groupName =
+        seasonYear === '1933' ? 'Div' : 'Avd'
+      const games = await Game.findAll({
+        where: { seasonId, category: 'regular' },
+        include: [
+          {
+            model: Season,
+          },
+          {
+            model: Team,
+            attributes: [
+              'name',
+              'teamId',
+              'casualName',
+              'shortName',
+            ],
+            as: 'homeTeam',
+          },
+          {
+            model: Team,
+            attributes: [
+              'name',
+              'teamId',
+              'casualName',
+              'shortName',
+            ],
+            as: 'awayTeam',
+          },
+        ],
+        order: [
+          ['group', 'ASC'],
+          ['date', 'ASC'],
+        ],
+        raw: true,
+        nest: true,
+      })
+      const selectedGames = games.filter((game) => {
+        if (
+          game.group.includes(groupName) &&
+          !excludeTeams.includes(game.homeTeamId) &&
+          !excludeTeams.includes(game.awayTeamId)
+        )
+          return true
+        return false
+      })
+
+      const newGameArray = selectedGames.map((game) => {
+        let newGroup: string
+        switch (game.group) {
+          case 'AvdA':
+          case 'AvdB':
+          case 'Div1NorrA':
+          case 'Div1NorrB':
+            newGroup = 'NedflyttningNorr'
+            break
+          case 'AvdC':
+          case 'AvdD':
+          case 'Div1SydA':
+          case 'Div1SydB':
+            newGroup = 'NedflyttningSyd'
+            break
+          default:
+            newGroup = ''
+        }
+
+        return { ...game, group: newGroup }
+      })
+      newGameArray.forEach((game) =>
+        games.push(game as Game)
+      )
+      games.sort(
+        (a, b) =>
+          getTime(new Date(a.date)) -
+          getTime(new Date(b.date))
+      )
+
+      const regularGames = gameSortFunction(
+        games.filter((game) => game.result !== null)
+      )
+
+      const animationArray = subGroupAnimationData(
+        regularGames,
+        teams,
+        serie,
+        parsedSeasonId
+      )
+
+      const gameObject = regularGames
+        .filter((gameGroup) => gameGroup.group === group)
+        .map((group) => {
+          const animationObject = animationArray.find(
+            (aniGroup) => aniGroup.group === group.group
+          )
+          if (
+            !animationObject ||
+            !animationObject.serieName ||
+            !animationObject.tables
+          ) {
+            throw new Error('Missing data from Animation')
+          }
+          return {
+            group: group.group,
+            serieName: animationObject.serieName,
+            dates: group.dates.map((date) => {
+              const tableObject =
+                animationObject.tables.find(
+                  (tableDate) =>
+                    tableDate.date === date.date
+                )
+              if (!tableObject || !tableObject.table) {
+                throw new Error(
+                  'Missing table data from Animation'
+                )
+              }
+              return {
+                date: date.date,
+                games: [...date.games],
+                table: tableObject.table,
+              }
+            }),
+          }
+        })
+        .find((gameGroup) => gameGroup.group === group)
+
+      if (!gameObject) {
+        throw new NotFoundError({
+          code: 404,
+          message: 'Inga matcher i gruppen',
+          logging: false,
+          context: { origin: 'GET Group Animation Data' },
+        })
       }
 
-      return { ...game, group: newGroup }
-    })
-    newGameArray.forEach((game) => games.push(game as Game))
-    games.sort((a, b) => getTime(new Date(a.date)) - getTime(new Date(b.date)))
+      const length = gameObject.dates.length
+
+      return res.status(200).json({
+        games: gameObject,
+        length: length,
+        serie: serie,
+      })
+    }
 
     const regularGames = gameSortFunction(
-      games.filter((game) => game.result !== null)
+      games.filter((game) => game.played === true)
     )
+
+    if (
+      seasonYear === '2024/2025' &&
+      (group === 'AllsvUpp' || group === 'AllsvNed')
+    ) {
+      const baseTable = await TeamGame.findAll({
+        where: {
+          group: 'allsvenskan',
+          women: false,
+          played: true,
+          teamId: teams.map((team) => team.teamId),
+        },
+        attributes: [
+          'teamId',
+          'group',
+          'women',
+          'category',
+          [
+            sequelize.fn(
+              'count',
+              sequelize.col('team_game_id')
+            ),
+            'totalGames',
+          ],
+          [
+            sequelize.fn('sum', sequelize.col('points')),
+            'totalPoints',
+          ],
+          [
+            sequelize.fn(
+              'sum',
+              sequelize.col('goals_scored')
+            ),
+            'totalGoalsScored',
+          ],
+          [
+            sequelize.fn(
+              'sum',
+              sequelize.col('goals_conceded')
+            ),
+            'totalGoalsConceded',
+          ],
+          [
+            sequelize.fn(
+              'sum',
+              sequelize.col('goal_difference')
+            ),
+            'totalGoalDifference',
+          ],
+          [
+            sequelize.literal(
+              `(count(*) filter (where win))`
+            ),
+            'totalWins',
+          ],
+          [
+            sequelize.literal(
+              `(count(*) filter (where draw))`
+            ),
+            'totalDraws',
+          ],
+          [
+            sequelize.literal(
+              `(count(*) filter (where lost))`
+            ),
+            'totalLost',
+          ],
+        ],
+        include: [
+          {
+            model: Team,
+            attributes: [
+              'name',
+              'teamId',
+              'casualName',
+              'shortName',
+            ],
+            as: 'team',
+          },
+          {
+            model: Season,
+            attributes: ['seasonId', 'year'],
+            where: { year: { [Op.eq]: seasonYear } },
+          },
+          {
+            model: Serie,
+            where: { level: [2, 3, 4] },
+            attributes: ['level'],
+          },
+        ],
+        group: [
+          'group',
+          'teamId',
+          'team.name',
+          'team.team_id',
+          'team.casual_name',
+          'team.short_name',
+          'category',
+          'season.season_id',
+          'season.year',
+          'teamgame.women',
+          'serie.level',
+        ],
+        order: [
+          ['group', 'DESC'],
+          ['totalPoints', 'DESC'],
+          ['totalGoalDifference', 'DESC'],
+          ['totalGoalsScored', 'DESC'],
+        ],
+        raw: true,
+        nest: true,
+      }).then((res) => {
+        return res.map((item) => {
+          return { ...item, group: group }
+        })
+      })
+
+      const parsedBaseTable = leagueTable.parse(baseTable)
+      const animationArray = subGroupAnimationData(
+        regularGames,
+        teams,
+        serie,
+        parsedSeasonId,
+        parsedBaseTable
+      )
+
+      const gameObject = regularGames
+        .filter((gameGroup) => gameGroup.group === group)
+        .map((group) => {
+          const animationObject = animationArray.find(
+            (aniGroup) => aniGroup.group === group.group
+          )
+          if (
+            !animationObject ||
+            !animationObject.serieName ||
+            !animationObject.tables
+          ) {
+            throw new Error('Missing data from Animation')
+          }
+          return {
+            group: group.group,
+            serieName: animationObject.serieName,
+            dates: group.dates.map((date) => {
+              const tableObject =
+                animationObject.tables.find(
+                  (tableDate) =>
+                    tableDate.date === date.date
+                )
+              if (!tableObject || !tableObject.table) {
+                throw new Error(
+                  'Missing table data from Animation'
+                )
+              }
+              return {
+                date: date.date,
+                games: [...date.games],
+                table: tableObject.table,
+              }
+            }),
+          }
+        })
+        .find((gameGroup) => gameGroup.group === group)
+
+      if (!gameObject) {
+        throw new NotFoundError({
+          code: 404,
+          message: 'Inga matcher i gruppen',
+          logging: false,
+          context: { origin: 'GET Group Animation Data' },
+        })
+      }
+
+      const length = gameObject.dates.length
+
+      return res.status(200).json({
+        length: length,
+        games: gameObject,
+        serie: serie,
+      })
+    }
 
     const animationArray = subGroupAnimationData(
       regularGames,
@@ -245,7 +535,9 @@ where s.season_id = $seasonId;
               (tableDate) => tableDate.date === date.date
             )
             if (!tableObject || !tableObject.table) {
-              throw new Error('Missing table data from Animation')
+              throw new Error(
+                'Missing table data from Animation'
+              )
             }
             return {
               date: date.date,
@@ -268,81 +560,22 @@ where s.season_id = $seasonId;
 
     const length = gameObject.dates.length
 
-    return res.status(200).json({
-      games: gameObject,
+    res.status(200).json({
       length: length,
+      games: gameObject,
       serie: serie,
     })
-  }
-
-  const regularGames = gameSortFunction(
-    games.filter((game) => game.played === true)
-  )
-
-  const animationArray = subGroupAnimationData(
-    regularGames,
-    teams,
-    serie,
-    parsedSeasonId
-  )
-
-  const gameObject = regularGames
-    .filter((gameGroup) => gameGroup.group === group)
-    .map((group) => {
-      const animationObject = animationArray.find(
-        (aniGroup) => aniGroup.group === group.group
-      )
-      if (
-        !animationObject ||
-        !animationObject.serieName ||
-        !animationObject.tables
-      ) {
-        throw new Error('Missing data from Animation')
-      }
-      return {
-        group: group.group,
-        serieName: animationObject.serieName,
-        dates: group.dates.map((date) => {
-          const tableObject = animationObject.tables.find(
-            (tableDate) => tableDate.date === date.date
-          )
-          if (!tableObject || !tableObject.table) {
-            throw new Error('Missing table data from Animation')
-          }
-          return {
-            date: date.date,
-            games: [...date.games],
-            table: tableObject.table,
-          }
-        }),
-      }
-    })
-    .find((gameGroup) => gameGroup.group === group)
-
-  if (!gameObject) {
-    throw new NotFoundError({
-      code: 404,
-      message: 'Inga matcher i gruppen',
-      logging: false,
-      context: { origin: 'GET Group Animation Data' },
-    })
-  }
-
-  const length = gameObject.dates.length
-
-  res.status(200).json({
-    length: length,
-    games: gameObject,
-    serie: serie,
-  })
-}) as RequestHandler)
+  }) as RequestHandler
+)
 
 animationRouter.get('/animation/:seasonId', (async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const seasonYear = seasonIdCheck.parse(
+    req.params.seasonId
+  )
   const parsedSeasonId = parseInt(req.params.seasonId)
   const women = parseWomen.parse(req.query.women)
 
@@ -351,7 +584,10 @@ animationRouter.get('/animation/:seasonId', (async (
     include: [
       {
         model: Season,
-        where: { year: seasonYear, women: women === 'true' ? true : false },
+        where: {
+          year: seasonYear,
+          women: women === 'true' ? true : false,
+        },
       },
     ],
     raw: true,
@@ -361,7 +597,9 @@ animationRouter.get('/animation/:seasonId', (async (
   const teams = await Team.findAll({
     where: {
       '$seasonteam.year$': seasonYear,
-      '$seasonteam.teamseason.qualification$': { [Op.not]: true },
+      '$seasonteam.teamseason.qualification$': {
+        [Op.not]: true,
+      },
       '$seasonteam.women$': women === 'true' ? true : false,
     },
     include: [
@@ -386,12 +624,22 @@ animationRouter.get('/animation/:seasonId', (async (
       },
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'homeTeam',
       },
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'awayTeam',
       },
     ],
@@ -412,7 +660,9 @@ animationRouter.get('/animation/:seasonId', (async (
 
   if (seasonYear && ['1933', '1937'].includes(seasonYear)) {
     const excludeTeams =
-      seasonYear === '1933' ? [5, 31, 57, 29] : [5, 64, 57, 17]
+      seasonYear === '1933'
+        ? [5, 31, 57, 29]
+        : [5, 64, 57, 17]
     const groupName = seasonYear === '1933' ? 'Div' : 'Avd'
     const selectedGames = games.filter((game) => {
       if (
@@ -446,7 +696,11 @@ animationRouter.get('/animation/:seasonId', (async (
       return { ...game, group: newGroup }
     })
     newGameArray.forEach((game) => games.push(game as Game))
-    games.sort((a, b) => getTime(new Date(a.date)) - getTime(new Date(b.date)))
+    games.sort(
+      (a, b) =>
+        getTime(new Date(a.date)) -
+        getTime(new Date(b.date))
+    )
   }
 
   const teamArray = teams
@@ -490,7 +744,9 @@ animationRouter.get('/animation/:seasonId', (async (
             (tableDate) => tableDate.date === date.date
           )
           if (!tableObject || !tableObject.table) {
-            throw new Error('Missing table data from Animation')
+            throw new Error(
+              'Missing table data from Animation'
+            )
           }
           return {
             date: date.date,

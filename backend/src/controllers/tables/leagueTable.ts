@@ -11,10 +11,14 @@ import Season from '../../models/Season.js'
 import Serie from '../../models/Serie.js'
 import Team from '../../models/Team.js'
 import TeamGame from '../../models/TeamGame.js'
+import TeamSerie from '../../models/TeamSerie.js'
 import TeamTable from '../../models/TeamTable.js'
 import { sequelize } from '../../utils/db.js'
 import NotFoundError from '../../utils/middleware/errors/NotFoundError.js'
-import { leagueTableParser } from '../../utils/postFunctions/leagueTableParser.js'
+import {
+  leagueTableParser,
+  leagueTableWithBaseParser,
+} from '../../utils/postFunctions/leagueTableParser.js'
 import seasonIdCheck from '../../utils/postFunctions/seasonIdCheck.js'
 import {
   staticTableSortFunction,
@@ -52,12 +56,17 @@ leagueTableRouter.get('/league/:seasonId', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
+  const seasonYear = seasonIdCheck.parse(
+    req.params.seasonId
+  )
 
   const { table, women } = parseParam.parse(req.query)
 
   const lowerLevel = await Serie.findAll({
-    where: { level: [2, 3, 4, 5], serieCategory: 'regular' },
+    where: {
+      level: [2, 3, 4, 5],
+      serieCategory: 'regular',
+    },
     include: {
       model: Season,
       where: {
@@ -90,7 +99,12 @@ leagueTableRouter.get('/league/:seasonId', (async (
     })
     const series = await Serie.findAll({
       where: { serieCategory: 'regular' },
-      include: [{ model: Season, where: { year: seasonYear, women: true } }],
+      include: [
+        {
+          model: Season,
+          where: { year: seasonYear, women: true },
+        },
+      ],
       raw: true,
       nest: true,
     })
@@ -103,8 +117,13 @@ leagueTableRouter.get('/league/:seasonId', (async (
         level: serie.level,
       }
     })
-    const staticTables = staticTableSortFunction(tables, seriesData)
-    return res.status(200).json({ hasLowerLevel, staticTables })
+    const staticTables = staticTableSortFunction(
+      tables,
+      seriesData
+    )
+    return res
+      .status(200)
+      .json({ hasLowerLevel, staticTables })
   }
 
   const getTeamArray = await TeamGame.findAll({
@@ -117,10 +136,19 @@ leagueTableRouter.get('/league/:seasonId', (async (
       },
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'team',
       },
-      { model: Serie, where: { level: 1 }, attributes: ['level'] },
+      {
+        model: Serie,
+        where: { level: 1 },
+        attributes: ['level'],
+      },
     ],
     attributes: [
       [sequelize.literal('DISTINCT (team)'), 'teamId'],
@@ -165,25 +193,57 @@ leagueTableRouter.get('/league/:seasonId', (async (
       'group',
       'women',
       'category',
-      [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
-      [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
-      [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
       [
-        sequelize.fn('sum', sequelize.col('goals_conceded')),
+        sequelize.fn(
+          'count',
+          sequelize.col('team_game_id')
+        ),
+        'totalGames',
+      ],
+      [
+        sequelize.fn('sum', sequelize.col('points')),
+        'totalPoints',
+      ],
+      [
+        sequelize.fn('sum', sequelize.col('goals_scored')),
+        'totalGoalsScored',
+      ],
+      [
+        sequelize.fn(
+          'sum',
+          sequelize.col('goals_conceded')
+        ),
         'totalGoalsConceded',
       ],
       [
-        sequelize.fn('sum', sequelize.col('goal_difference')),
+        sequelize.fn(
+          'sum',
+          sequelize.col('goal_difference')
+        ),
         'totalGoalDifference',
       ],
-      [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-      [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-      [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
+      [
+        sequelize.literal(`(count(*) filter (where win))`),
+        'totalWins',
+      ],
+      [
+        sequelize.literal(`(count(*) filter (where draw))`),
+        'totalDraws',
+      ],
+      [
+        sequelize.literal(`(count(*) filter (where lost))`),
+        'totalLost',
+      ],
     ],
     include: [
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'team',
       },
       {
@@ -225,9 +285,18 @@ leagueTableRouter.get('/league/:seasonId', (async (
   const tabell = leagueTableParser(teamArray, parsedTable)
 
   const series = await Serie.findAll({
-    where: { serieCategory: ['regular', 'qualification'], level: 1 },
+    where: {
+      serieCategory: ['regular', 'qualification'],
+      level: 1,
+    },
     include: [
-      { model: Season, where: { year: seasonYear, women: women === 'true' } },
+      {
+        model: Season,
+        where: {
+          year: seasonYear,
+          women: women === 'true',
+        },
+      },
     ],
     raw: true,
     nest: true,
@@ -253,17 +322,22 @@ leagueTableRouter.get('/league/:seasonId', (async (
     ) as BonusPoints
 
     const updatedTable = tabell.map((table) => {
-      return table.group === seriesWithBonusPoints.serieGroupCode &&
+      return table.group ===
+        seriesWithBonusPoints.serieGroupCode &&
         table.women === seriesWithBonusPoints.season.women
         ? {
             ...table,
             totalPoints:
-              table.totalPoints + bonusPointsObject[table.teamId.toString()],
+              table.totalPoints +
+              bonusPointsObject[table.teamId.toString()],
           }
         : table
     })
 
-    const tables = tableSortFunction(updatedTable, seriesData)
+    const tables = tableSortFunction(
+      updatedTable,
+      seriesData
+    )
 
     return res.status(200).json({ hasLowerLevel, tables })
   }
@@ -273,10 +347,14 @@ leagueTableRouter.get('/league/:seasonId', (async (
       where: {
         ...where,
         group: {
-          [Op.startsWith]: seasonYear === '1933' ? 'Div' : 'Avd',
+          [Op.startsWith]:
+            seasonYear === '1933' ? 'Div' : 'Avd',
         },
         [Op.not]: {
-          opponentId: seasonYear === '1933' ? [5, 31, 57, 29] : [5, 64, 57, 17],
+          opponentId:
+            seasonYear === '1933'
+              ? [5, 31, 57, 29]
+              : [5, 64, 57, 17],
         },
       },
       include: [
@@ -294,12 +372,14 @@ leagueTableRouter.get('/league/:seasonId', (async (
     games.forEach((game) => {
       const tableIndex = tabell.findIndex(
         (table) =>
-          table.team === game.team && table.group.includes('Nedflyttning')
+          table.team === game.team &&
+          table.group.includes('Nedflyttning')
       )
 
       if (tableIndex === -1) return
 
-      tabell[tableIndex].totalGames = tabell[tableIndex].totalGames + 1
+      tabell[tableIndex].totalGames =
+        tabell[tableIndex].totalGames + 1
       tabell[tableIndex].totalWins =
         tabell[tableIndex].totalWins + (game.win ? 1 : 0)
       tabell[tableIndex].totalDraws =
@@ -307,11 +387,14 @@ leagueTableRouter.get('/league/:seasonId', (async (
       tabell[tableIndex].totalLost =
         tabell[tableIndex].totalLost + (game.lost ? 1 : 0)
       tabell[tableIndex].totalGoalsScored =
-        tabell[tableIndex].totalGoalsScored + game.goalsScored
+        tabell[tableIndex].totalGoalsScored +
+        game.goalsScored
       tabell[tableIndex].totalGoalsConceded =
-        tabell[tableIndex].totalGoalsConceded + game.goalsConceded
+        tabell[tableIndex].totalGoalsConceded +
+        game.goalsConceded
       tabell[tableIndex].totalGoalDifference =
-        tabell[tableIndex].totalGoalDifference + game.goalDifference
+        tabell[tableIndex].totalGoalDifference +
+        game.goalDifference
       tabell[tableIndex].totalPoints =
         tabell[tableIndex].totalPoints + game.points
     })
@@ -333,9 +416,312 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
   res: Response,
   _next: NextFunction
 ) => {
-  const seasonYear = seasonIdCheck.parse(req.params.seasonId)
-  const groupCode = parseGroupCode.parse(req.params.groupCode)
+  const seasonYear = seasonIdCheck.parse(
+    req.params.seasonId
+  )
+  const groupCode = parseGroupCode.parse(
+    req.params.groupCode
+  )
   const { women } = parseSubParam.parse(req.query)
+
+  if (
+    seasonYear === '2024/2025' &&
+    (groupCode === 'AllsvUpp' || groupCode === 'AllsvNed')
+  ) {
+    const series = await Serie.findAll({
+      where: {
+        level: [2, 3, 4],
+        serieGroupCode: { [Op.eq]: groupCode },
+      },
+      include: [
+        {
+          model: Season,
+          where: {
+            year: seasonYear,
+            women: false,
+          },
+        },
+      ],
+      raw: true,
+      nest: true,
+    })
+    const seriesData = series.map((serie) => {
+      return {
+        comment: serie.comment,
+        name: serie.serieName,
+        group: serie.serieGroupCode,
+        serieStructure: serie.serieStructure,
+        level: serie.level,
+      }
+    })
+
+    const serieId = series[0].serieId
+
+    if (!serieId) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Inga tabeller',
+        logging: false,
+        context: { origin: 'GET Sub league tables' },
+      })
+    }
+
+    const teams = await TeamSerie.findAll({
+      where: { serieId: serieId },
+    }).then((res) => res.map((item) => item.teamId))
+
+    if (teams.length === 0) {
+      throw new NotFoundError({
+        code: 404,
+        message: 'Inga tabeller',
+        logging: false,
+        context: { origin: 'GET Sub league tables' },
+      })
+    }
+
+    const baseTable = await TeamGame.findAll({
+      where: {
+        group: 'allsvenskan',
+        women: false,
+        played: true,
+        teamId: teams,
+      },
+      attributes: [
+        'teamId',
+        'group',
+        'women',
+        'category',
+        [
+          sequelize.fn(
+            'count',
+            sequelize.col('team_game_id')
+          ),
+          'totalGames',
+        ],
+        [
+          sequelize.fn('sum', sequelize.col('points')),
+          'totalPoints',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goals_scored')
+          ),
+          'totalGoalsScored',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goals_conceded')
+          ),
+          'totalGoalsConceded',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goal_difference')
+          ),
+          'totalGoalDifference',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where win))`
+          ),
+          'totalWins',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where draw))`
+          ),
+          'totalDraws',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where lost))`
+          ),
+          'totalLost',
+        ],
+      ],
+      include: [
+        {
+          model: Team,
+          attributes: [
+            'name',
+            'teamId',
+            'casualName',
+            'shortName',
+          ],
+          as: 'team',
+        },
+        {
+          model: Season,
+          attributes: ['seasonId', 'year'],
+          where: { year: { [Op.eq]: seasonYear } },
+        },
+        {
+          model: Serie,
+          where: { level: [2, 3, 4] },
+          attributes: ['level'],
+        },
+      ],
+      group: [
+        'group',
+        'teamId',
+        'team.name',
+        'team.team_id',
+        'team.casual_name',
+        'team.short_name',
+        'category',
+        'season.season_id',
+        'season.year',
+        'teamgame.women',
+        'serie.level',
+      ],
+      order: [
+        ['group', 'DESC'],
+        ['totalPoints', 'DESC'],
+        ['totalGoalDifference', 'DESC'],
+        ['totalGoalsScored', 'DESC'],
+      ],
+      raw: true,
+      nest: true,
+    }).then((res) => {
+      return res.map((item) => {
+        return { ...item, group: groupCode }
+      })
+    })
+
+    const parsedBaseTable = leagueTable.parse(baseTable)
+
+    const getTable = await TeamGame.findAll({
+      where: {
+        group: groupCode,
+        women: false,
+        played: true,
+        teamId: teams,
+      },
+      attributes: [
+        'teamId',
+        'group',
+        'women',
+        'category',
+        [
+          sequelize.fn(
+            'count',
+            sequelize.col('team_game_id')
+          ),
+          'totalGames',
+        ],
+        [
+          sequelize.fn('sum', sequelize.col('points')),
+          'totalPoints',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goals_scored')
+          ),
+          'totalGoalsScored',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goals_conceded')
+          ),
+          'totalGoalsConceded',
+        ],
+        [
+          sequelize.fn(
+            'sum',
+            sequelize.col('goal_difference')
+          ),
+          'totalGoalDifference',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where win))`
+          ),
+          'totalWins',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where draw))`
+          ),
+          'totalDraws',
+        ],
+        [
+          sequelize.literal(
+            `(count(*) filter (where lost))`
+          ),
+          'totalLost',
+        ],
+      ],
+      include: [
+        {
+          model: Team,
+          attributes: [
+            'name',
+            'teamId',
+            'casualName',
+            'shortName',
+          ],
+          as: 'team',
+        },
+        {
+          model: Season,
+          attributes: ['seasonId', 'year'],
+          where: { year: { [Op.eq]: seasonYear } },
+        },
+        {
+          model: Serie,
+          where: { level: [2, 3, 4] },
+          attributes: ['level'],
+        },
+      ],
+      group: [
+        'group',
+        'teamId',
+        'team.name',
+        'team.team_id',
+        'team.casual_name',
+        'team.short_name',
+        'category',
+        'season.season_id',
+        'season.year',
+        'teamgame.women',
+        'serie.level',
+      ],
+      order: [
+        ['group', 'DESC'],
+        ['totalPoints', 'DESC'],
+        ['totalGoalDifference', 'DESC'],
+        ['totalGoalsScored', 'DESC'],
+      ],
+      raw: true,
+      nest: true,
+    })
+
+    if (getTable.length === 0) {
+      const tables = tableSortFunction(
+        parsedBaseTable,
+        seriesData
+      )
+      return res.json({ tables })
+    }
+
+    const parsedContTable = leagueTable.parse(getTable)
+
+    const parsedTable = leagueTableWithBaseParser(
+      parsedBaseTable,
+      parsedContTable
+    )
+
+    const tables = tableSortFunction(
+      parsedTable,
+      seriesData
+    )
+    return res.json({ tables })
+  }
 
   const hasGames = await TeamGame.findOne({
     where: { group: groupCode, women: women === 'true' },
@@ -389,7 +775,10 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       include: [
         {
           model: Season,
-          where: { year: seasonYear, women: women === 'true' ? true : false },
+          where: {
+            year: seasonYear,
+            women: women === 'true' ? true : false,
+          },
         },
       ],
       raw: true,
@@ -404,9 +793,10 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
         level: serie.level,
       }
     })
-    const subTables = staticTableSortFunction(tables, seriesData).sort(
-      (a, b) => a.level - b.level
-    )
+    const subTables = staticTableSortFunction(
+      tables,
+      seriesData
+    ).sort((a, b) => a.level - b.level)
 
     return res.status(200).json({ staticTables: subTables })
   }
@@ -418,25 +808,57 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       'group',
       'women',
       'category',
-      [sequelize.fn('count', sequelize.col('team_game_id')), 'totalGames'],
-      [sequelize.fn('sum', sequelize.col('points')), 'totalPoints'],
-      [sequelize.fn('sum', sequelize.col('goals_scored')), 'totalGoalsScored'],
       [
-        sequelize.fn('sum', sequelize.col('goals_conceded')),
+        sequelize.fn(
+          'count',
+          sequelize.col('team_game_id')
+        ),
+        'totalGames',
+      ],
+      [
+        sequelize.fn('sum', sequelize.col('points')),
+        'totalPoints',
+      ],
+      [
+        sequelize.fn('sum', sequelize.col('goals_scored')),
+        'totalGoalsScored',
+      ],
+      [
+        sequelize.fn(
+          'sum',
+          sequelize.col('goals_conceded')
+        ),
         'totalGoalsConceded',
       ],
       [
-        sequelize.fn('sum', sequelize.col('goal_difference')),
+        sequelize.fn(
+          'sum',
+          sequelize.col('goal_difference')
+        ),
         'totalGoalDifference',
       ],
-      [sequelize.literal(`(count(*) filter (where win))`), 'totalWins'],
-      [sequelize.literal(`(count(*) filter (where draw))`), 'totalDraws'],
-      [sequelize.literal(`(count(*) filter (where lost))`), 'totalLost'],
+      [
+        sequelize.literal(`(count(*) filter (where win))`),
+        'totalWins',
+      ],
+      [
+        sequelize.literal(`(count(*) filter (where draw))`),
+        'totalDraws',
+      ],
+      [
+        sequelize.literal(`(count(*) filter (where lost))`),
+        'totalLost',
+      ],
     ],
     include: [
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'team',
       },
       {
@@ -483,10 +905,19 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       },
       {
         model: Team,
-        attributes: ['name', 'teamId', 'casualName', 'shortName'],
+        attributes: [
+          'name',
+          'teamId',
+          'casualName',
+          'shortName',
+        ],
         as: 'team',
       },
-      { model: Serie, where: { level: [2, 3, 4] }, attributes: ['level'] },
+      {
+        model: Serie,
+        where: { level: [2, 3, 4] },
+        attributes: ['level'],
+      },
     ],
     attributes: [
       [sequelize.literal('DISTINCT (team)'), 'teamId'],
@@ -519,7 +950,10 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
     include: [
       {
         model: Season,
-        where: { year: seasonYear, women: women === 'true' ? true : false },
+        where: {
+          year: seasonYear,
+          women: women === 'true' ? true : false,
+        },
       },
     ],
     raw: true,

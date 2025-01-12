@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { GameAttributes } from '../../models/Game'
+import { LeagueTableType } from '../responseTypes/tableTypes'
 
 export const serieAttributes = z.object({
   serieId: z.number().optional(),
@@ -50,33 +51,44 @@ export const gameSortFunction = (
     return groups
   }, {} as SortedGameGroups)
 
-  const sortedGames = Object.keys(sortGroups).map((group) => {
-    return {
-      group,
-      games: sortGroups[group],
-    }
-  })
-
-  const sortGroupsAndDates = sortedGames.map((groupObject) => {
-    const sortDates = groupObject.games.reduce((dates, game) => {
-      if (!dates[game.date]) {
-        dates[game.date] = []
-      }
-      dates[game.date].push(game)
-      return dates
-    }, {} as SortedDates)
-
-    const sortedGameDates = Object.keys(sortDates).map((date) => {
+  const sortedGames = Object.keys(sortGroups).map(
+    (group) => {
       return {
-        date,
-        games: sortDates[date],
+        group,
+        games: sortGroups[group],
       }
-    })
-    return {
-      group: groupObject['group'],
-      dates: played ? sortedGameDates.reverse() : sortedGameDates,
     }
-  })
+  )
+
+  const sortGroupsAndDates = sortedGames.map(
+    (groupObject) => {
+      const sortDates = groupObject.games.reduce(
+        (dates, game) => {
+          if (!dates[game.date]) {
+            dates[game.date] = []
+          }
+          dates[game.date].push(game)
+          return dates
+        },
+        {} as SortedDates
+      )
+
+      const sortedGameDates = Object.keys(sortDates).map(
+        (date) => {
+          return {
+            date,
+            games: sortDates[date],
+          }
+        }
+      )
+      return {
+        group: groupObject['group'],
+        dates: played
+          ? sortedGameDates.reverse()
+          : sortedGameDates,
+      }
+    }
+  )
 
   return sortGroupsAndDates
 }
@@ -89,7 +101,9 @@ const mixedAnimationData = (
   const southTeams: number[] = []
   const northTeams: number[] = []
 
-  const southObject = gameArray.find((group) => group.group === 'AllsvSyd')
+  const southObject = gameArray.find(
+    (group) => group.group === 'AllsvSyd'
+  )
   if (!southObject) {
     throw new Error('Wrong game array mixedAnimationData')
   } else {
@@ -103,7 +117,9 @@ const mixedAnimationData = (
     )
   }
 
-  const northObject = gameArray.find((group) => group.group === 'AllsvNorr')
+  const northObject = gameArray.find(
+    (group) => group.group === 'AllsvNorr'
+  )
   if (!northObject) {
     throw new Error('Wrong game array mixedAnimationData')
   } else {
@@ -117,24 +133,35 @@ const mixedAnimationData = (
     )
   }
 
-  const mixObject = gameArray.find((group) => group.group === 'mix')
+  const mixObject = gameArray.find(
+    (group) => group.group === 'mix'
+  )
   if (!mixObject) {
     throw new Error('Wrong game array mixedAnimationData')
   } else {
     mixObject.dates.forEach((date) => {
-      const southObject = gameArray.find((group) => group.group === 'AllsvSyd')
-      const northObject = gameArray.find((group) => group.group === 'AllsvNorr')
+      const southObject = gameArray.find(
+        (group) => group.group === 'AllsvSyd'
+      )
+      const northObject = gameArray.find(
+        (group) => group.group === 'AllsvNorr'
+      )
 
       if (southObject && northObject) {
         southObject.dates.push(date)
         northObject.dates.push(date)
       } else {
-        throw new Error('Wrong game array mixedAnimationData')
+        throw new Error(
+          'Wrong game array mixedAnimationData'
+        )
       }
     })
   }
 
-  const initTeamArray = (teamArray: TeamArray[], teams: number[]) => {
+  const initTeamArray = (
+    teamArray: TeamArray[],
+    teams: number[]
+  ) => {
     return teamArray
       .filter((team) => teams.includes(team.teamId))
       .map((team) => {
@@ -156,7 +183,9 @@ const mixedAnimationData = (
   }
 
   const sortByDate = (data: DateGames[]) =>
-    data.sort(({ date: a }, { date: b }) => (a < b ? -1 : a > b ? 1 : 0))
+    data.sort(({ date: a }, { date: b }) =>
+      a < b ? -1 : a > b ? 1 : 0
+    )
 
   const gameDateAnimationArray = gameArray
     .filter((group) => group.group !== 'mix')
@@ -198,19 +227,29 @@ const mixedAnimationData = (
               )
               if (homeTeamIndex !== -1) {
                 teamsTables[homeTeamIndex].table.games += 1
-                teamsTables[homeTeamIndex].table.scoredGoals += game.homeGoal
-                teamsTables[homeTeamIndex].table.concededGoals += game.awayGoal
+                teamsTables[
+                  homeTeamIndex
+                ].table.scoredGoals += game.homeGoal
+                teamsTables[
+                  homeTeamIndex
+                ].table.concededGoals += game.awayGoal
               }
               if (awayTeamIndex !== -1) {
                 teamsTables[awayTeamIndex].table.games += 1
-                teamsTables[awayTeamIndex].table.scoredGoals += game.awayGoal
-                teamsTables[awayTeamIndex].table.concededGoals += game.homeGoal
+                teamsTables[
+                  awayTeamIndex
+                ].table.scoredGoals += game.awayGoal
+                teamsTables[
+                  awayTeamIndex
+                ].table.concededGoals += game.homeGoal
               }
 
               if (game.homeGoal > game.awayGoal) {
                 if (homeTeamIndex !== -1) {
                   teamsTables[homeTeamIndex].table.wins += 1
-                  teamsTables[homeTeamIndex].table.points += 2
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.points += 2
                 }
                 if (awayTeamIndex !== -1) {
                   teamsTables[awayTeamIndex].table.lost += 1
@@ -220,40 +259,59 @@ const mixedAnimationData = (
                   teamsTables[homeTeamIndex].table.lost += 1
                 }
                 if (awayTeamIndex !== -1) {
-                  teamsTables[awayTeamIndex].table.points += 2
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.points += 2
                   teamsTables[awayTeamIndex].table.wins += 1
                 }
               } else if (game.homeGoal === game.awayGoal) {
                 if (homeTeamIndex !== -1) {
-                  teamsTables[homeTeamIndex].table.draws += 1
-                  teamsTables[homeTeamIndex].table.points += 1
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.draws += 1
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.points += 1
                 }
                 if (awayTeamIndex !== -1) {
-                  teamsTables[awayTeamIndex].table.draws += 1
-                  teamsTables[awayTeamIndex].table.points += 1
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.draws += 1
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.points += 1
                 }
               }
             }
           })
           teamsTables
             .sort((teamA, teamB) => {
-              if (teamA.table.points === teamB.table.points) {
+              if (
+                teamA.table.points === teamB.table.points
+              ) {
                 if (
-                  teamB.table.scoredGoals - teamB.table.concededGoals ===
-                  teamA.table.scoredGoals - teamA.table.concededGoals
+                  teamB.table.scoredGoals -
+                    teamB.table.concededGoals ===
+                  teamA.table.scoredGoals -
+                    teamA.table.concededGoals
                 ) {
-                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                  return (
+                    teamB.table.scoredGoals -
+                    teamA.table.scoredGoals
+                  )
                 }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
-                  (teamA.table.scoredGoals - teamA.table.concededGoals)
+                  (teamA.table.scoredGoals -
+                    teamA.table.concededGoals)
                 )
               }
               return teamB.table.points - teamA.table.points
             })
             .forEach(
-              (_team, index, array) => (array[index].table.position = index + 1)
+              (_team, index, array) =>
+                (array[index].table.position = index + 1)
             )
           const table = JSON.parse(
             JSON.stringify(teamsTables)
@@ -261,17 +319,25 @@ const mixedAnimationData = (
           return {
             date: date.date,
             table: table.sort((teamA, teamB) => {
-              if (teamA.table.points === teamB.table.points) {
+              if (
+                teamA.table.points === teamB.table.points
+              ) {
                 if (
-                  teamB.table.scoredGoals - teamB.table.concededGoals ===
-                  teamA.table.scoredGoals - teamA.table.concededGoals
+                  teamB.table.scoredGoals -
+                    teamB.table.concededGoals ===
+                  teamA.table.scoredGoals -
+                    teamA.table.concededGoals
                 ) {
-                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                  return (
+                    teamB.table.scoredGoals -
+                    teamA.table.scoredGoals
+                  )
                 }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
-                  (teamA.table.scoredGoals - teamA.table.concededGoals)
+                  (teamA.table.scoredGoals -
+                    teamA.table.concededGoals)
                 )
               }
               return teamB.table.points - teamA.table.points
@@ -291,7 +357,11 @@ export const animationData = (
   seasonId: number
 ) => {
   if (gameArray.some((group) => group.group === 'mix'))
-    return mixedAnimationData(gameArray, teamArray, seriesArray)
+    return mixedAnimationData(
+      gameArray,
+      teamArray,
+      seriesArray
+    )
 
   const teamSeriesArray = gameArray.map((group) => {
     const teamArray: number[] = []
@@ -310,12 +380,19 @@ export const animationData = (
       group: serie.serieGroupCode,
       bonusPoints:
         typeof serie.bonusPoints === 'string'
-          ? (JSON.parse(serie.bonusPoints) as typeof serie.bonusPoints)
+          ? (JSON.parse(
+              serie.bonusPoints
+            ) as typeof serie.bonusPoints)
           : null,
     }
   })
-  const calculateBonusPoints = (group: string, teamId: number) => {
-    const bonus = bonusPointsArray.find((points) => points.group === group)
+  const calculateBonusPoints = (
+    group: string,
+    teamId: number
+  ) => {
+    const bonus = bonusPointsArray.find(
+      (points) => points.group === group
+    )
     if (!bonus) return 0
     if (bonus.bonusPoints === null) return 0
     const points = bonus.bonusPoints[Number(teamId)]
@@ -326,7 +403,10 @@ export const animationData = (
       return Number(points)
     }
   }
-  const initTeamArray = (teamArray: TeamArray[], group: string) => {
+  const initTeamArray = (
+    teamArray: TeamArray[],
+    group: string
+  ) => {
     if (seasonId > 2023) {
       return teamArray.map((team) => {
         return {
@@ -340,7 +420,8 @@ export const animationData = (
             lost: 0,
             scoredGoals: 0,
             concededGoals: 0,
-            points: 0 + calculateBonusPoints(group, team.teamId),
+            points:
+              0 + calculateBonusPoints(group, team.teamId),
           },
         }
       })
@@ -350,7 +431,10 @@ export const animationData = (
         const teamSeriesObject = teamSeriesArray.find(
           (serie) => serie.group === group
         )
-        if (teamSeriesObject && teamSeriesObject.teams.includes(team.teamId))
+        if (
+          teamSeriesObject &&
+          teamSeriesObject.teams.includes(team.teamId)
+        )
           return true
         return false
       })
@@ -366,14 +450,18 @@ export const animationData = (
             lost: 0,
             scoredGoals: 0,
             concededGoals: 0,
-            points: 0 + calculateBonusPoints(group, team.teamId),
+            points:
+              0 + calculateBonusPoints(group, team.teamId),
           },
         }
       })
   }
 
   const gameDateAnimationArray = gameArray.map((group) => {
-    const teamsTables = initTeamArray(teamArray, group.group)
+    const teamsTables = initTeamArray(
+      teamArray,
+      group.group
+    )
 
     let serieName
     const serieObject = seriesArray.find(
@@ -404,11 +492,17 @@ export const animationData = (
             )
 
             teamsTables[homeTeamIndex].table.games += 1
-            teamsTables[homeTeamIndex].table.scoredGoals += game.homeGoal
-            teamsTables[homeTeamIndex].table.concededGoals += game.awayGoal
+            teamsTables[homeTeamIndex].table.scoredGoals +=
+              game.homeGoal
+            teamsTables[
+              homeTeamIndex
+            ].table.concededGoals += game.awayGoal
             teamsTables[awayTeamIndex].table.games += 1
-            teamsTables[awayTeamIndex].table.scoredGoals += game.awayGoal
-            teamsTables[awayTeamIndex].table.concededGoals += game.homeGoal
+            teamsTables[awayTeamIndex].table.scoredGoals +=
+              game.awayGoal
+            teamsTables[
+              awayTeamIndex
+            ].table.concededGoals += game.homeGoal
             if (game.homeGoal > game.awayGoal) {
               teamsTables[homeTeamIndex].table.wins += 1
               teamsTables[homeTeamIndex].table.points += 2
@@ -429,21 +523,28 @@ export const animationData = (
           .sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
               if (
-                teamB.table.scoredGoals - teamB.table.concededGoals ===
-                teamA.table.scoredGoals - teamA.table.concededGoals
+                teamB.table.scoredGoals -
+                  teamB.table.concededGoals ===
+                teamA.table.scoredGoals -
+                  teamA.table.concededGoals
               ) {
-                return teamB.table.scoredGoals - teamA.table.scoredGoals
+                return (
+                  teamB.table.scoredGoals -
+                  teamA.table.scoredGoals
+                )
               }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
-                (teamA.table.scoredGoals - teamA.table.concededGoals)
+                (teamA.table.scoredGoals -
+                  teamA.table.concededGoals)
               )
             }
             return teamB.table.points - teamA.table.points
           })
           .forEach(
-            (_team, index, array) => (array[index].table.position = index + 1)
+            (_team, index, array) =>
+              (array[index].table.position = index + 1)
           )
         const table = JSON.parse(
           JSON.stringify(teamsTables)
@@ -453,15 +554,21 @@ export const animationData = (
           table: table.sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
               if (
-                teamB.table.scoredGoals - teamB.table.concededGoals ===
-                teamA.table.scoredGoals - teamA.table.concededGoals
+                teamB.table.scoredGoals -
+                  teamB.table.concededGoals ===
+                teamA.table.scoredGoals -
+                  teamA.table.concededGoals
               ) {
-                return teamB.table.scoredGoals - teamA.table.scoredGoals
+                return (
+                  teamB.table.scoredGoals -
+                  teamA.table.scoredGoals
+                )
               }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
-                (teamA.table.scoredGoals - teamA.table.concededGoals)
+                (teamA.table.scoredGoals -
+                  teamA.table.concededGoals)
               )
             }
             return teamB.table.points - teamA.table.points
@@ -497,7 +604,9 @@ const mixedSubGroupAnimationData = (
     )
   }
 
-  const mixObject = gameArray.find((group) => group.group === 'mix')
+  const mixObject = gameArray.find(
+    (group) => group.group === 'mix'
+  )
   if (!mixObject) {
     throw new Error('Wrong game array mixedAnimationData')
   } else {
@@ -509,12 +618,17 @@ const mixedSubGroupAnimationData = (
       if (gameObject) {
         gameObject.dates.push(date)
       } else {
-        throw new Error('Wrong game array mixedAnimationData')
+        throw new Error(
+          'Wrong game array mixedAnimationData'
+        )
       }
     })
   }
 
-  const initTeamArray = (teamArray: TeamArray[], teams: number[]) => {
+  const initTeamArray = (
+    teamArray: TeamArray[],
+    teams: number[]
+  ) => {
     return teamArray
       .filter((team) => teams.includes(team.teamId))
       .map((team) => {
@@ -536,12 +650,17 @@ const mixedSubGroupAnimationData = (
   }
 
   const sortByDate = (data: DateGames[]) =>
-    data.sort(({ date: a }, { date: b }) => (a < b ? -1 : a > b ? 1 : 0))
+    data.sort(({ date: a }, { date: b }) =>
+      a < b ? -1 : a > b ? 1 : 0
+    )
 
   const gameDateAnimationArray = gameArray
     .filter((group) => group.group !== 'mix')
     .map((group) => {
-      const teamsTables = initTeamArray(teamArray, groupTeams)
+      const teamsTables = initTeamArray(
+        teamArray,
+        groupTeams
+      )
 
       return {
         group: group.group,
@@ -564,19 +683,29 @@ const mixedSubGroupAnimationData = (
               )
               if (homeTeamIndex !== -1) {
                 teamsTables[homeTeamIndex].table.games += 1
-                teamsTables[homeTeamIndex].table.scoredGoals += game.homeGoal
-                teamsTables[homeTeamIndex].table.concededGoals += game.awayGoal
+                teamsTables[
+                  homeTeamIndex
+                ].table.scoredGoals += game.homeGoal
+                teamsTables[
+                  homeTeamIndex
+                ].table.concededGoals += game.awayGoal
               }
               if (awayTeamIndex !== -1) {
                 teamsTables[awayTeamIndex].table.games += 1
-                teamsTables[awayTeamIndex].table.scoredGoals += game.awayGoal
-                teamsTables[awayTeamIndex].table.concededGoals += game.homeGoal
+                teamsTables[
+                  awayTeamIndex
+                ].table.scoredGoals += game.awayGoal
+                teamsTables[
+                  awayTeamIndex
+                ].table.concededGoals += game.homeGoal
               }
 
               if (game.homeGoal > game.awayGoal) {
                 if (homeTeamIndex !== -1) {
                   teamsTables[homeTeamIndex].table.wins += 1
-                  teamsTables[homeTeamIndex].table.points += 2
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.points += 2
                 }
                 if (awayTeamIndex !== -1) {
                   teamsTables[awayTeamIndex].table.lost += 1
@@ -586,40 +715,59 @@ const mixedSubGroupAnimationData = (
                   teamsTables[homeTeamIndex].table.lost += 1
                 }
                 if (awayTeamIndex !== -1) {
-                  teamsTables[awayTeamIndex].table.points += 2
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.points += 2
                   teamsTables[awayTeamIndex].table.wins += 1
                 }
               } else if (game.homeGoal === game.awayGoal) {
                 if (homeTeamIndex !== -1) {
-                  teamsTables[homeTeamIndex].table.draws += 1
-                  teamsTables[homeTeamIndex].table.points += 1
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.draws += 1
+                  teamsTables[
+                    homeTeamIndex
+                  ].table.points += 1
                 }
                 if (awayTeamIndex !== -1) {
-                  teamsTables[awayTeamIndex].table.draws += 1
-                  teamsTables[awayTeamIndex].table.points += 1
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.draws += 1
+                  teamsTables[
+                    awayTeamIndex
+                  ].table.points += 1
                 }
               }
             }
           })
           teamsTables
             .sort((teamA, teamB) => {
-              if (teamA.table.points === teamB.table.points) {
+              if (
+                teamA.table.points === teamB.table.points
+              ) {
                 if (
-                  teamB.table.scoredGoals - teamB.table.concededGoals ===
-                  teamA.table.scoredGoals - teamA.table.concededGoals
+                  teamB.table.scoredGoals -
+                    teamB.table.concededGoals ===
+                  teamA.table.scoredGoals -
+                    teamA.table.concededGoals
                 ) {
-                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                  return (
+                    teamB.table.scoredGoals -
+                    teamA.table.scoredGoals
+                  )
                 }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
-                  (teamA.table.scoredGoals - teamA.table.concededGoals)
+                  (teamA.table.scoredGoals -
+                    teamA.table.concededGoals)
                 )
               }
               return teamB.table.points - teamA.table.points
             })
             .forEach(
-              (_team, index, array) => (array[index].table.position = index + 1)
+              (_team, index, array) =>
+                (array[index].table.position = index + 1)
             )
           const table = JSON.parse(
             JSON.stringify(teamsTables)
@@ -627,17 +775,25 @@ const mixedSubGroupAnimationData = (
           return {
             date: date.date,
             table: table.sort((teamA, teamB) => {
-              if (teamA.table.points === teamB.table.points) {
+              if (
+                teamA.table.points === teamB.table.points
+              ) {
                 if (
-                  teamB.table.scoredGoals - teamB.table.concededGoals ===
-                  teamA.table.scoredGoals - teamA.table.concededGoals
+                  teamB.table.scoredGoals -
+                    teamB.table.concededGoals ===
+                  teamA.table.scoredGoals -
+                    teamA.table.concededGoals
                 ) {
-                  return teamB.table.scoredGoals - teamA.table.scoredGoals
+                  return (
+                    teamB.table.scoredGoals -
+                    teamA.table.scoredGoals
+                  )
                 }
                 return (
                   teamB.table.scoredGoals -
                   teamB.table.concededGoals -
-                  (teamA.table.scoredGoals - teamA.table.concededGoals)
+                  (teamA.table.scoredGoals -
+                    teamA.table.concededGoals)
                 )
               }
               return teamB.table.points - teamA.table.points
@@ -654,10 +810,15 @@ export const subGroupAnimationData = (
   gameArray: SortedGroupsAndDate[],
   teamArray: TeamArray[],
   serie: SerieAttributes,
-  seasonId: number
+  seasonId: number,
+  baseTable?: LeagueTableType
 ) => {
   if (gameArray.some((group) => group.group === 'mix'))
-    return mixedSubGroupAnimationData(gameArray, teamArray, serie)
+    return mixedSubGroupAnimationData(
+      gameArray,
+      teamArray,
+      serie
+    )
 
   const teamSeriesArray = gameArray.map((group) => {
     const teamArray: number[] = []
@@ -673,7 +834,9 @@ export const subGroupAnimationData = (
 
   const bonusPoints =
     typeof serie.bonusPoints === 'string'
-      ? (JSON.parse(serie.bonusPoints) as typeof serie.bonusPoints)
+      ? (JSON.parse(
+          serie.bonusPoints
+        ) as typeof serie.bonusPoints)
       : null
 
   const calculateBonusPoints = (teamId: number) => {
@@ -687,9 +850,36 @@ export const subGroupAnimationData = (
       return Number(points)
     }
   }
-  const initTeamArray = (teamArray: TeamArray[], group: string) => {
+  const initTeamArray = (
+    teamArray: TeamArray[],
+    group: string,
+    baseTable?: LeagueTableType
+  ) => {
     if (seasonId > 2023) {
       return teamArray.map((team) => {
+        if (baseTable) {
+          const base = baseTable.find(
+            (table) => table.teamId === team.teamId
+          )
+          if (base) {
+            return {
+              teamId: team.teamId,
+              casualName: team.casualName,
+              table: {
+                position: 0,
+                games: base.totalGames,
+                wins: base.totalWins,
+                draws: base.totalDraws,
+                lost: base.totalLost,
+                scoredGoals: base.totalGoalsScored,
+                concededGoals: base.totalGoalsConceded,
+                points:
+                  base.totalPoints +
+                  calculateBonusPoints(team.teamId),
+              },
+            }
+          }
+        }
         return {
           teamId: team.teamId,
           casualName: team.casualName,
@@ -711,11 +901,37 @@ export const subGroupAnimationData = (
         const teamSeriesObject = teamSeriesArray.find(
           (serie) => serie.group === group
         )
-        if (teamSeriesObject && teamSeriesObject.teams.includes(team.teamId))
+        if (
+          teamSeriesObject &&
+          teamSeriesObject.teams.includes(team.teamId)
+        )
           return true
         return false
       })
       .map((team) => {
+        if (baseTable) {
+          const base = baseTable.find(
+            (table) => table.teamId === team.teamId
+          )
+          if (base) {
+            return {
+              teamId: team.teamId,
+              casualName: team.casualName,
+              table: {
+                position: 0,
+                games: base.totalGames,
+                wins: base.totalWins,
+                draws: base.totalDraws,
+                lost: base.totalLost,
+                scoredGoals: base.totalGoalsScored,
+                concededGoals: base.totalGoalsConceded,
+                points:
+                  base.totalPoints +
+                  calculateBonusPoints(team.teamId),
+              },
+            }
+          }
+        }
         return {
           teamId: team.teamId,
           casualName: team.casualName,
@@ -734,7 +950,11 @@ export const subGroupAnimationData = (
   }
 
   const gameDateAnimationArray = gameArray.map((group) => {
-    const teamsTables = initTeamArray(teamArray, group.group)
+    const teamsTables = initTeamArray(
+      teamArray,
+      group.group,
+      baseTable
+    )
 
     return {
       group: group.group,
@@ -754,11 +974,17 @@ export const subGroupAnimationData = (
             )
 
             teamsTables[homeTeamIndex].table.games += 1
-            teamsTables[homeTeamIndex].table.scoredGoals += game.homeGoal
-            teamsTables[homeTeamIndex].table.concededGoals += game.awayGoal
+            teamsTables[homeTeamIndex].table.scoredGoals +=
+              game.homeGoal
+            teamsTables[
+              homeTeamIndex
+            ].table.concededGoals += game.awayGoal
             teamsTables[awayTeamIndex].table.games += 1
-            teamsTables[awayTeamIndex].table.scoredGoals += game.awayGoal
-            teamsTables[awayTeamIndex].table.concededGoals += game.homeGoal
+            teamsTables[awayTeamIndex].table.scoredGoals +=
+              game.awayGoal
+            teamsTables[
+              awayTeamIndex
+            ].table.concededGoals += game.homeGoal
             if (game.homeGoal > game.awayGoal) {
               teamsTables[homeTeamIndex].table.wins += 1
               teamsTables[homeTeamIndex].table.points += 2
@@ -779,21 +1005,28 @@ export const subGroupAnimationData = (
           .sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
               if (
-                teamB.table.scoredGoals - teamB.table.concededGoals ===
-                teamA.table.scoredGoals - teamA.table.concededGoals
+                teamB.table.scoredGoals -
+                  teamB.table.concededGoals ===
+                teamA.table.scoredGoals -
+                  teamA.table.concededGoals
               ) {
-                return teamB.table.scoredGoals - teamA.table.scoredGoals
+                return (
+                  teamB.table.scoredGoals -
+                  teamA.table.scoredGoals
+                )
               }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
-                (teamA.table.scoredGoals - teamA.table.concededGoals)
+                (teamA.table.scoredGoals -
+                  teamA.table.concededGoals)
               )
             }
             return teamB.table.points - teamA.table.points
           })
           .forEach(
-            (_team, index, array) => (array[index].table.position = index + 1)
+            (_team, index, array) =>
+              (array[index].table.position = index + 1)
           )
         const table = JSON.parse(
           JSON.stringify(teamsTables)
@@ -803,15 +1036,21 @@ export const subGroupAnimationData = (
           table: table.sort((teamA, teamB) => {
             if (teamA.table.points === teamB.table.points) {
               if (
-                teamB.table.scoredGoals - teamB.table.concededGoals ===
-                teamA.table.scoredGoals - teamA.table.concededGoals
+                teamB.table.scoredGoals -
+                  teamB.table.concededGoals ===
+                teamA.table.scoredGoals -
+                  teamA.table.concededGoals
               ) {
-                return teamB.table.scoredGoals - teamA.table.scoredGoals
+                return (
+                  teamB.table.scoredGoals -
+                  teamA.table.scoredGoals
+                )
               }
               return (
                 teamB.table.scoredGoals -
                 teamB.table.concededGoals -
-                (teamA.table.scoredGoals - teamA.table.concededGoals)
+                (teamA.table.scoredGoals -
+                  teamA.table.concededGoals)
               )
             }
             return teamB.table.points - teamA.table.points
