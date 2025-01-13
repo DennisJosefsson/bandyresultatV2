@@ -2,7 +2,13 @@ import { z } from 'zod'
 import Season from '../../models/Season'
 
 export const streakRequest = z.object({
-  record: z.enum(['streaks', 'points', 'scored', 'conceded', 'generalStats']),
+  record: z.enum([
+    'streaks',
+    'points',
+    'scored',
+    'conceded',
+    'generalStats',
+  ]),
   women: z.enum(['true', 'false']),
 })
 
@@ -39,6 +45,29 @@ export const parseDataStats = z
         year: item.season.year,
         name: item.team.name,
         data: item.data,
+        position: index + 1,
+      }
+    })
+  )
+
+export const parseMaxMinGoals = z
+  .array(
+    z.object({
+      team: z.object({ casualName: z.string() }),
+      opponent: z.object({ casualName: z.string() }),
+      goalsScored: z.number(),
+      goalsConceded: z.number(),
+      totalGoals: z.coerce.number(),
+      date: z.string(),
+    })
+  )
+  .transform((res) =>
+    res.map((item, index) => {
+      return {
+        teams: `${item.team.casualName}-${item.opponent.casualName}`,
+        result: `${item.goalsScored}-${item.goalsConceded}`,
+        goals: item.totalGoals,
+        date: item.date,
         position: index + 1,
       }
     })
@@ -90,7 +119,9 @@ export const parseSearchRequest = (
             'qualification',
           ])
         )
-        .min(1, { message: 'Måste ange minst en matchkategori.' })
+        .min(1, {
+          message: 'Måste ange minst en matchkategori.',
+        })
         .max(6)
         .catch([
           'final',
@@ -104,38 +135,65 @@ export const parseSearchRequest = (
       limit: z.coerce.number().max(100).catch(10),
       result: z
         .string()
-        .regex(/^\d{1,2}-\d{1,2}$/, { message: 'Felaktigt resultatformat' })
+        .regex(/^\d{1,2}-\d{1,2}$/, {
+          message: 'Felaktigt resultatformat',
+        })
         .optional()
         .nullable()
         .or(z.literal('')),
-      gameResult: z.enum(['win', 'lost', 'draw', 'all']).catch('all'),
+      gameResult: z
+        .enum(['win', 'lost', 'draw', 'all'])
+        .catch('all'),
       goalsScored: z.coerce
-        .number({ message: 'Gjorda mål måste vara en siffra.' })
-        .int({ message: 'Gjorda mål måste vara ett heltal.' })
+        .number({
+          message: 'Gjorda mål måste vara en siffra.',
+        })
+        .int({
+          message: 'Gjorda mål måste vara ett heltal.',
+        })
         .nonnegative({
-          message: 'Gjorda mål måste vara 0 eller större än 0.',
+          message:
+            'Gjorda mål måste vara 0 eller större än 0.',
         })
         .optional(),
-      goalsScoredOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
+      goalsScoredOperator: z
+        .enum(['eq', 'lte', 'gte'])
+        .catch('gte'),
       goalsConceded: z.coerce
-        .number({ message: 'Insläppta mål måste vara en siffra.' })
-        .int({ message: 'Insläppta mål måste vara ett heltal.' })
+        .number({
+          message: 'Insläppta mål måste vara en siffra.',
+        })
+        .int({
+          message: 'Insläppta mål måste vara ett heltal.',
+        })
         .nonnegative({
-          message: 'Insläppta mål måste vara 0 eller större än 0.',
+          message:
+            'Insläppta mål måste vara 0 eller större än 0.',
         })
         .optional(),
-      goalsConcededOperator: z.enum(['eq', 'lte', 'gte']).catch('lte'),
+      goalsConcededOperator: z
+        .enum(['eq', 'lte', 'gte'])
+        .catch('lte'),
       goalDiff: z.coerce
-        .number({ message: 'Målskillnaden måste vara en siffra.' })
-        .int({ message: 'Målskillnaden måste vara ett heltal.' })
+        .number({
+          message: 'Målskillnaden måste vara en siffra.',
+        })
+        .int({
+          message: 'Målskillnaden måste vara ett heltal.',
+        })
         .nonnegative({
-          message: 'Målskillnaden måste vara 0 eller större än 0.',
+          message:
+            'Målskillnaden måste vara 0 eller större än 0.',
         })
         .optional(),
-      goalDiffOperator: z.enum(['eq', 'lte', 'gte']).catch('gte'),
+      goalDiffOperator: z
+        .enum(['eq', 'lte', 'gte'])
+        .catch('gte'),
       startSeason: z
         .string()
-        .regex(/^\d{4}$/, { message: 'Fel format, första år' })
+        .regex(/^\d{4}$/, {
+          message: 'Fel format, första år',
+        })
         .refine(
           (arg) => {
             if (Number(arg) < 1907) return false
@@ -147,7 +205,8 @@ export const parseSearchRequest = (
         )
         .refine(
           (arg) => {
-            if (Number(arg) > parseInt(maxYear)) return false
+            if (Number(arg) > parseInt(maxYear))
+              return false
             return true
           },
           {
@@ -157,7 +216,9 @@ export const parseSearchRequest = (
         .catch('1907'),
       endSeason: z
         .string()
-        .regex(/^\d{4}$/, { message: 'Fel format, sista år' })
+        .regex(/^\d{4}$/, {
+          message: 'Fel format, sista år',
+        })
         .refine(
           (arg) => {
             if (Number(arg) < 1907) return false
@@ -169,7 +230,8 @@ export const parseSearchRequest = (
         )
         .refine(
           (arg) => {
-            if (Number(arg) > parseInt(maxYear)) return false
+            if (Number(arg) > parseInt(maxYear))
+              return false
             return true
           },
           {
@@ -181,7 +243,9 @@ export const parseSearchRequest = (
       opponentId: z.number().optional(),
       inputDate: z
         .string()
-        .regex(/^\d{1,2}\/\d{1,2}/, { message: 'Fel datum, sökning' })
+        .regex(/^\d{1,2}\/\d{1,2}/, {
+          message: 'Fel datum, sökning',
+        })
         .refine(
           (arg) => {
             const dateArgs = arg.split('/')
@@ -199,9 +263,13 @@ export const parseSearchRequest = (
         .optional()
         .nullable()
         .or(z.literal('')),
-      homeGame: z.enum(['home', 'away', 'all']).catch('all'),
+      homeGame: z
+        .enum(['home', 'away', 'all'])
+        .catch('all'),
 
-      selectedGender: z.enum(['men', 'women', 'all']).catch('all'),
+      selectedGender: z
+        .enum(['men', 'women', 'all'])
+        .catch('all'),
       orderVar: z
         .enum([
           'date',
@@ -212,10 +280,15 @@ export const parseSearchRequest = (
         ])
         .catch('date'),
     })
-    .refine((arg) => Number(arg.endSeason) >= Number(arg.startSeason), {
-      message: '"Första år" kan inte komma efter "Sista år"',
-      path: ['startSeason'],
-    })
+    .refine(
+      (arg) =>
+        Number(arg.endSeason) >= Number(arg.startSeason),
+      {
+        message:
+          '"Första år" kan inte komma efter "Sista år"',
+        path: ['startSeason'],
+      }
+    )
     .refine(
       (arg) => {
         if (arg.teamId && arg.opponentId) {
@@ -234,7 +307,8 @@ export const parseSearchRequest = (
         return true
       },
       {
-        message: 'Kan inte välja motståndare utan att välja lag.',
+        message:
+          'Kan inte välja motståndare utan att välja lag.',
         path: ['opponent'],
       }
     )
