@@ -1,5 +1,6 @@
 import { pointsGoalsResponse } from '@/lib/types/games/streaks'
 import { z } from 'zod'
+import MaxMinGoalsCard from './MaxMinGoalsCard'
 import PointsGoalsCard from './PointsGoalsCard'
 
 const PointsGoals = ({
@@ -10,7 +11,57 @@ const PointsGoals = ({
   return (
     <>
       {data ? (
-        <div>
+        <div className="flex flex-col gap-2 mt-3">
+          <div className="grid gap-2 grid-cols1 lg:grid-cols-2">
+            {data.gamesMaxGoals ? (
+              <div>
+                <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+                  Elitseriematcher med flest antal mål
+                </h2>
+                {data.gamesMaxGoals.map((game) => {
+                  return (
+                    <MaxMinGoalsCard
+                      key={`MaxGoals-${game.position}-${game.date}-${game.teams}`}
+                      teams={game.teams}
+                      pos={game.position}
+                      result={game.result}
+                      date={game.date}
+                    />
+                  )
+                })}
+                {data.count ? (
+                  <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold xl:text-sm 2xl:text-base">
+                    Totalt {data.count.maxGoalCount} matcher
+                    med {data.count.lastMaxGoal} mål.
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+            {data.gamesMinGoals ? (
+              <div>
+                <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
+                  Elitseriematcher med minst antal mål
+                </h2>
+                {data.gamesMinGoals.map((game) => {
+                  return (
+                    <MaxMinGoalsCard
+                      key={`MinGoals-${game.position}-${game.date}-${game.teams}`}
+                      teams={game.teams}
+                      pos={game.position}
+                      result={game.result}
+                      date={game.date}
+                    />
+                  )
+                })}
+                {data.count ? (
+                  <p className="my-2 max-w-xl bg-background p-1 text-[10px] md:text-xs font-bold xl:text-sm 2xl:text-base">
+                    Totalt {data.count.minGoalCount} matcher
+                    med {data.count.lastMinGoal} mål.
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
           <h2 className="mb-2 text-sm font-bold leading-4 sm:text-lg lg:text-xl">
             Högsta
           </h2>
@@ -38,7 +89,7 @@ const PointsGoals = ({
                 Genomsnitt Hemma
               </h3>
               <div>
-                {data.avgMaxHome?.map((team,index) => {
+                {data.avgMaxHome?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -56,7 +107,7 @@ const PointsGoals = ({
                 Genomsnitt Borta
               </h3>
               <div>
-                {data.avgMaxAway?.map((team,index) => {
+                {data.avgMaxAway?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -79,7 +130,7 @@ const PointsGoals = ({
                 Genomsnitt
               </h3>
               <div>
-                {data.avgMinAll?.map((team,index) => {
+                {data.avgMinAll?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -97,7 +148,7 @@ const PointsGoals = ({
                 Genomsnitt Hemma
               </h3>
               <div>
-                {data.avgMinHome?.map((team,index) => {
+                {data.avgMinHome?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -115,7 +166,7 @@ const PointsGoals = ({
                 Genomsnitt Borta
               </h3>
               <div>
-                {data.avgMinAway?.map((team,index) => {
+                {data.avgMinAway?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -138,7 +189,7 @@ const PointsGoals = ({
                 Totalt
               </h3>
               <div>
-                {data.sumMaxAll?.map((team,index) => {
+                {data.sumMaxAll?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -156,7 +207,7 @@ const PointsGoals = ({
                 Totalt Hemma
               </h3>
               <div>
-                {data.sumMaxHome?.map((team,index) => {
+                {data.sumMaxHome?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -174,7 +225,7 @@ const PointsGoals = ({
                 Totalt Borta
               </h3>
               <div>
-                {data.sumMaxAway?.map((team,index) => {
+                {data.sumMaxAway?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -197,7 +248,7 @@ const PointsGoals = ({
                 Totalt
               </h3>
               <div>
-                {data.sumMinAll?.map((team,index) => {
+                {data.sumMinAll?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -215,7 +266,7 @@ const PointsGoals = ({
                 Totalt Hemma
               </h3>
               <div>
-                {data.sumMinHome?.map((team,index) => {
+                {data.sumMinHome?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}
@@ -233,7 +284,7 @@ const PointsGoals = ({
                 Totalt Borta
               </h3>
               <div>
-                {data.sumMinAway?.map((team,index) => {
+                {data.sumMinAway?.map((team, index) => {
                   return (
                     <PointsGoalsCard
                       key={`${team.data}-${team.name}-${team.year}-${index}`}

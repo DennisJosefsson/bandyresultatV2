@@ -62,6 +62,23 @@ const pointsGoals = z.object({
   position: z.number(),
 })
 
+const maxMinGoals = z.object({
+  teams: z.string(),
+  result: z.string(),
+  goals: z.number(),
+  position: z.number(),
+  date: z.string(),
+})
+
+const count = z
+  .object({
+    maxGoalCount: z.number(),
+    lastMaxGoal: z.number(),
+    minGoalCount: z.number(),
+    lastMinGoal: z.number(),
+  })
+  .optional()
+
 export const pointsGoalsResponse = z.object({
   avgMaxAll: z.array(pointsGoals),
   avgMaxHome: z.array(pointsGoals),
@@ -75,10 +92,16 @@ export const pointsGoalsResponse = z.object({
   sumMinAll: z.array(pointsGoals),
   sumMinHome: z.array(pointsGoals),
   sumMinAway: z.array(pointsGoals),
+  gamesMaxGoals: z.array(maxMinGoals).optional(),
+  gamesMinGoals: z.array(maxMinGoals).optional(),
+  count,
 })
 
 export const streakReturn = generalStatsResponse
   .and(streakResponse)
   .and(pointsGoalsResponse)
 
-export const streakParams = z.object({ record: z.string(), women: z.boolean() })
+export const streakParams = z.object({
+  record: z.string(),
+  women: z.boolean(),
+})
