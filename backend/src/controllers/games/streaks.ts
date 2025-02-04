@@ -426,7 +426,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -485,7 +485,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -544,7 +544,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -602,7 +602,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -661,7 +661,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -720,7 +720,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -778,7 +778,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -830,7 +830,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -882,7 +882,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -933,7 +933,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -988,7 +988,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1043,7 +1043,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1112,7 +1112,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1170,7 +1170,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1228,7 +1228,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1285,7 +1285,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1346,7 +1346,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1407,7 +1407,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1467,7 +1467,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1534,7 +1534,7 @@ limit 10;
           women: women === 'true',
           homeGame: true,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -1603,7 +1603,7 @@ limit 10;
           women: women === 'true',
           homeGame: false,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -1669,7 +1669,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -1736,7 +1736,7 @@ limit 10;
           women: women === 'true',
           homeGame: true,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -1805,7 +1805,7 @@ limit 10;
           women: women === 'true',
           homeGame: false,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -1890,7 +1890,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         qualificationGame: false,
       },
       order: [
@@ -1925,7 +1925,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         qualificationGame: false,
       },
       include: { model: Serie, where: { level: 1 } },
@@ -1954,7 +1954,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         qualificationGame: false,
       },
       order: [
@@ -1987,7 +1987,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         qualificationGame: false,
       },
       include: { model: Serie, where: { level: 1 } },
@@ -2020,7 +2020,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2078,7 +2078,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2136,7 +2136,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2193,7 +2193,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2254,7 +2254,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: true,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2315,7 +2315,7 @@ limit 10;
         played: true,
         women: women === 'true',
         homeGame: false,
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2375,7 +2375,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2442,7 +2442,7 @@ limit 10;
           women: women === 'true',
           homeGame: true,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -2511,7 +2511,7 @@ limit 10;
           women: women === 'true',
           homeGame: false,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -2577,7 +2577,7 @@ limit 10;
       where: {
         played: true,
         women: women === 'true',
-        seasonId: { [Op.gt]: women === 'true' ? 162 : 102 },
+        seasonId: { [Op.gt]: women === 'true' ? 162 : 101 },
         category: 'regular',
       },
       attributes: [
@@ -2644,7 +2644,7 @@ limit 10;
           women: women === 'true',
           homeGame: true,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
@@ -2713,7 +2713,7 @@ limit 10;
           women: women === 'true',
           homeGame: false,
           seasonId: {
-            [Op.gt]: women === 'true' ? 162 : 102,
+            [Op.gt]: women === 'true' ? 162 : 101,
           },
           category: 'regular',
         },
