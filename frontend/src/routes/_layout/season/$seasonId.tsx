@@ -16,7 +16,7 @@ import { z } from 'zod'
 const getMaxYear = () => {
   const year = new Date().getFullYear()
   const month = new Date().getMonth()
-  if (month > 6) return year + 1
+  if (month > 4) return year + 1
   return year
 }
 
@@ -24,7 +24,9 @@ const seasonIdParser = z.object({
   seasonId: z.number().int().min(1907),
 })
 
-export const Route = createFileRoute('/_layout/season/$seasonId')({
+export const Route = createFileRoute(
+  '/_layout/season/$seasonId'
+)({
   params: {
     parse: (params) => ({
       seasonId: z
@@ -35,7 +37,9 @@ export const Route = createFileRoute('/_layout/season/$seasonId')({
         .catch(getMaxYear())
         .parse(Number(params.seasonId)),
     }),
-    stringify: ({ seasonId }) => ({ seasonId: `${seasonId}` }),
+    stringify: ({ seasonId }) => ({
+      seasonId: `${seasonId}`,
+    }),
   },
   component: Season,
   notFoundComponent: NotFound,
@@ -97,6 +101,8 @@ function NotFound() {
   }
 
   return (
-    <div className="flex flex-row justify-center">Den länken finns inte.</div>
+    <div className="flex flex-row justify-center">
+      Den länken finns inte.
+    </div>
   )
 }
