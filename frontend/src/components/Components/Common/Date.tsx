@@ -9,11 +9,15 @@ const Date = ({
   children: string | number | undefined | null
   className?: string | undefined
 }) => {
-  if (typeof children === ('string' || 'number'))
-    return (
-      <span className={className}>{dayjs(children).format('D MMMM YYYY')}</span>
-    )
-  else return <span>Saknar speldatum</span>
+  if (!children) {
+    return <span>Saknar speldatum</span>
+  }
+
+  return (
+    <span className={className}>
+      {dayjs(children).format('D MMMM YYYY')}
+    </span>
+  )
 }
 
 export default Date
