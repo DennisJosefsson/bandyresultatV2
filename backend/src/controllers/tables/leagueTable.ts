@@ -54,10 +54,10 @@ const leagueTableRouter = Router()
 leagueTableRouter.get('/league/:seasonId', (async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   const seasonYear = seasonIdCheck.parse(
-    req.params.seasonId
+    req.params.seasonId,
   )
 
   const { table, women } = parseParam.parse(req.query)
@@ -119,7 +119,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
     })
     const staticTables = staticTableSortFunction(
       tables,
-      seriesData
+      seriesData,
     )
     return res
       .status(200)
@@ -196,7 +196,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       [
         sequelize.fn(
           'count',
-          sequelize.col('team_game_id')
+          sequelize.col('team_game_id'),
         ),
         'totalGames',
       ],
@@ -211,14 +211,14 @@ leagueTableRouter.get('/league/:seasonId', (async (
       [
         sequelize.fn(
           'sum',
-          sequelize.col('goals_conceded')
+          sequelize.col('goals_conceded'),
         ),
         'totalGoalsConceded',
       ],
       [
         sequelize.fn(
           'sum',
-          sequelize.col('goal_difference')
+          sequelize.col('goal_difference'),
         ),
         'totalGoalDifference',
       ],
@@ -313,30 +313,36 @@ leagueTableRouter.get('/league/:seasonId', (async (
   })
 
   const seriesWithBonusPoints = series.find(
-    (serie) => serie.bonusPoints !== null
+    (serie) => serie.bonusPoints !== null,
   )
 
   if (seriesWithBonusPoints && table === 'all') {
     const bonusPointsObject = JSON.parse(
-      seriesWithBonusPoints.bonusPoints
+      seriesWithBonusPoints.bonusPoints,
     ) as BonusPoints
 
     const updatedTable = tabell.map((table) => {
-      return table.group ===
-        seriesWithBonusPoints.serieGroupCode &&
+      if (
+        table.group ===
+          seriesWithBonusPoints.serieGroupCode &&
         table.women === seriesWithBonusPoints.season.women
-        ? {
-            ...table,
-            totalPoints:
-              table.totalPoints +
-              bonusPointsObject[table.teamId.toString()],
-          }
-        : table
+      ) {
+        const newTableItem = {
+          ...table,
+          totalPoints:
+            table.totalPoints +
+            bonusPointsObject[table.team.teamId.toString()],
+        }
+
+        return newTableItem
+      } else {
+        return table
+      }
     })
 
     const tables = tableSortFunction(
       updatedTable,
-      seriesData
+      seriesData,
     )
 
     return res.status(200).json({ hasLowerLevel, tables })
@@ -373,7 +379,7 @@ leagueTableRouter.get('/league/:seasonId', (async (
       const tableIndex = tabell.findIndex(
         (table) =>
           table.team === game.team &&
-          table.group.includes('Nedflyttning')
+          table.group.includes('Nedflyttning'),
       )
 
       if (tableIndex === -1) return
@@ -414,13 +420,13 @@ const parseGroupCode = z.string()
 leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   const seasonYear = seasonIdCheck.parse(
-    req.params.seasonId
+    req.params.seasonId,
   )
   const groupCode = parseGroupCode.parse(
-    req.params.groupCode
+    req.params.groupCode,
   )
   const { women } = parseSubParam.parse(req.query)
 
@@ -494,7 +500,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
         [
           sequelize.fn(
             'count',
-            sequelize.col('team_game_id')
+            sequelize.col('team_game_id'),
           ),
           'totalGames',
         ],
@@ -505,39 +511,39 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goals_scored')
+            sequelize.col('goals_scored'),
           ),
           'totalGoalsScored',
         ],
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goals_conceded')
+            sequelize.col('goals_conceded'),
           ),
           'totalGoalsConceded',
         ],
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goal_difference')
+            sequelize.col('goal_difference'),
           ),
           'totalGoalDifference',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where win))`
+            `(count(*) filter (where win))`,
           ),
           'totalWins',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where draw))`
+            `(count(*) filter (where draw))`,
           ),
           'totalDraws',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where lost))`
+            `(count(*) filter (where lost))`,
           ),
           'totalLost',
         ],
@@ -608,7 +614,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
         [
           sequelize.fn(
             'count',
-            sequelize.col('team_game_id')
+            sequelize.col('team_game_id'),
           ),
           'totalGames',
         ],
@@ -619,39 +625,39 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goals_scored')
+            sequelize.col('goals_scored'),
           ),
           'totalGoalsScored',
         ],
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goals_conceded')
+            sequelize.col('goals_conceded'),
           ),
           'totalGoalsConceded',
         ],
         [
           sequelize.fn(
             'sum',
-            sequelize.col('goal_difference')
+            sequelize.col('goal_difference'),
           ),
           'totalGoalDifference',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where win))`
+            `(count(*) filter (where win))`,
           ),
           'totalWins',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where draw))`
+            `(count(*) filter (where draw))`,
           ),
           'totalDraws',
         ],
         [
           sequelize.literal(
-            `(count(*) filter (where lost))`
+            `(count(*) filter (where lost))`,
           ),
           'totalLost',
         ],
@@ -704,7 +710,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
     if (getTable.length === 0) {
       const tables = tableSortFunction(
         parsedBaseTable,
-        seriesData
+        seriesData,
       )
       return res.json({ tables })
     }
@@ -713,12 +719,12 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
 
     const parsedTable = leagueTableWithBaseParser(
       parsedBaseTable,
-      parsedContTable
+      parsedContTable,
     )
 
     const tables = tableSortFunction(
       parsedTable,
-      seriesData
+      seriesData,
     )
     return res.json({ tables })
   }
@@ -795,7 +801,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
     })
     const subTables = staticTableSortFunction(
       tables,
-      seriesData
+      seriesData,
     ).sort((a, b) => a.level - b.level)
 
     return res.status(200).json({ staticTables: subTables })
@@ -811,7 +817,7 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       [
         sequelize.fn(
           'count',
-          sequelize.col('team_game_id')
+          sequelize.col('team_game_id'),
         ),
         'totalGames',
       ],
@@ -826,14 +832,14 @@ leagueTableRouter.get('/sub/:seasonId/:groupCode', (async (
       [
         sequelize.fn(
           'sum',
-          sequelize.col('goals_conceded')
+          sequelize.col('goals_conceded'),
         ),
         'totalGoalsConceded',
       ],
       [
         sequelize.fn(
           'sum',
-          sequelize.col('goal_difference')
+          sequelize.col('goal_difference'),
         ),
         'totalGoalDifference',
       ],
