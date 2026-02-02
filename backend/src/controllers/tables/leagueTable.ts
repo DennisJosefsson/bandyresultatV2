@@ -312,26 +312,37 @@ leagueTableRouter.get('/league/:seasonId', (async (
     }
   })
 
-  const seriesWithBonusPoints = series.find(
+  const seriesWithBonusPoints = series.filter(
     (serie) => serie.bonusPoints !== null,
   )
 
-  if (seriesWithBonusPoints && table === 'all') {
-    const bonusPointsObject = JSON.parse(
-      seriesWithBonusPoints.bonusPoints,
-    ) as BonusPoints
+  if (seriesWithBonusPoints.length > 0 && table === 'all') {
+    const bonusPointsObjectArrays =
+      seriesWithBonusPoints.map((obj) => {
+        return {
+          group: obj.serieGroupCode,
+          bonusPoints: JSON.parse(
+            obj.bonusPoints,
+          ) as BonusPoints,
+          women: obj.season.women,
+        }
+      })
 
     const updatedTable = tabell.map((table) => {
-      if (
-        table.group ===
-          seriesWithBonusPoints.serieGroupCode &&
-        table.women === seriesWithBonusPoints.season.women
-      ) {
+      const bonusPointsObject =
+        bonusPointsObjectArrays.find(
+          (item) =>
+            item.group === table.group &&
+            item.women === table.women,
+        )
+      if (bonusPointsObject) {
         const newTableItem = {
           ...table,
           totalPoints:
             table.totalPoints +
-            bonusPointsObject[table.team.teamId.toString()],
+            bonusPointsObject.bonusPoints[
+              table.team.teamId.toString()
+            ],
         }
 
         return newTableItem
